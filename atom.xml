@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://tudouvvv.github.io/</id>
+    <title>Gridea</title>
+    <updated>2019-07-09T07:39:17.843Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://tudouvvv.github.io/"/>
+    <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
+    <subtitle>人生还长，慢慢来</subtitle>
+    <logo>https://tudouvvv.github.io//images/avatar.png</logo>
+    <icon>https://tudouvvv.github.io//favicon.ico</icon>
+    <rights>All rights reserved 2019, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[终于完成了φ(゜▽゜*)♪]]></title>
+        <id>https://tudouvvv.github.io//post/zhong-yu-wan-cheng-liao-fv</id>
+        <link href="https://tudouvvv.github.io//post/zhong-yu-wan-cheng-liao-fv">
+        </link>
+        <updated>2019-07-09T07:37:25.000Z</updated>
+        <summary type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-01-02-banner.jpg" alt=""></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-01-02-banner.jpg" alt=""></p>
+<!-- more -->
+<p>做了好几天 终于完成了主要内容</p>
+<p>开心</p>
+<p>本来很早以前就想做一个的 感觉非常的酷  之前做的那个找的模板太搞笑  完全不知道怎么操作  以为还要学习html和css就放弃了</p>
+<p>考完研又网上看了一些 结果发现竟然如此简单 - -  刚开始时把 npm 命令 认成 nmp  被卡在第一步 简直要笑死 幸好还是搞成了</p>
+<p>那么  以后请多多指教！</p>
+]]></content>
+    </entry>
+</feed>
