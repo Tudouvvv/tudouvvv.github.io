@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562660073283">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562660458356">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://tudouvvv.github.io/">
-        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562660073283" class="site-logo">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562660458356" class="site-logo">
         <h1 class="site-title">Tudouvvv</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -361,40 +361,39 @@ movie.go()
 <p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt=""></p>
 <p>明天尝试爬一下豆瓣的TOP250哈哈哈哈哈<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%86%B2%E9%B8%AD.jpg" alt=""></p>
 <h1 id="爬取豆瓣后续">爬取豆瓣后续：</h1>
-<p>本来以为是改几个变量的值就可以了 = = 没想到还是遇到了点儿问题</p>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png)</center>
-分析正则表达式的时候使用排名第一的`肖申克的救赎`进行分析的，按照流程，一切都很正常，然后我准备储存进excle的时候出现了问题：
-<center>!![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png)</center>
-噢，看来是存储主演姓名的时候出错了，出错原因并不清楚，然后百度了一下：
-```
-Python不支持dict的key为list或dict类型，因为list和dict类型是unhashable（不可哈希）的。
-```
-虽然不知道啥叫不可哈希，但是也差不多清楚了，可能是我的`star`名的`key`值没有转换过来，去看了一下，果然：
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png)</center>
-数据精炼的时候，我的`star`还是列表，应该取列表里的元素的，于是我在后面加入了`[0]`,以为这下可以成功了，结果又出错了：
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png)</center>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg)</center>
-这又是什么错误？？？列表超出范围？？？什么鬼？？？于是我又百度了一下，找到了原因：
-```
-这个错误出现大约有两种情况： 
+<p>本来以为是改几个变量的值就可以了 = = 没想到还是遇到了点儿问题
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png" alt="">
+分析正则表达式的时候使用排名第一的<code>肖申克的救赎</code>进行分析的，按照流程，一切都很正常，然后我准备储存进excle的时候出现了问题：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png" alt="">
+噢，看来是存储主演姓名的时候出错了，出错原因并不清楚，然后百度了一下：</p>
+<pre><code>Python不支持dict的key为list或dict类型，因为list和dict类型是unhashable（不可哈希）的。
+</code></pre>
+<p>虽然不知道啥叫不可哈希，但是也差不多清楚了，可能是我的<code>star</code>名的<code>key</code>值没有转换过来，去看了一下，果然：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png" alt="">
+数据精炼的时候，我的<code>star</code>还是列表，应该取列表里的元素的，于是我在后面加入了<code>[0]</code>,以为这下可以成功了，结果又出错了：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png" alt="">
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg" alt="">
+这又是什么错误？？？列表超出范围？？？什么鬼？？？于是我又百度了一下，找到了原因：</p>
+<pre><code>这个错误出现大约有两种情况： 
 第1种可能情况 
 list[index]index超出范围
-<p>第2种可能情况
-list是一个空的 没有一个元素
-进行list[0]就会出现该错误</p>
-<pre><code>嗯？？？难道是我的`star`是空的？？？不可能啊，当时还打印出`anchors[0]`看过的啊，有值啊，难道是别的电影？？？于是我打开豆瓣TOP250，看了一下：
-![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png)
-果然，我发现有一部电影的`star`有一点不一样，这什么鬼啊，导演名字这么长？？？为什么后面三个点...以后就没东西了啊，除非你点进这部电影的详情页，否则你是看不到主演姓名的(暂时发现是这样)，所以又遇到了一个问题：
+
+第2种可能情况 
+list是一个空的 没有一个元素 
+进行list[0]就会出现该错误
 </code></pre>
-<p>爬虫有的时候会匹配到空值，这个时候应该怎么处理？？</p>
-<pre><code>最后我写了一个`if`语句来判断如果`star`值为空，那么强行给`star`赋值为`None`，额，好像有点儿奇怪，反正先这样吧：
-```python
-star = re.findall(star_pattern, html)
+<p>嗯？？？难道是我的<code>star</code>是空的？？？不可能啊，当时还打印出<code>anchors[0]</code>看过的啊，有值啊，难道是别的电影？？？于是我打开豆瓣TOP250，看了一下：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png" alt="">
+果然，我发现有一部电影的<code>star</code>有一点不一样，这什么鬼啊，导演名字这么长？？？为什么后面三个点...以后就没东西了啊，除非你点进这部电影的详情页，否则你是看不到主演姓名的(暂时发现是这样)，所以又遇到了一个问题：</p>
+<pre><code>爬虫有的时候会匹配到空值，这个时候应该怎么处理？？
+</code></pre>
+<p>最后我写了一个<code>if</code>语句来判断如果<code>star</code>值为空，那么强行给<code>star</code>赋值为<code>None</code>，额，好像有点儿奇怪，反正先这样吧：</p>
+<pre><code class="language-python">star = re.findall(star_pattern, html)
     if star == []:
         star = 'None'
 </code></pre>
-<p>就这样，成功的解决了问题，并且这一次我是把每个部分的函数拆个一个一个模块来写的:</p>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png)</center>
+<p>就这样，成功的解决了问题，并且这一次我是把每个部分的函数拆个一个一个模块来写的:
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt=""></p>
 <p>最后成功获得了豆瓣TOP250的详细名单：</p>
 <p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></p>
 
