@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>关于 | Tudouvvv</title>
+<title>[每日一题]-942. DI String Match | Tudouvvv</title>
 <meta name="description" content="人生还长，慢慢来">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -92,19 +92,75 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">关于</h2>
-            <div class="post-date">2018-03-09</div>
+            <h2 class="post-title">[每日一题]-942. DI String Match</h2>
+            <div class="post-date">2019-04-04</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/leetcode.jpg')">
+              </div>
             
             <div class="post-content">
-              <p>姓名: Tudou</p>
-<p>年龄: 23</p>
-<p>考研结束 虽然不是预期的结果  但是还是勉强换专业了</p>
-<p>-！以后要努力啊</p>
-<center>`Σ(っ °Д °;)っ要少掉头发啊`</center>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-01-1-%E5%A4%B4%E5%8F%91.jpg" alt=""></p>
+              <center>升 级 打 怪 ing ~ ~</center>
+<!--more-->
+<p>题目地址：<a href="https://leetcode.com/problems/di-string-match/">942. DI String Match</a></p>
+<p>题目要求：</p>
+<p>输入一个字符串S，只包含I(increase)和D(decrease)，然后A是一个从0到len(S)的数组，现在要求如果S[i] == &quot;I&quot;，那么A[i] &lt; A[i+1]；如果S[i] == &quot;D&quot;，那么A[i] &gt; A[i+1]。</p>
+<p>思路：</p>
+<p>必须要为后面的操作留有余地，所以遇见I的时候，拿出最小的数保证剩余的数都比它大；遇见D的时候，拿出最大的数保证剩下的数都比它小。</p>
+<center>----------------------</center>
+<p>所以我的做法是：</p>
+<pre><code class="language-python">class Solution:
+    def diStringMatch(self, S: str) -&gt; List[int]:
+        p = []
+        N = []
+        for i in range(len(S)+ 1):
+            p.append(i)
+        for char in S:
+            if char == &quot;D&quot;:
+                N.append(max(p))
+                p.remove(max(p))
+            else:
+                N.append(min(p))
+                p.remove(min(p))
+        N.append(p[0])
+        return N
+</code></pre>
+<p>先构建一个从0到len(S)的序列(现在看来很蠢)然后遍历S，遇见D取大的，遇见I取小的，最后再把剩下的数加进去</p>
+<p>提交后果然，Time Limit Exceeded</p>
+<p>去讨论区看一看，我为什么要新建一个数组？？？每次取的数都是最左边或者最右边的数，直接设置两个指针指向两边即可。</p>
+<pre><code class="language-python">
+class Solution:
+    def diStringMatch(self, S: str) -&gt; List[int]:
+        l, r, N = 0, len(S), []
+        for char in S:
+            N.append(l if char =='I' else r)
+            l, r = l +(char == 'I'), r - (char == 'D')
+        return N + [l]
+</code></pre>
+<p>基本上大家的思路都是这样，可能写法不太一样，像我这种写法就非常的臃肿-----</p>
 
             </div>
             
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/leetcode" class="tag">
+                    Leetcode
+                  </a>
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/883. Projection Area of 3D Shapes">
+                  <h3 class="post-title">
+                    [每日一题]-883. Projection Area of 3D Shapes
+                  </h3>
+                </a>
+              </div>
             
 
             

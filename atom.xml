@@ -1,21 +1,4013 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
-    <title>Gridea</title>
-    <updated>2019-07-09T07:45:00.254Z</updated>
+    <title>Tudouvvv</title>
+    <updated>2019-07-09T08:01:57.660Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
     <subtitle>人生还长，慢慢来</subtitle>
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
-    <rights>All rights reserved 2019, Gridea</rights>
+    <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[[每日一题]-942. DI String Match]]></title>
+        <id>https://tudouvvv.github.io//post/942-DI-String-Match</id>
+        <link href="https://tudouvvv.github.io//post/942-DI-String-Match">
+        </link>
+        <updated>2019-04-04T08:19:05.000Z</updated>
+        <summary type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>]]></summary>
+        <content type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>
+<!--more-->
+<p>题目地址：<a href="https://leetcode.com/problems/di-string-match/">942. DI String Match</a></p>
+<p>题目要求：</p>
+<p>输入一个字符串S，只包含I(increase)和D(decrease)，然后A是一个从0到len(S)的数组，现在要求如果S[i] == &quot;I&quot;，那么A[i] &lt; A[i+1]；如果S[i] == &quot;D&quot;，那么A[i] &gt; A[i+1]。</p>
+<p>思路：</p>
+<p>必须要为后面的操作留有余地，所以遇见I的时候，拿出最小的数保证剩余的数都比它大；遇见D的时候，拿出最大的数保证剩下的数都比它小。</p>
+<center>----------------------</center>
+<p>所以我的做法是：</p>
+<pre><code class="language-python">class Solution:
+    def diStringMatch(self, S: str) -&gt; List[int]:
+        p = []
+        N = []
+        for i in range(len(S)+ 1):
+            p.append(i)
+        for char in S:
+            if char == &quot;D&quot;:
+                N.append(max(p))
+                p.remove(max(p))
+            else:
+                N.append(min(p))
+                p.remove(min(p))
+        N.append(p[0])
+        return N
+</code></pre>
+<p>先构建一个从0到len(S)的序列(现在看来很蠢)然后遍历S，遇见D取大的，遇见I取小的，最后再把剩下的数加进去</p>
+<p>提交后果然，Time Limit Exceeded</p>
+<p>去讨论区看一看，我为什么要新建一个数组？？？每次取的数都是最左边或者最右边的数，直接设置两个指针指向两边即可。</p>
+<pre><code class="language-python">
+class Solution:
+    def diStringMatch(self, S: str) -&gt; List[int]:
+        l, r, N = 0, len(S), []
+        for char in S:
+            N.append(l if char =='I' else r)
+            l, r = l +(char == 'I'), r - (char == 'D')
+        return N + [l]
+</code></pre>
+<p>基本上大家的思路都是这样，可能写法不太一样，像我这种写法就非常的臃肿-----</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[每日一题]-883. Projection Area of 3D Shapes]]></title>
+        <id>https://tudouvvv.github.io//post/883. Projection Area of 3D Shapes</id>
+        <link href="https://tudouvvv.github.io//post/883. Projection Area of 3D Shapes">
+        </link>
+        <updated>2019-04-04T08:13:25.000Z</updated>
+        <summary type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>]]></summary>
+        <content type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>
+<!--more-->
+<p>题目地址：<a href="https://leetcode.com/problems/projection-area-of-3d-shapes/">883. Projection Area of 3D Shapes</a></p>
+<p>题目要求：</p>
+<p>求一个体积为1的方块拼起来的立方体的俯视图，主视图，左视图的面积之和。</p>
+<p>样例：</p>
+<p>背景是一个被分为N * N 个格子的坐标轴</p>
+<p>输入：grid = [[1, 2],[3, 4]]</p>
+<p>（输入说明：grid[0][0]表示在(0, 0)处有一个方块，grid[0][1]表示在(0, 1)处有一个方块...）</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/883.png" alt=""></p>
+<p>输出：17</p>
+<p>思路：</p>
+<p>整个面积分为三部分：top、front、left</p>
+<ul>
+<li>
+<p>输入的grid就相当于一个数组</p>
+</li>
+<li>
+<p>top的面积就是所有非0元素的个数之和</p>
+</li>
+<li>
+<p>front的面积就是每行元素的最大值之和</p>
+</li>
+<li>
+<p>left的面积就是每列元素的最大值之和</p>
+</li>
+</ul>
+<h3 id="top">top</h3>
+<p>所以top的值就需要遍历每个元素，然后统计非0元素的个数:</p>
+<pre><code class="language-python">for i in range(len(grid):
+    for j in range(len(grid[0]):
+        if grid[i][j] != 0:
+            top += 1
+</code></pre>
+<h3 id="front">front</h3>
+<pre><code>for i in range(len(grid)):
+    front += max(grid[i])
+</code></pre>
+<h3 id="left">left</h3>
+<pre><code>for i in range(len(grid)):
+    left_num = 0
+    for j in range(len(grid[0])):
+        left_num = max(left_num, grid[j][i])
+    left += left_num
+</code></pre>
+<p>完整代码：</p>
+<pre><code class="language-python">class Solution:
+    def projectionArea(self, grid: List[List[int]]) -&gt; int:
+        top, front, left = (0, 0, 0)
+        for i in range(len(grid)):
+            left_num = 0
+            front += max(grid[i])
+            for j in range(len(grid[0])):
+                if grid[i][j] &gt; 0:
+                    top += 1
+                left_num = max(left_num, grid[j][i])
+            left += left_num
+        return top + front + left
+</code></pre>
+<p>提交结果：48ms        48.04%</p>
+<p>最快的解决方案：</p>
+<pre><code class="language-python">class Solution:
+    def projectionArea(self, grid: 'List[List[int]]') -&gt; 'int':
+        &quot;&quot;&quot;
+        from top：grid长度之和
+        from front: 每行的最大值之和
+        from side: 每列的最大值之和
+        &quot;&quot;&quot;
+        
+        top = sum([v!=0 for row in grid for v in row])
+        front = sum([max(row) for row in grid])
+        side = []
+        for i in range(len(grid[0])):
+            col = [row[i] for row in grid]
+            side.append(max(col))
+        return top + front + sum(side)
+</code></pre>
+<p>思路差不多，只不过人家写的比较简洁，小技巧需要学起来呀！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[构建多层神经网络与初步尝试使用keras构建CNN]]></title>
+        <id>https://tudouvvv.github.io//post/构建深度神经网络与初步尝试使用keras构建CNNN</id>
+        <link href="https://tudouvvv.github.io//post/构建深度神经网络与初步尝试使用keras构建CNNN">
+        </link>
+        <updated>2018-11-14T06:27:54.000Z</updated>
+        <content type="html"><![CDATA[<p>正准备开始写这篇记录，结果发现图床坏了- -，又开始从原来的图床把之前的图片转移到新的图床，浪费了好多时间。</p>
+<p>上次用logestic回归和梯度下降法训练了一个神经网络，用来做二分类的问题，最后精度差不多70%左右，这次主要写一个多层的神经网络，训练同样的数据集，看一看会不会对准确度有提升。</p>
+<h1 id="多层神经网络">多层神经网络</h1>
+<p>多层神经网络中，也分为前向传播和后向传播，前向传播计算损失函数，后向传播通过梯度下降法来更新参数。在每一层中，先通过一个线性的激活单元<code>Z = WX + b</code>，然后再通过一个非线性的激活单元，这里的话由于我们做的是二分类问题，所以最后一层的激活函数选择<code>sigmoid</code>，其它层中选择效果比较好的<code>Relu</code>函数，在实际的操作中，对于一个L层的神经网络，我们需要进行<code>L-1</code>次Relu函数激活。</p>
+<p>这是多层神经网络的大概结构：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png" alt=""></p>
+<p>前向过程就是不断的通过各层神经网络直到最后计算损失，最主要的就是后向过程，后向过程就是链式求导以便最后使用梯度下降法来更新每一层的参数</p>
+<p>对前向过程来说：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%89%8D%E5%90%91%E8%BF%87%E7%A8%8B.png" alt=""></p>
+<p>即根据上一层的激活值通过线性单元和激活函数输出本层的激活值，其中<code>g(Z)</code>代表每一层的激活函数，而后向过程中，我们需要计算每一层<code>dW</code>和<code>db</code>的值以便进行后面的参数更新：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%90%8E%E5%90%91%E4%BC%A0%E6%92%AD.png" alt=""></p>
+<p>讲道理，矩阵学的不是很好，所以一旦把变量矩阵化以后进行求导操作什么的有点迷糊，这里需要再好好学习一下</p>
+<p>这样就是整个深层神经网络的基本结构了</p>
+<p>我们可以先把激活函数的前向和后向过程写成一个模块，以便方便调用：</p>
+<pre><code class="language-python">import numpy as np
+
+
+def sigmoid(Z):
+    A = 1 / (1 + np.exp(-Z))
+    cache = Z
+    return A, cache
+
+
+def sigmoid_backward(dA, cache):
+    Z = cache
+    s = 1 / (1 + np.exp(-Z))
+    dZ = dA * s * (1 - s)
+    return dZ
+
+
+def relu(Z):
+    A = np.maximum(0, Z)
+    cache = Z
+    return A, cache
+
+
+def relu_backward(dA, cache):
+    Z = cache
+    dZ = np.array(dA, copy=True)
+    dZ[Z &lt;= 0] = 0
+    return dZ
+</code></pre>
+<p>接着来开始写我们的多层神经网络，第一步是对我们的数据进行预处理，由于我们输入的是64*64的图片，而且一张彩色图片有rgb三个通道，所以我们要把一张图片上三个通道的信息整合在一起作为一列，把训练集和测试集的图片的信息处理为一个矩阵，作为神经网络的输入，同时可以对输入数据进行缩小，由于像素值表示亮度，每点的像素值最大为255，我们可以每个点的像素值都除以255，使得我们的输入数据全部在[0, 1]之间。
+训练集和测试集的样本数据来自已经写好的模块。</p>
+<pre><code class="language-python">train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x.reshape(train_set_x.shape[0], -1).T
+test_set_x = test_set_x.reshape(test_set_x.shape[0], -1).T
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+</code></pre>
+<p>接着应该初始化我们每一层的参数，之前对于只有一个logestic单元，初始化时可以都为0，但是对多层神经网络来说，如果W初始化为0 则对于任何X，每个隐藏层对应的每个神经元的输出都是相同的，这样即使梯度下降训练，无论训练多少次，这些神经元都是对称的，无论隐藏层内有多少个结点，都相当于在训练同一个函数，所以我们要采用随机初始化。</p>
+<p>在多层神经网络中，每一层参数的维度都是确定的，与该层神经元的个数密切相关：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%8F%82%E6%95%B0%E7%BB%B4%E5%BA%A6.png" alt=""></p>
+<p>所以我们这样来初始化每一层的参数：</p>
+<pre><code class="language-python">def initialize_parameters(dims):
+    L = len(dims)
+    parameters = {}
+    for l in range(1, L):
+        parameters['W' + str(l)] = np.random.randn(dims[l], dims[l-1]) * np.sqrt(1 / dims[l - 1])
+        parameters['b'+ str(l)] = np.zeros((dims[l], 1))
+    return parameters
+</code></pre>
+<p><code>dims</code>为一个列表，其中包含每一层神经元的个数，比如<code>[12288, 12, 7, 1]</code></p>
+<p>这样就初始化好了每一层的变量，之前说过一个对于该多层神经网络来说，前向传播时会进行<code>L-1</code>次<code>relu</code>激活，一次<code>sigmoid</code>激活，每一次激活包括线性激活和激活函数激活，我们把这个操作定义成一个函数，到时候直接调用函数就可以了。</p>
+<p>所以接下来定义每一层的线性激活部分的函数，线性激活部分主要做的就是<code>Z = WA + B</code>:</p>
+<pre><code class="language-python">def linear_forward(A, W, b):
+    Z = np.dot(W, A) + b
+    linear_cache = (A, W, b)
+    return Z, linear_cache
+</code></pre>
+<p>这里要记得保存线性部分的参数，之后做梯度下降法的时候会用到。
+然后就是定义激活函数激活的函数，激活函数做的就是<code>A = g(Z)</code>:</p>
+<pre><code class="language-python">def activation_forward(A_pre, W, b, activation):
+    if activation == 'relu':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = relu(Z)
+    if activation == 'sigmoid':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = sigmoid(Z)
+        
+    cache = (linear_cache, activation_cache)
+    return A, cache
+</code></pre>
+<p>在激活函数中调用之前写的线性激活函数，最后返回每一层的输出<code>A</code>以及参数<code>cache</code>。</p>
+<p>接下来就可以进行前向过程的编写了，前向过程的输入是我们的图片信息，我们以<code>X</code>表示，以及每一层的参数，我们以<code>parameters</code>表示，这样在经过每一层的传播之后，最终得到我们的输出结果<code>AL</code>，我们要用它来计算损失函数的大小：</p>
+<pre><code class="language-python">def L_model_forward(X, parameters):
+    caches = []
+    A = X
+    L = len(parameters) // 2
+    for l in range(1, L):
+        A_prev = A
+        A, cache = activation_forward(A_prev, parameters['W'+str(l)], parameters['b'+str(l)], 'relu')
+        caches.append(cache)
+        
+    AL, cache = activation_forward(A, parameters['W'+str(L)], parameters['b'+str(L)], 'sigmoid')
+    caches.append(cache)
+    
+    return AL, caches
+</code></pre>
+<p>这样整个前向过程全部完成，接下来应该计算损失函数的大小，由于这是一个二分类问题，我们采用二元交叉熵作为我们的损失函数，它的表达式如下：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0.png" alt=""></p>
+<pre><code class="language-python">def cost_compute(AL, Y):
+    m = Y.shape[1]
+    cost = (-1 / m) * np.sum(np.multiply(Y, np.log(AL)) + np.multiply((1 - Y), np.log(1 - AL)))
+    cost = np.squeeze(cost)
+
+    return cost
+</code></pre>
+<p>这就是整个前向过程的所有步骤了，我们以降低损失函数为目标，在后向过程中不断使用梯度下降法进行优化，逐渐逼近最低值，目前只是简单的使用梯度下降法，后面会尝试其它的优化方案，比如动量梯度下降或者mini-batch。</p>
+<p>完成整个前向过程之后，思考一下后续的步骤，对于后向过程来说，每一个神经元先对激活函数激活的部分进行求导得到<code>dZ</code>，然后在对线性激活的部分求导，得到<code>dW</code>和<code>db</code>，我们首先定义线性激活的后向过程：</p>
+<pre><code class="language-python">def linear_backward(dZ, cache):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+    dW = np.dot(dZ, A_prev.T) / m
+    db = np.sum(dZ, axis=1, keepdims=True) / m
+    dA_prev = np.dot(W.T, dZ)
+    return dA_prev, dW, db
+</code></pre>
+<p>接着定义激活函数激活的后向过程，我们之前已经把两个激活函数的后向求导过程定义好了，我们只要调用就好了。之前也说过，每个激活单元分为两个过程，线性激活与函数激活两个过程，我们现在调用了函数激活的后向过程，得到<code>dZ</code>，然后在调用上面定义的线性激活的后向过程，得到<code>dA</code>、<code>dW</code>、<code>db</code>：</p>
+<pre><code class="language-python">def activation_backward(dA, cache, activation):
+    linear_cache, activation_cache = cache
+    if activation == 'relu':
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+    if activation == 'sigmoid':
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    return dA_prev, dW, db
+</code></pre>
+<p>然后就可以把全部过程整合在一起，我们可以想一下这个过程，从最后一个<code>sigmoid</code>激活单元来说，它会经历一个上述的<code>activation_backward</code>过程，前提是我们需要求出损失函数对最终输出的求导就好<code>dAL</code>，之后调用上述函数。之后就是<code>L-1</code>次的<code>relu</code>函数的后向传播过程，这样我们就会得到每一层参数的导数，以便通过梯度下降法进行参数的更新：</p>
+<pre><code class="language-python">def L_model_backward(AL, Y, caches):
+    grads = {}
+    L = len(caches)
+    m = AL.shape[1]
+    Y = Y.reshape(AL.shape)
+    dAL = -(np.divide(Y, AL) - np.divide((1 - Y), (1 - AL)))
+
+    current_cache = caches[L - 1]
+    grads['dA'+str(L)], grads['dW'+str(L)], grads['db'+str(L)] = activation_backward(dAL, current_cache, 'sigmoid')
+
+    for l in reversed(range(L - 1)):
+        current_cache = caches[l]
+        grads['dA'+str(l + 1)], grads['dW'+str(l + 1)], grads['db'+str(l + 1)] = activation_backward(grads['dA'+str(l + 2)], current_cache, 'relu')
+
+    return grads
+</code></pre>
+<p>现在我们来定义参数更新的函数，参数更新需要定义学习率<code>learning_rate</code>，它控制我们每次参数更新的步长：</p>
+<pre><code class="language-python">def up_parameters(parameters, grads, learning_rate):
+    L = len(parameters) // 2
+    for l in range(L):
+        parameters['W'+str(l+1)] = parameters['W'+str(l+1)] - learning_rate * grads['dW'+str(l+1)]
+        parameters['b'+str(l+1)] = parameters['b'+str(l+1)] - learning_rate * grads['db'+str(l+1)]
+    return parameters
+</code></pre>
+<p>这样所有的过程都已经全部完成了，我们现在只需调用上述的所有过程就好，我们同时还可以定义每迭代100次打印出此时的损失函数的值，同时在迭代结束后打印出损失函数的曲线，看一下我们的训练过程：</p>
+<pre><code class="language-python">def L_model(X, Y, dims, learning_rate, num_iternation, print_cost=False, isPlot=False):
+    parameters = initialize_parameters(dims)
+    costs = []
+    for i in range(num_iternation):
+        AL, caches = L_model_forward(X, parameters)
+        cost = cost_compute(AL, Y)
+        grads = L_model_backward(AL, Y, caches)
+        parameters = up_parameters(parameters, grads, learning_rate)
+
+        if i % 100 == 0:
+            costs.append(cost)
+            if print_cost:
+                print(&quot;第&quot;, i + 100, &quot;次迭代，成本值为:&quot;, np.squeeze(cost))
+
+    if isPlot:
+        plt.plot(np.squeeze(costs))
+        plt.ylabel('cost')
+        plt.xlabel('iterations (per tens)')
+        plt.title(&quot;Learning rate =&quot; + str(learning_rate))
+        plt.show()
+    return parameters
+</code></pre>
+<p>这样我们定义好神经网络的结构，直接调用这个函数就好，最后我们需要定义一个<code>predict</code>接口，以便训练好我们的神经网络以后进行测试集的预测：</p>
+<pre><code class="language-python">def predict(X, Y, parameters):
+    m = Y.shape[1]
+    Y_predict = np.zeros((1, m))
+    AL, caches = L_model_forward(X, parameters)
+
+    for i in range(0, AL.shape[1]):
+        if AL[0, i] &gt; 0.5:
+            Y_predict[0, i] = 1
+        else:
+            Y_predict[0, i] = 0
+
+    print(&quot;准确度为:&quot;, 100 - np.mean(np.abs(Y - Y_predict)) * 100, &quot;%&quot;)
+    return Y_predict
+</code></pre>
+<h3 id="下面是完整的代码">下面是完整的代码：</h3>
+<pre><code class="language-python">import numpy as np
+from lr_utils import load_dataset
+import matplotlib.pyplot as plt
+from c9 import sigmoid, sigmoid_backward, relu, relu_backward
+
+train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x.reshape(train_set_x.shape[0], -1).T
+test_set_x = test_set_x.reshape(test_set_x.shape[0], -1).T
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+
+
+def initialize_parameters(dims):
+    L = len(dims)
+    parameters = {}
+    for l in range(1, L):
+        parameters['W' + str(l)] = np.random.randn(dims[l], dims[l-1]) * np.sqrt(1 / dims[l - 1])
+        parameters['b'+ str(l)] = np.zeros((dims[l], 1))
+    return parameters
+
+
+def linear_forward(A, W, b):
+    Z = np.dot(W, A) + b
+    linear_cache = (A, W, b)
+    return Z, linear_cache
+
+
+def activation_forward(A_pre, W, b, activation):
+    if activation == 'relu':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = relu(Z)
+    elif activation == 'sigmoid':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = sigmoid(Z)
+
+    cache = (linear_cache, activation_cache)
+    return A, cache
+
+
+def L_model_forward(X, parameters):
+    caches = []
+    A = X
+    L = len(parameters) // 2
+    for l in range(1, L):
+        A_prev = A
+        A, cache = activation_forward(A_prev, parameters['W' + str(l)], parameters['b' + str(l)], 'relu')
+        caches.append(cache)
+
+    AL, cache = activation_forward(A, parameters['W' + str(L)], parameters['b' + str(L)], 'sigmoid')
+    caches.append(cache)
+
+    return AL, caches
+
+
+def cost_compute(AL, Y):
+    m = Y.shape[1]
+    cost = (-1 / m) * np.sum(np.multiply(Y, np.log(AL)) + np.multiply((1 - Y), np.log(1 - AL)))
+    cost = np.squeeze(cost)
+
+    return cost
+
+
+def linear_backward(dZ, cache):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+    dW = np.dot(dZ, A_prev.T) / m
+    db = np.sum(dZ, axis=1, keepdims=True) / m
+    dA_prev = np.dot(W.T, dZ)
+
+    return dA_prev, dW, db
+
+
+def activation_backward(dA, cache, activation):
+    linear_cache, activation_cache = cache
+    if activation == 'relu':
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+    elif activation == 'sigmoid':
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    return dA_prev, dW, db
+
+
+def L_model_backward(AL, Y, caches):
+    grads = {}
+    L = len(caches)
+    m = AL.shape[1]
+    Y = Y.reshape(AL.shape)
+    dAL = -(np.divide(Y, AL) - np.divide((1 - Y), (1 - AL)))
+
+    current_cache = caches[L - 1]
+    grads['dA'+str(L)], grads['dW'+str(L)], grads['db'+str(L)] = activation_backward(dAL, current_cache, 'sigmoid')
+
+    for l in reversed(range(L - 1)):
+        current_cache = caches[l]
+        grads['dA'+str(l + 1)], grads['dW'+str(l + 1)], grads['db'+str(l + 1)] = activation_backward(grads['dA'+str(l + 2)], current_cache, 'relu')
+
+    return grads
+
+
+def up_parameters(parameters, grads, learning_rate):
+    L = len(parameters) // 2
+    for l in range(L):
+        parameters['W'+str(l+1)] = parameters['W'+str(l+1)] - learning_rate * grads['dW'+str(l+1)]
+        parameters['b'+str(l+1)] = parameters['b'+str(l+1)] - learning_rate * grads['db'+str(l+1)]
+    return parameters
+
+
+def L_model(X, Y, dims, learning_rate, num_iternations, print_cost=False, isPlot=False):
+    parameters = initialize_parameters(dims)
+    costs = []
+    for i in range(num_iternations):
+        AL, caches = L_model_forward(X, parameters)
+        cost = cost_compute(AL, Y)
+        grads = L_model_backward(AL, Y, caches)
+        parameters = up_parameters(parameters, grads, learning_rate)
+
+        if i % 100 == 0:
+            costs.append(cost)
+            if print_cost:
+                print(&quot;第&quot;, i + 100, &quot;次迭代，成本值为:&quot;, np.squeeze(cost))
+
+    if isPlot:
+        plt.plot(np.squeeze(costs))
+        plt.ylabel('cost')
+        plt.xlabel('iterations (per tens)')
+        plt.title(&quot;Learning rate =&quot; + str(learning_rate))
+        plt.show()
+    return parameters
+
+
+def predict(X, Y, parameters):
+    m = Y.shape[1]
+    Y_predict = np.zeros((1, m))
+    AL, caches = L_model_forward(X, parameters)
+
+    for i in range(0, AL.shape[1]):
+        if AL[0, i] &gt; 0.5:
+            Y_predict[0, i] = 1
+        else:
+            Y_predict[0, i] = 0
+
+    print(&quot;准确度为:&quot;, 100 - np.mean(np.abs(Y - Y_predict)) * 100, &quot;%&quot;)
+    return Y_predict
+
+
+dims = [12288, 20, 7, 5, 1]
+parameters = L_model(train_set_x, train_set_y, dims, learning_rate=0.005, num_iternations=2000, print_cost=True, isPlot=True)
+
+print('训练集准确度：')
+Y_train_predict = predict(train_set_x, train_set_y, parameters)
+print('~~~~~~~~~~~~~~~~~~')
+print('测试集准确度：')
+Y_test_predict = predict(test_set_x, test_set_y, parameters)
+</code></pre>
+<h3 id="训练结果">训练结果</h3>
+<pre><code>第 100 次迭代，成本值为: 0.6994873707865432
+第 200 次迭代，成本值为: 0.6806558525294543
+第 300 次迭代，成本值为: 0.6705312328121265
+第 400 次迭代，成本值为: 0.6619037949674021
+第 500 次迭代，成本值为: 0.6536510177438547
+第 600 次迭代，成本值为: 0.6446148155840906
+第 700 次迭代，成本值为: 0.634667166888006
+第 800 次迭代，成本值为: 0.6221946752377217
+第 900 次迭代，成本值为: 0.6056921109383494
+第 1000 次迭代，成本值为: 0.5842339799894992
+第 1100 次迭代，成本值为: 0.5575090729216234
+第 1200 次迭代，成本值为: 0.5265284524914055
+第 1300 次迭代，成本值为: 0.4923067992292893
+第 1400 次迭代，成本值为: 0.45628570738509455
+第 1500 次迭代，成本值为: 0.419308167347863
+第 1600 次迭代，成本值为: 0.38715877890532724
+第 1700 次迭代，成本值为: 0.355732703783392
+第 1800 次迭代，成本值为: 0.3352978704494966
+第 1900 次迭代，成本值为: 0.30310463706295426
+第 2000 次迭代，成本值为: 0.29058149758066887
+训练集准确度：
+准确度为: 97.12918660287082 %
+~~~~~~~~~~~~~~~~~~
+测试集准确度：
+准确度为: 74.0 %
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E6%9C%80%E7%BB%88%E7%9A%84%E6%9B%B2%E7%BA%BF.png" alt=""></p>
+<p>由于我们每次的参数都是随机初始化的，所以训练的每一次的结果都是不一样的，但是相比较上次使用logestic回归70%的准确度，这次的74%有一点点上升。(但是有的时候也有不好的情况- -)</p>
+<h1 id="卷积神经网络">卷积神经网络</h1>
+<p>卷积神经网络相比较全连接的神经网络，对图像更加友好。</p>
+<ol>
+<li>
+<p>卷积神经网络中，最重要的就是卷积核(filter)，使用卷积核在图片上移动做卷积运算，得到新的矩阵</p>
+</li>
+<li>
+<p>使用不同的卷积核，我们可以得到不同的边缘特征</p>
+</li>
+<li>
+<p>卷积核中的每个数都是一个参数，我们需要做的就是通过神经网络去学习这些参数</p>
+</li>
+<li>
+<p>卷积以后的维度 X =  (N - F) + 1，这样卷积以后有两个缺点：1、每次卷积完以后图像会缩小；2、图像的角落和边缘信息会丢失。为了解决这些问题，我们可以使用padding，在图像的边缘进行填充，这样卷积以后的维度为 X = (N + 2P - F) + 1。至于填充多少个像素，一般分为Valid 和 Same，Valid卷积不填充像素，Same卷积意味着卷积以后图片的大小不变，即 N = (N + 2P - F) + 1，此时，P = (F - 1)/2，所以卷积核的维度一般选择奇数，一方面可能是为了Padding，另一方面此时的卷积核会有一个中心点。</p>
+</li>
+<li>
+<p>卷积核移动的步长也是一个参数，此时的输出维度 X = (N + 2P - F)/S + 1，【如果不是整数，向下取整】。</p>
+</li>
+<li>
+<p>互相关和卷积：是否旋转镜像，但是对于卷积神经网络来说，我们把互相关的数学运算就叫做卷积</p>
+</li>
+<li>
+<p>对一张图片来说，有三个通道，<code>而卷积核的通道数必须与图片的通道数一致</code>。比如图片是6 × 6 × 3，如果卷积核为 3 × 3 × 3，此时进行卷积时，每个通道分别卷积，然后将每个通道卷积后的结果相加，得到一个4 × 4 × 1的输出结果。这样用多个3 × 3 × 3的卷积核进行卷积，得到多个4 × 4的输出结果，相当于多个channels。</p>
+</li>
+<li>
+<p>卷积以后得到4 × 4的输出结果，此时再加上偏差，相当于 Z = W*X + b，然后应用激活函数，A = g(Z)，最后把这些激活以后的结果堆叠在一起，进行下一层的卷积运算。这样做的好处就是极大的减少了参数的个数，避免过拟合。</p>
+</li>
+<li>
+<p>除了卷积层，一般也经常使用池化层，来缩减模型大小，提高计算速度。池化层有两种方法，一种是Max Pooling，选取区域内的最大值，这样做可以解释为如果过滤器提取到了某个特征，那么保留其最大值。还有一种是Average Pooling，选取平均值，不过不是经常使用。池化层没有需要学习的参数，池化后通道数不会改变。池化层需要选择filter的大小和步长，一般都是取2，这种情况下会缩小一半。</p>
+</li>
+<li>
+<p>卷积神经网络的优点：参数共享和稀疏连接</p>
+</li>
+</ol>
+<h2 id="keras中定义卷积神经网络">Keras中定义卷积神经网络</h2>
+<p>在Keras中，定义一个卷积神经网络是非常简单的：</p>
+<pre><code>from lr_utils import load_dataset
+from keras import optimizers
+import matplotlib.pyplot as plt
+from keras import models
+from keras import layers
+
+train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+
+train_set_y = train_set_y.T
+test_set_y = test_set_y.T
+
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+
+model.compile(optimizer=optimizers.sgd(lr=0.005),
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+
+history = model.fit(train_set_x, train_set_y, epochs=2000, batch_size=209)
+train_loss, train_acc = model.evaluate(train_set_x, train_set_y)
+test_loss, test_acc = model.evaluate(test_set_x, test_set_y)
+
+print('train_loss', train_loss, 'train_acc', train_acc)
+print('test_loss', test_loss, 'test_acc', test_acc)
+
+history_dict = history.history
+
+loss_values = history_dict['loss']
+epochs = range(1, len(loss_values) + 1)
+plt.plot(epochs, loss_values, 'b', label='Train loss')
+plt.title('Training loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
+
+</code></pre>
+<p>具体的结构是跟书上的例子一模一样，可以看一些这个卷积神经网络的结构：</p>
+<pre><code>Using TensorFlow backend.
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d_1 (Conv2D)            (None, 62, 62, 32)        896
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 31, 31, 32)        0
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 29, 29, 64)        18496
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 14, 14, 64)        0
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 12, 12, 64)        36928
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 9216)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 64)                589888
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 65
+=================================================================
+Total params: 646,273
+Trainable params: 646,273
+Non-trainable params: 0
+</code></pre>
+<p>这是它的训练结果，讲道理测试集准确度竟然达到了84%，不过损失函数曲线有点不稳定：</p>
+<pre><code>train_loss 0.17385125616520786 train_acc 0.93779904391777
+test_loss 0.5197753620147705 test_acc 0.8399999928474426
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/keras_cat.png" alt=""></p>
+<p>后面会尝试K-折交叉验证或者加入正则项。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>待续</p>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[神经网络与深度学习-第二周作业]]></title>
+        <id>https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业</id>
+        <link href="https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业">
+        </link>
+        <updated>2018-10-19T05:13:35.000Z</updated>
+        <content type="html"><![CDATA[<p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。
+参考文章：<a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Neural%20Networks%20and%20Deep%20Learning/Logistic%20Regression%20with%20a%20Neural%20Network%20mindset.ipynb">Logistic Regression with a Neural Network mindset</a></p>
+<h1 id="目标识别图片中有没有猫">目标：识别图片中有没有猫</h1>
+<h1 id="步骤">步骤：</h1>
+<h2 id="1-准备工作">1、准备工作</h2>
+<p>下载了相关文件(数据集)，训练集共有209张图片，测试集50张图片
+分类方法：有猫为1，没有猫为0
+导入相关的包:</p>
+<pre><code class="language-python">import numpy as np
+import h5py
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+</code></pre>
+<h2 id="2-数据处理">2、数据处理</h2>
+<pre><code class="language-python">def load_dataset():
+    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;) # h5py读取文件，要加r
+    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # 训练集数据
+    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # 训练集标签
+
+    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
+    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # 测试集数据
+    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # 测试集标签
+
+    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
+
+    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
+    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
+
+    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
+
+
+train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+</code></pre>
+<p>这一部分代码是资料中给的，主要作用是从数据集中读取数据，直接拿来用就好。</p>
+<p>我们可以看一下训练集中第88张图片的信息以及图片到底是什么样的：</p>
+<pre><code class="language-python">train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+
+index = 88
+img = train_set_x_orig[index]
+print(img.shape)
+plt.imshow(img)
+plt.show()
+
+&gt;&gt;&gt; (64, 64, 3)
+</code></pre>
+<p>img储存的是图片信息，计算机要保存一张照片，要保存为三个独立矩阵，因为图片的像素是由三原色(R,G,B)构成的，每个矩阵保存着每个单原色在各像素处的亮度，所以img是一个维度为(64, 64, 3)的数组。</p>
+<p>我们可以使用<code>matplotlib</code>这个包的<code>image</code>模块下的<code>imshow</code>函数来对图片信息进行&quot;编译&quot;,输出图片具体的样子，后面要加<code>plt.show()</code>来显示图片：</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-88%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF.png)</center>
+<p>编写代码来输出本次模拟的相关信息：</p>
+<pre><code class="language-python">
+number_train = train_set_y.shape[1]
+number_test = test_set_y.shape[1]
+number_px = train_set_x_orig.shape[1]
+
+print(&quot;训练集图片的数量:&quot;, number_train)
+print(&quot;测试集图片的数量:&quot;, number_test)
+print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
+print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
+print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
+print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
+print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
+
+&gt;&gt;&gt;
+
+训练集图片的数量: 209
+测试集图片的数量: 50
+每张图片的大小: 64 * 64
+训练集数据的维数: (209, 64, 64, 3)
+训练集标签的维数: (1, 209)
+测试集数据的维数: (50, 64, 64, 3)
+测试集标签的维数: (1, 50)
+</code></pre>
+<p>由于图片的维度是一个(64, 64, 3)的numpy数组，为了训练的方便，我们需要把一张图片上的信息整合到一起，即构造成一个(64*64*3, 1）的列向量，然后把所有的图片信息放在一个数组中，每一列储存着一张照片的信息。也就是要把训练集和数据集中的数据进行降维处理:</p>
+<pre><code class="language-python">train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
+print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
+
+&gt;&gt;&gt; 降维后训练集数据的维数: (12288, 209)
+    降维后测试集数据的维数: (12288, 50)
+</code></pre>
+<p><code>reshape()</code>可以对数组进行重新构造，以训练集的数据为例，由于共有209张图片，所以我们需要得到一个列为209的数组，但是由于数据量太大，我们并不知道有多少行，<code>reshape()</code>方法中有一个机制，即输入负数，它会帮我们算好行数，所以我们可以这样设置 <code>train_x_con = train_set_x_orig.reshape(-1, train_set_x_orig.shape[0])</code>，或者我们设置行数为209，最后加<code>.T</code>转置数列即可：<code>train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T</code>。</p>
+<p>以前做毕设的时候有对数据进行归一化处理，因为是不同特征的数字，属于奇异样本数据，归一化以后消除不同数据量纲数字大小的影响，加快学习的速度。而在机器学习中，对数据进行标准化也是很重要的，在图片数据集中，由于每个像素点的信息最大为255，所以可以对所有数除以255，让数据集数据位于[0, 1]之间：</p>
+<pre><code class="language-python">train_set_x = train_x_con /255
+test_set_x = test_x_con /255
+</code></pre>
+<h2 id="3-记录思路">3、记录思路</h2>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-LogReg_kiank.png" alt=""></p>
+<p>我们所需要用到的算法和函数：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E5%85%AC%E5%BC%8F.png" alt=""></p>
+<p>我们需要做的：</p>
+<ul>
+<li>1、初始化变量w,b</li>
+<li>2、前向传播得到概率和成本值J</li>
+<li>3、反向传播来得到成本值对w和b的导数</li>
+<li>4、通过梯度下降法来更新变量w和b</li>
+<li>5、重复步骤2、3、4</li>
+</ul>
+<h2 id="4-go">4、Go！</h2>
+<pre><code class="language-python">def init_variable(dim):
+    w = np.zeros((dim, 1))
+    b = 0
+    return w, b
+
+def sigmoid(z):
+    s = 1 / (1 + np.exp(-z))
+    return s
+</code></pre>
+<p>定义函数初始化变量w,b，w是每个输入特征的所占权重，所以应该是一个<code>(64*64*3， 1)</code>的列向量
+定义前向传播函数Sigmoid的一般形式，输入参数z可以是一个numpy数组</p>
+<p>这样，初始化工作已经完成，可以开始进行学习操作了，定义传播函数propagate得到成本值以及w和b的梯度：</p>
+<pre><code class="language-python">def propagate(w, b, X, Y):
+    m = X.shape[1]
+    
+    # 前向传播
+    A = sigmoid(np.dot(w.T, X) + b)
+    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
+    
+    # 反向传播
+    dw = (1 / m) * np.dot(X, (A - Y).T)
+    db = (1 / m) * np.sum(A - Y)
+
+    reci = {
+        &quot;dw&quot;: dw,
+        &quot;db&quot;: db
+    }
+
+    return  reci, cost
+</code></pre>
+<p>上面用到的公式都是视频中推导过的，<code>np.dot()</code>可以完成两个矩阵的乘法，<code>np.sum()</code>可以进行累加操作。</p>
+<p>接下来定义梯度下降函数optimize来进行迭代，即通过最小化成本J来更新 w 和 b：</p>
+<pre><code class="language-python">def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
+    costs = []
+    for i in range(num_iterations):
+        reci, cost = propagate(w, b, X, Y)
+        dw = reci[&quot;dw&quot;]
+        db = reci[&quot;db&quot;]
+        
+        w = w - learning_rate * dw
+        b = b - learning_rate * db
+        
+        if i % 100 == 0:
+            costs.append(cost)
+        if (print_cost) and (i % 100 == 0):
+            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
+
+    params = {
+        &quot;w&quot;: w,
+        &quot;b&quot;: b
+    }
+    return params, costs
+</code></pre>
+<p>这里模仿参考文章，每迭代100次输出此时误差值。通过不断地迭代就完成了整个学习过程，设置迭代次数<code>num_iterations</code>可以决定迭代的次数，最后存储迭代结束的变量 w 和 b 用来进行预测。</p>
+<p>预测函数predict的主要作用就是通过学习得到变量w和b进行预测得到概率，当概率大于0.5时，我们认为这张图片中有猫，设置标签值为1，当概率小于0.5时，我们认为图片中没有猫，设置标签值为0，最后将所有的标签值进行存储用来进行准确度的比较：</p>
+<pre><code class="language-python">def predict(X, Y, w, b):
+    m = X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    w = w.reshape(X.shape[0], 1)
+
+    A = sigmoid(np.dot(w.T, X) + b)
+
+    for i in range(m):
+        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
+
+    return Y_prediction
+</code></pre>
+<p>最后设置main函数来调动所有的‘模块’，并通过对 训练集 和 测试集  正确标签值的比较得到本次学习过程的准确程度，将本次训练后的参数进行保存：</p>
+<pre><code class="language-python">def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
+    w, b = init_variable(X_train.shape[0])   # 初始化变量
+    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)  # 进行学习过程
+    w, b = params[&quot;w&quot;], params[&quot;b&quot;]      # 得到学习后的变量
+
+    Y_train_prediction = predict(X_train, Y_train, w, b)  # 对训练集数据进行预测
+    Y_test_prediction = predict(X_test, Y_test, w, b)    # 对测试集数据进行预测
+
+    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)  # 得到训练集准确度
+    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)   # 得到测试集准确度
+
+    data = {
+            &quot;costs&quot; : costs,
+            &quot;Y_prediction_test&quot; : Y_test_prediction,
+            &quot;Y_prediciton_train&quot; : Y_train_prediction,
+            &quot;w&quot; : w,
+            &quot;b&quot; : b,
+            &quot;learning_rate&quot; : learning_rate,
+            &quot;num_iterations&quot; : num_iterations }
+    return data          # 保存相关参数
+</code></pre>
+<h2 id="5-完整代码">5、完整代码</h2>
+<pre><code>import numpy as np
+import h5py
+import matplotlib.pyplot as plt
+
+def load_dataset():
+    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;)
+    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # your train set features
+    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # your train set labels
+
+    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
+    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # your test set features
+    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # your test set labels
+
+    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
+
+    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
+    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
+
+    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
+
+
+train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+# index = 88
+# img = train_set_x_orig[index]
+# print(img)
+# plt.imshow(img)
+# plt.show()
+
+number_train = train_set_y.shape[1]
+number_test = test_set_y.shape[1]
+number_px = train_set_x_orig.shape[1]
+
+print(&quot;训练集图片的数量:&quot;, number_train)
+print(&quot;测试集图片的数量:&quot;, number_test)
+print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
+print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
+print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
+print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
+print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
+
+train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
+print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
+
+train_set_x = train_x_con /255
+test_set_x = test_x_con /255
+
+
+def sigmoid(z):
+    s = 1 / (1 + np.exp(-z))
+    return s
+
+
+def init_variable(dim):
+    w = np.zeros((dim, 1))
+    b = 0
+    return w, b
+
+
+def propagate(w, b, X, Y):
+    m = X.shape[1]
+
+    # 前向传播
+    A = sigmoid(np.dot(w.T, X) + b)
+    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
+
+    # 反向传播
+    dw = (1 / m) * np.dot(X, (A - Y).T)
+    db = (1 / m) * np.sum(A - Y)
+
+    reci = {
+        &quot;dw&quot;: dw,
+        &quot;db&quot;: db
+    }
+
+    return  reci, cost
+
+
+def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
+    costs = []
+    for i in range(num_iterations):
+        reci, cost = propagate(w, b, X, Y)
+        dw = reci[&quot;dw&quot;]
+        db = reci[&quot;db&quot;]
+        w = w - learning_rate * dw
+        b = b - learning_rate * db
+        if i % 100 == 0:
+            costs.append(cost)
+        if (print_cost) and (i % 100 == 0):
+            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
+
+    params = {
+        &quot;w&quot;: w,
+        &quot;b&quot;: b
+    }
+    return params, costs
+
+
+def predict(X, Y, w, b):
+    m = X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    w = w.reshape(X.shape[0], 1)
+
+    A = sigmoid(np.dot(w.T, X) + b)
+
+    for i in range(m):
+        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
+
+    return Y_prediction
+
+
+def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
+    w, b = init_variable(X_train.shape[0])
+    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+    w, b = params[&quot;w&quot;], params[&quot;b&quot;]
+
+    Y_train_prediction = predict(X_train, Y_train, w, b)
+    Y_test_prediction = predict(X_test, Y_test, w, b)
+
+    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)
+    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)
+
+    data = {
+            &quot;costs&quot; : costs,
+            &quot;Y_prediction_test&quot; : Y_test_prediction,
+            &quot;Y_prediciton_train&quot; : Y_train_prediction,
+            &quot;w&quot; : w,
+            &quot;b&quot; : b,
+            &quot;learning_rate&quot; : learning_rate,
+            &quot;num_iterations&quot; : num_iterations }
+    return data
+
+if __name__ == &quot;__main__&quot;:
+    data = main(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations=2000, learning_rate=0.005, print_cost=True)
+</code></pre>
+<h2 id="运行结果">运行结果：</h2>
+<pre><code class="language-python">训练集图片的数量: 209
+测试集图片的数量: 50
+每张图片的大小: 64 * 64
+训练集数据的维数: (209, 64, 64, 3)
+训练集标签的维数: (1, 209)
+测试集数据的维数: (50, 64, 64, 3)
+测试集标签的维数: (1, 50)
+降维后训练集数据的维数: (12288, 209)
+降维后测试集数据的维数: (12288, 50)
+迭代次数:0 , 误差值: 0.693147
+迭代次数:100 , 误差值: 0.584508
+迭代次数:200 , 误差值: 0.466949
+迭代次数:300 , 误差值: 0.376007
+迭代次数:400 , 误差值: 0.331463
+迭代次数:500 , 误差值: 0.303273
+迭代次数:600 , 误差值: 0.279880
+迭代次数:700 , 误差值: 0.260042
+迭代次数:800 , 误差值: 0.242941
+迭代次数:900 , 误差值: 0.228004
+迭代次数:1000 , 误差值: 0.214820
+迭代次数:1100 , 误差值: 0.203078
+迭代次数:1200 , 误差值: 0.192544
+迭代次数:1300 , 误差值: 0.183033
+迭代次数:1400 , 误差值: 0.174399
+迭代次数:1500 , 误差值: 0.166521
+迭代次数:1600 , 误差值: 0.159305
+迭代次数:1700 , 误差值: 0.152667
+迭代次数:1800 , 误差值: 0.146542
+迭代次数:1900 , 误差值: 0.140872
+训练集准确度: 99.04306220095694 %
+测试集准确度: 70.0 %
+</code></pre>
+<p>6、
+<code>learning_rate</code>是我们的学习率α，选择学习率也是很重要的，它是我们更新变量的速率，如果太大，那么我们会错过最优解，太小的话又需要增加迭代次数，但是目前我还不知道合理的范围是什么，代码中设置的<code>0.005</code>是参考文章中给的，我自己尝试设置为0.5发现会出错，这方面后续会继续学习。</p>
+<p>我们可以画图来看一下本次的成本曲线：</p>
+<pre><code class="language-python"># 画图
+costs = data['costs']
+plt.plot(costs)
+plt.ylabel('cost')
+plt.xlabel('iterations (per hundreds)')
+plt.title(&quot;Learning rate =&quot; + str(data[&quot;learning_rate&quot;]))
+plt.show()
+</code></pre>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E6%88%90%E6%9C%AC%E6%9B%B2%E7%BA%BFpng.png)</center>
+可以看到伴随着迭代次数的增加，成本值在下降。
+<p>我们可以自己找一下图片，设置为64*64的，来测试一下这个的准确度：</p>
+<center>!![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-8_test.png)</center>
+找了8张图片，分别编号1--8，通过上面的predict函数来进行预测结果：
+```python
+import matplotlib.image as mpimg  # 在开始处导入，主要作用是读取图片信息
+<pre><code>img1 = mpimg.imread(&quot;test/1.jpg&quot;).reshape(-1, 1)
+img2 = mpimg.imread(&quot;test/2.jpg&quot;).reshape(-1, 1)
+img3 = mpimg.imread(&quot;test/3.jpg&quot;).reshape(-1, 1)
+img4 = mpimg.imread(&quot;test/4.jpg&quot;).reshape(-1, 1)
+img5 = mpimg.imread(&quot;test/5.jpg&quot;).reshape(-1, 1)
+img6 = mpimg.imread(&quot;test/6.png&quot;).reshape(-1, 1)
+img7 = mpimg.imread(&quot;test/7.png&quot;).reshape(-1, 1)
+img8 = mpimg.imread(&quot;test/8.jpg&quot;).reshape(-1, 1)
+
+img = np.hstack((img1, img2, img3, img4, img5, img6, img7, img8))   # np.hstack()主要进行拼接矩阵的作用
+
+w = data[&quot;w&quot;]
+b = data[&quot;b&quot;]
+
+Y_prediction = predict(img, w, b)
+Y_prediction = np.squeeze(Y_prediction)     # np.squeeze()主要进行矩阵降维的作用
+for i in range(len(Y_prediction)):
+    if Y_prediction[i] == 1:
+        print(&quot;第%i张图片中有猫&quot; %(i+1))
+    else:
+        print(&quot;第%i张图片中没有猫&quot; %(i+1))
+</code></pre>
+<pre><code>预测结果：
+```python
+第1张图片中有猫
+第2张图片中有猫
+第3张图片中有猫
+第4张图片中有猫
+第5张图片中没有猫
+第6张图片中有猫
+第7张图片中没有猫
+第8张图片中没有猫
+</code></pre>
+<center>以上!</center>]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python数据库学习]]></title>
+        <id>https://tudouvvv.github.io//post/Python数据库学习</id>
+        <link href="https://tudouvvv.github.io//post/Python数据库学习">
+        </link>
+        <updated>2018-09-26T05:25:44.000Z</updated>
+        <summary type="html"><![CDATA[<center>程序员进阶之道👆</center>]]></summary>
+        <content type="html"><![CDATA[<center>程序员进阶之道👆</center>
+<!--more-->
+准备学习一些 进阶的知识，刚好看到这个课程，开一篇记录一下学习笔记！  
+<p>数据库，即存储数据的仓库，现在一般分为关系型数据库和非关系型数据库。</p>
+<h1 id="centermysqlcenter"><center>MySQL</center></h1>
+<h1 id="1-在终端使用">1、在终端使用</h1>
+<p>首先学习了一些mysql的命令：</p>
+<ul>
+<li>在终端中登录MySQL：<code>mysql -u root -p</code></li>
+<li><code>mysql -V</code>  :输出版本信息并且退出</li>
+<li><code>mysql -u</code>  :用户名</li>
+<li><code>mysql -p</code> :密码  回车后可以隐藏登录</li>
+<li><code>mysql -P</code> :端口号   默认3306，可不加</li>
+<li><code>mysql -h</code> :服务器名称  本地使用，默认127.0.0.1</li>
+<li>退出  :<code>exit；quit；\q；</code></li>
+<li>修改提示符(暂时还不知道有什么用)：<code>prompt xxx</code>
+常用提示符：<code>\D--&gt;完整的日期 \d--&gt;当前数据库 \h--&gt;服务器名称 \u--&gt;当前用户</code></li>
+</ul>
+<p>MySQL语句的规范：</p>
+<ul>
+<li>关键字与函数名称全部大写</li>
+<li>数据库名称、表名称、字段名称全部小写</li>
+<li>SQL语句必须以分号结尾</li>
+</ul>
+<p>其它命令：</p>
+<ul>
+<li>显示当前服务器版本:<code>SELECT VERSION();</code></li>
+<li>显示当前日期时间:<code>SELECT NOW();</code></li>
+<li>显示当前用户:<code>SELECT USER();</code></li>
+<li>显示当前数据库:<code>SELECT DATABASE() ;</code></li>
+</ul>
+<p>————————————————————————————</p>
+<h1 id="2-操作数据库">2、操作数据库</h1>
+<p>(Ps.<code>{}必须输入 [] 选择输入</code>)</p>
+<h2 id="1-创建数据库">1、创建数据库:</h2>
+<pre><code>CREATE {DATABASE | SCHEME}  [IF NOT EXISTS] db_name;
+</code></pre>
+<h2 id="2-设置编码方式">2、设置编码方式:</h2>
+<pre><code>[DEFAULT] CHARACTER SET [=] charset_name;
+</code></pre>
+<h2 id="3-查看warings">3、查看Warings:</h2>
+<pre><code>SHOW WARINIGS;
+</code></pre>
+<h2 id="4-查看创建数据库时的编码方式">4、查看创建数据库时的编码方式:</h2>
+<pre><code>SHOW CREATE DATABASE db_name;
+</code></pre>
+<h2 id="5-查看当前服务器下的数据库列表">5、查看当前服务器下的数据库列表:</h2>
+<pre><code>SHOW {DATABASES | SCHEMES};
+</code></pre>
+<h2 id="6-修改数据库">6、修改数据库:</h2>
+<pre><code>ALTER {DATABASE | SCHEME} [db_name]  
+[DEFAULT] CHARACTER SET [=] charset_name；
+</code></pre>
+<h2 id="7-删除数据库">7、删除数据库:</h2>
+<pre><code>DROP {DATABASE | SCHEME} [IF EXISTS] db_name;
+</code></pre>
+<p>————————————————————————————</p>
+<h1 id="3-数据类型">3、数据类型</h1>
+<ul>
+<li>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</li>
+<li>MySQL中定义数据字段的类型对数据库的优化是非常重要的。</li>
+<li>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E7%B1%BB%E5%9E%8B.png" alt="">
+<code>UNSIGNED</code>表示无符号，一般放在数据类型的后面
+————————————————————————————</p>
+<h1 id="4-数据表">4、数据表</h1>
+<p>数据表是数据库的最重要的组成部分之一，是其它对象的基础。</p>
+<h2 id="1-使用数据库">1、使用数据库:</h2>
+<pre><code>USE db_name;
+</code></pre>
+<h2 id="2-创建数据表">2、创建数据表:</h2>
+<pre><code>CREATE TABLE [IF NOT EXISTS] table_name(
+Column_name(列名称） data_type(数据类型) .... ,
+...
+);
+</code></pre>
+<center>实例：👇</center>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
+## 3、查询数据表列表:
+```
+SHOW TABLES [FROM db_name]
+[LIKE 'pattern' | WHERE expr]
+```
+## 4、查看数据表结构:
+```
+SHOW COLUMNS FROM tb_name;
+```
+## 5、数据插入:
+```
+INSERT [INTO] tbl_name [( col_name,…)] VALUES(VAL,…);
+```
+## 6、修改数据:
+```
+UPDATE table_references
+SET col_name = expr1[, col_name2 = expr2…]
+[WHERE where_definition];   --->很重要
+```
+## 7、删除数据:
+```
+DELETE FROM tbl_name
+[WHERE where_defination];
+```
+<p>上面都是MySQL最基础的一些知识，再往后的会慢慢学习。
+————————————————————————————</p>
+<h1 id="5-用python连接mysql数据库">5、用python连接mysql数据库</h1>
+<h2 id="1-mysqldb学习">1、MySQLdb学习</h2>
+<p>下载了MysqlDb这个包，因为之前创建了一个数据库并且添加了一些数据：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-news.png" alt="">
+所以会尝试连接这个数据库并对这个数据表做一些操作！！！开始用一个新包的话，官方文档有很详细的讲解 。</p>
+<p>MySQLdb提供了<code>connect</code>方法来建立一个与数据库的连接，调用这个对象的<code>close</code>方法来关闭一个连接。通过这个连接可以创建出一个游标对象<code>cursor</code>，通过游标对象执行SQL语句来进行数据的增删查改。</p>
+<pre><code class="language-python">import MySQLdb
+try:
+    coon = MySQLdb.connect(
+        host='localhost',
+        user='root',
+        passwd='手动打码处理',
+        db='news',
+        port=3306,
+        charset='utf8'
+    )
+    cursor = coon.cursor()
+    cursor.execute('SELECT * FROM news;')
+    rest = cursor.fetchone()
+    cursor.close()
+    coon.close()
+    print(rest)
+except MySQLdb.Error as e:
+    print('Error: %s' % e)
+
+&gt;&gt;&gt; (1, '丰收节后第二天 习近平考察了这个地方', 'xl', '9月25日，习近平抵达中国“最早迎接太阳的垦区', 1, datetime.datetime(2018, 9, 26, 11, 14, 44), None, '百家')
+</code></pre>
+<p>刚开始运行的时候总会报错，所以用了一个<code>try</code>语句来捕获错误：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-2029%E9%94%99%E8%AF%AF.png" alt="">
+查询后得知这是因为在MySQL8.0改变了认证方式，目前最新的MySQL8.0对用户密码的加密方式为<code>caching_sha2_password</code>, 可能MySQLdb还不支持，所以需要更改为老版本的认证方式<code>mysql_native_password</code>,更改方式：</p>
+<pre><code>mysql -u root -p  \登录mysql
+use mysql;           
+select user,plugin from user where user='root';     \执行命令查看加密方式
+alter user 'root'@'localhost' identified with mysql_native_password by 'yourpassword' \执行命令修改加密方式
+flush privileges                  \属性权限使配置生效
+</code></pre>
+<p>反正最后成功解决错误，连接到了本地数据库输出了第一条数据(因为用了<code>fetchone</code>命令)，但是可以看到输出的结果是一个元组，可能会不清楚里面各个元素的含义是什么，要是想建立一种映射关系，我们需要用到<code>cursor</code>的<code>description</code>方法来查看每个字段的查询名，然后把执行sql后的结果与执行<code>cursor.description()</code>后的结果拼成一个字典：</p>
+<pre><code class="language-python">    def get_one(self):
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家',))
+        print(cursor.description)
+        # 拿到结果
+        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
+        # 处理数据
+        print(rest)
+        print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest
+&gt;&gt;&gt; (('id', 2, 1, 6, 6, 0, 0), ('title', 253, 71, 600, 600, 0, 0), ('img_url', 253, 2, 600, 600, 0, 0), ('content', 253, 133, 6000, 6000, 0, 0), ('is_valid', 1, 1, 4, 4, 0, 1), ('create_at', 12, 19, 19, 19, 0, 1), ('updated_at', 12, 0, 19, 19, 0, 1), ('news_type', 253, 6, 600, 600, 0, 1))
+{'id': 9, 'title': '男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转', 'img_url': 'xl', 'content': '近日，郑州市民刘先生向河南商报记者反映，空空如也的房子，水表却自己转起来，诡异不已。', 'is_valid': 1, 'create_at': datetime.datetime(2018, 9, 26, 11, 21, 59), 'updated_at': None, 'news_type': '百家'}
+男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转
+</code></pre>
+<p>看到执行<code>cursor.description()</code>后的结果是字段的查询名和一串不知道什么意思的数字😰，第一次用了<code>zip()</code>和<code>dict()</code>两个方法，zip()可以把两个元组的对应元素一一打包，返回一个zip对象，而dict可以把两个元素组合起来变成一个字典：</p>
+<pre><code class="language-python">a = (1, 2, 3, 4)
+b = ('a', 'b', 'c', 'd')
+print(type(zip(a, b)))
+print(zip(a, b))
+print(dict(zip(a, b)))
+
+r = ((1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'))
+print(dict(r))
+
+&gt;&gt;&gt; &lt;class 'zip'&gt;
+    &lt;zip object at 0x000001F4AADEDC88&gt;
+    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+</code></pre>
+<p>还以通过<code>fetchall()</code>的方法获得多个数据库数据，关键是要看你的sql语句怎么写。</p>
+<p>我们可以在sql语句中用<code>%s</code>，这是一种字符串格式化的语法，基本用法是将值插入到%s占位符的字符串中。</p>
+<p>并且可以通过写sql语句和<code>commit()</code>来添加数据：</p>
+<pre><code class="language-python"> def add(self):
+        try:
+            # 准备sql
+            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
+                   news_type) VALUES'
+                   '(%s,%s,%s,%s,%s);')
+            # 获取连接和cursor
+            cursor = self.conn.cursor()
+            # 执行sql
+            # # 提交数据到数据库
+            cursor.execute(sql, ('标题1', 'xl', '内容', 1, '国际'))
+            cursor.execute(sql, ('标题2', 'xl', '内容', '你好', '国际', '123'))
+            # 提交事务
+            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
+            # 关闭cursor和连接
+            cursor.close()
+        except:
+            print('Error')
+            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
+            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
+        self.conn.close()
+</code></pre>
+<p>在添加数据时一定要注意我们设定的数据表每个字段的类型，不能出错。</p>
+<p>完整代码：</p>
+<pre><code class="language-python">import MySQLdb
+
+
+class MysqlSearch():
+
+    def __init__(self):
+        self.get_conn()
+
+    def get_conn(self):
+        try:
+            self.conn = MySQLdb.connect(
+                host='127.0.0.1',
+                user='root',
+                passwd='mysql,,2012',
+                db='news',
+                port=3306,
+                charset='utf8'
+            )
+        except MySQLdb.Error as e:
+            print('Error:%s' % e)
+
+    def close_conn(self):
+        try:
+            if self.conn:
+                self.conn.close()
+        except MySQLdb.Error as e:
+            print('Error:%s' % e)
+
+    def get_one(self):
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家',))
+        print(cursor.description)
+        # 拿到结果
+        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
+        # 处理数据
+        print(rest)
+        print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest
+
+    def get_more(self, page, page_size):
+        offset = (page - 1) * page_size
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC\
+               LIMIT %s,%s ;'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家', offset, page_size))
+        # print(cursor.description)
+        # 拿到结果
+        rest = [dict(zip([k[0] for k in cursor.description], row))for row in
+                cursor.fetchall()]
+        # rest = cursor.fetchall()
+        # 处理数
+        # print(rest)
+        # print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest      
+
+    def add(self):
+        try:
+            # 准备sql
+            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
+                   news_type) VALUES'
+                   '(%s,%s,%s,%s,%s);')
+            # 获取连接和cursor
+            cursor = self.conn.cursor()
+            # 执行sql
+            # 提交数据到数据库
+            cursor.execute(sql, ('标题8', 'xl', '内容', 1, '国际'))
+            cursor.execute(sql, ('标题9', 'xl', '内容', '你好', '国际', '123'))
+            # 提交事务
+            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
+            # 关闭cursor和连接
+            cursor.close()
+        except:
+            print('Error')
+            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
+            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
+        self.close_conn()
+
+
+def main():
+    obj = MysqlSearch()
+    # rest = obj.get_one()
+    rest = obj.get_more(2, 2)
+    print(rest)
+    # for item in rest:
+    #     print(item)
+    #     print('-------')
+    # obj.add()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<h2 id="2-orm">2、ORM</h2>
+<p>ORM：对象关系映射(Object Relational Mapping，简称ORM，或O/RM，或O/R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换 。从效果上说，它其实是创建了一个可在编程语言里使用的--“虚拟对象数据库”。</p>
+<p>这是百度百科里的介绍，在前面我们用mysqldb这个包的时候，它只是输出了数据库中的数据，我们还是用zip和description强行建立一种映射关系，并且还要写sql语句，而在ORM中，我们不需要关心这些东西，我们只要按照ORM的套路来就行。</p>
+<p>常用的ORM实现方法有SqlObject、peewee、Django's ORM  、SQLAlchemy</p>
+<h3 id="sqlalchemy学习">SQLAlchemy学习</h3>
+<p><code>https://docs.sqlalchemy.org/en/latest/orm/</code>------&gt;官方文档地址
+在MySQL中不同字符类型在sqlalchemy中都有对应的类型与之匹配，比如VARCHAR对应String，INT对应Integer。</p>
+<h4 id="创建一张表">创建一张表</h4>
+<p>如果我们想在某个数据库中创建一个表，我们首先要用到<code>engine</code>来与数据库建立连接，接着继承<code>Base</code>这个基类中的方法来同我们的数据库进行映射，接着定义数据表的每个字段的类型，最后通过下图中的方法来创建数据表：</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-py%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
+我们可以看到`Base.metadta.create_all(engine)`这条语句就相当于一条sql语句，编写代码来实验一下：
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+<h1 id="engine-create_enginemysqlscotttigerlocalhostfoo-官方给出的连接方法">engine = create_engine('mysql://scott:tiger@localhost/foo') #官方给出的连接方法</h1>
+<h1 id="scott-用户名-triger-密码-foo数据库">scott 用户名 triger 密码  foo数据库</h1>
+<p>engine = create_engine('mysql://root:手动打码此处的密码虽然没有什么卵用@localhost:3306/news_test')
+Base = declarative_base()  # sqlalchemy定义的一个基类</p>
+<p>class News(Base):
+<strong>tablename</strong> = 'news'
+id = Column(Integer, primary_key=True)
+title = Column(String(200), nullable=False)
+img_url = Column(String(200), nullable=False)
+content = Column(String(2000), nullable=False)
+is_valid = Column(Boolean)
+create_at = Column(DateTime)
+update_at = Column(DateTime)
+news_type = Column(String(20))</p>
+<p>News.metadata.create_all(engine)</p>
+<pre><code>
+可以在图形化的mysql数据库中看到，已经成功的创建了一张数据表。
+![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%96%B0%E5%BB%BA%E4%B8%80%E5%BC%A0%E6%95%B0%E6%8D%AE%E8%A1%A8.png)
+
+
+#### 新增数据
+在前面学些mysqldb的时候，无论时新增数据还是删除数据，都需要借助一个游标来完成操作，而在sqlalchemy中，需要借助`session`：
+![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BAsession.png)
+我们来试验一下：
+```python
+class AddTest():
+    def __init__(self):
+        self.session = Session()
+
+    def add(self):
+        news_obj = News(
+            title='标题1',
+            img_url='xxx/xxx/xxx.jpg',
+            content='内容1',
+            create_at=datetime.datetime.now(),
+            news_type='国际'
+        )
+        self.session.add(news_obj)
+        self.session.commit()
+        return news_obj
+</code></pre>
+<p>执行几次以后发现，数据已经被添加到数据库中了：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%B7%BB%E5%8A%A0%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE.png" alt=""></p>
+<p>不过这里我有一点疑惑，因为在写sql语句的时候，我们要让id自增必须填入<code>AUTO_INCREMENT</code>再加主键约束才可以，不知道为什么在这里只需要标明是主键约束就可以了。
+添加多条数据时，我们可以填写多个<code>session.add()</code>语句，也可以使用<code>session.add_all()</code>语句进行添加：</p>
+<pre><code class="language-python">self.session.add_all((news_obj1, news_obj2, news_obj3))
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[猫眼电影TOP100爬取]]></title>
+        <id>https://tudouvvv.github.io//post/猫眼电影TOP100爬取</id>
+        <link href="https://tudouvvv.github.io//post/猫眼电影TOP100爬取">
+        </link>
+        <updated>2018-09-19T01:43:43.000Z</updated>
+        <summary type="html"><![CDATA[<center>今天又是充满希望的一天</center>]]></summary>
+        <content type="html"><![CDATA[<center>今天又是充满希望的一天</center>
+<!--more-->
+<p>昨天刚好看了怎么把爬下来的数据存储到excle中，所以用猫眼电影TOP100拿来练手，可惜，效果不佳：构想的太过美好，以为先把一页的写好，最后加入多页的机制就好。
+然后开始写爬取一页存储结果的代码，写完之后再加入爬取多页的代码，结果悲剧了，发现每次爬完一页后它存储结果的时候会把上次的结果给覆盖掉Σ(っ °Д °;)っ，找到了这个逻辑错误的地方，然后思考解决办法，纠结了半天不知道怎么修改，准备睡觉的时候灵机一动~~ 我干嘛存储的时候只存储一页啊，我为啥不设置一个空表，然后把每一页处理完的信息先存入总表，然后对总表再进行分析存储不就解决了吗。
+真的是太僵硬了Σ(っ °Д °;)っ<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%9D%8E%E5%85%89%E6%B4%99%E8%A1%A8%E6%83%85--%E4%B8%8D%E8%A1%8C%E5%95%8A.gif" alt=""></p>
+<p>好吧下面是所有的操作流程。</p>
+<h1 id="目的爬取猫眼电影top100的信息">目的：爬取猫眼电影TOP100的信息</h1>
+<h1 id="分析过程">分析过程</h1>
+<p>打开猫眼电影，找到	TOP100所在的网页(<code>http://maoyan.com/board/4</code>)
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%8C%AB%E7%9C%BCTOP100.png" alt="">)</p>
+<p>每一页有十部电影，一共十页，打开开发者工具，查看我们要爬取的信息有哪些：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7.png" alt="">
+OK，我们需要爬取电影海报链接，电影名，猫眼的ID编号，主演，上映时间，以及评分(我要吐槽一下这个评分，(╯‵□′)╯︵┻━┻为啥要分成两部分啊，好好的在一起不好吗)，每个电影的信息都在<code>&lt;dd&gt;&lt;/dd&gt;</code>这个节点中，然后开始写正则表达式来提取想要的信息(明明前几天才复习过正则表达式，一到用的时候就又忘记了，只能需要什么然后去翻笔记）：</p>
+<pre><code class="language-python">import requests
+import re
+import xlsxwriter as xlw
+import time
+
+
+class Movie():
+    root_pattern = '&lt;dd&gt;([\s\S]*?)&lt;/dd&gt;' # 每部电影的所有信息
+    pic_pattern = '&lt;img data-src=&quot;(.*?)@160w_220h_1e_1c' #海报信息
+    name_pattern = 'alt=&quot;(.*?)&quot; class=&quot;board-img&quot;'  # 名字信息
+    id_pattern = 'data-val=&quot;{movieId:([\w]*?)}&quot;'   #编号信息
+    star_pattern = '主演：([\s\S]*?)&lt;/p&gt;'     #主演信息
+    date_pattern = '&lt;p class=&quot;releasetime&quot;&gt;上映时间：([\s\S]*?)&lt;/p&gt;' #时间信息
+    score1_pattern = '&lt;i class=&quot;integer&quot;&gt;(\d\.)&lt;/i&gt;'  #评分信息
+    score2_pattern = '&lt;i class=&quot;fraction&quot;&gt;(\d)&lt;/i&gt;'
+</code></pre>
+<p>定义了一个类来复习一下类的用法，虽然并没有什么作用....这部分代码主要是定义了爬取各项信息的正则表达式。</p>
+<p>然后先爬取整个网页的信息，用了<code>requests</code>这个包，也是为了复习刚看到的知识:</p>
+<pre><code class="language-python"> def __get(self, url):
+        headers = {
+                   'User-Agent': 'Mozilla/5.0(Macintosh;Intel Mac OS X 10_13_3) \
+                   AppleWebKit/537.36(KHTML. like Gecko)\
+                   Chrome/65.0.3325.162 Safari/536.36'
+        }
+        response = requests.get(url, headers=headers)
+        htmls_source = response.text
+        return htmls_source
+</code></pre>
+<p>这里只是简单了用了<code>request</code>的<code>get</code>方法来获取网页，添加了<code>headers</code>来进行伪装，不然就会提示<code>很抱歉，我们检测到您所在的网络环境存在恶意访问</code>的信息(尴尬)......</p>
+<p>将网页的原始信息存储为<code>htmls_source</code>，然后对原始信息进行分析，也就是利用正则表达式来提取我们想要的信息：</p>
+<pre><code class="language-python">def __analysis(self, htmls_source):
+        htmls = re.findall(Movie.root_pattern, htmls_source)
+        anchors = []
+        for html in htmls:
+            pic = re.findall(Movie.pic_pattern, html)
+            name = re.findall(Movie.name_pattern, html)
+            id = re.findall(Movie.id_pattern, html)[0]
+            star = re.findall(Movie.star_pattern, html)
+            date = re.findall(Movie.date_pattern, html)
+            score1 = re.findall(Movie.score1_pattern, html)
+            score2 = re.findall(Movie.score2_pattern, html)
+            anchor = {'pic': pic, 'name': name, 'id': id, 'star': star,
+                      'date': date, 'score1': score1, 'score2': score2}
+            anchors.append(anchor)
+        return anchors
+</code></pre>
+<p>首先利用<code>findall</code>方法和前面定义的父节点的正则表达式<code>root_pattern</code>来爬取单个电影的所有信息，存为一个列表<code>htmls</code>，每个电影的信息都是该列表中的一个元素<code>htmls[i]</code>，然后定义一个空表<code>anchors</code>准备存放爬取的信息，接着对于单个电影的信息<code>html</code>进行正则提取，提取以后存为一个字典命名为<code>anchor</code>并使用<code>append()</code>增加元素的方法将该字典存到我们刚才定义的空表<code>anchors</code>中。</p>
+<p>因为正则提取以后的信息并不整齐，比如说<code>'star': ['张国荣,张丰毅,巩俐\n ']</code>中就包括了换行符和很多的空格，我们需要处理一下：</p>
+<pre><code class="language-python">    def __refine(self, anchors):
+        return map(lambda anchor: {
+            'pic': anchor['pic'][0], 'name': anchor['name'][0],
+            'id': anchor['id'], 'star': anchor['star'][0].strip(),
+            'date': anchor['date'][0],
+            'score': anchor['score1'][0].strip() + anchor['score2'][0].strip()
+        }, anchors)
+</code></pre>
+<p>先使用<code>lambda</code>表达式对每个电影信息<code>anchor</code>中的冗余元素进行剔除，然后用<code>map</code>这个类对<code>anchors</code>这个列表中的每个元素进行同样的操作，返回我们最终想要的信息。</p>
+<p>接着我设置了一个展示函数将结果展示出来：</p>
+<pre><code class="language-python">    def __show(self, anchors):
+        for anchor in anchors:
+            print('pic:', anchor['pic'], 'name:', anchor['name'], 
+                  'id:', anchor['id'], 'star:', anchor['star'],
+                  'date:', anchor['date'], 'score:', anchor['score'])
+</code></pre>
+<p>也就是每次执行后会把结果打印出来，后来觉得还是存储起来比较好，就又定义了一个存储为excle的方法，用了<code>xlsxwriter</code>这个包，其实根本不了解这个包的具体操作，我也是看着别人的代码照葫芦画瓢学的：</p>
+<pre><code>def __save_excle(self, anchors, filename):
+        workbook = xlw.Workbook('%s.xlsx' % filename)
+        # 这里首先对这个Workbook的类进行实例化，创建一个工作薄，然后设置存储的位置，我设置的是同级目录
+
+        sheet = workbook.add_worksheet()
+        # 接着创建工作表
+
+        title = ['电影海报链接', '电影名', '猫眼ID编号', '主演', '上映日期', '评分']
+        for i in range(0, len(title)):
+            sheet.write_string(0, i, title[i],
+                               workbook.add_format({'bold': True}))
+		#设置表的标题，并且采用字体加粗
+
+        sheet.set_column(0, 0, 50)
+        sheet.set_column(1, 1, 20)
+        sheet.set_column(2, 2, 10)
+        sheet.set_column(3, 3, 45)
+        sheet.set_column(4, 4, 20)
+        # 设置单独每列的单元格样式，这里我只设置了宽度
+
+        row, col = 1, 0
+        # row--&gt;行坐标   col--&gt;列坐标  设置写入的位置
+
+        for anchor in anchors:
+            sheet.write_string(row, col, anchor['pic'])
+            sheet.write_string(row, col + 1, anchor['name'])
+            sheet.write_string(row, col + 2, anchor['id'])
+            sheet.write_string(row, col + 3, anchor['star'])
+            sheet.write_string(row, col + 4, anchor['date'])
+            sheet.write_string(row, col + 5, anchor['score'])
+            row += 1
+         # 写入我们爬取的数据，由于都是字符串，所以是【write_string】
+
+        workbook.close()
+        # 关闭并保存
+</code></pre>
+<p>也是一边写，一边看别人怎么写，一边看xlsxwriter的介绍文档，写完之后发现可以用哈哈哈，然后就是定义了爬取多页的一个流程：</p>
+<pre><code class="language-python">    def go(self):
+        fin_achors = []
+        for i in range(10):
+            url = 'http://maoyan.com/board/4?offset={}'.format(i*10)
+            htmls_source = Movie.__get(self, url)
+            anchors = Movie.__analysis(self, htmls_source)
+            anchors = Movie.__refine(self, anchors)
+            time.sleep(1)
+            fin_achors.extend(anchors)
+        # Movie.__show(self, fin_achors)
+        Movie.__save_excle(self, fin_achors, '猫眼电影TOP100')
+</code></pre>
+<p>查看每一页的url后发现规律(吐槽斗鱼，每一页的url都相同，只能以后学了其它东西再尝试爬取了)，定义一个总的列表<code>fin_anchors</code>来存放爬取十页后的信息，设置一个for循环，将每一页的爬取信息利用<code>extend()</code>方法存放到我们定义的总表中，因为害怕爬取速度太快出现什么问题，所以增加了一个延时等待<code>time.sleep(1)</code>，然后对总表进行打印或者是存为excle的操作。</p>
+<p>其实最后能解决问题也是因为看到了<code>extend()</code>这个方法，因为出错的时候有尝试将两个列表相加的操作，结果只是列表相加而不是元素的聚合，前面也用过<code>append()</code>这个方法，上网查了一下两者的区别：</p>
+<pre><code class="language-python">list.append(object) 向列表中添加一个对象object
+list.extend(sequence) 把一个序列seq的内容添加到列表中
+
+music_media = ['compact disc', '8-track tape', 'long playing record']
+new_media = ['DVD Audio disc', 'Super Audio CD']
+music_media.append(new_media)
+print music_media
+&gt;&gt;&gt;['compact disc', '8-track tape', 'long playing record', ['DVD Audio disc', 'Super Audio CD']]
+使用append的时候，是将new_media看作一个对象，整体打包添加到music_media对象中。
+
+music_media = ['compact disc', '8-track tape', 'long playing record']
+new_media = ['DVD Audio disc', 'Super Audio CD']
+music_media.extend(new_media)
+print music_media
+&gt;&gt;&gt;['compact disc', '8-track tape', 'long playing record', 'DVD Audio disc', 'Super Audio CD']
+使用extend的时候，是将new_media看作一个序列，将这个序列和music_media序列合并，并放在其后面。
+</code></pre>
+<h1 id="最终代码">最终代码</h1>
+<pre><code class="language-python">import requests
+import re
+import xlsxwriter as xlw
+import time
+
+
+class Movie():
+    root_pattern = '&lt;dd&gt;([\s\S]*?)&lt;/dd&gt;'
+    pic_pattern = '&lt;img data-src=&quot;(.*?)@160w_220h_1e_1c'
+    name_pattern = 'alt=&quot;(.*?)&quot; class=&quot;board-img&quot;'
+    id_pattern = 'data-val=&quot;{movieId:([\w]*?)}&quot;'
+    star_pattern = '主演：([\s\S]*?)&lt;/p&gt;'
+    date_pattern = '&lt;p class=&quot;releasetime&quot;&gt;上映时间：([\s\S]*?)&lt;/p&gt;'
+    score1_pattern = '&lt;i class=&quot;integer&quot;&gt;(\d\.)&lt;/i&gt;'
+    score2_pattern = '&lt;i class=&quot;fraction&quot;&gt;(\d)&lt;/i&gt;'
+    
+    def __get(self, url):
+        headers = {
+                   'User-Agent': 'Mozilla/5.0(Macintosh;Intel Mac OS X 10_13_3) \
+                   AppleWebKit/537.36(KHTML. like Gecko)\
+                   Chrome/65.0.3325.162 Safari/536.36'
+        }
+        response = requests.get(url, headers=headers)
+        htmls_source = response.text
+        return htmls_source
+
+    def __analysis(self, htmls_source):
+        htmls = re.findall(Movie.root_pattern, htmls_source)
+        anchors = []
+        for html in htmls:
+            pic = re.findall(Movie.pic_pattern, html)
+            name = re.findall(Movie.name_pattern, html)
+            id = re.findall(Movie.id_pattern, html)[0]
+            star = re.findall(Movie.star_pattern, html)
+            date = re.findall(Movie.date_pattern, html)
+            score1 = re.findall(Movie.score1_pattern, html)
+            score2 = re.findall(Movie.score2_pattern, html)
+            anchor = {'pic': pic, 'name': name, 'id': id, 'star': star,
+                      'date': date, 'score1': score1, 'score2': score2}
+            anchors.append(anchor)
+        return anchors
+
+    def __refine(self, anchors):
+        return map(lambda anchor: {
+            'pic': anchor['pic'][0], 'name': anchor['name'][0],
+            'id': anchor['id'], 'star': anchor['star'][0].strip(),
+            'date': anchor['date'][0],
+            'score': anchor['score1'][0].strip() + anchor['score2'][0].strip()
+        }, anchors)
+
+    def __show(self, anchors):
+        for anchor in anchors:
+            print('pic:', anchor['pic'], 'name:', anchor['name'], 
+                  'id:', anchor['id'], 'star:', anchor['star'],
+                  'date:', anchor['date'], 'score:', anchor['score'])
+
+    def __save_excle(self, anchors, filename):
+        workbook = xlw.Workbook('%s.xlsx' % filename)
+        sheet = workbook.add_worksheet()
+        title = ['电影海报链接', '电影名', '猫眼ID编号', '主演', '上映日期', '评分']
+        for i in range(0, len(title)):
+            sheet.write_string(0, i, title[i],
+                               workbook.add_format({'bold': True}))
+        sheet.set_column(0, 0, 50)
+        sheet.set_column(1, 1, 20)
+        sheet.set_column(2, 2, 10)
+        sheet.set_column(3, 3, 45)
+        sheet.set_column(4, 4, 20)
+        
+        row, col = 1, 0
+        for anchor in anchors:
+            sheet.write_string(row, col, anchor['pic'])
+            sheet.write_string(row, col + 1, anchor['name'])
+            sheet.write_string(row, col + 2, anchor['id'])
+            sheet.write_string(row, col + 3, anchor['star'])
+            sheet.write_string(row, col + 4, anchor['date'])
+            sheet.write_string(row, col + 5, anchor['score'])
+            row += 1
+        workbook.close()
+
+    def go(self):
+        fin_achors = []
+        for i in range(10):
+            url = 'http://maoyan.com/board/4?offset={}'.format(i*10)
+            htmls_source = Movie.__get(self, url)
+            anchors = Movie.__analysis(self, htmls_source)
+            anchors = Movie.__refine(self, anchors)
+            time.sleep(1)
+            fin_achors.extend(anchors)
+        # Movie.__show(self, fin_achors)
+        Movie.__save_excle(self, fin_achors, '猫眼电影TOP100')
+
+movie = Movie()
+movie.go()
+</code></pre>
+<h1 id="最终结果">最终结果</h1>
+<h2 id="目录信息">目录信息</h2>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%9C.png" alt="">
+我这里设置的是同级目录，也可以在<code>__save_excle</code>中修改成别的目录</p>
+<h2 id="爬取信息">爬取信息</h2>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt=""></p>
+<p>明天尝试爬一下豆瓣的TOP250哈哈哈哈哈<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%86%B2%E9%B8%AD.jpg" alt=""></p>
+<h1 id="爬取豆瓣后续">爬取豆瓣后续：</h1>
+<p>本来以为是改几个变量的值就可以了 = = 没想到还是遇到了点儿问题</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png)</center>
+分析正则表达式的时候使用排名第一的`肖申克的救赎`进行分析的，按照流程，一切都很正常，然后我准备储存进excle的时候出现了问题：
+<center>!![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png)</center>
+噢，看来是存储主演姓名的时候出错了，出错原因并不清楚，然后百度了一下：
+```
+Python不支持dict的key为list或dict类型，因为list和dict类型是unhashable（不可哈希）的。
+```
+虽然不知道啥叫不可哈希，但是也差不多清楚了，可能是我的`star`名的`key`值没有转换过来，去看了一下，果然：
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png)</center>
+数据精炼的时候，我的`star`还是列表，应该取列表里的元素的，于是我在后面加入了`[0]`,以为这下可以成功了，结果又出错了：
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png)</center>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg)</center>
+这又是什么错误？？？列表超出范围？？？什么鬼？？？于是我又百度了一下，找到了原因：
+```
+这个错误出现大约有两种情况： 
+第1种可能情况 
+list[index]index超出范围
+<p>第2种可能情况
+list是一个空的 没有一个元素
+进行list[0]就会出现该错误</p>
+<pre><code>嗯？？？难道是我的`star`是空的？？？不可能啊，当时还打印出`anchors[0]`看过的啊，有值啊，难道是别的电影？？？于是我打开豆瓣TOP250，看了一下：
+![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png)
+果然，我发现有一部电影的`star`有一点不一样，这什么鬼啊，导演名字这么长？？？为什么后面三个点...以后就没东西了啊，除非你点进这部电影的详情页，否则你是看不到主演姓名的(暂时发现是这样)，所以又遇到了一个问题：
+</code></pre>
+<p>爬虫有的时候会匹配到空值，这个时候应该怎么处理？？</p>
+<pre><code>最后我写了一个`if`语句来判断如果`star`值为空，那么强行给`star`赋值为`None`，额，好像有点儿奇怪，反正先这样吧：
+```python
+star = re.findall(star_pattern, html)
+    if star == []:
+        star = 'None'
+</code></pre>
+<p>就这样，成功的解决了问题，并且这一次我是把每个部分的函数拆个一个一个模块来写的:</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png)</center>
+<p>最后成功获得了豆瓣TOP250的详细名单：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python学习日记]]></title>
+        <id>https://tudouvvv.github.io//post/Python学习之路</id>
+        <link href="https://tudouvvv.github.io//post/Python学习之路">
+        </link>
+        <updated>2018-08-22T14:36:14.000Z</updated>
+        <content type="html"><![CDATA[<p>复试完之后就一直没有整理当时做的笔记，正好这几天学习爬虫相关知识的时候有些知识点都忘记了，便索性重新看一遍学习python的视频，把笔记好好整理一下( •̀ ω •́ ）。</p>
+<h1 id="centerpython学习日记center"><center>Python学习日记</center></h1>
+<h1 id="center日记一center"><center>日记一</center></h1>
+<h1 id="数字与字符串">数字与字符串</h1>
+<h2 id="1-数字">1、数字</h2>
+<h3 id="1-整形与浮点数">1、整形与浮点数</h3>
+<p>数字：一般为整形与浮点数
+整数用int表示，浮点数用float表示
+通过type函数来查元素看类型:</p>
+<pre><code class="language-python">print(type(float(0.1)))
+&gt;&gt;&gt; &lt;class 'float'&gt;
+</code></pre>
+<p>两个整形相除得到浮点数:</p>
+<pre><code class="language-python">print(type(1/1)) 
+&gt;&gt;&gt; &lt;class 'float'&gt; 
+</code></pre>
+<p>如果想得到整形，可以这样：</p>
+<pre><code class="language-python">print(type(1//1)) 
+&gt;&gt;&gt; &lt;class 'int'&gt;
+</code></pre>
+<p>//即整除，只保留整数位</p>
+<h3 id="2-各种进制的表示与转换">2、各种进制的表示与转换</h3>
+<p>表示的方法：
+ob表示二进制，比如说0b10就是十进制的2：</p>
+<pre><code class="language-python">print(0b10)
+&gt;&gt;&gt; 2
+</code></pre>
+<p>0o表示八进制，比如说0o10就是十进制的8：</p>
+<pre><code class="language-python">print(0o10)
+&gt;&gt;&gt; 8
+</code></pre>
+<p>0x表示十六进制，比如说0x10就是十进制的16：</p>
+<pre><code class="language-python">print(0x10)
+&gt;&gt;&gt; 16
+</code></pre>
+<p>转换的方法：
+bin可以把其它进制的数字转换为二进制：</p>
+<pre><code class="language-python">print(bin(2))
+&gt;&gt;&gt; ob10
+</code></pre>
+<p>int可以把其他进制的数字转换为十进制：</p>
+<pre><code class="language-python">print(int(0xa))
+&gt;&gt;&gt; 10
+</code></pre>
+<p>oct可以把其他进制的数字转换为八进制：</p>
+<pre><code class="language-python">print(oct(8))
+&gt;&gt;&gt; 0o10
+</code></pre>
+<p>hex可以把其他进制的数字转换为十六进制：</p>
+<pre><code class="language-python">print(hex(15))
+&gt;&gt;&gt; 0xf
+</code></pre>
+<h3 id="3-布尔类型">3、布尔类型</h3>
+<p>Number：数字，不仅包括整形和浮点数，还有布尔型和复数。
+bool布尔类型：表示真、假，一般用True、False表示（首字母大写）：</p>
+<pre><code class="language-python">print(int(True))
+&gt;&gt;&gt; 1
+print(int(False))
+&gt;&gt;&gt; 0
+</code></pre>
+<p>所以说布尔类型属于数字。
+一般来说，bool(非0）表示真，bool（0）表示假：</p>
+<pre><code class="language-python">print(bool(0))
+&gt;&gt;&gt; False
+</code></pre>
+<p>拓展：
+bool('字符串'）表示真
+bool(' ')表示假
+bool(None)表示假</p>
+<h2 id="2-字符串">2、字符串</h2>
+<h3 id="1-字符串简介">1、字符串简介</h3>
+<p>字符串一般形式为'abc'，单引号表示字符串(双引号也可以)，需成对出现，如果元素中有引号，为避免歧义，可以用反斜杠 \ ，也可以用双引号加单引号混合：</p>
+<pre><code class="language-python">print('let\'s go')
+print(&quot;let's go&quot;)
+&gt;&gt;&gt; let's go
+&gt;&gt;&gt; let's go
+</code></pre>
+<p>如果需要输入或者输出多行字符串，需要用三引号：</p>
+<pre><code class="language-python">print('''abc
+def
+xyz''')
+&gt;&gt;&gt; abc
+    def
+    xyz
+</code></pre>
+<p>也可以在每行字符串的末尾添加反斜杠 \ 来进行换行操作：</p>
+<pre><code class="language-python">print('abc\
+def\
+xyz')
+&gt;&gt;&gt; abcdefxyz
+</code></pre>
+<p>在字符串前加r(大小写都行)，可以抵消转义字符，变成原始字符串：</p>
+<pre><code class="language-python">print(r'hello \n world')
+&gt;&gt;&gt; hello \n world
+</code></pre>
+<p>本来 \n 是换行符，输出结果应该是这样的：</p>
+<pre><code class="language-python">hello
+ world
+</code></pre>
+<p>但是加r以后，转义字符\n就不起作用了</p>
+<h3 id="2-字符串运算">2、字符串运算</h3>
+<p>字符串可以进行加法和乘法运算，比如:</p>
+<pre><code class="language-python">print('hello'+' '+'world')
+print(('hello'+' ')*3)
+&gt;&gt;&gt; hello world
+    hello hello hello
+</code></pre>
+<p>对于一个字符串，可以把它看作一个数组，用[ ]来访问字符串的元素，下标从0开始:</p>
+<pre><code class="language-python">print('hello world'[0])
+&gt;&gt;&gt; h
+</code></pre>
+<p>负数从最末尾开始，-1是最右边的元素：</p>
+<pre><code class="language-python">print('hello world'[-1])
+&gt;&gt;&gt; d
+</code></pre>
+<p>字符串截取一组字符，也就是切片操作，需要一个起点加一个终点:</p>
+<pre><code class="language-python">print('hello world'[0:5])
+&gt;&gt;&gt; hello
+</code></pre>
+<p>ps:终点的数字是截取的元素的下一位的下标。</p>
+<p>而负数（-x）代表步长，即末尾往回数x个字符：</p>
+<pre><code>print('hello world'[0:-7])
+&gt;&gt;&gt; hell
+</code></pre>
+<p>所以说，我们如果想要截取<code>hello world</code>里的<code>world</code>时，现在有两种方法：</p>
+<pre><code class="language-python">print('hello world'[6:11])
+print('hello world'[-5:])
+&gt;&gt;&gt; world
+    world
+</code></pre>
+<p>第一种方法中，第11个字符是不存在的，所以在[m:n]中，当n大于字符串的所有长度时，会取到最后一个字符，即：</p>
+<pre><code class="language-python">print('hello world'[6:100])
+&gt;&gt;&gt; world
+</code></pre>
+<p>第二种方法中，n为空，空代表会截取到末尾最后一个字符，当字符串非常长时，可以用这中方法，即：</p>
+<pre><code class="language-python">print('hello world'[-5:])
+&gt;&gt;&gt; world
+</code></pre>
+<h1 id="组的概念与定义">“组”的概念与定义</h1>
+<p>Python中表示组的方式有很多</p>
+<h2 id="1-列表list">1、列表(list)</h2>
+<h3 id="1-列表的定义">1、列表的定义</h3>
+<p>python中列表用[ ] 表示，列表中的元素用逗号分隔：</p>
+<pre><code class="language-python">print(type([1,2,3,4]))
+&gt;&gt;&gt; &lt;class 'list'&gt;
+</code></pre>
+<p>列表中的元素类型可以多样(数字，字符串，布尔类型以及其它类型）:</p>
+<pre><code class="language-python">print(type([1,2,'hello','python',True,False]))
+&gt;&gt;&gt; &lt;class 'list'&gt;
+</code></pre>
+<p>列表中可以嵌套列表，即二维数组：</p>
+<pre><code class="language-python">print(type([[1,2],[3,4],['hello',True]]))
+&gt;&gt;&gt; &lt;class 'list'&gt;
+</code></pre>
+<h3 id="2-列表的基本操作">2、列表的基本操作</h3>
+<p>访问列表中的元素时，我们可以用索引的方式，以游戏中的技能为例，施放一个技能时：</p>
+<pre><code class="language-python">print(['技能一','技能二','技能三','技能四'][2])
+&gt;&gt;&gt; 技能三
+</code></pre>
+<p>如果我们想用连招时，可以用切片的方式：</p>
+<pre><code class="language-python">print(['技能一','技能二','技能三','技能四'][1:3])
+&gt;&gt;&gt; ['技能二', '技能三']
+</code></pre>
+<p>索引访问时，访问得到的元素是字符串，但是切片访问时，得到的是一个列表，即使这个列表只有一个元素。（很重要）
+列表同样可以进行加法和乘法操作：</p>
+<pre><code class="language-python">print(['技能一','技能二','技能三','技能四']+['被动技能'])
+print(['技能一']*3)
+&gt;&gt;&gt; ['技能一', '技能二', '技能三', '技能四', '被动技能']
+    ['技能一', '技能一', '技能一']
+</code></pre>
+<h2 id="2-元组tuple">2、元组(tuple)</h2>
+<p>python中元组用( )表示，同样地各元素用逗号分隔，同列表一样，元组中的元素种类多样，可以进行索引和切片访问，可以进行加法和乘法操作：</p>
+<pre><code class="language-python">print(type((1,2,'hello',True)))
+print((1,2,3,'peace',False)[-1])
+print((1,2,3)+('world',))
+&gt;&gt;&gt; &lt;class 'tuple'&gt;
+    False
+    (1, 2, 3, 'world')
+</code></pre>
+<p>这里需要注意一点，当元组中只有一个元素时，会引起歧义，所以一般情况下，我们定义只有一个元素的元组时，在元素后面加一个逗号(上面第三个print),避免歧义。</p>
+<h2 id="3-序列总结">3、序列总结</h2>
+<p>在python中，list，str，tuple都是序列，序列共有的操作：
+1、获取元素，序列中每个元素都将分配一个序号：</p>
+<pre><code class="language-python">print('hello world'[1])
+&gt;&gt;&gt; e
+</code></pre>
+<p>2、切片:</p>
+<pre><code class="language-python">print('hello world'[1:3])
+&gt;&gt;&gt; el
+</code></pre>
+<p>三个数字时，[m:n:x]，x代表步长：</p>
+<pre><code class="language-python">print('abcdefg'[1:7:2])
+&gt;&gt;&gt; bdf
+</code></pre>
+<p>3、序列可以加和乘
+4、in可以判断某个元素是否在序列中,not in 可以判断是否不在序列中:</p>
+<pre><code class="language-python">print('a' in 'a hello world')
+print('a' not in 'a hello world')
+&gt;&gt;&gt; True
+    False
+</code></pre>
+<p>5、len()可以得到序列中元素的个数:</p>
+<pre><code class="language-python">print(len([1,2,3,4,5,6,7,8]))
+&gt;&gt;&gt; 8
+</code></pre>
+<p>max()可以得到序列中元素的最大值,同理min()可以得到序列中的最小值:</p>
+<pre><code class="language-python">print(min('hello world'))
+&gt;&gt;&gt; 
+</code></pre>
+<p>这里并不是什么都没有，而是输出了空格' '，在对字母进行大小比较时，比较的是各自的Ascll码，
+ord()可以得到元素的ascll码:</p>
+<pre><code class="language-python">print(ord(' '))
+&gt;&gt;&gt; 32
+</code></pre>
+<p>即空格的Ascll码为32，在上述比较操作中是最小的。</p>
+<p>Ps.在python中，列表和元组的区别就是，列表是可变的，因为列表可以添加或者是删除元素，而元组一旦定义，就不可变了，这也在一定程度上提高了代码的安全性，所以能用元组的时候一定要用元组。</p>
+<h2 id="4-集合set">4、集合(set)</h2>
+<h3 id="1-集合set的特性">1、集合(set)的特性</h3>
+<p>集合用{ }来定义,相邻元素用逗号隔开：</p>
+<pre><code class="language-python">print(type({True,2,3}))
+&gt;&gt;&gt; &lt;class 'set'&gt;
+</code></pre>
+<p>集合是无序的(与序列的区别），内部元素没有序号，不能进行索引和切片操作。
+集合内部元素不会重复：</p>
+<pre><code class="language-python">print({1,1,2,2,3,3,4,'a','a'})
+&gt;&gt;&gt; {1, 2, 3, 4, 'a'}
+</code></pre>
+<p>集合可以用len()来看长度，可以用 in 和 not in 来判断某个元素是否在其中。</p>
+<h3 id="2-集合set特殊的操作">2、集合(set)特殊的操作</h3>
+<p>个人感觉python中的集合与数学中的集合概念差不多，所以对于集合来说，可以求差集，并集以及交集。
+求两个集合的差集，用 - 来实现，即A-AB：</p>
+<pre><code class="language-python">A = {1,2,3,4,5,6}
+B = {3,4,7}
+print(A-B)
+&gt;&gt;&gt; {1, 2, 5, 6}
+</code></pre>
+<p>求两个集合的交集，用 &amp; 来实现：</p>
+<pre><code class="language-python">A = {1,2,3,4,5,6}
+B = {3,4,7}
+print(A&amp;B)
+&gt;&gt;&gt; {3，4}
+</code></pre>
+<p>把两个集合合并，用 | 来实现：</p>
+<pre><code class="language-python">A = {1,2,3,4,5,6}
+B = {3,4,7}
+print(A|B)
+&gt;&gt;&gt; {1, 2, 3，4，5，6，7}
+</code></pre>
+<p>定义空集合，要用set()</p>
+<h2 id="5-字典dict">5、字典(dict)</h2>
+<p>字典(dict)相当于集合，是无序的，字典元素包括关键字key和值value，用{ }来定义：</p>
+<pre><code class="language-python">print(type({'a':1,'b':2}))
+&gt;&gt;&gt; &lt;class 'dict'&gt;
+</code></pre>
+<p>我们可以通过key来访问value，比如说：</p>
+<pre><code class="language-python">print({ 'Q':'新月打击','W':'苍白之瀑','E':'月之降临','R':'月神冲刺'}['Q'])
+&gt;&gt;&gt; 新月打击
+</code></pre>
+<p>字典中不允许有重复的key出现，每次访问元素可以通过key来进行访问
+value可以取任意一种数据类型（str，int，lit，dict...)
+但是字典中的key为不可变类型，所以说key目前不能取序列，可以取元组。
+空字典用{ }来定义：</p>
+<pre><code class="language-python">print(type({}))
+&gt;&gt;&gt; &lt;class 'dict'&gt;
+</code></pre>
+<h1 id="基本数据类型总结">基本数据类型总结</h1>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-08-22%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.png" alt=""></p>
+<h1 id="center日记二center"><center>日记二</center></h1>
+<h1 id="变量与运算符">变量与运算符</h1>
+<h2 id="1-变量">1、变量</h2>
+<p>变量就是一个名字。
+定义一个变量：</p>
+<pre><code class="language-python">A = [1,2,3]
+print(A)
+&gt;&gt;&gt; [1, 2, 3]
+</code></pre>
+<p>上式中的等号为赋值符号
+命名时一定要知道意义，<code>命名可读性要好</code>，用原生地道的英文命名，尽量不要用汉语拼音来命名。</p>
+<h3 id="1-变量的命名规则">1、变量的命名规则</h3>
+<p>变量名只能使用字母，数字，下划线，可以任意组合但是首字母不能是数字
+系统保留的关键字不能用作变量名
+变量名区分大小写，变量没有类型限制，前面学过的数据类型都可以成为变量</p>
+<h3 id="2-值类型和引用类型">2、值类型和引用类型</h3>
+<p>在python中，int、str、tuple是值类型，它们的值<code>不可变</code>。list、dict、set是引用类型，它们的值<code>可变</code>。
+id（）可以显示变量在内存中的地址</p>
+<h3 id="3-列表的可变与元组的不可变">3、列表的可变与元组的不可变</h3>
+<p>列表(list)值可变，可以增加元素，通过x.apppend()来增加元素:</p>
+<pre><code class="language-python">A = [1,2,3]
+A.append('a')
+print(A)
+&gt;&gt;&gt; [1, 2, 3, 'a']
+</code></pre>
+<p>元组不可变，也不能增加元素。
+编码保持代码的稳定性，在多人完成的项目中，代码之间的调用中，不可变类型的优势比较好。</p>
+<h2 id="2-运算符">2、运算符</h2>
+<h3 id="1-运算符号">1、运算符号</h3>
+<p>算数运算符：<code>+ - * / ``//代表整除 %代表求余 **代表平方</code>
+赋值运算符:<code>= += ....</code>
+比较（关系）运算符:<code>&gt; &lt; != ...</code>
+逻辑运算符:<code>and or not</code>
+成员运算符:<code>in not in</code>
+身份运算符:<code>is is not</code>
+位运算符
+运算符有很多，上面只是罗列了一些，需要记住这些大的分类，具体的可以等用的时候再去查询。</p>
+<h3 id="2-赋值运算符">2、赋值运算符</h3>
+<p>赋值运算符的意义就是赋值，包括<code>=、+=、-=、*=、%=、**=、/=、//=</code>，它所进行的操作就是在运算的基础上再赋值：</p>
+<pre><code class="language-python">a = 2
+b = 3
+b*=a
+print(b)
+&gt;&gt;&gt; 6
+</code></pre>
+<p>即<code>b = b*a</code>
+Python中没有i++，i--这种自增运算符</p>
+<h3 id="3-比较运算符">3、比较运算符</h3>
+<p>关系运算符(比较运算符)不仅仅限于数字，包括：<code>==，！=，&gt;，&lt;，&gt;=，&lt;=</code>,操作完成后返回布尔值：</p>
+<pre><code class="language-python">print('a'&gt;'b')
+&gt;&gt;&gt; False
+</code></pre>
+<p>字符串、列表、元组都可以进行比较（通过Ascll码），从第一个元素开始，只要第一个元素比较出结果则立即返回结果，字典不能相互比较。</p>
+<pre><code class="language-python">b = 2
+b+=b&lt;1
+print(b)
+&gt;&gt;&gt; 2
+</code></pre>
+<p>在上面的代码中，主体是赋值运算符，所以先进行<code>b&lt;1</code>的判断，结果是<code>False</code>,所以变成<code>b+=False</code>,而前面学过，False=0，所以最后结果是2</p>
+<h3 id="4-逻辑运算符">4、逻辑运算符</h3>
+<p>逻辑运算符，操作类型为布尔类型，返回类型也为布尔类型。
+and（与），两个都为真时返回True,一个为假即为假：</p>
+<pre><code>print(1 and False)
+&gt;&gt;&gt; False
+</code></pre>
+<p>or（或），一个为真时就可以返回True
+not（非），not True&gt;&gt;&gt;False
+对于整数和浮点数来说，0被认为False，非0的数被认为True
+对字符串，列表，元组，集合，字典来说空为False
+要理解三个逻辑运算符的判断规则</p>
+<h3 id="5-成员运算符">5、成员运算符</h3>
+<p>成员运算符判断一个元素是否在一组元素内，包括<code>in\not in</code>
+字典(dict)的成员运算符在判断时只判断key的值而不是value的值：</p>
+<pre><code class="language-python">print('a' in {3:'a'})
+print('a' in {'a':3})
+&gt;&gt;&gt; False
+    True
+</code></pre>
+<h3 id="6-身份运算符">6、身份运算符</h3>
+<p>身份运算符比较身份（内存地址）是否相同，返回结果为布尔值
+is 和 == 的区别：</p>
+<pre><code class="language-python">a = 1
+b = 1.0
+print(a==b)
+print(a is b)
+&gt;&gt;&gt; True
+    False
+</code></pre>
+<p>关系运算符只比较值的大小，而身份运算符比较身份，即内存地址，可用id()来查看</p>
+<h4 id="思考题">思考题</h4>
+<p>题目一：</p>
+<pre><code class="language-python">a = {1,2,3}
+b = {2,1,3}
+print(a == b)
+print(a is b)
+&gt;&gt;&gt; True
+    False
+</code></pre>
+<p>题目二：</p>
+<pre><code class="language-python">c = (1,2,3)
+d = (2,1,3)
+print(c==d)
+print(c is d)
+&gt;&gt;&gt; False
+    False
+</code></pre>
+<p>原因是：集合是无序的，所以进行关系运算时，a和b的值相同，得到True。但a和b在内存中的地址不同，所以进行身份运算时，得到False
+第二题，元组是有序的，所以a和b是不同的</p>
+<h3 id="7-如何判断变量的值-身份与类型">7、如何判断变量的值、身份与类型</h3>
+<p>对象的特征：值、身份、类型
+类型判断，可以用type()加关系运算符来进行：</p>
+<pre><code class="language-python">a = 'abc'
+print(type(a)==str)
+&gt;&gt;&gt; True
+</code></pre>
+<p>也可以用 isinstance()函数来进行判断,它有两个参数，一个是我们要判断的变量，一个是我们要判断的类型:</p>
+<pre><code class="language-python">a = 'abc'
+print(isinstance(a,str))
+&gt;&gt;&gt; True
+</code></pre>
+<p>isinstance()函数的第二个参数可以取元组，判断时只要是元组里任意一个元素就可以：</p>
+<pre><code class="language-python">a = 'abc'
+print(isinstance(a,(str,int,dict)))
+print(isinstance(a,(float,int,dict)))
+&gt;&gt;&gt; True
+    False
+</code></pre>
+<h3 id="8位运算符">8位运算符</h3>
+<p>位运算符，包括按位与 <code>&amp;</code> 、按位或 <code>|</code> 等，它在运算时把参与的数字当作二进制数进行运算，按位与比较时<code>同一为一</code>，按位或比较时<code>只要有一个一就是一</code></p>
+<h1 id="分支-循环-条件和枚举">分支、循环、条件和枚举</h1>
+<h2 id="1-表达式">1、表达式</h2>
+<p>表达式是运算符与操作数所构成的序列，各运算符是有顺序的</p>
+<h3 id="思考题-2">思考题</h3>
+<pre><code class="language-python">a = 1
+b = 2
+c = 3
+print(a+b*c)
+print(a or b and c)
+&gt;&gt;&gt; 7
+    1
+</code></pre>
+<p>表达式是有优先级的，比如<code>* /</code>的优先级比<code>+ -</code>高，<code>and</code>的优先级比<code>or</code>高，所以会出现上面的结果
+运算符同级时，从左往右依次解析，属于左结合，但有一个特例就是赋值运算符，它是右结合
+分析一个表达式的优先级时，先看有没有 <code>=</code>，有的话右结合，没有的话左结合
+逻辑运算符的优先级：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-08-22-%E8%BF%90%E7%AE%97%E7%AC%A6.png" alt=""></p>
+<h2 id="2-条件语句">2、条件语句</h2>
+<p>PS.Python中靠缩进来区分代码块，个人喜欢用<code>Tab</code>键
+在VS Code中注释语句时，单行注释用<code>#</code>(快捷键<code>Crtl+/</code>),多行注释用<code>'''</code>(快捷键：<code>Alt+Shift+a</code>)</p>
+<p>高中的时候就已经学过<code>if else</code>语句：</p>
+<pre><code class="language-python">mood = 'happy'
+if mood=='happy':
+    print('go to home')
+else:
+    print('go to school')
+&gt;&gt;&gt; go to home
+</code></pre>
+<p>python中建议用下划线_来分隔两个组合的单词（变量命名的时候）
+练习：</p>
+<pre><code class="language-python">account = 'python'
+password ='123456'
+
+print('please input account:')
+user_account = input()
+
+print('please input password:')
+user_password = input()
+
+if user_account == account : 
+    if user_password == password : 
+        print('登录成功')
+    else:
+        print('账户名或密码错误')
+else:
+    print('账户名或密码错误')
+</code></pre>
+<p>snippet片段，帮助即时构建代码片段，即IDE会帮你把函数的主体片段显示出来：</p>
+<pre><code class="language-python">if condition:
+    pass
+else:
+    pass
+</code></pre>
+<p>用pass来占位，来保证代码的完整性
+切换上一个代码写入区域：shift+tab、下一个代码写入区域：tab</p>
+<p><code>如果if/else嵌套太多，最好把内部嵌套提取成一个函数</code></p>
+<p><code>elif</code>是if/else的简写，但不能单独使用，需要和<code>if</code>一起使用：</p>
+<pre><code>a = input()
+print('a is ' + a)
+if a == 1:
+    print('apple')
+elif a == 2:    
+    print('banana')
+elif a == 3:
+    print('pear')
+else:
+    print('go shopping')
+</code></pre>
+<p>这样使用简化了代码，Python中没有<code>switch</code>函数，而上述代码运行失败的原因是：键盘输入的数字不是数字，是字符串，所以输入时要转换格式：
+<code>a = int(input())</code>，其实在执行<code>print('a is ' + a)</code>时就应该明白，a此时是字符串而不是数字，因为字符串才可以合并</p>
+<h2 id="3-循环语句">3、循环语句</h2>
+<p>python中循环语句主要有<code>while</code>循环和<code>for</code>循环：</p>
+<pre><code class="language-python">counter = 2
+
+\#条件判断↓
+while counter &lt;= 4:
+  
+    counter += 1
+    print('Python')
+&gt;&gt;&gt; Python  
+    Python
+    python
+</code></pre>
+<p>循环是解决问题的基本思维模式，为避免死循环，条件判断语句不能使用常量，代码块内有影响条件判断的语句，<code>while</code>循环可以和<code>else</code>一起使用，使用<code>Crtl+C</code>可以退出循环</p>
+<p><code>for</code>循环主要是用来遍历\循环 序列、集合或字典,也可以和<code>else</code>搭配使用，这是它的snippet片段：</p>
+<pre><code class="language-python">for target_list in expression_list:
+    pass
+</code></pre>
+<p>把expression_list内的元素一行打印出来而不是换行输出：<code>print(x，end=' ')</code>
+跳出循环：break，终止当前循环，以后循环也不会被执行，并且else语句块也会被终止，但是如果是嵌套的for循环，break跳出的是内部循环
+继续循环：continue（只会终止当前循环):</p>
+<pre><code class="language-python">a = [['apple', 'banana', 'pear', 'orange'], (1, 2, 3, 4, 5, 6, 7)]
+for x in a:
+    for y in x:
+        if y == 'banana':
+            continue
+        if y == 2:
+            break
+        print(y, end='  ')
+else:
+    print('fruit is gone')
+&gt;&gt;&gt; apple  pear  orange  1  fruit is gone
+</code></pre>
+<p>python中没有<code>i++ i--</code>这种运算符，如果我们想要某段代码重复，就要使用<code>range</code>函数：</p>
+<pre><code class="language-python">for x in range(0, 10):
+    print(x, end='')
+&gt;&gt;&gt; 0123456789
+</code></pre>
+<p><code>range(0, 10)</code>是指从零开始，偏移量为10，加入第三个数字可以改变步长，正数是正序，负数是反序：</p>
+<pre><code class="language-python">for x in range(0, 10, 2):
+    print(x, end='  ')
+for x in range(10, 0, -2):
+    print(x, end='  ')
+&gt;&gt;&gt; 0 2 4 6 8
+    10 8 6 4 2
+</code></pre>
+<h1 id="包与模块">包与模块</h1>
+<p>组织结构：包（最顶级）、模块(.py文件)、类、函数和变量(属于类本身的一个特性)
+一个包包括多个模块，一个模块包括多个类</p>
+<p>包的内部可以有子包，一个包通俗来讲就是一个文件夹，但是需要注意的是，这个文件夹里面必须要有<code>__init__.py</code>文件才能被Python识别变成包，同时这个文件也是一个模块，你可以在里面写入内容，也可以空白。</p>
+<h2 id="1-模块的导入">1、模块的导入</h2>
+<p>公用的东西可以共享引用，导入python的语法：
+1、<code>import</code>关键字，import后跟模块名
+假设我们现在在模块c8中，我们需要使用c7模块中的变量a：</p>
+<pre><code class="language-python">import c7
+print(c7.a)  打印出c7模块中的变量a
+</code></pre>
+<p>python是解释型的语言，所以要先定义，再调用。
+如果不是同一文件夹下的模块，导入时要用命名空间，import 文件夹名.模块名。
+import T.c7
+print(T.c7.a）
+import只能导入模块，可以用 <code>as</code> 关键字来简化代码 。</p>
+<pre><code class="language-python">import T.c7 as k
+print(k.a）
+</code></pre>
+<p>2、使用<code>from</code>来进行变量或者是模块的导入
+<code>from module import 变量/函数</code>或是<code>from package import module</code>:</p>
+<pre><code class="language-python">from T.c7 import a
+print(a)
+</code></pre>
+<p>from简化了代码（命名）
+如果要引用所有变量，加*（不推荐）
+<code>from T.c7 import \*</code>
+如果只想引用个别变量，在被引用的文件开头部分加入：<code>__all__ = ['a','c']</code>，括号内为要引用的变量名。</p>
+<p>可以用逗号分隔，引用多个变量。
+<code>from c7 import a,b,c</code>
+(建议一行不超过80个字符)换行时加入 \ 来进行换行（不推荐）
+<code>from c7 import a,b,\ c</code>
+可以加括号来进行换行
+<code>from c7 import (a,b, c)</code></p>
+<h2 id="2-initpy的用法">2、<strong>init</strong>.py的用法</h2>
+<p><strong>init</strong>.py的作用：</p>
+<ol>
+<li>导入包时会自动执行<code>__init__.py</code>里面的代码，即使是包下面的某一个模块，也会执行里面的代</li>
+<li>可以通过<code>__all__</code>来选择导入哪个模块</li>
+<li><code>from t import *</code>虽然*是导入所有的模块，但是由于已经通过<code>__all__</code>来选择，所以只会导入特定的模块</li>
+<li>利用它作批量导入库，当我们引用包时，包会自动导入我们要用到的系统库</li>
+</ol>
+<h2 id="3-包与模块的常见错误">3、包与模块的常见错误</h2>
+<p>1、包和模块是不会重复导入的
+2、避免循环导入。（关键是避免闭环循环）
+3、import导入模块时，会执行模块中的代码。</p>
+<h2 id="4-模块内置变量">4、模块内置变量</h2>
+<p>dir（）函数可以打印出该模块中所有的变量:</p>
+<pre><code class="language-python">a = 1
+b = 2
+info = dir()
+print(info)
+&gt;&gt;&gt; ['__annotations__', '__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'a', 'b']
+&gt;```
+结果返回一个列表，其中包含我们定义的变量以及其它变量，双下划线变量是系统自己定义的。
+建包的时候一定要记得创建__init__.py 文件
+name指的是模块名t.t1.c9
+package指的是模块所属的包的名字t.t1
+doc指的是文件的注释(前提是模块里面有注释)
+file指的是文件的物理路径
+
+ps.终端错误提示：
+Traceback：错误的堆栈信息，描述位置\路径
+TypeError：错误的详细信息，错误最直接的错误
+
+### 1、入口文件和普通模块内置变量的区别
+ps.可在变量名前加类型名强制转换类型
+`NoneType 相当于 False`
+
+- 如果一个 .py  文件被当作一个应用程序的入口文件，那么name打印出来的值就不是本来的模块名，而是会被强制更改为`__main__`
+
+- 入口文件不属于任何包（用cd可以切换下一级文件夹，cd ..可以回到上一级文件夹）
+
+- python入口文件和普通导入的模块是有区别的。
+
+- file与你执行时所在的目录是有关系的。
+
+### 2、__name__的经典应用
+dir()：括号内没有参数就会显示出当前模块所有的变量，如果想指定模块或者特定类的变量，可以将名称写入括号。
+
+```python
+if __name__ == '__main__':
+	print(' This is app')
+print('This is module')
+</code></pre>
+<p>上面代码的意义：一个模块可以被调用，也可以成为入口文件被执行，但是如果一个模块既被调用又是一个可执行文件的话，两者代码的逻辑处理是有区别的，那就需要进行判断这个模块是否是一个入口文件，则输入上述代码，这也是__name__的经典应用。
+把可执行文件(入口文件)当作一个模块来执行时，可以使用<code>-m</code>命令，即 python -m  命名空间.文件名
+也可以使用路径名：python 命名空间\文件名.py
+但是前提是要成为一个模块，这个文件必须在一个包下面。</p>
+<h2 id="5-相对导入与绝对导入">5、相对导入与绝对导入</h2>
+<p>与入口文件main.py在同一级的包就是该包下所有模块的顶级包。
+绝对导入\路径：从顶级包开始到导入模块的完整路径：</p>
+<pre><code class="language-python">import package.module
+</code></pre>
+<p>相对路径：一个.表示当前目录，两个..表示上一级目录，以此类推。从当前目录开始输入，相当于文件系统的相对路径与绝对路径，使用from开始导入
+入口文件可以使用绝对路径导入，但是不能使用相对路径导入。如果想用相对路径导入，就必须把入口文件当作一个模块来执行，用<code>python -m</code>指令执行，但必须必须返回上一级：</p>
+<pre><code class="language-python">python -m demo.main.py
+</code></pre>
+<h1 id="center日记三center"><center>日记三</center></h1>
+<h1 id="函数">函数</h1>
+<p>首先先介绍一下round()函数(内置函数)：</p>
+<pre><code class="language-python">a = 1.12386
+result = round(a, 2)
+#保留小数点后两位
+print(result) 
+&gt;&gt;&gt; 1.12 
+</code></pre>
+<p>Ps.round()函数会四舍五入
+小彩蛋：查看Python之禅，在python的终端中输入import this</p>
+<p>综上所述，从round()函数可以看出函数的特性：</p>
+<ul>
+<li>功能性</li>
+<li>隐藏细节</li>
+<li>避免编写重复的代码</li>
+</ul>
+<h2 id="1-函数的定义">1、函数的定义</h2>
+<pre><code class="language-python">def funcname(parameter_list):
+    pass
+</code></pre>
+<p>这是定义函数的snippet片段，使用<code>def</code>关键字定义函数，函数的特点是：</p>
+<ul>
+<li>
+<p>参数列表可以没有，有的话用括号括起来。</p>
+</li>
+<li>
+<p>在函数体中可以使用return value来返回函数值,否则返回None。</p>
+</li>
+<li>
+<p>自定义函数名不要和python系统内置的函数名或者变量名重复。</p>
+</li>
+<li>
+<p>改变程序递归的次数：</p>
+</li>
+</ul>
+<pre><code>import sys
+sys.setrecursionlimit(xxxx)
+</code></pre>
+<p>编写函数--实现两个数字的相加：</p>
+<pre><code class="language-python">
+def add(x, y):
+    result = x + y
+    return result
+a = add(1, 2)
+print(a)
+
+&gt;&gt;&gt; 3
+</code></pre>
+<p>上面的代码块中，在调用add函数时，函数的参数按顺序进行赋值</p>
+<h2 id="2-让函数返回多个结果">2、让函数返回多个结果</h2>
+<p>需要注意的是，<code>return</code>后面的语句是不会执行的</p>
+<ul>
+<li>
+<p>return返回多个值时，用逗号隔开就行，类型为元组。</p>
+</li>
+<li>
+<p>因为返回结果为元组，所以会想到用元组索引的方式去的结果，但是通过序号取值非常不好(下面代码的第一个print()函数)，建议可以通过变量名来进行接收(下面代码的第二个print()函数)。</p>
+</li>
+</ul>
+<pre><code class="language-python">def damage(skill1, skill2):
+    damage1 = skill1 * 3
+    damage2 = skill2 * 4 + 9
+    return damage1, damage2
+
+damages = damage(11, 23)
+print(damages[0], damages[1])
+
+skill1_damage, skill2_damage = damage(11, 23)
+print(skill1_damage, skill2_damage)
+
+&gt;&gt;&gt; 33 101
+    33 101
+</code></pre>
+<h2 id="3-序列解包">3、序列解包</h2>
+<p>把一个tuple拆开，就叫做序列解包，比如说
+d = 1,2,3
+此时 d 是一个tuple，
+a,b,c = d
+这样就会给给a,b,c赋值，这就叫做序列解包：</p>
+<pre><code class="language-python">d = 1, 2, 3
+a, b, c = d
+print(a, b, c)
+&gt;&gt;&gt; 1,2,3
+</code></pre>
+<p>但是要注意元素的个数要相等。
+链式赋值： a=b=c=1</p>
+<h2 id="4-必须参数与关键字参数">4、必须参数与关键字参数</h2>
+<ul>
+<li>
+<p>必须参数：函数的参数列表定义的参数（形参）是必须要求的，调用函数时输入的参数叫做实际参数。</p>
+</li>
+<li>
+<p>关键字参数：直接明确指定哪个实参赋值给形参（可读性强），不一定按照形参的顺序。比如：</p>
+</li>
+</ul>
+<pre><code class="language-python">def add(x, y):
+    result = x + y
+    return result
+
+ans = add(y=3, x=2) 
+\# -----&gt;可读性好
+
+print(ans)
+&gt;&gt;&gt; 5
+</code></pre>
+<ul>
+<li>定义了多少个形参就要传递多少个实参。</li>
+</ul>
+<h2 id="5-默认参数">5、默认参数</h2>
+<p>默认参数：不必每次输入大家都相同的参数，比如学校，年龄。
+实现方法：在形参中直接赋值，实现默认参数，不一样的增加实参就行。</p>
+<pre><code class="language-python">def print_student_files(name, age=18, gender='男', college='人民路小学'):
+    print('我叫' + name)
+    print('我今年' + str(age) + '岁')
+    print('我是' + gender + '生')
+    print('我在' + college + '上学')
+
+print_student_files('石头')
+print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+print_student_files('小红', gender='女')
+&gt;&gt;&gt; 我叫石头
+我今年18岁
+我是男生
+我在人民路小学上学
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+我叫小红
+我今年18岁
+我是女生
+我在人民路小学上学
+</code></pre>
+<p>注意事项：</p>
+<ul>
+<li>必须参数(即没有赋值的形参，如上例中的name)必须放在默认参数的前面，否则会报错。</li>
+<li>参数顺序要一致，如果顺序不一致，则可以使用关键参数标明想要赋值的实参。关键字参数可以不遵守形参的顺序。</li>
+<li>调用时不能把默认参数和必须参数混合在一起调用。</li>
+</ul>
+<h2 id="6-可变参数">6、可变参数</h2>
+<p>可变参数：在参数列表前加一个*，输出一个元组：</p>
+<pre><code class="language-python">def demo(*param):
+    print(param)
+    print(type(param))
+
+demo(1, 2, 3, 4, 5, 6)
+&gt;&gt;&gt;(1, 2, 3, 4, 5, 6)
+   &lt;class 'tuple'&gt;
+</code></pre>
+<p>*的作用是把每个元素拿出来平铺输出，如果我们在输入参数的时候也输入了一个元组，那么为了防止生成二维元组，可以在调用的时候，也带一个*，比如：</p>
+<pre><code class="language-python">def demo(*param):
+    print(param)
+demo((1, 2, 3, 4, 5, 6))
+print('----------------------')
+a = (1, 2, 3, 4, 5, 6)
+demo(*a)
+&gt;&gt;&gt; ((1, 2, 3, 4, 5, 6),)
+    ----------------------
+    (1, 2, 3, 4, 5, 6)
+</code></pre>
+<p>可变参数可以用for循环来进行遍历调用：</p>
+<pre><code class="language-python">def squsum(*param):
+    sum = 0
+    for i in param:
+        sum += i*i
+    print(sum)
+squsum(1, 2, 3)
+&gt;&gt;&gt; 14
+</code></pre>
+<p><code>参数列表类型还是越简单越好</code></p>
+<h2 id="7-关键字可变参数">7、关键字可变参数</h2>
+<p>关键字可变参数的格式(参数列表的参数加两个*):</p>
+<pre><code>def demo(**param):
+   pass
+</code></pre>
+<p>这样在传递时会传递多个关键字参数，并将其转换为字典类型dict。若实参想传递字典类型而不是数组，则要在参数列表前加两个*</p>
+<pre><code class="language-python">def city_temp(**param):
+    print(param)
+    print(type(param))
+
+city_temp(bj='32c', sh='40c', xa='43c')
+print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+a = {'bj': '32c', 'sh': '40c', 'xa': '43c'}
+city_temp(**a)
+&gt;&gt;&gt; {'bj': '32c', 'sh': '40c', 'xa': '43c'}
+    &lt;class 'dict'&gt;
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    {'bj': '32c', 'sh': '40c', 'xa': '43c'}
+    &lt;class 'dict'&gt;
+</code></pre>
+<p>字典遍历,需要使用字典的<code>item()</code>方法：</p>
+<pre><code class="language-python">def city_tmp(**param):
+    for key, value in param.items():
+        print(key, &quot;|&quot;, value)
+
+city_tmp(bj='23c', sh='21c', gz='30c')
+&gt;&gt;&gt; bj | 23c
+    sh | 21c
+    gz | 30c
+</code></pre>
+<h2 id="8-变量的作用域">8、变量的作用域</h2>
+<p>变量作用域：函数内部的变量仅仅局限于函数的内部，不影响外部的变量，是局部变量。函数外部的变量叫做全局变量，覆盖整个代码。</p>
+<pre><code class="language-python">c = 10
+def add(x, y):
+    c = x + y
+    print(c)
+add(1, 2)
+print(c)
+&gt;&gt;&gt; 3
+    10
+</code></pre>
+<p>在上例中，首先定义的c是全局变量，函数内部的c是局部变量，所以打印结果不同</p>
+<ul>
+<li>局部是一个相对概念，要看相对于谁</li>
+<li>函数内部优先使用局部变量，作用域逐级寻找：</li>
+</ul>
+<pre><code class="language-python">c = 1
+def func1():
+    c = 2
+    def func2():
+        c = 3
+        print(c)
+    func2()
+func1()
+&gt;&gt;&gt; 3
+</code></pre>
+<h2 id="9-global关键字">9、global关键字</h2>
+<p>全局变量不是只局限于此模块中，而是可以整个程序调用，通过import()命令。
+访问函数内部的局部变量可以加入global关键字，使得内部的局部变量变成全局变量使其可以在外部访问：</p>
+<pre><code class="language-python">def demo():
+    global c
+    c = 2
+demo()
+print(c)
+&gt;&gt;&gt; 2
+</code></pre>
+<p>并且通过global变成的全局变量可以导入其它模块，是真正的全局变量。</p>
+<h2 id="10-小作业-五行石的合成是否划算">10、小作业---五行石的合成是否划算</h2>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-08-22-%E4%BA%94%E8%A1%8C%E7%9F%B3.png" alt=""></p>
+<p>题目描述如下，请编写程序看购买合算还是合成合算：</p>
+<pre><code class="language-python">'''
+    购买一级石头
+'''
+l1_value = 0.75  #一颗1级石头消耗0.75金
+l1_value_diamond = 8  #一颗1级石头同时还要消耗8个钻石
+
+'''
+1级合成3级
+'''
+l1_to_l3 = 12 #一颗1级石头变成一颗3级石头，需要消耗12颗1级石头
+l1_to_l3_gold = 0.39 #同时还要消耗0.39金
+l1_to_l3_vit = 10 #同时还要消耗10点体力
+
+'''
+3级合成4级
+'''
+l3_to_l4 = 16 #1颗3级石头变成1颗4级石头需要消耗16颗一级石头
+l3_to_l4_gold = 0.897 #同时还要消耗0.897金
+l3_to_l4_vit = 10 #同时还要消耗10点体力
+l3_to_l4_rate = 0.4878 #1颗3级石头变成一颗4级石头的成功的概率是0.4878
+                       #如果失败将扣除本次消耗的一级石头和花费，但是不扣除体力和三级石头
+'''
+4级合成6级
+'''
+l4_to_l6 = 12 #1颗4级石头变成6级石头，概率为100%，但是要消耗12颗4级石头
+l4_to_l6_gold = 19.75 #需要消耗19.75金
+l4_to_l6_vit = 10 
+
+'''
+已知1颗六级石头的市场售价为750金，请问是购买合算还是自己合成合算
+其他数据：
+    一颗钻石diamond  0.05金
+    一点体力vit       1金
+'''
+</code></pre>
+<h3 id="答案">答案：</h3>
+<pre><code class="language-python">class Shop():
+    dimond = 0.05
+    vit = 1
+
+l1_materies = Shop()
+l1_cost = 0.75
+
+
+def l1(num):
+    l1_price = num * (l1_cost + 8 * l1_materies.dimond)
+    return l1_price
+
+l3_materies = Shop()
+l3_cost = 0.39
+
+
+def l3(num):
+    l3_prcie = num * (l1(12) + l3_cost + 10 * l3_materies.vit)
+    return l3_prcie
+
+l4_materies = Shop()
+l4_cost = 0.897
+l3_to_l4_rate = 0.4878
+
+
+def l4(num):
+    # 直接除以概率
+    l4_price = num * ((l1(16) + l4_cost)/l3_to_l4_rate + l3(1) + 10 * l4_materies.vit)
+    # 数学期望计算,这种解法是看别人写的，没有太懂
+    # l4_price_E = (l1(16)+l4_cost+l3(1)+10*l4_materies.vit)*l3_to_l4_rate + (l1(16)+l4_cost)*(1-l3_to_l4_rate)
+    # l4_price = num * (l4_price_E/l3_to_l4_rate)
+    return l4_price
+
+l6_materies = Shop()
+l6_cost = 19.75
+
+
+def l6(num):
+    l6_price = num * (l4(12) + l6_cost + 10 * l6_materies.vit)
+    return l6_price
+
+l6_shop_buy = 750
+
+print('合成1级五行石花费：', round(l1(1), 2), '金')
+print('合成3级五行石花费：', round(l3(1), 2), '金')
+print('合成4级五行石花费：', round(l4(1), 2), '金')
+print('合成6级五行石花费：', round(l6(1), 2), '金')
+if l6(1) &gt; l6_shop_buy:
+    print('购买划算')
+else:
+    print('合成划算')
+
+&gt;&gt;&gt; 合成1级五行石花费： 1.15 金
+    合成3级五行石花费： 24.19 金
+    合成4级五行石花费： 73.75 金
+    合成6级五行石花费： 914.74 金
+    购买划算
+</code></pre>
+<h1 id="面向对象">面向对象</h1>
+<h2 id="1-类的定义">1、类的定义</h2>
+<p>使用关键字<code>class</code>来定义类
+类的命名规则：类的第一个字母大写，不建议使用下划线，两个单词的话，两个首字母都大写</p>
+<pre><code>class Student（）:
+   pass
+</code></pre>
+<p>在类的内部可以定义变量，也可以定义函数：</p>
+<pre><code class="language-python">class Student():
+    name = '鸡小萌'
+    age = 2
+
+    def print_file(self):
+        print('名字:' + self.name)
+        print('年龄:' + str(self.age))
+
+student = Student()
+student.print_file()
+&gt;&gt;&gt; 名字:鸡小萌
+    年龄:2
+</code></pre>
+<p>使用类就要先把类<code>实例化</code>，比如<code>student = Student（）</code>，这就是实例化，实例化以后才可以调用类内部的变量和方法。</p>
+<p>类下面的函数，叫做方法，注意！要在参数列表里写入self,方法内部如果引用类的变量时要在变量前加<code>self.</code></p>
+<ul>
+<li>类的最基本的作用就是封装代码。</li>
+<li>类只负责去定义，去描述，而不会去执行。</li>
+<li>调用或者执行这个类只能放在类的外部。</li>
+<li>真正的项目中，类的定义放在一个模块，类的调用放在另一个模块中(推荐)：</li>
+</ul>
+<pre><code>from (模块名) import （类名)
+     实例化这个类
+     调用该类的方法及变量
+</code></pre>
+<ul>
+<li>行为与特征是类的特点，行为要找对主体！！！</li>
+<li>类是一个抽象的概念，类被实例化就变成了一个具体的对象。</li>
+<li>类就像一个模板，可以产生多个对象。</li>
+</ul>
+<h2 id="2-构造函数">2、构造函数</h2>
+<p>构造函数：让对象实例化后不同</p>
+<pre><code class="language-python">def __init__（self）：
+    pass
+</code></pre>
+<ul>
+<li>构造函数的调用会自动进行</li>
+<li>与其它函数不同，构造函数只能返回None，不能返回其它的值</li>
+<li>通过在参数列表里增加新的变量，可以生成不同的对象</li>
+<li>一般在构造函数的内部，初始化对象的属性（特征）
+<code>name = name</code>  把构造函数的参数赋值给类定义的变量，名字可以一样</li>
+<li>访问一个对象下的变量用 . 来进行访问</li>
+<li>参数列表里的self可以是其它值，比如this、that等等，python推荐使用self</li>
+</ul>
+<pre><code class="language-python">class Student():
+    name = ''
+    age = 0
+
+    def __init__(self, name, age):
+        name = name
+        age = age
+
+student1 = Student('tu', 18)
+print(student1.name)
+
+&gt;&gt;&gt; 
+</code></pre>
+<p>上面代码运行结果为空以为是局部与全局的关系，因为以前学过局部变量不会覆盖全局变量，这是不正确的，不能把模块下面的全局变量等同于类下面定义的变量，要区分模块变量与类变量，类变量是和类相关联在一起的，实例变量是和对象相关连在一起的：</p>
+<pre><code class="language-python">class Student():
+    name = '类变量名'
+    age = 0
+#此处定义的就是类变量
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+#此处定义的就是实例变量，它只和对象有关系而和类没有关系，推荐使用`self`关键字
+
+student1 = Student('对象1名字', 18)
+student2 = Student('对象2名字', 19)
+print(student1.name)
+print(student2.name)
+print(Student.name)
+
+&gt;&gt;&gt; 对象1名
+    对象2名
+    类变量名
+
+</code></pre>
+<p>__dict__保存着当前对象下所有的变量：</p>
+<pre><code class="language-python">print(student1.__dict__)
+</code></pre>
+<p>访问一个实例变量，如果对象实例列表没有，会继续在类变量里去寻找，所以前面会输出空字符。</p>
+<p>类下面定义的函数叫做实例方法，要默认固定的放入一个<code>self</code>，调用时不需要给self赋值。
+哪个对象调用了这个方法，self就和这个对象有关系，就代表这个实例，与类没有关系。</p>
+<p>方法需要对变量做一系列运算，然后去改变类的特征。</p>
+<ul>
+<li>实例方法与构造函数的调用方法不一样，构造函数的调用，是通过类名（变量）来调用，比如：<code>student1 = Student('xixi',18)</code>来进行，而实例方法是通过对象来调用的，比如：<code>student1.do_homework()</code>来进行的。</li>
+<li>实例方法与构造函数的意义不同，实例方法主要是来描述类的行为，而构造函数主要是初始化类的各种特征。</li>
+</ul>
+<p>在实例方法中访问类变量：</p>
+<ul>
+<li>通过<code>类名.变量名</code>来进行访问。</li>
+<li>通过<code>self.__class__.变量名</code>来进行访问
+在类的外部访问类变量，也可以通过<code>类名.变量名</code>来进行访问。比如：<code>Student.name</code></li>
+</ul>
+<h2 id="3-类方法">3、类方法</h2>
+<p>定义类方法的格式：</p>
+<pre><code class="language-python">@classmethod
+def fuc(cls):  #cls可以为其它，推荐使用cls
+    pass
+</code></pre>
+<p><code>@classmethod</code>是装饰器，是类方法的特征。类方法操作与类相关的一些变量，即类方法只与类相关，与对象关系不大。</p>
+<p>调用类方法：</p>
+<ul>
+<li>直接用类来调用：
+<code>Student.plus_sum()</code></li>
+<li>用对象来调用类的方法：
+<code>student1.plus_sum()</code>
+建议还是用类来调用:</li>
+</ul>
+<pre><code class="language-python">class Student():
+    sum = 0
+
+    @classmethod
+    def plus_sum(cls):
+        cls.sum += 1
+        print(cls.sum)
+
+student1 = Student()
+student1.plus_sum()
+student2 = Student()
+student2.plus_sum()
+student3 = Student()
+Student.plus_sum()
+
+&gt;&gt;&gt; 1 
+    2
+    3
+</code></pre>
+<h2 id="4-静态方法">4、静态方法</h2>
+<p>定义静态方法的格式：</p>
+<pre><code class="language-python">@staticmethod
+def add(x,y):
+	pass
+</code></pre>
+<p>需要<code>@staticmethod</code>装饰器。
+类和对象都可以调用这个静态方法：</p>
+<pre><code class="language-python">class Student():
+    sum = 0
+
+    @staticmethod
+    def add(x, y):
+        print(x + y)
+        print('this is staticmethod')
+
+student1 = Student()
+student1.add(1, 2)
+Student.add(2, 3)
+
+&gt;&gt;&gt; 3
+    this is staticmethod
+    5
+    this is staticmethod
+</code></pre>
+<p>静态方法/类方法可以调用类变量，但是不能调用实例变量。在日常使用中，推荐使用类方法。</p>
+<h2 id="5-成员的可见性公开和私有">5、成员的可见性：公开和私有</h2>
+<p>为了保证数据的安全，可以让这个数据只在类的内部可以进行操作，而不能在类的外部被操作。</p>
+<p>如果一个变量或者函数是公开的(public)，那么就可以在类的外部进行访问，有时候为了避免被公开访问，可以进行私有化(private)设置,这样在外部就不能进行访问。</p>
+<p>变成私有的方法：
+变量或者方法前加双下划线：<code>__</code>
+PS.构造函数除外，因为后面也有双下划线:<code>__init__</code></p>
+<p>私有变量尽管已经私有化了，但是如果你想访问的话，还是可以的，当类里面定义一个私有变量后，Python会自动帮你把该私有变量的名字换掉，比如你定义了一个私有变量：<code>__score</code>，这个时候Python会把私有变量的名字改为：<code>_Student__score</code>,同时依然支持在类外进行访问（囧）。
+但是私有方法在外部是不可以进行访问的。</p>
+<h2 id="6-继承">6、继承</h2>
+<p>面向对象的三大特性：继承性，封装性，多态性</p>
+<p>继承性：避免定义 重复的方法 和 重复的变量
+建议：一个模块只写一个类，可以看下面c2.py中的调用方法</p>
+<h3 id="c1py">c1.py</h3>
+<pre><code class="language-python">class Human():
+    sum = 0
+    
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def get_name(self):
+        print(self.name)
+</code></pre>
+<p>在<code>c1.py</code>中，我们定义了一个父类<code>Human</code>，它包括一个类变量<code>sum</code>,一个构造函数<code>__init__</code>,一个方法<code>get_name</code></p>
+<h3 id="c2py">c2.py</h3>
+<pre><code class="language-python">from c1 import Human
+
+
+class Student(Human):
+    def __init__(self, school, name, age):
+        self.school = school
+        Human.__init__(self, name, age)
+
+student1 = Student('人民路小学', '鸡小萌', 11)
+print(student1.sum)
+print(Student.sum)
+print(student1.name)
+print(student1.age)
+student1.get_name()
+
+&gt;&gt;&gt; 0
+    0
+    鸡小萌
+    11
+    鸡小萌
+</code></pre>
+<p>在<code>c2.py</code>中，我们定义了一个类<code>Student</code>,它继承了父类<code>Human</code>，子类里也包括了一个构造函数，并且它还调用了父类的构造函数，此时，在子类构造函数的参数列表中要传入父类的参数，并且，在调用时，必须传入<code>self</code>关键字，即：<code>Human.__init__(self, name, age)</code>，从结果来看，我们成功的调用了父类文件中的类变量<code>sum</code>、实例变量<code>name age</code>以及方法。
+那为什么我们在调用子类的构造函数的时候不需要传入<code>self</code>关键字呢，因为我们在实例化<code>Student</code>这个类的时候，Python会自动的调用构造函数，此时Python会帮我们补全<code>self</code>，而如果我们在子类中调用父类的构造函数，相当于用类调用了一个实例方法，在这种情况下，就是一个普通方法的调用，所以参数列表的参数都必须传入。</p>
+<p>一般来说，通过对象调用函数或者方法，Python知道self是谁，会自动帮你补全self，而你通过类去调用一个方法，就必须把所有的参数补全，所以实例化一个对象以后，明智的操作是通过这个对象去调用方法 。</p>
+<p>一般情况下，不推荐在子类的方法中使用父类名.父类方法的这种方式去调用父类的方法，推荐使用<code>super</code>关键字：</p>
+<p><code>super(子类名，self).__init__(参数)</code></p>
+<pre><code class="language-python">from c1 import Human
+
+
+class Student(Human):
+    def __init__(self, school, name, age):
+        self.school = school
+        super(Student, self).__init__(name, age)
+
+student1 = Student('人民路小学', '鸡小萌', 11)
+print(student1.school)
+print(student1.name)
+print(student1.age)
+
+&gt;&gt;&gt; 人民路小学
+    鸡小萌
+    11
+</code></pre>
+<p>子类方法和父类方法同名的话，优先调用子类方法。</p>
+<p>Python中可以进行多继承，即一个子类继承多个父类，但是这样略显混乱，建议单继承。</p>
+<h1 id="center日记四center"><center>日记四</center></h1>
+<h1 id="正则表达式与json">正则表达式与JSON</h1>
+<h2 id="1-初识正则表达式">1、初识正则表达式</h2>
+<p>正则表达式是一个特殊的字符序列，可以检测一个字符串是否与我们所设定的这样的字符序列相匹配。
+匹配的话可以快速检索文本、实现文本替换。</p>
+<pre><code class="language-python">import re
+a = 'Python|C++|C#|JS|Java'
+print(re.findall('Python', a))
+&gt;&gt;&gt; ['Python']
+</code></pre>
+<p>结果返回一个列表。</p>
+<h2 id="2-元字符与普通字符">2、元字符与普通字符</h2>
+<p>在上面的代码块中，我们要查找的<code>Python</code>就是一个普通字符，它是具体的，而元字符呢，就是正则表达式的精华所在，比如：</p>
+<pre><code class="language-python">import re
+a = 'a1b2c3d4e5f6g7h8i9j0'
+print(re.findall('\d', a))
+print(re.findall('\D', a))
+&gt;&gt;&gt; ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+</code></pre>
+<p>在上面的代码中，<code>\d</code>与<code>\D</code>就是元字符，其中<code>\d</code>表示所有的数字，<code>\D</code>表示所有的非数字，元字符有很多，后面的学习过程会用到一些。</p>
+<h2 id="3-字符集">3、字符集</h2>
+<pre><code class="language-python">import re
+a = 'abc, acc, adc, afc, agc, ahc'
+print(re.findall('a[cf]c', a))
+print(re.findall('a[^cf]c', a))
+print(re.findall('a[c-f]c', a))
+
+&gt;&gt;&gt; ['acc', 'afc']
+    ['abc', 'adc', 'agc', 'ahc']
+    ['acc', 'adc', 'afc']
+</code></pre>
+<p>字符集[]，即元字符与普通字符的混用，一般情况下，普通字符起着定界的作用！
+上面的代码块有三条print语句:</p>
+<ul>
+<li>第一个print语句中，使用了<code>a[cf]c</code>,它的作用是找出字符串中所有的acc和afc，即括号中的<code>[cf]</code>表示的是或的关系。</li>
+<li>第二个print语句，使用了<code>a[^cf]c</code>,此时括号中的<code>[^cf]</code>表示的是非的关系，即找出不是acc和afc的所有元素。</li>
+<li>第三个print语句，使用了<code>a[c-f]c</code>，代表的是匹配所有从c到f的元素。</li>
+</ul>
+<h2 id="4-概括字符集">4、概括字符集</h2>
+<p>前面学过的<code>\d</code>,<code>\D</code>就属于概况字符集，它们比普通字符集更加的简洁，下面是一些常用的概括字符集：</p>
+<pre><code>\d -----&gt; [0-9]   所有的数字
+\D -----&gt; [^0-9]  所有的非数字
+\w -----&gt; [A-Za-z0-9_]  所有的数字和字母和下划线
+\W -- --&gt;  非单词字符，比如&amp;,空格，回车
+\s------&gt;  空白字符，比如回车，换行，空格
+\S -----&gt;  非空白字符
+</code></pre>
+<h2 id="5-数量词">5、数量词</h2>
+<p>先来看一段示例：</p>
+<pre><code class="language-python">import re
+a = 'python 1111 java666 php'
+r = re.findall('[a-z]', a)
+print(r)
+&gt;&gt;&gt; ['p', 'y', 't', 'h', 'o', 'n', 'j', 'a', 'v', 'a', 'p', 'h', 'p']
+</code></pre>
+<p>由于匹配时采用的是字符匹配，所以我们可以看到结果全是单个的字母，如果我们想匹配完整的单词，就需要用到数量词，它的作用是重复设定的匹配规则：</p>
+<pre><code class="language-python">import re
+a = 'python1111java666php'
+r = re.findall('[a-z]{3,6}', a)
+print(r)
+&gt;&gt;&gt; ['python', 'java', 'php']
+</code></pre>
+<p>在上面的代码块中，我们加入了数量词<code>{3,6}</code>，它用<code>{}</code>表示，里面的<code>3,6</code>表示的是匹配3-6个连续的字母，所以同理<code>{3}</code>就表示连续3个字母</p>
+<h2 id="6-贪婪与非贪婪">6、贪婪与非贪婪</h2>
+<p>在上面的代码中，我们规定了数量词<code>{3,6}</code>,理论上来讲，当匹配到连续三个字母时就应该输出才对，那为什么最后结果中会有<code>python</code>、<code>java</code>呢，因为数量词规定一个范围后。比如说<code>{3，6}</code>，python会倾向于尽可能大的去取，匹配到三个时，还会尽可能的往后去取，直到不满足条件，这就是贪婪。</p>
+<p>非贪婪的表示：在数量词的后面加一个<code>？</code></p>
+<pre><code class="language-python">import re
+a = 'python1111java233php'
+r = re.findall('\D{3,6}?',a)
+print(r)
+
+&gt;&gt;&gt;['pyt', 'hon', 'jav', 'php']
+</code></pre>
+<h2 id="7-匹配0次或无限次">7、匹配0次或无限次</h2>
+<pre><code class="language-python">import re
+a = 'pytho0python1pythonn'
+print(re.findall('python*', a))
+print(re.findall('python+', a))
+print(re.findall('python?', a))
+&gt;&gt;&gt; ['pytho', 'python', 'pythonn']
+    ['python', 'pythonn'] 
+    ['pytho', 'python', 'python']
+</code></pre>
+<p>在上面我们用到了三种匹配方式：
+<code>*</code> 匹配它前面的字符0次或无限多次，即<code>n</code>出现0次的时候也可以匹配
+<code>+</code> 匹配它前面的字符1次或无限多次，由于至少匹配一次，而pytho中一个<code>n</code>都没有
+<code>?</code> 匹配它前面的字符0次或者1次，当<code>?</code>前面是数量词时，它表示非贪婪，这两者是有区别的</p>
+<h2 id="8-边界匹配符">8、边界匹配符</h2>
+<p><code>^</code>从字符串开始开始匹配
+<code>$</code>从字符串末尾开始匹配</p>
+<pre><code class="language-python">import re
+a = '100000001'
+r = re.findall('^\d{4,8}$', a)
+print(r)
+&gt;&gt;&gt;  []
+</code></pre>
+<p>关于上面的边界匹配符，我是这样理解的，<code>^</code>首先从开始匹配，匹配结果应该是<code>10000000</code>,<code>$</code>从末尾匹配，匹配结果应该是<code>00000001</code>,它们两个是不相同的，所以最终匹配为空。</p>
+<h2 id="9-组">9、组</h2>
+<p>用括号把一系列字符括起来就成为了一个组，组后面可以加一个花括号，花括号里面的数字表示该组字符出现的次数。</p>
+<pre><code>import re
+a = 'PythonPythonPythonPython'
+r = re.findall('(Python){3}',a)     #Python出现三次才可以匹配
+print(r)
+
+&gt;&gt;&gt;['Python']
+</code></pre>
+<p>这里只出现了一个<code>Python</code>不代表它只匹配了一个，我个人理解它的含义应该是次数，因为我们匹配时用的正则表达式是<code>(Python){3}</code>，字符串中有四个Python，它可以匹配到一次，所以输出一个Python</p>
+<h2 id="10-匹配模式参数">10、匹配模式参数</h2>
+<p>re.findall 函数第三个参数的意义：匹配的模式</p>
+<p>下面介绍两个常用的匹配模式：</p>
+<ul>
+<li><code>re.I</code> ——&gt;忽略字母大小写的区别</li>
+</ul>
+<pre><code class="language-python">import re
+a = 'pythonC#javaphpswift'
+r1 = re.findall('c#', a)
+r2 = re.findall('c#', a, re.I)
+print(r1)
+print(r2)
+&gt;&gt;&gt; []
+    ['C#']
+</code></pre>
+<p>从上面的代码可以看出，当没有使用<code>re.I</code>时，我们用小写的c#是匹配不到<code>C#</code>的，使用以后成功匹配。</p>
+<ul>
+<li>多个模式用  <code>|</code> 来连接</li>
+</ul>
+<p>Ps.补充概括字符集：<code>.</code> ——&gt; 匹配除换行符\n之外其它所有字符</p>
+<ul>
+<li><code>re.S</code> ——&gt;匹配所有字符包括换行符</li>
+</ul>
+<pre><code class="language-python">import re
+a = 'pythonC#\njavaphpswift'
+r1 = re.findall('c#.{1}', a, re.I)
+r2 = re.findall('c#.{1}', a, re.I | re.S)
+print(r1)
+print(r2)
+&gt;&gt;&gt; []
+    ['C#\n']
+</code></pre>
+<p>第一种情况下，由于不会匹配换行符\n，所以输出为空，第二种下，<code>re.S</code>会强制抵消掉概括字符集<code>.</code>的作用，所以可以匹配到换行符。</p>
+<h2 id="11-resub正则替换">11、 re.sub()正则替换</h2>
+<p>re.sub()方法有五个参数，分别是re.sub(pattern, repl, string, count = 0, flags = 0)</p>
+<pre><code class="language-python">import re
+a = 'JavaC#PythonC#PHPC#'
+r1 = re.sub('C#', 'Go', a)
+r2 = re.sub('C#', 'Go', a, 1)
+print(r1)
+print(r2)
+
+&gt;&gt;&gt; JavaGoPythonGoPHPGo
+    JavaGoPythonC#PHPC#
+</code></pre>
+<p>默认情况下，<code>count</code>的数值为0，表示会无限的替换下去，数值为1，表示只替换第一个
+其实还可以用Python的内置函数<code>replace</code>方法：</p>
+<pre><code class="language-python">a = 'JavaC#PythonC#PHPC#'
+r = a.replace('C#', 'Go')
+print(r)
+&gt;&gt;&gt; JavaGoPythonGoPHPGo
+</code></pre>
+<p>re.sub()第二个参数还可以是一个函数，此时匹配到的字符就是该函数的参数,但是不是简单的一个字符，而是一个对象，可以通过<code>group</code>方法得到所匹配的字符，最后返回该函数的<code>return</code>结果。因为有时候要根据不同的匹配结果作出不同的操作，所以还是挺有用的。</p>
+<pre><code class="language-python">import re
+a = 'JavaC#PythonPHP'
+
+
+def convert(value):
+    print(value)
+    matched = value.group()
+    return ('!!这是:' + matched + '!!')
+
+r = re.sub('C#', convert, a)
+print(r)
+
+&gt;&gt;&gt; &lt;_sre.SRE_Match object; span=(4, 6), match='C#'&gt;
+    Java!!这是:C#!!PythonPHP
+</code></pre>
+<p>练习题：</p>
+<pre><code class="language-python"># 匹配下面字符串中的数字，将大于等于50的替换成100，小于50的替换成囧
+import re
+a = 'A45B78C7D66E789F90'
+
+
+def convert(value):
+    matched = value.group()
+    if int(matched) &gt;= 50:
+        return '100'
+    else:
+        return '囧'
+
+r = re.sub('\d{1,9}', convert, a)
+print(r)
+
+&gt;&gt;&gt; A囧B100C囧D100E100F100
+</code></pre>
+<p>其中，在与给定数字作比较的时候要记得，我们字符串中的数字是字符，是不可以和整形作比较的，必须更改格式，最后返回时也要返回字符。同时，上面这块代码可以更清楚的明白如果<code>re.sub()</code>第二个参数传入一个函数的话，会很方便的完成我们的要求。</p>
+<h2 id="12-rematch与research">12、re.match()与re.search()</h2>
+<pre><code class="language-python">import re
+a = 'a1b2c3d4e5f6g7'
+r1 = re.match('\d', a)
+r2 = re.search('\d', a)
+print(r1)
+print(r2)
+
+&gt;&gt;&gt; None
+    &lt;_sre.SRE_Match object; span=(1, 2), match='1'&gt;
+</code></pre>
+<ul>
+<li><code>re.match()</code>
+从字符开始处开始匹配，如果第一位就不匹配，返回None。</li>
+<li><code>re.search()</code>
+从开始处开始搜索，搜索整个字符串，如果匹配，立即返回第一个对象，否则返回None。</li>
+</ul>
+<p>与findall的区别：</p>
+<ul>
+<li><code>findall()</code>返回结果为list，而<code>match()</code>与<code>search()</code>返回为对象（如果需要获取对象内容，需要用到<code>group()</code>方法，如果需要返回位置，可以使用<code>span()方法</code>）。</li>
+<li>match与search只会匹配一次，无论成功与否，都会返回结果。</li>
+</ul>
+<h2 id="13-group的用法">13、group()的用法</h2>
+<pre><code class="language-python"># 输出life和python之间的字符串
+# 输出两个pytohn之间的字符串
+import re
+a = 'life is short, i use python, i love python'
+r1 = re.search('life.*python', a)
+r2 = re.search('life(.*)python(.*)python', a)
+r3 = re.findall('life(.*)python(.*)python', a)
+
+print(r1.group())
+print(r2.group(0))
+print(r2.group(1))
+print(r2.group(2))
+print(r2.groups())
+print(r3)
+
+&gt;&gt;&gt; life is short, i use python, i love python
+    life is short, i use python, i love python
+     is short, i use
+    , i love
+    (' is short, i use ', ', i love ')
+    [(' is short, i use ', ', i love ')]
+</code></pre>
+<p>因为<code>re.match()</code>匹配结果是一个对象，所以可以通过group()访问这个对象，一般情况下，<code>group()</code>和<code>group(0)</code>永远记录的是字符串完整的匹配结果，而要访问内部的分组，要从1开始。所以正则表达式内部有组的话，可以通过group方法来进行访问。</p>
+<p>如果用groups方法，只会输出分组的情况而不是完整的匹配结果。</p>
+<h2 id="14-json">14、Json</h2>
+<p>Json是一种<code>轻量级</code>的<code>数据交换格式</code>。
+同<code>xml</code>相比，它确实时轻量级的，但最重要的时，它是一种数据交换格式，它的载体是字符串，符合Json格式的字符串叫做Json字符串。</p>
+<p>优势：易于阅读、解析，网络传输效率高。<code>可以跨语言进行数据交换。</code></p>
+<h2 id="15-反序列化与序列化">15、反序列化与序列化</h2>
+<p>那么怎么把json格式的字符串转换为相应语言下的数据格式呢，在python中，有json模块，可以对json数据进行处理。</p>
+<pre><code class="language-python">import json
+
+json_str = '{&quot;name&quot;:&quot;stone&quot;, &quot;age&quot;:18, &quot;bool&quot;:false}'
+j1 = json.loads(json_str)
+print(type(j1))
+print(j1)
+
+json_array = '[{&quot;name&quot;:&quot;stone&quot;, &quot;age&quot;:18}, {&quot;name&quot;:&quot;stone&quot;, &quot;age&quot;:18}]'
+j2 = json.loads(json_array)
+print(type(j2))
+print(j2)
+
+&gt;&gt;&gt; &lt;class 'dict'&gt;
+    {'name': 'stone', 'age': 18, 'bool': False}
+    &lt;class 'list'&gt;
+    [{'name': 'stone', 'age': 18}, {'name': 'stone', 'age': 18}]
+</code></pre>
+<p><code>json.loads()</code>可以把json的数据格式转换为对应语言下的格式，json字符串对于json来说是一个对象，但是在上面的代码块中可以看到，在Python中它被转换为<code>dict</code>类型，json字符串中的bool值(小写)被转换为Python中的bool值(大写)。json数组被转换为了<code>list</code>。</p>
+<p>下表是把json数据格式转换为python数据格式的具体对应情况：</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-08-22-json_to_python.jpg)</center>
+<p>Ps.要注意Json字符串的表示方法，它与Python中的字典有些许不同，内部要用双引号，数字不用引号，外部要用单引号。</p>
+<p>而这种把json字符串转换为其他语言的数据格式叫做<code>反序列化</code>.</p>
+<p>那顾名思义，<code>序列化</code>就是把python中的数据格式转为json字符串，要用到json模块下的<code>json.dumps</code>方法:</p>
+<pre><code class="language-python">import json
+
+python_dict = {'name': 'TheRang', 'age': 18}
+json_str = json.dumps(python_dict)
+print(json_str)
+
+&gt;&gt;&gt; {&quot;name&quot;: &quot;TheRang&quot;, &quot;age&quot;: 18}
+</code></pre>
+<h1 id="高级语法与用法">高级语法与用法</h1>
+<h2 id="1-枚举">1、枚举</h2>
+<p>枚举就是Python提供给我们的一个类，我们所用的任何枚举类型其实是这个类的子类。</p>
+<pre><code class="language-python">from enum import Enum
+
+
+class VIP(Enum):
+    YELLOW = 1
+    GREEN = 2
+    RED = 3
+    BALCK = 4
+
+print(VIP.YELLOW)
+
+&gt;&gt;&gt; VIP.YELLOW
+</code></pre>
+<ul>
+<li>枚举中的标识最好大写。</li>
+<li>枚举的意义在于标签而不是数字，这也是枚举的意义所在，所以我们打印<code>VIP.YELLOW</code>结果是<code>VIP.YELLOW</code>而不是<code>1</code>，这也是枚举类型同其它类的区别。</li>
+</ul>
+<h3 id="1-枚举和普通类相比的区别">1、枚举和普通类相比的区别</h3>
+<p>一般情况下，我们枚举一件事物，会想到用字典或者用普通类来进行：</p>
+<pre><code class="language-python">{'YELLOW':1, 'GREEN':2}
+
+class TypeDimond():
+    YELLOW = 1
+    GREEN = 2
+</code></pre>
+<p>但是这样做有缺点：</p>
+<ul>
+<li>可变，可以轻易的在代码中改变标签的值</li>
+<li>没有防止相同标签的功能
+而枚举就会有相应的保护措施</li>
+</ul>
+<h3 id="2-枚举类型枚举值枚举名称">2、枚举类型，枚举值，枚举名称</h3>
+<pre><code class="language-python">from enum import Enum
+
+
+class VIP(Enum):
+    YELLOW = 1
+    GREEN = 2
+    RED = 3
+    BALCK = 4
+    
+print(VIP.GREEN)
+print(type(VIP.GREEN))
+print(VIP.GREEN.name)
+print(type(VIP.GREEN.name))
+print(VIP.GREEN.value)
+print(type(VIP.GREEN.value))
+
+&gt;&gt;&gt; VIP.GREEN
+    &lt;enum 'VIP'&gt;
+    GREEN
+    &lt;class 'str'&gt;
+    2
+    &lt;class 'int'&gt;
+</code></pre>
+<p><code>print(VIP.GREEN</code>)返回<code>VIP.GREEN</code>，是枚举类型（枚举下面的类型）。
+<code>print(VIP.GREEN.name)</code>返回<code>GREEN</code>，是枚举名称。
+<code>print(VIP.GREEN.value)</code>返回<code>2</code>，是对应的值类型。</p>
+<p>对枚举来说，是可以遍历的，可以获得枚举下面的每一种枚举类型：</p>
+<pre><code class="language-python">from enum import Enum
+
+
+class VIP(Enum):
+    YELLOW = 1
+    GREEN = 2
+    RED = 3
+    BALCK = 4
+    
+for dimond in VIP:
+    print(dimond)
+
+
+&gt;&gt;&gt; VIP.YELLOW
+    VIP.GREEN
+    VIP.RED
+    VIP.BALCK
+</code></pre>
+<h3 id="3-枚举注意事项">3、枚举注意事项</h3>
+<p>枚举类型之间是可以进行等值<code>==</code>比较的，但是不支持大小比较。不同枚举类的枚举类型进行等值比较后都会返回False.</p>
+<p>枚举下不能有相同的标签名，但是标签下的数值可以相同，这个情况下第二个名称是第一个的别名。
+遍历时，数值相同的标签，只会打印第一个。
+如果想遍历所有标签，可以使用<code>__members__</code>方法：</p>
+<pre><code class="language-python">from enum import Enum
+class VIP(Enum):
+    YELLOW = 1
+    RED = 2
+    GREEN = 3
+    BLACK = 4
+    ORANGE = 1
+
+print(VIP.ORANGE)
+print('~~~~~~~~~~~~~~~~')
+
+for i in VIP.__members__:
+    print(i)
+
+&gt;&gt;&gt;VIP.YELLOW
+   ~~~~~~~~~~~~~~~~
+   YELLOW
+   RED
+   GREEN
+   BLACK
+   ORANGE
+</code></pre>
+<h3 id="4-枚举小结">4、枚举小结</h3>
+<p>前面所导入的<code>Enum</code>类不会强制限制枚举类型的值，我们用数字和字符都可以，如果我们想要限制枚举类型的值只能用数字的话，可以导入<code>enum</code>模块下的<code>IntEnum</code>类，如果我们想要限制两个不同的枚举类型不能用相同的数值，可以导入装饰器<code>unique</code>来进行：</p>
+<pre><code class="language-python">
+from enum import IntEnum, unique
+
+
+@unique
+class VIP(IntEnum):
+    YELLOW = 1
+    ORANGE = 1
+    RED = 2
+    GREEN = 3
+    BLACK = 'abc'
+
+&gt;&gt;&gt; ValueError: invalid literal for int() with base 10: 'abc'
+    ValueError: duplicate values found in &lt;enum 'VIP'&gt;: ORANGE -&gt; YELLOW
+</code></pre>
+<p>可以看到如果我们继续用字符串和相同数值的话会报错。</p>
+<h2 id="2-闭包">2、闭包</h2>
+<p>函数以及定义时的环境变量叫做闭包。</p>
+<ul>
+<li>函数可以作为一个返回结果被返回。</li>
+<li>可以把函数赋值给变量。</li>
+</ul>
+<pre><code class="language-python">def curve_pre():
+    def curve():
+        print('This is curve')
+    return curve
+# 不加括号返回的是一个没有调用的函数，加括号是直接执行了函数，然后把函数的结果返回了回去
+# curve_pre()的返回结果为一个函数
+
+f = curve_pre()
+#把curve_pre()的返回结果赋值给一个变量，此时，变量f就是curve函数
+
+print(type(f))
+f()
+
+&gt;&gt;&gt;&lt;class 'function'&gt;
+   This is curve
+</code></pre>
+<p>一旦形成闭包，外部的变量不会影响内部的变量，闭包的环境变量可以用<code>__closure__</code>来查看，具体可以用<code>__closure__[0].cell_contents</code>来查看：</p>
+<pre><code class="language-python">def curve_pre():
+    a = 25
+
+    def curve(x):
+        return a * x * x
+    return curve
+
+a = 10
+f = curve_pre()
+print(f(2))
+print(f.__closure__)
+print(f.__closure__[0].cell_contents)
+
+&gt;&gt;&gt; 100
+    (&lt;cell at 0x000001C009DF81F8: int object at 0x0000000067F46F40&gt;,)
+    25
+</code></pre>
+<p>我们给a赋值10以后，它输出的结果依然是100，也就是说一旦形成闭包，外部变量的值不会影响内部的变量。</p>
+<p>闭包的意义：保存一个环境，如果没有闭包，很容易被外部变量所影响。环境变量指函数定义时的外部变量，但不是全局变量。</p>
+<ul>
+<li>分析闭包时要从最外层向最里层逐层分析。</li>
+<li>局部不会影响外部。</li>
+<li>闭包内的函数，内部函数的变量不能被赋值。</li>
+</ul>
+<h3 id="小作业">小作业</h3>
+<h4 id="一个旅行者从原点x0出发每次移动若干步请求出每次移动后的新位置">一个旅行者，从原点x=0出发，每次移动若干步，请求出每次移动后的新位置</h4>
+<p>先尝试用闭包解决一下：</p>
+<pre><code class="language-python">origin = 0
+
+
+def travler(step):
+    global origin
+    # 用global关键字使得我们的变量origin变成全局变量来实时的修改每次移动后的坐标
+    position = origin + step
+    origin = position
+    return position
+    
+print(travler(2))
+print(travler(3))
+print(travler(5))
+
+&gt;&gt;&gt; 2
+    5
+    10
+</code></pre>
+<p>再尝试用闭包来实现：</p>
+<pre><code class="language-python">origin = 0
+
+
+def traveler(pos):
+    def go(step):
+        nonlocal pos
+        new_pos = pos + step
+        pos = new_pos
+        return new_pos
+    return go
+
+travel = traveler(origin)
+print(travel(2))
+print(travel(3))
+print(travel(5))
+&gt;&gt;&gt; 2
+    5
+    10
+</code></pre>
+<p>由于在闭包内部我们给环境变量赋值，<code>pos = new_pos</code>,Python会默认此时的<code>pos</code>不是环境变量而是局部变量，这样的话运行报错：在没有定义的时候使用局部变量，Python中提供了一个<code>nonlocal</code>关键字可以强制使<code>pos</code>变成环境变量。</p>
+<p>由于闭包内部的封闭性，使我们的程序更加的安全，整个问题解决之后我们的环境变量<code>origin</code>依然没变，如果我们用非闭包的方式，虽然用加<code>global</code>关键字的方式解决了问题，但是此时的环境变量<code>origin</code>也发生了改变，如果其它函数也要使用这个变量就会很混乱。</p>
+<h2 id="3-lambda表达式">3、lambda表达式</h2>
+<p>匿名函数：定义函数时不需要命名
+定义匿名函数时需要用到<code>lambda</code>关键字：</p>
+<pre><code class="language-python">lambda parameter_list: expression
+</code></pre>
+<p>parameter_list————&gt;参数列表</p>
+<p>expression    ————&gt;只能是简单的表达式而不能是代码块</p>
+<pre><code class="language-python">def add(x, y):
+    return x + y
+
+f = lambda x, y: x + y
+
+print(add(1, 2))
+print(f(1, 2))
+
+&gt;&gt;&gt; 3
+    3
+</code></pre>
+<p>虽然把一个对<code>lambda</code>表达式进行赋值是非常奇怪的，但是上面这个代码库还是很直观的显示了匿名函数与普通函数的区别</p>
+<h2 id="4-三元表达式">4、三元表达式</h2>
+<p>在其它的编程语言中，三元表达式的一般形式为：<code>x &gt; y ? x : y</code>，即x&gt;y为真时返回x，否则返回y</p>
+<p>在Python中，三元表达式的形式为：<code>条件为真时返回的结果 if 条件判断 else 条件为假时的返回结果</code>
+验证一下：</p>
+<pre><code class="language-python">x = 2
+y = 1
+r = x if x &gt; y else y
+print(r)
+
+&gt;&gt;&gt; 2
+</code></pre>
+<p>三元表达式常用于<code>lambda</code>表达式中</p>
+<h2 id="5-map">5、map</h2>
+<p><code>map</code>是一个类 ，有两个参数，第一个参数是一个函数，第二个参数是一个序列或者集合，<code>map</code>会把集合中的每个元素都进行函数操作，最后返回<code>map object</code>，可以通过<code>list</code>将结果转化为列表。</p>
+<pre><code class="language-python">
+list_x = (1, 2, 3, 4, 5, 6, 7, 8)
+
+
+def square(x):
+    return x * x
+
+r = map(square, list_x)
+print(r)
+print(type(r))
+print(list(r))
+
+&gt;&gt;&gt; &lt;map object at 0x0000019EDF2129E8&gt;
+    &lt;class 'map'&gt;
+    [1, 4, 9, 16, 25, 36, 49, 64]
+</code></pre>
+<p><code>map</code>可以结合<code>lambda</code>表达式一起使用，并且参数列表可以传入多个参数：</p>
+<pre><code class="language-python">list_x = (1, 2, 3, 4, 5, 6, 7, 8)
+list_y = (2, 4, 6, 8, 10)
+
+r = map(lambda x, y: x*x+y, list_x, list_y)
+print(list(r))
+
+&gt;&gt;&gt; [3, 8, 15, 24, 35]
+</code></pre>
+<p>如果传入多个参数列表，会返回参数个数较少的那个。</p>
+<h2 id="6-reduce">6、reduce</h2>
+<ul>
+<li>reduce使用，必须先从functools这个包中调用。</li>
+<li>reduce参数列表中的函数必须要有两个参数。</li>
+<li>reduce在做一个<code>连续的计算</code>，每次将计算结果作为下一次的一个参数。</li>
+<li>reduce第三个参数是初始值，默认情况下是0。</li>
+</ul>
+<pre><code class="language-python">from functools import reduce
+list_x = [1, 2, 3, 4, 5, 6, 7, 8]
+r = reduce(lambda x, y: x + y, list_x)
+print(r)
+
+&gt;&gt;&gt; 36
+</code></pre>
+<p>运行机制：先取1和2赋值给x,y进行x+y的运算，将结果3作为下次计算的x，然后y取3，继续相加，以此类推。（lambda内部定义的是相加，其他计算也可以）</p>
+<p>这样的话我们可以对上次写的旅行者代码做一次修改，我们输入每次移动的x值和y值，表示前后左右(前进为正，向右为正)，最后求旅行结束的坐标：</p>
+<pre><code class="language-python">from functools import reduce
+
+position = [(1, 2), (3, 4), (-2, -1), (3, -1)]
+r = reduce(lambda x, y: (x[0]+y[0], x[1]+y[1]), position)
+print(r)
+
+&gt;&gt;&gt; (5, 4)
+</code></pre>
+<h2 id="7-filter">7、filter</h2>
+<ul>
+<li>filter，过滤一些不需要或者不符合规则的元素。</li>
+<li>返回一个集合，需要用list转换一下。</li>
+<li>判断语句的返回为布尔类型,靠真或假来进行过滤。</li>
+</ul>
+<pre><code class="language-python">list_x = [1, 2, 0, 3, 0, -2, 1, 5, -1]
+r = filter(lambda x: True if x &gt; 0 else False, list_x)
+print(r)
+print(list(r))
+
+&gt;&gt;&gt;&lt;filter object at 0x04C228B0&gt;
+[1, 2, 3, 1, 5]
+</code></pre>
+<p>上面这个代码块的作用就是：保留列表中大于0的数字</p>
+<p>我们可以编写一个程序，只保留一个字母列表中的大写字母：</p>
+<pre><code class="language-python">#考虑用ASCII码来解决问题，首先查看大写字母的ASCII码范围
+print(ord('A'))
+print(ord('a'))
+
+list_letter = ('U', 'x', 'S', 'm', 'T', 'a', 'B', 'n')
+r = filter(lambda x: True if ord(x) &gt;64 and ord(x) &lt;97 else False, list_letter)
+print(r)
+print(list(r))
+
+&gt;&gt;&gt; 65
+    97
+    &lt;filter object at 0x000001F9E53B26D8&gt;
+    ['U', 'S', 'T', 'B']
+</code></pre>
+<h2 id="8-装饰器">8、装饰器</h2>
+<p>装饰器的意义是：在不改变原有代码逻辑的情况下，增加函数的功能</p>
+<p>Ps.打印当前时间：</p>
+<pre><code class="language-python">import time
+print(time.time())
+
+&gt;&gt;&gt; 1537147395.672728 #Unix时间戳 总秒数
+</code></pre>
+<p>装饰器的定义需要定义一个嵌套函数，而它的调用才是最神奇的地方：</p>
+<pre><code class="language-python">import time
+
+
+def decorator(func):
+    def wrapper():
+        print(time.time())
+        func()
+    return wrapper
+#定义了一个装饰器decorator，嵌套函数wrapper无参
+
+@decorator
+def f1():
+    print('This is a function')
+
+f1()
+
+&gt;&gt;&gt; 1537149412.160813
+    This is a function
+</code></pre>
+<p>在Python中我们可以接受定义复杂，而不能接受调用复杂</p>
+<p>在我们定义好装饰器以后，使用<code>@</code>进行调用，这样并没有改变原有函数内部的逻辑，也没有改变该函数的调用。</p>
+<p>如果我们的函数是有参数的，并且个数不定，那么调用装饰器时，需要在装饰器的主体使用可变参数：</p>
+<pre><code class="language-python">import time
+
+
+def decorator(func):
+    def wrapper(*args):
+    #传入可变参数*args
+        print(time.time())
+        func(*args)
+    return wrapper
+
+
+@decorator
+def f1(func):
+    print('This is a function', func)
+
+f1('func1')
+
+&gt;&gt;&gt; 1537164370.3236895
+    This is a function func1
+</code></pre>
+<p>如果我们的函数有关键字参数，那么同理，在装饰器的主体使用关键字参数：<code>**kw</code>，并且在装饰器内部函数调用时需要传入。</p>
+<ul>
+<li>
+<p>如果我们在定义装饰器时不知道函数的参数到底有几个，到底是什么，我们可以直接传入可变参数<code>*args</code>和关键字参数<code>**kw</code>来满足所有的条件。</p>
+</li>
+<li>
+<p>一个函数可以有多个装饰器。</p>
+</li>
+</ul>
+<h2 id="9-字典映射代替switch-case语句">9、字典映射代替switch case语句</h2>
+<p>在其它语言中有switch这个条件分支语句：</p>
+<pre><code class="language-c++">switch(expression){
+    case constant-expression  :
+       statement(s);
+       break; // 可选的
+    case constant-expression  :
+       statement(s);
+       break; // 可选的
+  
+    // 您可以有任意数量的 case 语句
+    default : // 可选的
+       statement(s);
+}
+</code></pre>
+<p>意思是当匹配到case后面的表达式时，会输出当前case下的结果，如果都不匹配，那么输出default下的语句，在python中是没有switch语句的，我们可以编写if\else语句来代替，但是这样写比较麻烦，可以通过写一个字典的方法来代替：</p>
+<pre><code class="language-python">day = 0
+switcher = {
+    0: 'Sunday',
+    1: 'Monday',
+    2: 'Tuesday'
+}
+day_name = switcher[day]
+print(day_name)
+
+&gt;&gt;&gt; Sunday
+</code></pre>
+<p>这是字典映射的最简单的一个示例，但是存在bug，在switch语句中，没有匹配到相应的case时，会输出default中的内容，但是在字典映射时，就不能这样，不过我们可以不采用下标的方法来访问字典，而是使用字典内置的<code>get</code>方法，它有两个参数，第一个还是key值，第二个是匹配不到时输出的结果：</p>
+<pre><code class="language-python">day = 6
+switcher = {
+    0: 'Sunday',
+    1: 'Monday',
+    2: 'Tuesday'
+}
+day_name2 = switcher.get(day, 'None')
+print(day_name2)
+
+&gt;&gt;&gt; None
+</code></pre>
+<p>并且强大的是！！！字典的value值可以取一个函数：</p>
+<pre><code class="language-python">day = 6
+
+def get_sunday():
+    return 'Sunday'
+
+def get_monday():
+    return 'Monday'
+
+def get_tuesday():
+    return 'Tuesday'
+
+def get_default():
+    return 'None'
+
+switcher = {
+    0: get_sunday,
+    1: get_monday,
+    2: get_tuesday
+}
+day_name2 = switcher.get(day, get_default)() 
+# 这里要注意，由于get返回的结果是一个函数，所以后面再加一对括号表示调用
+print(day_name2)
+
+&gt;&gt;&gt; None
+</code></pre>
+<h2 id="10-列表推导式">10、列表推导式</h2>
+<p>列表推导式，就是根据现有的列表，创建一个新的列表：</p>
+<pre><code class="language-python">a = [1, 2, 3, 4, 5, 6, 7, 8]
+b = [i**2 for i in a]
+print(b)
+
+&gt;&gt;&gt; [1, 4, 9, 16, 25, 36, 49, 64]
+</code></pre>
+<p>根据现有的列表a，把a中每个元素的平方输出为新的列表，虽然这种问题也可以通过for循环或者是map表达式来完成 ，但是当我们要根据列表中元素的值做出不同的操作时，列表推导式就比较实用，比如在上面这个例子中，我们只需要输出大于4的数字的平方：</p>
+<pre><code class="language-python">a = [1, 2, 3, 4, 5, 6, 7, 8]
+b = [i**2 for i in a if i &gt; 4]
+print(b)
+
+&gt;&gt;&gt; [25, 36, 49, 64]
+</code></pre>
+<p>同样的，字典也可以进行同样的推导：</p>
+<pre><code class="language-python">student = {
+    '一一': 12,
+    '二二': 15,
+    '三三': 18
+}
+b1 = [key for key, values in student.items()]
+b2 = {values: key for key, values in student.items()}
+print(b1)
+print(b2)
+
+&gt;&gt;&gt; ['一一', '二二', '三三']
+    {12: '一一', 15: '二二', 18: '三三'}
+</code></pre>
+<p>遍历字典时需要用到<code>items()</code>这个方法，第一个print提取了字典的key值，第二个print颠倒了key和values的值。
+而由于元组是不可变的，所以如果你想生成一个新的元组，会得到一个<code>generator</code>对象。</p>
+<h2 id="11-迭代器与生成器">11、迭代器与生成器</h2>
+<p>凡是可以被<code>for/in</code>循环遍历的数据结构都是可迭代对象(iterable)，比如说列表，元组，集合。
+迭代器(iterator)是一个对象(class),它是一个可迭代对象，反过来说肯定是错误的。一般情况下，普通的class肯定是不能遍历，如果我们想遍历一个class，那就需要把它变成一个迭代器，通过在类中实现<code>__iter__()</code>和<code>__next__()</code>这个两个方法，for/in循环的实质是它会不断地调用__next__()方法来实现遍历。</p>
+<pre><code class="language-python">class BookCollection:
+    def __init__(self):
+        self.data = ['《往事》', '《只能》', '《回味》']
+        self.cur = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.cur &gt;= len(self.data):
+            raise StopIteration()
+# 如果遍历到最后一个时，抛出迭代错误，停止迭代
+
+        r = self.data[self.cur]
+        self.cur += 1
+        return r
+
+books = BookCollection()
+for book in books:
+    print(book)
+# print(next(books))
+
+&gt;&gt;&gt; 《往事》
+    《只能》
+    《回味》
+</code></pre>
+<p>使用<code>next()</code>方法同样可以进行一个一个的从迭代器中取出结果，但是不能对列表等使用next()方法。</p>
+<p>生成器是对一个函数来说的，比如说像打印1---10000，如果用列表推导式，它会生成1---10000的一个列表，这样是非常占用计算机内存的。如果我们能一边生成，一边使用的话，就需要借助生成器了：</p>
+<pre><code class="language-python">def gen(max):
+    i = 0
+    while i &lt; max:
+        i += 1
+        yield i
+
+r = gen(10)
+print(r)
+print(next(r))
+print('~~~~')
+for x in r:
+    print(x)
+
+&gt;&gt;&gt; &lt;generator object gen at 0x0000017D54B9B830&gt;
+    1
+    ~~~~
+    2
+    3
+    4
+    5
+</code></pre>
+<ul>
+<li>生成器同样可以使用<code>for\in</code>循环或者<code>next()</code>来进行遍历。</li>
+<li>生成器既保证了函数的功能性，又保证了函数的性能。</li>
+<li><code>yield</code>与<code>return</code>的区别就是，当执行到<code>return</code>语句时，整个函数的调用都会结束，而使用<code>yiled</code>，它会保留上次被调用时的返回结果，再次调用时会从上一次的结果开始而不是初始值。</li>
+</ul>
+<h2 id="12-none">12、None</h2>
+<p><code>None</code>的意思不是空，无论是从<strong>类型</strong>还是<strong>值</strong>来说都<strong>不等同</strong>于空字符串、空列表、0、False...
+None本身就是一个Nonetype对象：</p>
+<pre><code class="language-python">print(type(None))
+&gt;&gt;&gt; &lt;class 'NoneType'&gt;
+</code></pre>
+<p>所以说，<code>if not a</code> 和 <code>if a is None</code>是不一样的意思，前者进行布尔运算，后者进行类型比较：</p>
+<pre><code class="language-python">a = []
+if not a:
+    print('S')
+else:
+    print('F')
+
+if a is None:
+    print('S')
+else:
+    print('F')
+
+&gt;&gt;&gt; S
+    F
+</code></pre>
+<p>如果想要进行判空操作，可以用<code>if a</code>和<code>if not a</code>来进行，这样不论a是None还是空字符串或是其它，都可以得到我们想要的结果。</p>
+<h2 id="13-对象存在不一定是true">13、对象存在不一定是True</h2>
+<p>我们前面进行判空操作时都是使用了变量，尝试对一个对象来进行判空操作：</p>
+<pre><code class="language-python">class Test1():
+    pass
+
+class Test2():
+    def __len__(self):
+        return 0
+
+test1 = Test1()
+test2 = Test2()
+if test1:
+    print('S')
+else:
+    print('F')
+    
+if test2:
+    print('S')
+else:
+    print('F')
+
+&gt;&gt;&gt; S
+    F
+</code></pre>
+<p>从示例可以看出，可以对对象进行判空操作，但是对象存在不一定就是True。</p>
+<p>当调用<code>len()</code>函数来传递自己编写的类作为参数时，会自动调用类中定义的<code>__len__()</code>方法(必须在类中有定义，否则报错)。
+并且<code>__bool__()</code>会覆盖<code>__len__()</code>的结果。总之自定义对象是否会被视作False是由对象内部的<code>__bool__()</code>和<code>__len__()</code>决定。</p>
+<pre><code class="language-python">class Test1():
+    def __bool__(self):
+        return False
+    
+    def __len__(self):
+        return True
+
+
+class Test2():
+    def __len__(self):
+        return True
+
+print(bool(Test1()))
+print(bool(Test2()))
+
+&gt;&gt;&gt; True
+    False
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[用Python爬取斗鱼TV-LOL版块的主播人气]]></title>
+        <id>https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气</id>
+        <link href="https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气">
+        </link>
+        <updated>2018-03-18T14:35:11.000Z</updated>
+        <content type="html"><![CDATA[<p>刚好学完这个，就拿来练一练手Σ(っ °Д °;)っ</p>
+<p>觉得爬虫最重要的还是要理清思路，先爬什么，然后怎么筛选，我们想要输出怎样的格式...</p>
+<p>然后就是最重要的正则表达式了，至少我现在用的就是这个，至于各种爬虫框架还要继续学习，刚开始爬斗鱼的时候，竟然弹出403错误，本来都想换熊猫了，结果过了一会儿就好了 - - 不知道为什么</p>
+<p>还有，现在还没有学习关于数据库的知识，不知道怎么储存爬下来的数据，也只会爬取首页(lll￢ω￢)</p>
+<p>慢慢来吧，接下来这一周要出去找调剂了，希望有个好结果吧，不过我觉得非全也比错φ(゜▽゜*)♪，等一切都结束可以写一篇记录考研的文章，嘎巴得！</p>
+<pre><code class="language-python">import re
+from urllib import request
+
+class Spider():
+    url = 'https://www.douyu.com/directory/game/LOL'
+    root_pattern = '&lt;p&gt;([\s\S]*?)&lt;/p&gt;'
+    name_pattern = '&lt;span class=&quot;dy-name ellipsis fl&quot;&gt;([\s\S]*?)&lt;/span&gt;'
+    number_pattern = '&lt;span class=&quot;dy-num fr&quot;  &gt;([\s\S]*?)&lt;/span&gt;'
+
+    def __fetch_content(self):
+        r = request.urlopen(Spider.url)
+        htmls = r.read()
+        htmls = str(htmls,encoding = 'utf-8')
+        return htmls
+
+    def __analisis(self,htmls):
+        root_html = re.findall(Spider.root_pattern,htmls)
+        anchors = []
+        for html in root_html:
+            name = re.findall(Spider.name_pattern,html)
+            number = re.findall(Spider.number_pattern,html)
+            anchor = {'name':name,'number':number}
+            anchors.append(anchor)
+        return anchors
+
+    def __refine(self,anchors):
+        l = lambda anchor: {
+            'name':anchor['name'][0],
+            'number':anchor['number'][0]}
+        return map(l,anchors)
+
+    def __sort(self,anchors):
+        anchors = sorted(anchors,key=self.__sort_seed,reverse=True)
+        return anchors
+
+    def __sort_seed(self,anchor):
+        r = re.findall('\d*',anchor['number'])
+        number = float(r[0])
+        if '万' in anchor['number']:
+            number*=10000
+        return number
+
+    def __show(self,anchors):
+        for anchor in anchors:
+            print(anchor['name']+ '-----' + anchor['number']+'人')
+    
+    def go(self):
+        htmls = self.__fetch_content()
+        anchors = self.__analisis(htmls)
+        anchors = list(self.__refine(anchors))
+        anchors = self.__sort(anchors)
+        self.__show(anchors)
+
+spider = Spider()
+spider.go()
+</code></pre>
+<p>只爬取了一页，因为我还不知道怎么爬取多页- -</p>
+<pre><code>爬取结果：（2018/3/18  22：52）
+
+英雄联盟官方赛事-----130万人
+东北大鹌鹑-----127万人
+冯提莫-----115万人
+洞主丨歌神洞庭湖-----46.6万人
+叫我久哥哥-----25.8万人
+叶音符-----19.7万人
+赏金术士2018-----14.2万人
+小子y-----12.3万人
+三笠ackerman丶1-----10.7万人
+胖胖灬-----10.5万人
+余小C真的很强-----10.2万人
+lol大表哥丶-----9.2万人
+黑白锐雯-----8.3万人
+LoveAcFun包子-----8.1万人
+心态很不好的momo-----7.4万人
+14德莱文-----7.2万人
+你的大湿胸丶-----5.7万人
+教练JoKer-----5.5万人
+凉风亚索yasuo-----4.7万人
+冷爷行妹-----4.6万人
+狗康Bfate丶-----3.8万人
+跳跳武器二师兄-----3.5万人
+熙宝兒-----3.3万人
+一拳超人King丶-----3.2万人
+解小亮-----3万人
+douyu丶松子-----3万人
+Tumi111-----2.9万人
+Douyu若雨-----2.8万人
+林瑜有鱼aa-----2.5万人
+暴风工作室丶-----2.4万人
+小熊和你-----1.9万人
+成都二傻子丶骚特-----1.8万人
+芜湖灬王导-----1.8万人
+青蛙ob-----1.8万人
+张海彬丶-----1.6万人
+作作金克丝-----1.6万人
+泰迪日了哈士奇-----1.5万人
+西关龙-----1.5万人
+内涵段子丶朵朵-----1.5万人
+羽毛发条丶31969-----1.5万人
+小祖zmy-----1.5万人
+特工小琪琪-----1.4万人
+我有一条小尾巴吖-----1.4万人
+乌鸦c丶叫我大马哥-----1.3万人
+污妖王丶扎男-----1.3万人
+老实巴交的残梦-----1.3万人
+土豆女王驾到-----1.3万人
+小丫头丶乖乖-----1.2万人
+刘刘刘毛豆-----1.2万人
+叫我Keep哥-----1.2万人
+叫我天神x-----1.2万人
+国服第一洛冷眸-----1.2万人
+西瓜酱G-----1.2万人
+许悟空Goku-----1.1万人
+你也可以叫我花仔啊-----1.1万人
+凌飞Sniperking-----1.1万人
+海浪摄长-----1.1万人
+渝万丶阿哲-----1.1万人
+尔雅超星服务中心-----1.1万人
+qq_s6oI4T-----1万人
+内涵段子丶渣渣涛-----1万人
+吃货丶权爷-----1万人
+一只奶酪啊-----1万人
+二哈蛮王-----9889人
+傲娇筱筱灬-----9875人
+屠殺-----9590人
+像最初ch-----9485人
+娇羞的糖糖啦-----9095人
+烁烁and小炮-----8821人
+美少女秀秀-----8709人
+陈陈陈陈港-----8412人
+小崔丶xc-----8374人
+zz小龙男枪c-----8300人
+Eliza丶梓淇-----8176人
+渝万丶小棉花-----8102人
+辉哥飞呀挥-----8031人
+粉红AD契约喵-----7928人
+铁头乌迪尔-----7898人
+小诸葛Zz-----7873人
+小红集团丶红茶-----7858人
+叶晚r-----7858人
+肥螳螂老无名-----7830人
+寻练-----7792人
+会翻滚的阿冰-----7476人
+主播丶C罗-----7136人
+静儿家的苏麻瓜-----7087人
+国服第一小鸡雞-----7034人
+659019丶Lux峰-----6956人
+三岁喵Meow-----6922人
+天才小橙汁-----6848人
+偷人大叔玩安妮-----6816人
+mm丶小小酥-----6798人
+NaiDiiiiii-----6792人
+我就是蘑菇阿i-----6528人
+中年人的钻石梦-----6451人
+杨少爷与黄公子-----6373人
+宅兔兔-----6364人
+田间一牧牛小童-----6355人
+杀神红名-----6205人
+丑角乌拉拉-----6185人
+小生不才丶y-----6106人
+渝万丶阿新哥-----6024人
+赛事专用直播间-----5982人
+开水铺阿亮-----5970人
+nu儿哈哈哈-----5936人
+美腻哈-----5878人
+青岛声优娜阿-----5785人
+丶小雪兔儿-----5763人
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[终于完成了φ(゜▽゜*)♪]]></title>
-        <id>https://tudouvvv.github.io//post/zhong-yu-wan-cheng-liao-fv</id>
-        <link href="https://tudouvvv.github.io//post/zhong-yu-wan-cheng-liao-fv">
+        <id>https://tudouvvv.github.io//post/终于完成了</id>
+        <link href="https://tudouvvv.github.io//post/终于完成了">
         </link>
-        <updated>2019-07-09T07:37:25.000Z</updated>
+        <updated>2018-03-08T07:37:25.000Z</updated>
         <content type="html"><![CDATA[<p>做了好几天 终于完成了主要内容</p>
 <p>开心</p>
 <p>本来很早以前就想做一个的 感觉非常的酷  之前做的那个找的模板太搞笑  完全不知道怎么操作  以为还要学习html和css就放弃了</p>

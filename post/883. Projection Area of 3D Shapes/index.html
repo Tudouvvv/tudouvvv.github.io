@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>[每日一题]-883. Projection Area of 3D Shapes | Tudouvvv</title>
+<meta name="description" content="人生还长，慢慢来">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562659290623">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://tudouvvv.github.io/">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562659290623" class="site-logo">
+        <h1 class="site-title">Tudouvvv</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生还长，慢慢来
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://tudouvvv.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">[每日一题]-883. Projection Area of 3D Shapes</h2>
+            <div class="post-date">2019-04-04</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/leetcode.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <center>升 级 打 怪 ing ~ ~</center>
+<!--more-->
+<p>题目地址：<a href="https://leetcode.com/problems/projection-area-of-3d-shapes/">883. Projection Area of 3D Shapes</a></p>
+<p>题目要求：</p>
+<p>求一个体积为1的方块拼起来的立方体的俯视图，主视图，左视图的面积之和。</p>
+<p>样例：</p>
+<p>背景是一个被分为N * N 个格子的坐标轴</p>
+<p>输入：grid = [[1, 2],[3, 4]]</p>
+<p>（输入说明：grid[0][0]表示在(0, 0)处有一个方块，grid[0][1]表示在(0, 1)处有一个方块...）</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/883.png" alt=""></p>
+<p>输出：17</p>
+<p>思路：</p>
+<p>整个面积分为三部分：top、front、left</p>
+<ul>
+<li>
+<p>输入的grid就相当于一个数组</p>
+</li>
+<li>
+<p>top的面积就是所有非0元素的个数之和</p>
+</li>
+<li>
+<p>front的面积就是每行元素的最大值之和</p>
+</li>
+<li>
+<p>left的面积就是每列元素的最大值之和</p>
+</li>
+</ul>
+<h3 id="top">top</h3>
+<p>所以top的值就需要遍历每个元素，然后统计非0元素的个数:</p>
+<pre><code class="language-python">for i in range(len(grid):
+    for j in range(len(grid[0]):
+        if grid[i][j] != 0:
+            top += 1
+</code></pre>
+<h3 id="front">front</h3>
+<pre><code>for i in range(len(grid)):
+    front += max(grid[i])
+</code></pre>
+<h3 id="left">left</h3>
+<pre><code>for i in range(len(grid)):
+    left_num = 0
+    for j in range(len(grid[0])):
+        left_num = max(left_num, grid[j][i])
+    left += left_num
+</code></pre>
+<p>完整代码：</p>
+<pre><code class="language-python">class Solution:
+    def projectionArea(self, grid: List[List[int]]) -&gt; int:
+        top, front, left = (0, 0, 0)
+        for i in range(len(grid)):
+            left_num = 0
+            front += max(grid[i])
+            for j in range(len(grid[0])):
+                if grid[i][j] &gt; 0:
+                    top += 1
+                left_num = max(left_num, grid[j][i])
+            left += left_num
+        return top + front + left
+</code></pre>
+<p>提交结果：48ms        48.04%</p>
+<p>最快的解决方案：</p>
+<pre><code class="language-python">class Solution:
+    def projectionArea(self, grid: 'List[List[int]]') -&gt; 'int':
+        &quot;&quot;&quot;
+        from top：grid长度之和
+        from front: 每行的最大值之和
+        from side: 每列的最大值之和
+        &quot;&quot;&quot;
+        
+        top = sum([v!=0 for row in grid for v in row])
+        front = sum([max(row) for row in grid])
+        side = []
+        for i in range(len(grid[0])):
+            col = [row[i] for row in grid]
+            side.append(max(col))
+        return top + front + sum(side)
+</code></pre>
+<p>思路差不多，只不过人家写的比较简洁，小技巧需要学起来呀！</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/leetcode" class="tag">
+                    Leetcode
+                  </a>
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/构建深度神经网络与初步尝试使用keras构建CNNN">
+                  <h3 class="post-title">
+                    构建多层神经网络与初步尝试使用keras构建CNN
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

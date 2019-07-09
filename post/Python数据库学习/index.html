@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python数据库学习 | Tudouvvv</title>
+<meta name="description" content="人生还长，慢慢来">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562659290623">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://tudouvvv.github.io/">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562659290623" class="site-logo">
+        <h1 class="site-title">Tudouvvv</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生还长，慢慢来
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://tudouvvv.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Python数据库学习</h2>
+            <div class="post-date">2018-09-26</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%95%B0%E6%8D%AE%E5%BA%93.png')">
+              </div>
+            
+            <div class="post-content">
+              <center>程序员进阶之道👆</center>
+<!--more-->
+准备学习一些 进阶的知识，刚好看到这个课程，开一篇记录一下学习笔记！  
+<p>数据库，即存储数据的仓库，现在一般分为关系型数据库和非关系型数据库。</p>
+<h1 id="centermysqlcenter"><center>MySQL</center></h1>
+<h1 id="1-在终端使用">1、在终端使用</h1>
+<p>首先学习了一些mysql的命令：</p>
+<ul>
+<li>在终端中登录MySQL：<code>mysql -u root -p</code></li>
+<li><code>mysql -V</code>  :输出版本信息并且退出</li>
+<li><code>mysql -u</code>  :用户名</li>
+<li><code>mysql -p</code> :密码  回车后可以隐藏登录</li>
+<li><code>mysql -P</code> :端口号   默认3306，可不加</li>
+<li><code>mysql -h</code> :服务器名称  本地使用，默认127.0.0.1</li>
+<li>退出  :<code>exit；quit；\q；</code></li>
+<li>修改提示符(暂时还不知道有什么用)：<code>prompt xxx</code>
+常用提示符：<code>\D--&gt;完整的日期 \d--&gt;当前数据库 \h--&gt;服务器名称 \u--&gt;当前用户</code></li>
+</ul>
+<p>MySQL语句的规范：</p>
+<ul>
+<li>关键字与函数名称全部大写</li>
+<li>数据库名称、表名称、字段名称全部小写</li>
+<li>SQL语句必须以分号结尾</li>
+</ul>
+<p>其它命令：</p>
+<ul>
+<li>显示当前服务器版本:<code>SELECT VERSION();</code></li>
+<li>显示当前日期时间:<code>SELECT NOW();</code></li>
+<li>显示当前用户:<code>SELECT USER();</code></li>
+<li>显示当前数据库:<code>SELECT DATABASE() ;</code></li>
+</ul>
+<p>————————————————————————————</p>
+<h1 id="2-操作数据库">2、操作数据库</h1>
+<p>(Ps.<code>{}必须输入 [] 选择输入</code>)</p>
+<h2 id="1-创建数据库">1、创建数据库:</h2>
+<pre><code>CREATE {DATABASE | SCHEME}  [IF NOT EXISTS] db_name;
+</code></pre>
+<h2 id="2-设置编码方式">2、设置编码方式:</h2>
+<pre><code>[DEFAULT] CHARACTER SET [=] charset_name;
+</code></pre>
+<h2 id="3-查看warings">3、查看Warings:</h2>
+<pre><code>SHOW WARINIGS;
+</code></pre>
+<h2 id="4-查看创建数据库时的编码方式">4、查看创建数据库时的编码方式:</h2>
+<pre><code>SHOW CREATE DATABASE db_name;
+</code></pre>
+<h2 id="5-查看当前服务器下的数据库列表">5、查看当前服务器下的数据库列表:</h2>
+<pre><code>SHOW {DATABASES | SCHEMES};
+</code></pre>
+<h2 id="6-修改数据库">6、修改数据库:</h2>
+<pre><code>ALTER {DATABASE | SCHEME} [db_name]  
+[DEFAULT] CHARACTER SET [=] charset_name；
+</code></pre>
+<h2 id="7-删除数据库">7、删除数据库:</h2>
+<pre><code>DROP {DATABASE | SCHEME} [IF EXISTS] db_name;
+</code></pre>
+<p>————————————————————————————</p>
+<h1 id="3-数据类型">3、数据类型</h1>
+<ul>
+<li>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</li>
+<li>MySQL中定义数据字段的类型对数据库的优化是非常重要的。</li>
+<li>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E7%B1%BB%E5%9E%8B.png" alt="">
+<code>UNSIGNED</code>表示无符号，一般放在数据类型的后面
+————————————————————————————</p>
+<h1 id="4-数据表">4、数据表</h1>
+<p>数据表是数据库的最重要的组成部分之一，是其它对象的基础。</p>
+<h2 id="1-使用数据库">1、使用数据库:</h2>
+<pre><code>USE db_name;
+</code></pre>
+<h2 id="2-创建数据表">2、创建数据表:</h2>
+<pre><code>CREATE TABLE [IF NOT EXISTS] table_name(
+Column_name(列名称） data_type(数据类型) .... ,
+...
+);
+</code></pre>
+<center>实例：👇</center>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
+## 3、查询数据表列表:
+```
+SHOW TABLES [FROM db_name]
+[LIKE 'pattern' | WHERE expr]
+```
+## 4、查看数据表结构:
+```
+SHOW COLUMNS FROM tb_name;
+```
+## 5、数据插入:
+```
+INSERT [INTO] tbl_name [( col_name,…)] VALUES(VAL,…);
+```
+## 6、修改数据:
+```
+UPDATE table_references
+SET col_name = expr1[, col_name2 = expr2…]
+[WHERE where_definition];   --->很重要
+```
+## 7、删除数据:
+```
+DELETE FROM tbl_name
+[WHERE where_defination];
+```
+<p>上面都是MySQL最基础的一些知识，再往后的会慢慢学习。
+————————————————————————————</p>
+<h1 id="5-用python连接mysql数据库">5、用python连接mysql数据库</h1>
+<h2 id="1-mysqldb学习">1、MySQLdb学习</h2>
+<p>下载了MysqlDb这个包，因为之前创建了一个数据库并且添加了一些数据：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-news.png" alt="">
+所以会尝试连接这个数据库并对这个数据表做一些操作！！！开始用一个新包的话，官方文档有很详细的讲解 。</p>
+<p>MySQLdb提供了<code>connect</code>方法来建立一个与数据库的连接，调用这个对象的<code>close</code>方法来关闭一个连接。通过这个连接可以创建出一个游标对象<code>cursor</code>，通过游标对象执行SQL语句来进行数据的增删查改。</p>
+<pre><code class="language-python">import MySQLdb
+try:
+    coon = MySQLdb.connect(
+        host='localhost',
+        user='root',
+        passwd='手动打码处理',
+        db='news',
+        port=3306,
+        charset='utf8'
+    )
+    cursor = coon.cursor()
+    cursor.execute('SELECT * FROM news;')
+    rest = cursor.fetchone()
+    cursor.close()
+    coon.close()
+    print(rest)
+except MySQLdb.Error as e:
+    print('Error: %s' % e)
+
+&gt;&gt;&gt; (1, '丰收节后第二天 习近平考察了这个地方', 'xl', '9月25日，习近平抵达中国“最早迎接太阳的垦区', 1, datetime.datetime(2018, 9, 26, 11, 14, 44), None, '百家')
+</code></pre>
+<p>刚开始运行的时候总会报错，所以用了一个<code>try</code>语句来捕获错误：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-2029%E9%94%99%E8%AF%AF.png" alt="">
+查询后得知这是因为在MySQL8.0改变了认证方式，目前最新的MySQL8.0对用户密码的加密方式为<code>caching_sha2_password</code>, 可能MySQLdb还不支持，所以需要更改为老版本的认证方式<code>mysql_native_password</code>,更改方式：</p>
+<pre><code>mysql -u root -p  \登录mysql
+use mysql;           
+select user,plugin from user where user='root';     \执行命令查看加密方式
+alter user 'root'@'localhost' identified with mysql_native_password by 'yourpassword' \执行命令修改加密方式
+flush privileges                  \属性权限使配置生效
+</code></pre>
+<p>反正最后成功解决错误，连接到了本地数据库输出了第一条数据(因为用了<code>fetchone</code>命令)，但是可以看到输出的结果是一个元组，可能会不清楚里面各个元素的含义是什么，要是想建立一种映射关系，我们需要用到<code>cursor</code>的<code>description</code>方法来查看每个字段的查询名，然后把执行sql后的结果与执行<code>cursor.description()</code>后的结果拼成一个字典：</p>
+<pre><code class="language-python">    def get_one(self):
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家',))
+        print(cursor.description)
+        # 拿到结果
+        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
+        # 处理数据
+        print(rest)
+        print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest
+&gt;&gt;&gt; (('id', 2, 1, 6, 6, 0, 0), ('title', 253, 71, 600, 600, 0, 0), ('img_url', 253, 2, 600, 600, 0, 0), ('content', 253, 133, 6000, 6000, 0, 0), ('is_valid', 1, 1, 4, 4, 0, 1), ('create_at', 12, 19, 19, 19, 0, 1), ('updated_at', 12, 0, 19, 19, 0, 1), ('news_type', 253, 6, 600, 600, 0, 1))
+{'id': 9, 'title': '男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转', 'img_url': 'xl', 'content': '近日，郑州市民刘先生向河南商报记者反映，空空如也的房子，水表却自己转起来，诡异不已。', 'is_valid': 1, 'create_at': datetime.datetime(2018, 9, 26, 11, 21, 59), 'updated_at': None, 'news_type': '百家'}
+男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转
+</code></pre>
+<p>看到执行<code>cursor.description()</code>后的结果是字段的查询名和一串不知道什么意思的数字😰，第一次用了<code>zip()</code>和<code>dict()</code>两个方法，zip()可以把两个元组的对应元素一一打包，返回一个zip对象，而dict可以把两个元素组合起来变成一个字典：</p>
+<pre><code class="language-python">a = (1, 2, 3, 4)
+b = ('a', 'b', 'c', 'd')
+print(type(zip(a, b)))
+print(zip(a, b))
+print(dict(zip(a, b)))
+
+r = ((1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'))
+print(dict(r))
+
+&gt;&gt;&gt; &lt;class 'zip'&gt;
+    &lt;zip object at 0x000001F4AADEDC88&gt;
+    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
+</code></pre>
+<p>还以通过<code>fetchall()</code>的方法获得多个数据库数据，关键是要看你的sql语句怎么写。</p>
+<p>我们可以在sql语句中用<code>%s</code>，这是一种字符串格式化的语法，基本用法是将值插入到%s占位符的字符串中。</p>
+<p>并且可以通过写sql语句和<code>commit()</code>来添加数据：</p>
+<pre><code class="language-python"> def add(self):
+        try:
+            # 准备sql
+            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
+                   news_type) VALUES'
+                   '(%s,%s,%s,%s,%s);')
+            # 获取连接和cursor
+            cursor = self.conn.cursor()
+            # 执行sql
+            # # 提交数据到数据库
+            cursor.execute(sql, ('标题1', 'xl', '内容', 1, '国际'))
+            cursor.execute(sql, ('标题2', 'xl', '内容', '你好', '国际', '123'))
+            # 提交事务
+            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
+            # 关闭cursor和连接
+            cursor.close()
+        except:
+            print('Error')
+            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
+            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
+        self.conn.close()
+</code></pre>
+<p>在添加数据时一定要注意我们设定的数据表每个字段的类型，不能出错。</p>
+<p>完整代码：</p>
+<pre><code class="language-python">import MySQLdb
+
+
+class MysqlSearch():
+
+    def __init__(self):
+        self.get_conn()
+
+    def get_conn(self):
+        try:
+            self.conn = MySQLdb.connect(
+                host='127.0.0.1',
+                user='root',
+                passwd='mysql,,2012',
+                db='news',
+                port=3306,
+                charset='utf8'
+            )
+        except MySQLdb.Error as e:
+            print('Error:%s' % e)
+
+    def close_conn(self):
+        try:
+            if self.conn:
+                self.conn.close()
+        except MySQLdb.Error as e:
+            print('Error:%s' % e)
+
+    def get_one(self):
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家',))
+        print(cursor.description)
+        # 拿到结果
+        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
+        # 处理数据
+        print(rest)
+        print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest
+
+    def get_more(self, page, page_size):
+        offset = (page - 1) * page_size
+        # 准备sql
+        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC\
+               LIMIT %s,%s ;'
+        # 找到cursor
+        cursor = self.conn.cursor()
+        # 执行sql
+        cursor.execute(sql, ('百家', offset, page_size))
+        # print(cursor.description)
+        # 拿到结果
+        rest = [dict(zip([k[0] for k in cursor.description], row))for row in
+                cursor.fetchall()]
+        # rest = cursor.fetchall()
+        # 处理数
+        # print(rest)
+        # print(rest['title'])
+        # 关闭连接，cursor
+        cursor.close()
+        self.close_conn()
+        return rest      
+
+    def add(self):
+        try:
+            # 准备sql
+            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
+                   news_type) VALUES'
+                   '(%s,%s,%s,%s,%s);')
+            # 获取连接和cursor
+            cursor = self.conn.cursor()
+            # 执行sql
+            # 提交数据到数据库
+            cursor.execute(sql, ('标题8', 'xl', '内容', 1, '国际'))
+            cursor.execute(sql, ('标题9', 'xl', '内容', '你好', '国际', '123'))
+            # 提交事务
+            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
+            # 关闭cursor和连接
+            cursor.close()
+        except:
+            print('Error')
+            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
+            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
+        self.close_conn()
+
+
+def main():
+    obj = MysqlSearch()
+    # rest = obj.get_one()
+    rest = obj.get_more(2, 2)
+    print(rest)
+    # for item in rest:
+    #     print(item)
+    #     print('-------')
+    # obj.add()
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<h2 id="2-orm">2、ORM</h2>
+<p>ORM：对象关系映射(Object Relational Mapping，简称ORM，或O/RM，或O/R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换 。从效果上说，它其实是创建了一个可在编程语言里使用的--“虚拟对象数据库”。</p>
+<p>这是百度百科里的介绍，在前面我们用mysqldb这个包的时候，它只是输出了数据库中的数据，我们还是用zip和description强行建立一种映射关系，并且还要写sql语句，而在ORM中，我们不需要关心这些东西，我们只要按照ORM的套路来就行。</p>
+<p>常用的ORM实现方法有SqlObject、peewee、Django's ORM  、SQLAlchemy</p>
+<h3 id="sqlalchemy学习">SQLAlchemy学习</h3>
+<p><code>https://docs.sqlalchemy.org/en/latest/orm/</code>------&gt;官方文档地址
+在MySQL中不同字符类型在sqlalchemy中都有对应的类型与之匹配，比如VARCHAR对应String，INT对应Integer。</p>
+<h4 id="创建一张表">创建一张表</h4>
+<p>如果我们想在某个数据库中创建一个表，我们首先要用到<code>engine</code>来与数据库建立连接，接着继承<code>Base</code>这个基类中的方法来同我们的数据库进行映射，接着定义数据表的每个字段的类型，最后通过下图中的方法来创建数据表：</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-py%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
+我们可以看到`Base.metadta.create_all(engine)`这条语句就相当于一条sql语句，编写代码来实验一下：
+```python
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, Boolean
+<h1 id="engine-create_enginemysqlscotttigerlocalhostfoo-官方给出的连接方法">engine = create_engine('mysql://scott:tiger@localhost/foo') #官方给出的连接方法</h1>
+<h1 id="scott-用户名-triger-密码-foo数据库">scott 用户名 triger 密码  foo数据库</h1>
+<p>engine = create_engine('mysql://root:手动打码此处的密码虽然没有什么卵用@localhost:3306/news_test')
+Base = declarative_base()  # sqlalchemy定义的一个基类</p>
+<p>class News(Base):
+<strong>tablename</strong> = 'news'
+id = Column(Integer, primary_key=True)
+title = Column(String(200), nullable=False)
+img_url = Column(String(200), nullable=False)
+content = Column(String(2000), nullable=False)
+is_valid = Column(Boolean)
+create_at = Column(DateTime)
+update_at = Column(DateTime)
+news_type = Column(String(20))</p>
+<p>News.metadata.create_all(engine)</p>
+<pre><code>
+可以在图形化的mysql数据库中看到，已经成功的创建了一张数据表。
+![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%96%B0%E5%BB%BA%E4%B8%80%E5%BC%A0%E6%95%B0%E6%8D%AE%E8%A1%A8.png)
+
+
+#### 新增数据
+在前面学些mysqldb的时候，无论时新增数据还是删除数据，都需要借助一个游标来完成操作，而在sqlalchemy中，需要借助`session`：
+![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BAsession.png)
+我们来试验一下：
+```python
+class AddTest():
+    def __init__(self):
+        self.session = Session()
+
+    def add(self):
+        news_obj = News(
+            title='标题1',
+            img_url='xxx/xxx/xxx.jpg',
+            content='内容1',
+            create_at=datetime.datetime.now(),
+            news_type='国际'
+        )
+        self.session.add(news_obj)
+        self.session.commit()
+        return news_obj
+</code></pre>
+<p>执行几次以后发现，数据已经被添加到数据库中了：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%B7%BB%E5%8A%A0%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE.png" alt=""></p>
+<p>不过这里我有一点疑惑，因为在写sql语句的时候，我们要让id自增必须填入<code>AUTO_INCREMENT</code>再加主键约束才可以，不知道为什么在这里只需要标明是主键约束就可以了。
+添加多条数据时，我们可以填写多个<code>session.add()</code>语句，也可以使用<code>session.add_all()</code>语句进行添加：</p>
+<pre><code class="language-python">self.session.add_all((news_obj1, news_obj2, news_obj3))
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+                  <a href="https://tudouvvv.github.io//tag/mysql" class="tag">
+                    Mysql
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/猫眼电影TOP100爬取">
+                  <h3 class="post-title">
+                    猫眼电影TOP100爬取
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>构建多层神经网络与初步尝试使用keras构建CNN | Tudouvvv</title>
+<meta name="description" content="人生还长，慢慢来">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562659290623">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://tudouvvv.github.io/">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562659290623" class="site-logo">
+        <h1 class="site-title">Tudouvvv</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生还长，慢慢来
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://tudouvvv.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">构建多层神经网络与初步尝试使用keras构建CNN</h2>
+            <div class="post-date">2018-11-14</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-11-14-banner.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>正准备开始写这篇记录，结果发现图床坏了- -，又开始从原来的图床把之前的图片转移到新的图床，浪费了好多时间。</p>
+<p>上次用logestic回归和梯度下降法训练了一个神经网络，用来做二分类的问题，最后精度差不多70%左右，这次主要写一个多层的神经网络，训练同样的数据集，看一看会不会对准确度有提升。</p>
+<h1 id="多层神经网络">多层神经网络</h1>
+<p>多层神经网络中，也分为前向传播和后向传播，前向传播计算损失函数，后向传播通过梯度下降法来更新参数。在每一层中，先通过一个线性的激活单元<code>Z = WX + b</code>，然后再通过一个非线性的激活单元，这里的话由于我们做的是二分类问题，所以最后一层的激活函数选择<code>sigmoid</code>，其它层中选择效果比较好的<code>Relu</code>函数，在实际的操作中，对于一个L层的神经网络，我们需要进行<code>L-1</code>次Relu函数激活。</p>
+<p>这是多层神经网络的大概结构：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%A4%9A%E5%B1%82%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C.png" alt=""></p>
+<p>前向过程就是不断的通过各层神经网络直到最后计算损失，最主要的就是后向过程，后向过程就是链式求导以便最后使用梯度下降法来更新每一层的参数</p>
+<p>对前向过程来说：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%89%8D%E5%90%91%E8%BF%87%E7%A8%8B.png" alt=""></p>
+<p>即根据上一层的激活值通过线性单元和激活函数输出本层的激活值，其中<code>g(Z)</code>代表每一层的激活函数，而后向过程中，我们需要计算每一层<code>dW</code>和<code>db</code>的值以便进行后面的参数更新：</p>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%90%8E%E5%90%91%E4%BC%A0%E6%92%AD.png" alt=""></p>
+<p>讲道理，矩阵学的不是很好，所以一旦把变量矩阵化以后进行求导操作什么的有点迷糊，这里需要再好好学习一下</p>
+<p>这样就是整个深层神经网络的基本结构了</p>
+<p>我们可以先把激活函数的前向和后向过程写成一个模块，以便方便调用：</p>
+<pre><code class="language-python">import numpy as np
+
+
+def sigmoid(Z):
+    A = 1 / (1 + np.exp(-Z))
+    cache = Z
+    return A, cache
+
+
+def sigmoid_backward(dA, cache):
+    Z = cache
+    s = 1 / (1 + np.exp(-Z))
+    dZ = dA * s * (1 - s)
+    return dZ
+
+
+def relu(Z):
+    A = np.maximum(0, Z)
+    cache = Z
+    return A, cache
+
+
+def relu_backward(dA, cache):
+    Z = cache
+    dZ = np.array(dA, copy=True)
+    dZ[Z &lt;= 0] = 0
+    return dZ
+</code></pre>
+<p>接着来开始写我们的多层神经网络，第一步是对我们的数据进行预处理，由于我们输入的是64*64的图片，而且一张彩色图片有rgb三个通道，所以我们要把一张图片上三个通道的信息整合在一起作为一列，把训练集和测试集的图片的信息处理为一个矩阵，作为神经网络的输入，同时可以对输入数据进行缩小，由于像素值表示亮度，每点的像素值最大为255，我们可以每个点的像素值都除以255，使得我们的输入数据全部在[0, 1]之间。
+训练集和测试集的样本数据来自已经写好的模块。</p>
+<pre><code class="language-python">train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x.reshape(train_set_x.shape[0], -1).T
+test_set_x = test_set_x.reshape(test_set_x.shape[0], -1).T
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+</code></pre>
+<p>接着应该初始化我们每一层的参数，之前对于只有一个logestic单元，初始化时可以都为0，但是对多层神经网络来说，如果W初始化为0 则对于任何X，每个隐藏层对应的每个神经元的输出都是相同的，这样即使梯度下降训练，无论训练多少次，这些神经元都是对称的，无论隐藏层内有多少个结点，都相当于在训练同一个函数，所以我们要采用随机初始化。</p>
+<p>在多层神经网络中，每一层参数的维度都是确定的，与该层神经元的个数密切相关：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%8F%82%E6%95%B0%E7%BB%B4%E5%BA%A6.png" alt=""></p>
+<p>所以我们这样来初始化每一层的参数：</p>
+<pre><code class="language-python">def initialize_parameters(dims):
+    L = len(dims)
+    parameters = {}
+    for l in range(1, L):
+        parameters['W' + str(l)] = np.random.randn(dims[l], dims[l-1]) * np.sqrt(1 / dims[l - 1])
+        parameters['b'+ str(l)] = np.zeros((dims[l], 1))
+    return parameters
+</code></pre>
+<p><code>dims</code>为一个列表，其中包含每一层神经元的个数，比如<code>[12288, 12, 7, 1]</code></p>
+<p>这样就初始化好了每一层的变量，之前说过一个对于该多层神经网络来说，前向传播时会进行<code>L-1</code>次<code>relu</code>激活，一次<code>sigmoid</code>激活，每一次激活包括线性激活和激活函数激活，我们把这个操作定义成一个函数，到时候直接调用函数就可以了。</p>
+<p>所以接下来定义每一层的线性激活部分的函数，线性激活部分主要做的就是<code>Z = WA + B</code>:</p>
+<pre><code class="language-python">def linear_forward(A, W, b):
+    Z = np.dot(W, A) + b
+    linear_cache = (A, W, b)
+    return Z, linear_cache
+</code></pre>
+<p>这里要记得保存线性部分的参数，之后做梯度下降法的时候会用到。
+然后就是定义激活函数激活的函数，激活函数做的就是<code>A = g(Z)</code>:</p>
+<pre><code class="language-python">def activation_forward(A_pre, W, b, activation):
+    if activation == 'relu':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = relu(Z)
+    if activation == 'sigmoid':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = sigmoid(Z)
+        
+    cache = (linear_cache, activation_cache)
+    return A, cache
+</code></pre>
+<p>在激活函数中调用之前写的线性激活函数，最后返回每一层的输出<code>A</code>以及参数<code>cache</code>。</p>
+<p>接下来就可以进行前向过程的编写了，前向过程的输入是我们的图片信息，我们以<code>X</code>表示，以及每一层的参数，我们以<code>parameters</code>表示，这样在经过每一层的传播之后，最终得到我们的输出结果<code>AL</code>，我们要用它来计算损失函数的大小：</p>
+<pre><code class="language-python">def L_model_forward(X, parameters):
+    caches = []
+    A = X
+    L = len(parameters) // 2
+    for l in range(1, L):
+        A_prev = A
+        A, cache = activation_forward(A_prev, parameters['W'+str(l)], parameters['b'+str(l)], 'relu')
+        caches.append(cache)
+        
+    AL, cache = activation_forward(A, parameters['W'+str(L)], parameters['b'+str(L)], 'sigmoid')
+    caches.append(cache)
+    
+    return AL, caches
+</code></pre>
+<p>这样整个前向过程全部完成，接下来应该计算损失函数的大小，由于这是一个二分类问题，我们采用二元交叉熵作为我们的损失函数，它的表达式如下：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0.png" alt=""></p>
+<pre><code class="language-python">def cost_compute(AL, Y):
+    m = Y.shape[1]
+    cost = (-1 / m) * np.sum(np.multiply(Y, np.log(AL)) + np.multiply((1 - Y), np.log(1 - AL)))
+    cost = np.squeeze(cost)
+
+    return cost
+</code></pre>
+<p>这就是整个前向过程的所有步骤了，我们以降低损失函数为目标，在后向过程中不断使用梯度下降法进行优化，逐渐逼近最低值，目前只是简单的使用梯度下降法，后面会尝试其它的优化方案，比如动量梯度下降或者mini-batch。</p>
+<p>完成整个前向过程之后，思考一下后续的步骤，对于后向过程来说，每一个神经元先对激活函数激活的部分进行求导得到<code>dZ</code>，然后在对线性激活的部分求导，得到<code>dW</code>和<code>db</code>，我们首先定义线性激活的后向过程：</p>
+<pre><code class="language-python">def linear_backward(dZ, cache):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+    dW = np.dot(dZ, A_prev.T) / m
+    db = np.sum(dZ, axis=1, keepdims=True) / m
+    dA_prev = np.dot(W.T, dZ)
+    return dA_prev, dW, db
+</code></pre>
+<p>接着定义激活函数激活的后向过程，我们之前已经把两个激活函数的后向求导过程定义好了，我们只要调用就好了。之前也说过，每个激活单元分为两个过程，线性激活与函数激活两个过程，我们现在调用了函数激活的后向过程，得到<code>dZ</code>，然后在调用上面定义的线性激活的后向过程，得到<code>dA</code>、<code>dW</code>、<code>db</code>：</p>
+<pre><code class="language-python">def activation_backward(dA, cache, activation):
+    linear_cache, activation_cache = cache
+    if activation == 'relu':
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+    if activation == 'sigmoid':
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    return dA_prev, dW, db
+</code></pre>
+<p>然后就可以把全部过程整合在一起，我们可以想一下这个过程，从最后一个<code>sigmoid</code>激活单元来说，它会经历一个上述的<code>activation_backward</code>过程，前提是我们需要求出损失函数对最终输出的求导就好<code>dAL</code>，之后调用上述函数。之后就是<code>L-1</code>次的<code>relu</code>函数的后向传播过程，这样我们就会得到每一层参数的导数，以便通过梯度下降法进行参数的更新：</p>
+<pre><code class="language-python">def L_model_backward(AL, Y, caches):
+    grads = {}
+    L = len(caches)
+    m = AL.shape[1]
+    Y = Y.reshape(AL.shape)
+    dAL = -(np.divide(Y, AL) - np.divide((1 - Y), (1 - AL)))
+
+    current_cache = caches[L - 1]
+    grads['dA'+str(L)], grads['dW'+str(L)], grads['db'+str(L)] = activation_backward(dAL, current_cache, 'sigmoid')
+
+    for l in reversed(range(L - 1)):
+        current_cache = caches[l]
+        grads['dA'+str(l + 1)], grads['dW'+str(l + 1)], grads['db'+str(l + 1)] = activation_backward(grads['dA'+str(l + 2)], current_cache, 'relu')
+
+    return grads
+</code></pre>
+<p>现在我们来定义参数更新的函数，参数更新需要定义学习率<code>learning_rate</code>，它控制我们每次参数更新的步长：</p>
+<pre><code class="language-python">def up_parameters(parameters, grads, learning_rate):
+    L = len(parameters) // 2
+    for l in range(L):
+        parameters['W'+str(l+1)] = parameters['W'+str(l+1)] - learning_rate * grads['dW'+str(l+1)]
+        parameters['b'+str(l+1)] = parameters['b'+str(l+1)] - learning_rate * grads['db'+str(l+1)]
+    return parameters
+</code></pre>
+<p>这样所有的过程都已经全部完成了，我们现在只需调用上述的所有过程就好，我们同时还可以定义每迭代100次打印出此时的损失函数的值，同时在迭代结束后打印出损失函数的曲线，看一下我们的训练过程：</p>
+<pre><code class="language-python">def L_model(X, Y, dims, learning_rate, num_iternation, print_cost=False, isPlot=False):
+    parameters = initialize_parameters(dims)
+    costs = []
+    for i in range(num_iternation):
+        AL, caches = L_model_forward(X, parameters)
+        cost = cost_compute(AL, Y)
+        grads = L_model_backward(AL, Y, caches)
+        parameters = up_parameters(parameters, grads, learning_rate)
+
+        if i % 100 == 0:
+            costs.append(cost)
+            if print_cost:
+                print(&quot;第&quot;, i + 100, &quot;次迭代，成本值为:&quot;, np.squeeze(cost))
+
+    if isPlot:
+        plt.plot(np.squeeze(costs))
+        plt.ylabel('cost')
+        plt.xlabel('iterations (per tens)')
+        plt.title(&quot;Learning rate =&quot; + str(learning_rate))
+        plt.show()
+    return parameters
+</code></pre>
+<p>这样我们定义好神经网络的结构，直接调用这个函数就好，最后我们需要定义一个<code>predict</code>接口，以便训练好我们的神经网络以后进行测试集的预测：</p>
+<pre><code class="language-python">def predict(X, Y, parameters):
+    m = Y.shape[1]
+    Y_predict = np.zeros((1, m))
+    AL, caches = L_model_forward(X, parameters)
+
+    for i in range(0, AL.shape[1]):
+        if AL[0, i] &gt; 0.5:
+            Y_predict[0, i] = 1
+        else:
+            Y_predict[0, i] = 0
+
+    print(&quot;准确度为:&quot;, 100 - np.mean(np.abs(Y - Y_predict)) * 100, &quot;%&quot;)
+    return Y_predict
+</code></pre>
+<h3 id="下面是完整的代码">下面是完整的代码：</h3>
+<pre><code class="language-python">import numpy as np
+from lr_utils import load_dataset
+import matplotlib.pyplot as plt
+from c9 import sigmoid, sigmoid_backward, relu, relu_backward
+
+train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x.reshape(train_set_x.shape[0], -1).T
+test_set_x = test_set_x.reshape(test_set_x.shape[0], -1).T
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+
+
+def initialize_parameters(dims):
+    L = len(dims)
+    parameters = {}
+    for l in range(1, L):
+        parameters['W' + str(l)] = np.random.randn(dims[l], dims[l-1]) * np.sqrt(1 / dims[l - 1])
+        parameters['b'+ str(l)] = np.zeros((dims[l], 1))
+    return parameters
+
+
+def linear_forward(A, W, b):
+    Z = np.dot(W, A) + b
+    linear_cache = (A, W, b)
+    return Z, linear_cache
+
+
+def activation_forward(A_pre, W, b, activation):
+    if activation == 'relu':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = relu(Z)
+    elif activation == 'sigmoid':
+        Z, linear_cache = linear_forward(A_pre, W, b)
+        A, activation_cache = sigmoid(Z)
+
+    cache = (linear_cache, activation_cache)
+    return A, cache
+
+
+def L_model_forward(X, parameters):
+    caches = []
+    A = X
+    L = len(parameters) // 2
+    for l in range(1, L):
+        A_prev = A
+        A, cache = activation_forward(A_prev, parameters['W' + str(l)], parameters['b' + str(l)], 'relu')
+        caches.append(cache)
+
+    AL, cache = activation_forward(A, parameters['W' + str(L)], parameters['b' + str(L)], 'sigmoid')
+    caches.append(cache)
+
+    return AL, caches
+
+
+def cost_compute(AL, Y):
+    m = Y.shape[1]
+    cost = (-1 / m) * np.sum(np.multiply(Y, np.log(AL)) + np.multiply((1 - Y), np.log(1 - AL)))
+    cost = np.squeeze(cost)
+
+    return cost
+
+
+def linear_backward(dZ, cache):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+    dW = np.dot(dZ, A_prev.T) / m
+    db = np.sum(dZ, axis=1, keepdims=True) / m
+    dA_prev = np.dot(W.T, dZ)
+
+    return dA_prev, dW, db
+
+
+def activation_backward(dA, cache, activation):
+    linear_cache, activation_cache = cache
+    if activation == 'relu':
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+    elif activation == 'sigmoid':
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache)
+
+    return dA_prev, dW, db
+
+
+def L_model_backward(AL, Y, caches):
+    grads = {}
+    L = len(caches)
+    m = AL.shape[1]
+    Y = Y.reshape(AL.shape)
+    dAL = -(np.divide(Y, AL) - np.divide((1 - Y), (1 - AL)))
+
+    current_cache = caches[L - 1]
+    grads['dA'+str(L)], grads['dW'+str(L)], grads['db'+str(L)] = activation_backward(dAL, current_cache, 'sigmoid')
+
+    for l in reversed(range(L - 1)):
+        current_cache = caches[l]
+        grads['dA'+str(l + 1)], grads['dW'+str(l + 1)], grads['db'+str(l + 1)] = activation_backward(grads['dA'+str(l + 2)], current_cache, 'relu')
+
+    return grads
+
+
+def up_parameters(parameters, grads, learning_rate):
+    L = len(parameters) // 2
+    for l in range(L):
+        parameters['W'+str(l+1)] = parameters['W'+str(l+1)] - learning_rate * grads['dW'+str(l+1)]
+        parameters['b'+str(l+1)] = parameters['b'+str(l+1)] - learning_rate * grads['db'+str(l+1)]
+    return parameters
+
+
+def L_model(X, Y, dims, learning_rate, num_iternations, print_cost=False, isPlot=False):
+    parameters = initialize_parameters(dims)
+    costs = []
+    for i in range(num_iternations):
+        AL, caches = L_model_forward(X, parameters)
+        cost = cost_compute(AL, Y)
+        grads = L_model_backward(AL, Y, caches)
+        parameters = up_parameters(parameters, grads, learning_rate)
+
+        if i % 100 == 0:
+            costs.append(cost)
+            if print_cost:
+                print(&quot;第&quot;, i + 100, &quot;次迭代，成本值为:&quot;, np.squeeze(cost))
+
+    if isPlot:
+        plt.plot(np.squeeze(costs))
+        plt.ylabel('cost')
+        plt.xlabel('iterations (per tens)')
+        plt.title(&quot;Learning rate =&quot; + str(learning_rate))
+        plt.show()
+    return parameters
+
+
+def predict(X, Y, parameters):
+    m = Y.shape[1]
+    Y_predict = np.zeros((1, m))
+    AL, caches = L_model_forward(X, parameters)
+
+    for i in range(0, AL.shape[1]):
+        if AL[0, i] &gt; 0.5:
+            Y_predict[0, i] = 1
+        else:
+            Y_predict[0, i] = 0
+
+    print(&quot;准确度为:&quot;, 100 - np.mean(np.abs(Y - Y_predict)) * 100, &quot;%&quot;)
+    return Y_predict
+
+
+dims = [12288, 20, 7, 5, 1]
+parameters = L_model(train_set_x, train_set_y, dims, learning_rate=0.005, num_iternations=2000, print_cost=True, isPlot=True)
+
+print('训练集准确度：')
+Y_train_predict = predict(train_set_x, train_set_y, parameters)
+print('~~~~~~~~~~~~~~~~~~')
+print('测试集准确度：')
+Y_test_predict = predict(test_set_x, test_set_y, parameters)
+</code></pre>
+<h3 id="训练结果">训练结果</h3>
+<pre><code>第 100 次迭代，成本值为: 0.6994873707865432
+第 200 次迭代，成本值为: 0.6806558525294543
+第 300 次迭代，成本值为: 0.6705312328121265
+第 400 次迭代，成本值为: 0.6619037949674021
+第 500 次迭代，成本值为: 0.6536510177438547
+第 600 次迭代，成本值为: 0.6446148155840906
+第 700 次迭代，成本值为: 0.634667166888006
+第 800 次迭代，成本值为: 0.6221946752377217
+第 900 次迭代，成本值为: 0.6056921109383494
+第 1000 次迭代，成本值为: 0.5842339799894992
+第 1100 次迭代，成本值为: 0.5575090729216234
+第 1200 次迭代，成本值为: 0.5265284524914055
+第 1300 次迭代，成本值为: 0.4923067992292893
+第 1400 次迭代，成本值为: 0.45628570738509455
+第 1500 次迭代，成本值为: 0.419308167347863
+第 1600 次迭代，成本值为: 0.38715877890532724
+第 1700 次迭代，成本值为: 0.355732703783392
+第 1800 次迭代，成本值为: 0.3352978704494966
+第 1900 次迭代，成本值为: 0.30310463706295426
+第 2000 次迭代，成本值为: 0.29058149758066887
+训练集准确度：
+准确度为: 97.12918660287082 %
+~~~~~~~~~~~~~~~~~~
+测试集准确度：
+准确度为: 74.0 %
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E6%9C%80%E7%BB%88%E7%9A%84%E6%9B%B2%E7%BA%BF.png" alt=""></p>
+<p>由于我们每次的参数都是随机初始化的，所以训练的每一次的结果都是不一样的，但是相比较上次使用logestic回归70%的准确度，这次的74%有一点点上升。(但是有的时候也有不好的情况- -)</p>
+<h1 id="卷积神经网络">卷积神经网络</h1>
+<p>卷积神经网络相比较全连接的神经网络，对图像更加友好。</p>
+<ol>
+<li>
+<p>卷积神经网络中，最重要的就是卷积核(filter)，使用卷积核在图片上移动做卷积运算，得到新的矩阵</p>
+</li>
+<li>
+<p>使用不同的卷积核，我们可以得到不同的边缘特征</p>
+</li>
+<li>
+<p>卷积核中的每个数都是一个参数，我们需要做的就是通过神经网络去学习这些参数</p>
+</li>
+<li>
+<p>卷积以后的维度 X =  (N - F) + 1，这样卷积以后有两个缺点：1、每次卷积完以后图像会缩小；2、图像的角落和边缘信息会丢失。为了解决这些问题，我们可以使用padding，在图像的边缘进行填充，这样卷积以后的维度为 X = (N + 2P - F) + 1。至于填充多少个像素，一般分为Valid 和 Same，Valid卷积不填充像素，Same卷积意味着卷积以后图片的大小不变，即 N = (N + 2P - F) + 1，此时，P = (F - 1)/2，所以卷积核的维度一般选择奇数，一方面可能是为了Padding，另一方面此时的卷积核会有一个中心点。</p>
+</li>
+<li>
+<p>卷积核移动的步长也是一个参数，此时的输出维度 X = (N + 2P - F)/S + 1，【如果不是整数，向下取整】。</p>
+</li>
+<li>
+<p>互相关和卷积：是否旋转镜像，但是对于卷积神经网络来说，我们把互相关的数学运算就叫做卷积</p>
+</li>
+<li>
+<p>对一张图片来说，有三个通道，<code>而卷积核的通道数必须与图片的通道数一致</code>。比如图片是6 × 6 × 3，如果卷积核为 3 × 3 × 3，此时进行卷积时，每个通道分别卷积，然后将每个通道卷积后的结果相加，得到一个4 × 4 × 1的输出结果。这样用多个3 × 3 × 3的卷积核进行卷积，得到多个4 × 4的输出结果，相当于多个channels。</p>
+</li>
+<li>
+<p>卷积以后得到4 × 4的输出结果，此时再加上偏差，相当于 Z = W*X + b，然后应用激活函数，A = g(Z)，最后把这些激活以后的结果堆叠在一起，进行下一层的卷积运算。这样做的好处就是极大的减少了参数的个数，避免过拟合。</p>
+</li>
+<li>
+<p>除了卷积层，一般也经常使用池化层，来缩减模型大小，提高计算速度。池化层有两种方法，一种是Max Pooling，选取区域内的最大值，这样做可以解释为如果过滤器提取到了某个特征，那么保留其最大值。还有一种是Average Pooling，选取平均值，不过不是经常使用。池化层没有需要学习的参数，池化后通道数不会改变。池化层需要选择filter的大小和步长，一般都是取2，这种情况下会缩小一半。</p>
+</li>
+<li>
+<p>卷积神经网络的优点：参数共享和稀疏连接</p>
+</li>
+</ol>
+<h2 id="keras中定义卷积神经网络">Keras中定义卷积神经网络</h2>
+<p>在Keras中，定义一个卷积神经网络是非常简单的：</p>
+<pre><code>from lr_utils import load_dataset
+from keras import optimizers
+import matplotlib.pyplot as plt
+from keras import models
+from keras import layers
+
+train_set_x, train_set_y, test_set_x, test_set_y, classes = load_dataset()
+
+train_set_x = train_set_x / 255
+test_set_x = test_set_x / 255
+
+train_set_y = train_set_y.T
+test_set_y = test_set_y.T
+
+model = models.Sequential()
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 3)))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.Flatten())
+model.add(layers.Dense(64, activation='relu'))
+model.add(layers.Dense(1, activation='sigmoid'))
+
+model.compile(optimizer=optimizers.sgd(lr=0.005),
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+
+history = model.fit(train_set_x, train_set_y, epochs=2000, batch_size=209)
+train_loss, train_acc = model.evaluate(train_set_x, train_set_y)
+test_loss, test_acc = model.evaluate(test_set_x, test_set_y)
+
+print('train_loss', train_loss, 'train_acc', train_acc)
+print('test_loss', test_loss, 'test_acc', test_acc)
+
+history_dict = history.history
+
+loss_values = history_dict['loss']
+epochs = range(1, len(loss_values) + 1)
+plt.plot(epochs, loss_values, 'b', label='Train loss')
+plt.title('Training loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.show()
+
+</code></pre>
+<p>具体的结构是跟书上的例子一模一样，可以看一些这个卷积神经网络的结构：</p>
+<pre><code>Using TensorFlow backend.
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d_1 (Conv2D)            (None, 62, 62, 32)        896
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 31, 31, 32)        0
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 29, 29, 64)        18496
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 14, 14, 64)        0
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 12, 12, 64)        36928
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 9216)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 64)                589888
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 65
+=================================================================
+Total params: 646,273
+Trainable params: 646,273
+Non-trainable params: 0
+</code></pre>
+<p>这是它的训练结果，讲道理测试集准确度竟然达到了84%，不过损失函数曲线有点不稳定：</p>
+<pre><code>train_loss 0.17385125616520786 train_acc 0.93779904391777
+test_loss 0.5197753620147705 test_acc 0.8399999928474426
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/keras_cat.png" alt=""></p>
+<p>后面会尝试K-折交叉验证或者加入正则项。</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>待续</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+                  <a href="https://tudouvvv.github.io//tag/keras" class="tag">
+                    Keras
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业">
+                  <h3 class="post-title">
+                    神经网络与深度学习-第二周作业
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

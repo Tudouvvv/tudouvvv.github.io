@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>神经网络与深度学习-第二周作业 | Tudouvvv</title>
+<meta name="description" content="人生还长，慢慢来">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562659290623">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://tudouvvv.github.io/">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562659290623" class="site-logo">
+        <h1 class="site-title">Tudouvvv</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生还长，慢慢来
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://tudouvvv.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">神经网络与深度学习-第二周作业</h2>
+            <div class="post-date">2018-10-19</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-cat.jpeg')">
+              </div>
+            
+            <div class="post-content">
+              <p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。
+参考文章：<a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Neural%20Networks%20and%20Deep%20Learning/Logistic%20Regression%20with%20a%20Neural%20Network%20mindset.ipynb">Logistic Regression with a Neural Network mindset</a></p>
+<h1 id="目标识别图片中有没有猫">目标：识别图片中有没有猫</h1>
+<h1 id="步骤">步骤：</h1>
+<h2 id="1-准备工作">1、准备工作</h2>
+<p>下载了相关文件(数据集)，训练集共有209张图片，测试集50张图片
+分类方法：有猫为1，没有猫为0
+导入相关的包:</p>
+<pre><code class="language-python">import numpy as np
+import h5py
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+</code></pre>
+<h2 id="2-数据处理">2、数据处理</h2>
+<pre><code class="language-python">def load_dataset():
+    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;) # h5py读取文件，要加r
+    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # 训练集数据
+    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # 训练集标签
+
+    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
+    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # 测试集数据
+    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # 测试集标签
+
+    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
+
+    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
+    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
+
+    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
+
+
+train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+</code></pre>
+<p>这一部分代码是资料中给的，主要作用是从数据集中读取数据，直接拿来用就好。</p>
+<p>我们可以看一下训练集中第88张图片的信息以及图片到底是什么样的：</p>
+<pre><code class="language-python">train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+
+index = 88
+img = train_set_x_orig[index]
+print(img.shape)
+plt.imshow(img)
+plt.show()
+
+&gt;&gt;&gt; (64, 64, 3)
+</code></pre>
+<p>img储存的是图片信息，计算机要保存一张照片，要保存为三个独立矩阵，因为图片的像素是由三原色(R,G,B)构成的，每个矩阵保存着每个单原色在各像素处的亮度，所以img是一个维度为(64, 64, 3)的数组。</p>
+<p>我们可以使用<code>matplotlib</code>这个包的<code>image</code>模块下的<code>imshow</code>函数来对图片信息进行&quot;编译&quot;,输出图片具体的样子，后面要加<code>plt.show()</code>来显示图片：</p>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-88%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF.png)</center>
+<p>编写代码来输出本次模拟的相关信息：</p>
+<pre><code class="language-python">
+number_train = train_set_y.shape[1]
+number_test = test_set_y.shape[1]
+number_px = train_set_x_orig.shape[1]
+
+print(&quot;训练集图片的数量:&quot;, number_train)
+print(&quot;测试集图片的数量:&quot;, number_test)
+print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
+print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
+print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
+print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
+print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
+
+&gt;&gt;&gt;
+
+训练集图片的数量: 209
+测试集图片的数量: 50
+每张图片的大小: 64 * 64
+训练集数据的维数: (209, 64, 64, 3)
+训练集标签的维数: (1, 209)
+测试集数据的维数: (50, 64, 64, 3)
+测试集标签的维数: (1, 50)
+</code></pre>
+<p>由于图片的维度是一个(64, 64, 3)的numpy数组，为了训练的方便，我们需要把一张图片上的信息整合到一起，即构造成一个(64*64*3, 1）的列向量，然后把所有的图片信息放在一个数组中，每一列储存着一张照片的信息。也就是要把训练集和数据集中的数据进行降维处理:</p>
+<pre><code class="language-python">train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
+print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
+
+&gt;&gt;&gt; 降维后训练集数据的维数: (12288, 209)
+    降维后测试集数据的维数: (12288, 50)
+</code></pre>
+<p><code>reshape()</code>可以对数组进行重新构造，以训练集的数据为例，由于共有209张图片，所以我们需要得到一个列为209的数组，但是由于数据量太大，我们并不知道有多少行，<code>reshape()</code>方法中有一个机制，即输入负数，它会帮我们算好行数，所以我们可以这样设置 <code>train_x_con = train_set_x_orig.reshape(-1, train_set_x_orig.shape[0])</code>，或者我们设置行数为209，最后加<code>.T</code>转置数列即可：<code>train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T</code>。</p>
+<p>以前做毕设的时候有对数据进行归一化处理，因为是不同特征的数字，属于奇异样本数据，归一化以后消除不同数据量纲数字大小的影响，加快学习的速度。而在机器学习中，对数据进行标准化也是很重要的，在图片数据集中，由于每个像素点的信息最大为255，所以可以对所有数除以255，让数据集数据位于[0, 1]之间：</p>
+<pre><code class="language-python">train_set_x = train_x_con /255
+test_set_x = test_x_con /255
+</code></pre>
+<h2 id="3-记录思路">3、记录思路</h2>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-LogReg_kiank.png" alt=""></p>
+<p>我们所需要用到的算法和函数：
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E5%85%AC%E5%BC%8F.png" alt=""></p>
+<p>我们需要做的：</p>
+<ul>
+<li>1、初始化变量w,b</li>
+<li>2、前向传播得到概率和成本值J</li>
+<li>3、反向传播来得到成本值对w和b的导数</li>
+<li>4、通过梯度下降法来更新变量w和b</li>
+<li>5、重复步骤2、3、4</li>
+</ul>
+<h2 id="4-go">4、Go！</h2>
+<pre><code class="language-python">def init_variable(dim):
+    w = np.zeros((dim, 1))
+    b = 0
+    return w, b
+
+def sigmoid(z):
+    s = 1 / (1 + np.exp(-z))
+    return s
+</code></pre>
+<p>定义函数初始化变量w,b，w是每个输入特征的所占权重，所以应该是一个<code>(64*64*3， 1)</code>的列向量
+定义前向传播函数Sigmoid的一般形式，输入参数z可以是一个numpy数组</p>
+<p>这样，初始化工作已经完成，可以开始进行学习操作了，定义传播函数propagate得到成本值以及w和b的梯度：</p>
+<pre><code class="language-python">def propagate(w, b, X, Y):
+    m = X.shape[1]
+    
+    # 前向传播
+    A = sigmoid(np.dot(w.T, X) + b)
+    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
+    
+    # 反向传播
+    dw = (1 / m) * np.dot(X, (A - Y).T)
+    db = (1 / m) * np.sum(A - Y)
+
+    reci = {
+        &quot;dw&quot;: dw,
+        &quot;db&quot;: db
+    }
+
+    return  reci, cost
+</code></pre>
+<p>上面用到的公式都是视频中推导过的，<code>np.dot()</code>可以完成两个矩阵的乘法，<code>np.sum()</code>可以进行累加操作。</p>
+<p>接下来定义梯度下降函数optimize来进行迭代，即通过最小化成本J来更新 w 和 b：</p>
+<pre><code class="language-python">def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
+    costs = []
+    for i in range(num_iterations):
+        reci, cost = propagate(w, b, X, Y)
+        dw = reci[&quot;dw&quot;]
+        db = reci[&quot;db&quot;]
+        
+        w = w - learning_rate * dw
+        b = b - learning_rate * db
+        
+        if i % 100 == 0:
+            costs.append(cost)
+        if (print_cost) and (i % 100 == 0):
+            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
+
+    params = {
+        &quot;w&quot;: w,
+        &quot;b&quot;: b
+    }
+    return params, costs
+</code></pre>
+<p>这里模仿参考文章，每迭代100次输出此时误差值。通过不断地迭代就完成了整个学习过程，设置迭代次数<code>num_iterations</code>可以决定迭代的次数，最后存储迭代结束的变量 w 和 b 用来进行预测。</p>
+<p>预测函数predict的主要作用就是通过学习得到变量w和b进行预测得到概率，当概率大于0.5时，我们认为这张图片中有猫，设置标签值为1，当概率小于0.5时，我们认为图片中没有猫，设置标签值为0，最后将所有的标签值进行存储用来进行准确度的比较：</p>
+<pre><code class="language-python">def predict(X, Y, w, b):
+    m = X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    w = w.reshape(X.shape[0], 1)
+
+    A = sigmoid(np.dot(w.T, X) + b)
+
+    for i in range(m):
+        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
+
+    return Y_prediction
+</code></pre>
+<p>最后设置main函数来调动所有的‘模块’，并通过对 训练集 和 测试集  正确标签值的比较得到本次学习过程的准确程度，将本次训练后的参数进行保存：</p>
+<pre><code class="language-python">def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
+    w, b = init_variable(X_train.shape[0])   # 初始化变量
+    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)  # 进行学习过程
+    w, b = params[&quot;w&quot;], params[&quot;b&quot;]      # 得到学习后的变量
+
+    Y_train_prediction = predict(X_train, Y_train, w, b)  # 对训练集数据进行预测
+    Y_test_prediction = predict(X_test, Y_test, w, b)    # 对测试集数据进行预测
+
+    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)  # 得到训练集准确度
+    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)   # 得到测试集准确度
+
+    data = {
+            &quot;costs&quot; : costs,
+            &quot;Y_prediction_test&quot; : Y_test_prediction,
+            &quot;Y_prediciton_train&quot; : Y_train_prediction,
+            &quot;w&quot; : w,
+            &quot;b&quot; : b,
+            &quot;learning_rate&quot; : learning_rate,
+            &quot;num_iterations&quot; : num_iterations }
+    return data          # 保存相关参数
+</code></pre>
+<h2 id="5-完整代码">5、完整代码</h2>
+<pre><code>import numpy as np
+import h5py
+import matplotlib.pyplot as plt
+
+def load_dataset():
+    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;)
+    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # your train set features
+    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # your train set labels
+
+    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
+    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # your test set features
+    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # your test set labels
+
+    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
+
+    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
+    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
+
+    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
+
+
+train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+# index = 88
+# img = train_set_x_orig[index]
+# print(img)
+# plt.imshow(img)
+# plt.show()
+
+number_train = train_set_y.shape[1]
+number_test = test_set_y.shape[1]
+number_px = train_set_x_orig.shape[1]
+
+print(&quot;训练集图片的数量:&quot;, number_train)
+print(&quot;测试集图片的数量:&quot;, number_test)
+print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
+print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
+print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
+print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
+print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
+
+train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
+print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
+
+train_set_x = train_x_con /255
+test_set_x = test_x_con /255
+
+
+def sigmoid(z):
+    s = 1 / (1 + np.exp(-z))
+    return s
+
+
+def init_variable(dim):
+    w = np.zeros((dim, 1))
+    b = 0
+    return w, b
+
+
+def propagate(w, b, X, Y):
+    m = X.shape[1]
+
+    # 前向传播
+    A = sigmoid(np.dot(w.T, X) + b)
+    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
+
+    # 反向传播
+    dw = (1 / m) * np.dot(X, (A - Y).T)
+    db = (1 / m) * np.sum(A - Y)
+
+    reci = {
+        &quot;dw&quot;: dw,
+        &quot;db&quot;: db
+    }
+
+    return  reci, cost
+
+
+def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
+    costs = []
+    for i in range(num_iterations):
+        reci, cost = propagate(w, b, X, Y)
+        dw = reci[&quot;dw&quot;]
+        db = reci[&quot;db&quot;]
+        w = w - learning_rate * dw
+        b = b - learning_rate * db
+        if i % 100 == 0:
+            costs.append(cost)
+        if (print_cost) and (i % 100 == 0):
+            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
+
+    params = {
+        &quot;w&quot;: w,
+        &quot;b&quot;: b
+    }
+    return params, costs
+
+
+def predict(X, Y, w, b):
+    m = X.shape[1]
+    Y_prediction = np.zeros((1, m))
+    w = w.reshape(X.shape[0], 1)
+
+    A = sigmoid(np.dot(w.T, X) + b)
+
+    for i in range(m):
+        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
+
+    return Y_prediction
+
+
+def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
+    w, b = init_variable(X_train.shape[0])
+    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
+    w, b = params[&quot;w&quot;], params[&quot;b&quot;]
+
+    Y_train_prediction = predict(X_train, Y_train, w, b)
+    Y_test_prediction = predict(X_test, Y_test, w, b)
+
+    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)
+    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)
+
+    data = {
+            &quot;costs&quot; : costs,
+            &quot;Y_prediction_test&quot; : Y_test_prediction,
+            &quot;Y_prediciton_train&quot; : Y_train_prediction,
+            &quot;w&quot; : w,
+            &quot;b&quot; : b,
+            &quot;learning_rate&quot; : learning_rate,
+            &quot;num_iterations&quot; : num_iterations }
+    return data
+
+if __name__ == &quot;__main__&quot;:
+    data = main(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations=2000, learning_rate=0.005, print_cost=True)
+</code></pre>
+<h2 id="运行结果">运行结果：</h2>
+<pre><code class="language-python">训练集图片的数量: 209
+测试集图片的数量: 50
+每张图片的大小: 64 * 64
+训练集数据的维数: (209, 64, 64, 3)
+训练集标签的维数: (1, 209)
+测试集数据的维数: (50, 64, 64, 3)
+测试集标签的维数: (1, 50)
+降维后训练集数据的维数: (12288, 209)
+降维后测试集数据的维数: (12288, 50)
+迭代次数:0 , 误差值: 0.693147
+迭代次数:100 , 误差值: 0.584508
+迭代次数:200 , 误差值: 0.466949
+迭代次数:300 , 误差值: 0.376007
+迭代次数:400 , 误差值: 0.331463
+迭代次数:500 , 误差值: 0.303273
+迭代次数:600 , 误差值: 0.279880
+迭代次数:700 , 误差值: 0.260042
+迭代次数:800 , 误差值: 0.242941
+迭代次数:900 , 误差值: 0.228004
+迭代次数:1000 , 误差值: 0.214820
+迭代次数:1100 , 误差值: 0.203078
+迭代次数:1200 , 误差值: 0.192544
+迭代次数:1300 , 误差值: 0.183033
+迭代次数:1400 , 误差值: 0.174399
+迭代次数:1500 , 误差值: 0.166521
+迭代次数:1600 , 误差值: 0.159305
+迭代次数:1700 , 误差值: 0.152667
+迭代次数:1800 , 误差值: 0.146542
+迭代次数:1900 , 误差值: 0.140872
+训练集准确度: 99.04306220095694 %
+测试集准确度: 70.0 %
+</code></pre>
+<p>6、
+<code>learning_rate</code>是我们的学习率α，选择学习率也是很重要的，它是我们更新变量的速率，如果太大，那么我们会错过最优解，太小的话又需要增加迭代次数，但是目前我还不知道合理的范围是什么，代码中设置的<code>0.005</code>是参考文章中给的，我自己尝试设置为0.5发现会出错，这方面后续会继续学习。</p>
+<p>我们可以画图来看一下本次的成本曲线：</p>
+<pre><code class="language-python"># 画图
+costs = data['costs']
+plt.plot(costs)
+plt.ylabel('cost')
+plt.xlabel('iterations (per hundreds)')
+plt.title(&quot;Learning rate =&quot; + str(data[&quot;learning_rate&quot;]))
+plt.show()
+</code></pre>
+<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E6%88%90%E6%9C%AC%E6%9B%B2%E7%BA%BFpng.png)</center>
+可以看到伴随着迭代次数的增加，成本值在下降。
+<p>我们可以自己找一下图片，设置为64*64的，来测试一下这个的准确度：</p>
+<center>!![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-8_test.png)</center>
+找了8张图片，分别编号1--8，通过上面的predict函数来进行预测结果：
+```python
+import matplotlib.image as mpimg  # 在开始处导入，主要作用是读取图片信息
+<pre><code>img1 = mpimg.imread(&quot;test/1.jpg&quot;).reshape(-1, 1)
+img2 = mpimg.imread(&quot;test/2.jpg&quot;).reshape(-1, 1)
+img3 = mpimg.imread(&quot;test/3.jpg&quot;).reshape(-1, 1)
+img4 = mpimg.imread(&quot;test/4.jpg&quot;).reshape(-1, 1)
+img5 = mpimg.imread(&quot;test/5.jpg&quot;).reshape(-1, 1)
+img6 = mpimg.imread(&quot;test/6.png&quot;).reshape(-1, 1)
+img7 = mpimg.imread(&quot;test/7.png&quot;).reshape(-1, 1)
+img8 = mpimg.imread(&quot;test/8.jpg&quot;).reshape(-1, 1)
+
+img = np.hstack((img1, img2, img3, img4, img5, img6, img7, img8))   # np.hstack()主要进行拼接矩阵的作用
+
+w = data[&quot;w&quot;]
+b = data[&quot;b&quot;]
+
+Y_prediction = predict(img, w, b)
+Y_prediction = np.squeeze(Y_prediction)     # np.squeeze()主要进行矩阵降维的作用
+for i in range(len(Y_prediction)):
+    if Y_prediction[i] == 1:
+        print(&quot;第%i张图片中有猫&quot; %(i+1))
+    else:
+        print(&quot;第%i张图片中没有猫&quot; %(i+1))
+</code></pre>
+<pre><code>预测结果：
+```python
+第1张图片中有猫
+第2张图片中有猫
+第3张图片中有猫
+第4张图片中有猫
+第5张图片中没有猫
+第6张图片中有猫
+第7张图片中没有猫
+第8张图片中没有猫
+</code></pre>
+<center>以上!</center>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/Python数据库学习">
+                  <h3 class="post-title">
+                    Python数据库学习
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>用Python爬取斗鱼TV-LOL版块的主播人气 | Tudouvvv</title>
+<meta name="description" content="人生还长，慢慢来">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562659290623">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://tudouvvv.github.io/">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562659290623" class="site-logo">
+        <h1 class="site-title">Tudouvvv</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      人生还长，慢慢来
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://tudouvvv.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">用Python爬取斗鱼TV-LOL版块的主播人气</h2>
+            <div class="post-date">2018-03-18</div>
+            
+              <div class="feature-container" style="background-image: url('https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-03-18-banner.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>刚好学完这个，就拿来练一练手Σ(っ °Д °;)っ</p>
+<p>觉得爬虫最重要的还是要理清思路，先爬什么，然后怎么筛选，我们想要输出怎样的格式...</p>
+<p>然后就是最重要的正则表达式了，至少我现在用的就是这个，至于各种爬虫框架还要继续学习，刚开始爬斗鱼的时候，竟然弹出403错误，本来都想换熊猫了，结果过了一会儿就好了 - - 不知道为什么</p>
+<p>还有，现在还没有学习关于数据库的知识，不知道怎么储存爬下来的数据，也只会爬取首页(lll￢ω￢)</p>
+<p>慢慢来吧，接下来这一周要出去找调剂了，希望有个好结果吧，不过我觉得非全也比错φ(゜▽゜*)♪，等一切都结束可以写一篇记录考研的文章，嘎巴得！</p>
+<pre><code class="language-python">import re
+from urllib import request
+
+class Spider():
+    url = 'https://www.douyu.com/directory/game/LOL'
+    root_pattern = '&lt;p&gt;([\s\S]*?)&lt;/p&gt;'
+    name_pattern = '&lt;span class=&quot;dy-name ellipsis fl&quot;&gt;([\s\S]*?)&lt;/span&gt;'
+    number_pattern = '&lt;span class=&quot;dy-num fr&quot;  &gt;([\s\S]*?)&lt;/span&gt;'
+
+    def __fetch_content(self):
+        r = request.urlopen(Spider.url)
+        htmls = r.read()
+        htmls = str(htmls,encoding = 'utf-8')
+        return htmls
+
+    def __analisis(self,htmls):
+        root_html = re.findall(Spider.root_pattern,htmls)
+        anchors = []
+        for html in root_html:
+            name = re.findall(Spider.name_pattern,html)
+            number = re.findall(Spider.number_pattern,html)
+            anchor = {'name':name,'number':number}
+            anchors.append(anchor)
+        return anchors
+
+    def __refine(self,anchors):
+        l = lambda anchor: {
+            'name':anchor['name'][0],
+            'number':anchor['number'][0]}
+        return map(l,anchors)
+
+    def __sort(self,anchors):
+        anchors = sorted(anchors,key=self.__sort_seed,reverse=True)
+        return anchors
+
+    def __sort_seed(self,anchor):
+        r = re.findall('\d*',anchor['number'])
+        number = float(r[0])
+        if '万' in anchor['number']:
+            number*=10000
+        return number
+
+    def __show(self,anchors):
+        for anchor in anchors:
+            print(anchor['name']+ '-----' + anchor['number']+'人')
+    
+    def go(self):
+        htmls = self.__fetch_content()
+        anchors = self.__analisis(htmls)
+        anchors = list(self.__refine(anchors))
+        anchors = self.__sort(anchors)
+        self.__show(anchors)
+
+spider = Spider()
+spider.go()
+</code></pre>
+<p>只爬取了一页，因为我还不知道怎么爬取多页- -</p>
+<pre><code>爬取结果：（2018/3/18  22：52）
+
+英雄联盟官方赛事-----130万人
+东北大鹌鹑-----127万人
+冯提莫-----115万人
+洞主丨歌神洞庭湖-----46.6万人
+叫我久哥哥-----25.8万人
+叶音符-----19.7万人
+赏金术士2018-----14.2万人
+小子y-----12.3万人
+三笠ackerman丶1-----10.7万人
+胖胖灬-----10.5万人
+余小C真的很强-----10.2万人
+lol大表哥丶-----9.2万人
+黑白锐雯-----8.3万人
+LoveAcFun包子-----8.1万人
+心态很不好的momo-----7.4万人
+14德莱文-----7.2万人
+你的大湿胸丶-----5.7万人
+教练JoKer-----5.5万人
+凉风亚索yasuo-----4.7万人
+冷爷行妹-----4.6万人
+狗康Bfate丶-----3.8万人
+跳跳武器二师兄-----3.5万人
+熙宝兒-----3.3万人
+一拳超人King丶-----3.2万人
+解小亮-----3万人
+douyu丶松子-----3万人
+Tumi111-----2.9万人
+Douyu若雨-----2.8万人
+林瑜有鱼aa-----2.5万人
+暴风工作室丶-----2.4万人
+小熊和你-----1.9万人
+成都二傻子丶骚特-----1.8万人
+芜湖灬王导-----1.8万人
+青蛙ob-----1.8万人
+张海彬丶-----1.6万人
+作作金克丝-----1.6万人
+泰迪日了哈士奇-----1.5万人
+西关龙-----1.5万人
+内涵段子丶朵朵-----1.5万人
+羽毛发条丶31969-----1.5万人
+小祖zmy-----1.5万人
+特工小琪琪-----1.4万人
+我有一条小尾巴吖-----1.4万人
+乌鸦c丶叫我大马哥-----1.3万人
+污妖王丶扎男-----1.3万人
+老实巴交的残梦-----1.3万人
+土豆女王驾到-----1.3万人
+小丫头丶乖乖-----1.2万人
+刘刘刘毛豆-----1.2万人
+叫我Keep哥-----1.2万人
+叫我天神x-----1.2万人
+国服第一洛冷眸-----1.2万人
+西瓜酱G-----1.2万人
+许悟空Goku-----1.1万人
+你也可以叫我花仔啊-----1.1万人
+凌飞Sniperking-----1.1万人
+海浪摄长-----1.1万人
+渝万丶阿哲-----1.1万人
+尔雅超星服务中心-----1.1万人
+qq_s6oI4T-----1万人
+内涵段子丶渣渣涛-----1万人
+吃货丶权爷-----1万人
+一只奶酪啊-----1万人
+二哈蛮王-----9889人
+傲娇筱筱灬-----9875人
+屠殺-----9590人
+像最初ch-----9485人
+娇羞的糖糖啦-----9095人
+烁烁and小炮-----8821人
+美少女秀秀-----8709人
+陈陈陈陈港-----8412人
+小崔丶xc-----8374人
+zz小龙男枪c-----8300人
+Eliza丶梓淇-----8176人
+渝万丶小棉花-----8102人
+辉哥飞呀挥-----8031人
+粉红AD契约喵-----7928人
+铁头乌迪尔-----7898人
+小诸葛Zz-----7873人
+小红集团丶红茶-----7858人
+叶晚r-----7858人
+肥螳螂老无名-----7830人
+寻练-----7792人
+会翻滚的阿冰-----7476人
+主播丶C罗-----7136人
+静儿家的苏麻瓜-----7087人
+国服第一小鸡雞-----7034人
+659019丶Lux峰-----6956人
+三岁喵Meow-----6922人
+天才小橙汁-----6848人
+偷人大叔玩安妮-----6816人
+mm丶小小酥-----6798人
+NaiDiiiiii-----6792人
+我就是蘑菇阿i-----6528人
+中年人的钻石梦-----6451人
+杨少爷与黄公子-----6373人
+宅兔兔-----6364人
+田间一牧牛小童-----6355人
+杀神红名-----6205人
+丑角乌拉拉-----6185人
+小生不才丶y-----6106人
+渝万丶阿新哥-----6024人
+赛事专用直播间-----5982人
+开水铺阿亮-----5970人
+nu儿哈哈哈-----5936人
+美腻哈-----5878人
+青岛声优娜阿-----5785人
+丶小雪兔儿-----5763人
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://tudouvvv.github.io//tag/python" class="tag">
+                    Python
+                  </a>
+                
+                  <a href="https://tudouvvv.github.io//tag/code" class="tag">
+                    Code
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://tudouvvv.github.io//post/终于完成了">
+                  <h3 class="post-title">
+                    终于完成了φ(゜▽゜*)♪
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
