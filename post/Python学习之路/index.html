@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1562660458356">
+<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico?v=1563199946152">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 
@@ -30,7 +30,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://tudouvvv.github.io/">
-        <img src="https://tudouvvv.github.io//images/avatar.png?v=1562660458356" class="site-logo">
+        <img src="https://tudouvvv.github.io//images/avatar.png?v=1563199946152" class="site-logo">
         <h1 class="site-title">Tudouvvv</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -117,8 +117,8 @@
 <h1 id="数字与字符串">数字与字符串</h1>
 <h2 id="1-数字">1、数字</h2>
 <h3 id="1-整形与浮点数">1、整形与浮点数</h3>
-<p>数字：一般为整形与浮点数
-整数用int表示，浮点数用float表示
+<p>数字：一般为整形与浮点数<br>
+整数用int表示，浮点数用float表示<br>
 通过type函数来查元素看类型:</p>
 <pre><code class="language-python">print(type(float(0.1)))
 &gt;&gt;&gt; &lt;class 'float'&gt;
@@ -133,7 +133,7 @@
 </code></pre>
 <p>//即整除，只保留整数位</p>
 <h3 id="2-各种进制的表示与转换">2、各种进制的表示与转换</h3>
-<p>表示的方法：
+<p>表示的方法：<br>
 ob表示二进制，比如说0b10就是十进制的2：</p>
 <pre><code class="language-python">print(0b10)
 &gt;&gt;&gt; 2
@@ -146,7 +146,7 @@ ob表示二进制，比如说0b10就是十进制的2：</p>
 <pre><code class="language-python">print(0x10)
 &gt;&gt;&gt; 16
 </code></pre>
-<p>转换的方法：
+<p>转换的方法：<br>
 bin可以把其它进制的数字转换为二进制：</p>
 <pre><code class="language-python">print(bin(2))
 &gt;&gt;&gt; ob10
@@ -164,21 +164,21 @@ bin可以把其它进制的数字转换为二进制：</p>
 &gt;&gt;&gt; 0xf
 </code></pre>
 <h3 id="3-布尔类型">3、布尔类型</h3>
-<p>Number：数字，不仅包括整形和浮点数，还有布尔型和复数。
+<p>Number：数字，不仅包括整形和浮点数，还有布尔型和复数。<br>
 bool布尔类型：表示真、假，一般用True、False表示（首字母大写）：</p>
 <pre><code class="language-python">print(int(True))
 &gt;&gt;&gt; 1
 print(int(False))
 &gt;&gt;&gt; 0
 </code></pre>
-<p>所以说布尔类型属于数字。
+<p>所以说布尔类型属于数字。<br>
 一般来说，bool(非0）表示真，bool（0）表示假：</p>
 <pre><code class="language-python">print(bool(0))
 &gt;&gt;&gt; False
 </code></pre>
-<p>拓展：
-bool('字符串'）表示真
-bool(' ')表示假
+<p>拓展：<br>
+bool('字符串'）表示真<br>
+bool(' ')表示假<br>
 bool(None)表示假</p>
 <h2 id="2-字符串">2、字符串</h2>
 <h3 id="1-字符串简介">1、字符串简介</h3>
@@ -274,7 +274,7 @@ print('hello world'[-5:])
 <pre><code class="language-python">print(['技能一','技能二','技能三','技能四'][1:3])
 &gt;&gt;&gt; ['技能二', '技能三']
 </code></pre>
-<p>索引访问时，访问得到的元素是字符串，但是切片访问时，得到的是一个列表，即使这个列表只有一个元素。（很重要）
+<p>索引访问时，访问得到的元素是字符串，但是切片访问时，得到的是一个列表，即使这个列表只有一个元素。（很重要）<br>
 列表同样可以进行加法和乘法操作：</p>
 <pre><code class="language-python">print(['技能一','技能二','技能三','技能四']+['被动技能'])
 print(['技能一']*3)
@@ -292,7 +292,7 @@ print((1,2,3)+('world',))
 </code></pre>
 <p>这里需要注意一点，当元组中只有一个元素时，会引起歧义，所以一般情况下，我们定义只有一个元素的元组时，在元素后面加一个逗号(上面第三个print),避免歧义。</p>
 <h2 id="3-序列总结">3、序列总结</h2>
-<p>在python中，list，str，tuple都是序列，序列共有的操作：
+<p>在python中，list，str，tuple都是序列，序列共有的操作：<br>
 1、获取元素，序列中每个元素都将分配一个序号：</p>
 <pre><code class="language-python">print('hello world'[1])
 &gt;&gt;&gt; e
@@ -305,7 +305,7 @@ print((1,2,3)+('world',))
 <pre><code class="language-python">print('abcdefg'[1:7:2])
 &gt;&gt;&gt; bdf
 </code></pre>
-<p>3、序列可以加和乘
+<p>3、序列可以加和乘<br>
 4、in可以判断某个元素是否在序列中,not in 可以判断是否不在序列中:</p>
 <pre><code class="language-python">print('a' in 'a hello world')
 print('a' not in 'a hello world')
@@ -320,7 +320,7 @@ print('a' not in 'a hello world')
 <pre><code class="language-python">print(min('hello world'))
 &gt;&gt;&gt; 
 </code></pre>
-<p>这里并不是什么都没有，而是输出了空格' '，在对字母进行大小比较时，比较的是各自的Ascll码，
+<p>这里并不是什么都没有，而是输出了空格' '，在对字母进行大小比较时，比较的是各自的Ascll码，<br>
 ord()可以得到元素的ascll码:</p>
 <pre><code class="language-python">print(ord(' '))
 &gt;&gt;&gt; 32
@@ -333,14 +333,14 @@ ord()可以得到元素的ascll码:</p>
 <pre><code class="language-python">print(type({True,2,3}))
 &gt;&gt;&gt; &lt;class 'set'&gt;
 </code></pre>
-<p>集合是无序的(与序列的区别），内部元素没有序号，不能进行索引和切片操作。
+<p>集合是无序的(与序列的区别），内部元素没有序号，不能进行索引和切片操作。<br>
 集合内部元素不会重复：</p>
 <pre><code class="language-python">print({1,1,2,2,3,3,4,'a','a'})
 &gt;&gt;&gt; {1, 2, 3, 4, 'a'}
 </code></pre>
 <p>集合可以用len()来看长度，可以用 in 和 not in 来判断某个元素是否在其中。</p>
 <h3 id="2-集合set特殊的操作">2、集合(set)特殊的操作</h3>
-<p>个人感觉python中的集合与数学中的集合概念差不多，所以对于集合来说，可以求差集，并集以及交集。
+<p>个人感觉python中的集合与数学中的集合概念差不多，所以对于集合来说，可以求差集，并集以及交集。<br>
 求两个集合的差集，用 - 来实现，即A-AB：</p>
 <pre><code class="language-python">A = {1,2,3,4,5,6}
 B = {3,4,7}
@@ -369,9 +369,9 @@ print(A|B)
 <pre><code class="language-python">print({ 'Q':'新月打击','W':'苍白之瀑','E':'月之降临','R':'月神冲刺'}['Q'])
 &gt;&gt;&gt; 新月打击
 </code></pre>
-<p>字典中不允许有重复的key出现，每次访问元素可以通过key来进行访问
-value可以取任意一种数据类型（str，int，lit，dict...)
-但是字典中的key为不可变类型，所以说key目前不能取序列，可以取元组。
+<p>字典中不允许有重复的key出现，每次访问元素可以通过key来进行访问<br>
+value可以取任意一种数据类型（str，int，lit，dict...)<br>
+但是字典中的key为不可变类型，所以说key目前不能取序列，可以取元组。<br>
 空字典用{ }来定义：</p>
 <pre><code class="language-python">print(type({}))
 &gt;&gt;&gt; &lt;class 'dict'&gt;
@@ -381,20 +381,20 @@ value可以取任意一种数据类型（str，int，lit，dict...)
 <h1 id="center日记二center"><center>日记二</center></h1>
 <h1 id="变量与运算符">变量与运算符</h1>
 <h2 id="1-变量">1、变量</h2>
-<p>变量就是一个名字。
+<p>变量就是一个名字。<br>
 定义一个变量：</p>
 <pre><code class="language-python">A = [1,2,3]
 print(A)
 &gt;&gt;&gt; [1, 2, 3]
 </code></pre>
-<p>上式中的等号为赋值符号
+<p>上式中的等号为赋值符号<br>
 命名时一定要知道意义，<code>命名可读性要好</code>，用原生地道的英文命名，尽量不要用汉语拼音来命名。</p>
 <h3 id="1-变量的命名规则">1、变量的命名规则</h3>
-<p>变量名只能使用字母，数字，下划线，可以任意组合但是首字母不能是数字
-系统保留的关键字不能用作变量名
+<p>变量名只能使用字母，数字，下划线，可以任意组合但是首字母不能是数字<br>
+系统保留的关键字不能用作变量名<br>
 变量名区分大小写，变量没有类型限制，前面学过的数据类型都可以成为变量</p>
 <h3 id="2-值类型和引用类型">2、值类型和引用类型</h3>
-<p>在python中，int、str、tuple是值类型，它们的值<code>不可变</code>。list、dict、set是引用类型，它们的值<code>可变</code>。
+<p>在python中，int、str、tuple是值类型，它们的值<code>不可变</code>。list、dict、set是引用类型，它们的值<code>可变</code>。<br>
 id（）可以显示变量在内存中的地址</p>
 <h3 id="3-列表的可变与元组的不可变">3、列表的可变与元组的不可变</h3>
 <p>列表(list)值可变，可以增加元素，通过x.apppend()来增加元素:</p>
@@ -403,17 +403,17 @@ A.append('a')
 print(A)
 &gt;&gt;&gt; [1, 2, 3, 'a']
 </code></pre>
-<p>元组不可变，也不能增加元素。
+<p>元组不可变，也不能增加元素。<br>
 编码保持代码的稳定性，在多人完成的项目中，代码之间的调用中，不可变类型的优势比较好。</p>
 <h2 id="2-运算符">2、运算符</h2>
 <h3 id="1-运算符号">1、运算符号</h3>
-<p>算数运算符：<code>+ - * / ``//代表整除 %代表求余 **代表平方</code>
-赋值运算符:<code>= += ....</code>
-比较（关系）运算符:<code>&gt; &lt; != ...</code>
-逻辑运算符:<code>and or not</code>
-成员运算符:<code>in not in</code>
-身份运算符:<code>is is not</code>
-位运算符
+<p>算数运算符：<code>+ - * / ``//代表整除 %代表求余 **代表平方</code><br>
+赋值运算符:<code>= += ....</code><br>
+比较（关系）运算符:<code>&gt; &lt; != ...</code><br>
+逻辑运算符:<code>and or not</code><br>
+成员运算符:<code>in not in</code><br>
+身份运算符:<code>is is not</code><br>
+位运算符<br>
 运算符有很多，上面只是罗列了一些，需要记住这些大的分类，具体的可以等用的时候再去查询。</p>
 <h3 id="2-赋值运算符">2、赋值运算符</h3>
 <p>赋值运算符的意义就是赋值，包括<code>=、+=、-=、*=、%=、**=、/=、//=</code>，它所进行的操作就是在运算的基础上再赋值：</p>
@@ -423,7 +423,7 @@ b*=a
 print(b)
 &gt;&gt;&gt; 6
 </code></pre>
-<p>即<code>b = b*a</code>
+<p>即<code>b = b*a</code><br>
 Python中没有i++，i--这种自增运算符</p>
 <h3 id="3-比较运算符">3、比较运算符</h3>
 <p>关系运算符(比较运算符)不仅仅限于数字，包括：<code>==，！=，&gt;，&lt;，&gt;=，&lt;=</code>,操作完成后返回布尔值：</p>
@@ -438,18 +438,18 @@ print(b)
 </code></pre>
 <p>在上面的代码中，主体是赋值运算符，所以先进行<code>b&lt;1</code>的判断，结果是<code>False</code>,所以变成<code>b+=False</code>,而前面学过，False=0，所以最后结果是2</p>
 <h3 id="4-逻辑运算符">4、逻辑运算符</h3>
-<p>逻辑运算符，操作类型为布尔类型，返回类型也为布尔类型。
+<p>逻辑运算符，操作类型为布尔类型，返回类型也为布尔类型。<br>
 and（与），两个都为真时返回True,一个为假即为假：</p>
 <pre><code>print(1 and False)
 &gt;&gt;&gt; False
 </code></pre>
-<p>or（或），一个为真时就可以返回True
-not（非），not True&gt;&gt;&gt;False
-对于整数和浮点数来说，0被认为False，非0的数被认为True
-对字符串，列表，元组，集合，字典来说空为False
+<p>or（或），一个为真时就可以返回True<br>
+not（非），not True&gt;&gt;&gt;False<br>
+对于整数和浮点数来说，0被认为False，非0的数被认为True<br>
+对字符串，列表，元组，集合，字典来说空为False<br>
 要理解三个逻辑运算符的判断规则</p>
 <h3 id="5-成员运算符">5、成员运算符</h3>
-<p>成员运算符判断一个元素是否在一组元素内，包括<code>in\not in</code>
+<p>成员运算符判断一个元素是否在一组元素内，包括<code>in\not in</code><br>
 字典(dict)的成员运算符在判断时只判断key的值而不是value的值：</p>
 <pre><code class="language-python">print('a' in {3:'a'})
 print('a' in {'a':3})
@@ -457,7 +457,7 @@ print('a' in {'a':3})
     True
 </code></pre>
 <h3 id="6-身份运算符">6、身份运算符</h3>
-<p>身份运算符比较身份（内存地址）是否相同，返回结果为布尔值
+<p>身份运算符比较身份（内存地址）是否相同，返回结果为布尔值<br>
 is 和 == 的区别：</p>
 <pre><code class="language-python">a = 1
 b = 1.0
@@ -484,10 +484,10 @@ print(c is d)
 &gt;&gt;&gt; False
     False
 </code></pre>
-<p>原因是：集合是无序的，所以进行关系运算时，a和b的值相同，得到True。但a和b在内存中的地址不同，所以进行身份运算时，得到False
+<p>原因是：集合是无序的，所以进行关系运算时，a和b的值相同，得到True。但a和b在内存中的地址不同，所以进行身份运算时，得到False<br>
 第二题，元组是有序的，所以a和b是不同的</p>
 <h3 id="7-如何判断变量的值-身份与类型">7、如何判断变量的值、身份与类型</h3>
-<p>对象的特征：值、身份、类型
+<p>对象的特征：值、身份、类型<br>
 类型判断，可以用type()加关系运算符来进行：</p>
 <pre><code class="language-python">a = 'abc'
 print(type(a)==str)
@@ -519,13 +519,13 @@ print(a or b and c)
 &gt;&gt;&gt; 7
     1
 </code></pre>
-<p>表达式是有优先级的，比如<code>* /</code>的优先级比<code>+ -</code>高，<code>and</code>的优先级比<code>or</code>高，所以会出现上面的结果
-运算符同级时，从左往右依次解析，属于左结合，但有一个特例就是赋值运算符，它是右结合
-分析一个表达式的优先级时，先看有没有 <code>=</code>，有的话右结合，没有的话左结合
-逻辑运算符的优先级：
+<p>表达式是有优先级的，比如<code>* /</code>的优先级比<code>+ -</code>高，<code>and</code>的优先级比<code>or</code>高，所以会出现上面的结果<br>
+运算符同级时，从左往右依次解析，属于左结合，但有一个特例就是赋值运算符，它是右结合<br>
+分析一个表达式的优先级时，先看有没有 <code>=</code>，有的话右结合，没有的话左结合<br>
+逻辑运算符的优先级：<br>
 <img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-08-22-%E8%BF%90%E7%AE%97%E7%AC%A6.png" alt=""></p>
 <h2 id="2-条件语句">2、条件语句</h2>
-<p>PS.Python中靠缩进来区分代码块，个人喜欢用<code>Tab</code>键
+<p>PS.Python中靠缩进来区分代码块，个人喜欢用<code>Tab</code>键<br>
 在VS Code中注释语句时，单行注释用<code>#</code>(快捷键<code>Crtl+/</code>),多行注释用<code>'''</code>(快捷键：<code>Alt+Shift+a</code>)</p>
 <p>高中的时候就已经学过<code>if else</code>语句：</p>
 <pre><code class="language-python">mood = 'happy'
@@ -535,7 +535,7 @@ else:
     print('go to school')
 &gt;&gt;&gt; go to home
 </code></pre>
-<p>python中建议用下划线_来分隔两个组合的单词（变量命名的时候）
+<p>python中建议用下划线_来分隔两个组合的单词（变量命名的时候）<br>
 练习：</p>
 <pre><code class="language-python">account = 'python'
 password ='123456'
@@ -560,7 +560,7 @@ else:
 else:
     pass
 </code></pre>
-<p>用pass来占位，来保证代码的完整性
+<p>用pass来占位，来保证代码的完整性<br>
 切换上一个代码写入区域：shift+tab、下一个代码写入区域：tab</p>
 <p><code>如果if/else嵌套太多，最好把内部嵌套提取成一个函数</code></p>
 <p><code>elif</code>是if/else的简写，但不能单独使用，需要和<code>if</code>一起使用：</p>
@@ -575,7 +575,7 @@ elif a == 3:
 else:
     print('go shopping')
 </code></pre>
-<p>这样使用简化了代码，Python中没有<code>switch</code>函数，而上述代码运行失败的原因是：键盘输入的数字不是数字，是字符串，所以输入时要转换格式：
+<p>这样使用简化了代码，Python中没有<code>switch</code>函数，而上述代码运行失败的原因是：键盘输入的数字不是数字，是字符串，所以输入时要转换格式：<br>
 <code>a = int(input())</code>，其实在执行<code>print('a is ' + a)</code>时就应该明白，a此时是字符串而不是数字，因为字符串才可以合并</p>
 <h2 id="3-循环语句">3、循环语句</h2>
 <p>python中循环语句主要有<code>while</code>循环和<code>for</code>循环：</p>
@@ -595,8 +595,8 @@ while counter &lt;= 4:
 <pre><code class="language-python">for target_list in expression_list:
     pass
 </code></pre>
-<p>把expression_list内的元素一行打印出来而不是换行输出：<code>print(x，end=' ')</code>
-跳出循环：break，终止当前循环，以后循环也不会被执行，并且else语句块也会被终止，但是如果是嵌套的for循环，break跳出的是内部循环
+<p>把expression_list内的元素一行打印出来而不是换行输出：<code>print(x，end=' ')</code><br>
+跳出循环：break，终止当前循环，以后循环也不会被执行，并且else语句块也会被终止，但是如果是嵌套的for循环，break跳出的是内部循环<br>
 继续循环：continue（只会终止当前循环):</p>
 <pre><code class="language-python">a = [['apple', 'banana', 'pear', 'orange'], (1, 2, 3, 4, 5, 6, 7)]
 for x in a:
@@ -624,38 +624,38 @@ for x in range(10, 0, -2):
     10 8 6 4 2
 </code></pre>
 <h1 id="包与模块">包与模块</h1>
-<p>组织结构：包（最顶级）、模块(.py文件)、类、函数和变量(属于类本身的一个特性)
+<p>组织结构：包（最顶级）、模块(.py文件)、类、函数和变量(属于类本身的一个特性)<br>
 一个包包括多个模块，一个模块包括多个类</p>
 <p>包的内部可以有子包，一个包通俗来讲就是一个文件夹，但是需要注意的是，这个文件夹里面必须要有<code>__init__.py</code>文件才能被Python识别变成包，同时这个文件也是一个模块，你可以在里面写入内容，也可以空白。</p>
 <h2 id="1-模块的导入">1、模块的导入</h2>
-<p>公用的东西可以共享引用，导入python的语法：
-1、<code>import</code>关键字，import后跟模块名
+<p>公用的东西可以共享引用，导入python的语法：<br>
+1、<code>import</code>关键字，import后跟模块名<br>
 假设我们现在在模块c8中，我们需要使用c7模块中的变量a：</p>
 <pre><code class="language-python">import c7
 print(c7.a)  打印出c7模块中的变量a
 </code></pre>
-<p>python是解释型的语言，所以要先定义，再调用。
-如果不是同一文件夹下的模块，导入时要用命名空间，import 文件夹名.模块名。
-import T.c7
-print(T.c7.a）
+<p>python是解释型的语言，所以要先定义，再调用。<br>
+如果不是同一文件夹下的模块，导入时要用命名空间，import 文件夹名.模块名。<br>
+import T.c7<br>
+print(T.c7.a）<br>
 import只能导入模块，可以用 <code>as</code> 关键字来简化代码 。</p>
 <pre><code class="language-python">import T.c7 as k
 print(k.a）
 </code></pre>
-<p>2、使用<code>from</code>来进行变量或者是模块的导入
+<p>2、使用<code>from</code>来进行变量或者是模块的导入<br>
 <code>from module import 变量/函数</code>或是<code>from package import module</code>:</p>
 <pre><code class="language-python">from T.c7 import a
 print(a)
 </code></pre>
-<p>from简化了代码（命名）
-如果要引用所有变量，加*（不推荐）
-<code>from T.c7 import \*</code>
+<p>from简化了代码（命名）<br>
+如果要引用所有变量，加*（不推荐）<br>
+<code>from T.c7 import \*</code><br>
 如果只想引用个别变量，在被引用的文件开头部分加入：<code>__all__ = ['a','c']</code>，括号内为要引用的变量名。</p>
-<p>可以用逗号分隔，引用多个变量。
-<code>from c7 import a,b,c</code>
-(建议一行不超过80个字符)换行时加入 \ 来进行换行（不推荐）
-<code>from c7 import a,b,\ c</code>
-可以加括号来进行换行
+<p>可以用逗号分隔，引用多个变量。<br>
+<code>from c7 import a,b,c</code><br>
+(建议一行不超过80个字符)换行时加入 \ 来进行换行（不推荐）<br>
+<code>from c7 import a,b,\ c</code><br>
+可以加括号来进行换行<br>
 <code>from c7 import (a,b, c)</code></p>
 <h2 id="2-initpy的用法">2、<strong>init</strong>.py的用法</h2>
 <p><strong>init</strong>.py的作用：</p>
@@ -666,8 +666,8 @@ print(a)
 <li>利用它作批量导入库，当我们引用包时，包会自动导入我们要用到的系统库</li>
 </ol>
 <h2 id="3-包与模块的常见错误">3、包与模块的常见错误</h2>
-<p>1、包和模块是不会重复导入的
-2、避免循环导入。（关键是避免闭环循环）
+<p>1、包和模块是不会重复导入的<br>
+2、避免循环导入。（关键是避免闭环循环）<br>
 3、import导入模块时，会执行模块中的代码。</p>
 <h2 id="4-模块内置变量">4、模块内置变量</h2>
 <p>dir（）函数可以打印出该模块中所有的变量:</p>
@@ -708,16 +708,16 @@ if __name__ == '__main__':
 	print(' This is app')
 print('This is module')
 </code></pre>
-<p>上面代码的意义：一个模块可以被调用，也可以成为入口文件被执行，但是如果一个模块既被调用又是一个可执行文件的话，两者代码的逻辑处理是有区别的，那就需要进行判断这个模块是否是一个入口文件，则输入上述代码，这也是__name__的经典应用。
-把可执行文件(入口文件)当作一个模块来执行时，可以使用<code>-m</code>命令，即 python -m  命名空间.文件名
-也可以使用路径名：python 命名空间\文件名.py
+<p>上面代码的意义：一个模块可以被调用，也可以成为入口文件被执行，但是如果一个模块既被调用又是一个可执行文件的话，两者代码的逻辑处理是有区别的，那就需要进行判断这个模块是否是一个入口文件，则输入上述代码，这也是__name__的经典应用。<br>
+把可执行文件(入口文件)当作一个模块来执行时，可以使用<code>-m</code>命令，即 python -m  命名空间.文件名<br>
+也可以使用路径名：python 命名空间\文件名.py<br>
 但是前提是要成为一个模块，这个文件必须在一个包下面。</p>
 <h2 id="5-相对导入与绝对导入">5、相对导入与绝对导入</h2>
-<p>与入口文件main.py在同一级的包就是该包下所有模块的顶级包。
+<p>与入口文件main.py在同一级的包就是该包下所有模块的顶级包。<br>
 绝对导入\路径：从顶级包开始到导入模块的完整路径：</p>
 <pre><code class="language-python">import package.module
 </code></pre>
-<p>相对路径：一个.表示当前目录，两个..表示上一级目录，以此类推。从当前目录开始输入，相当于文件系统的相对路径与绝对路径，使用from开始导入
+<p>相对路径：一个.表示当前目录，两个..表示上一级目录，以此类推。从当前目录开始输入，相当于文件系统的相对路径与绝对路径，使用from开始导入<br>
 入口文件可以使用绝对路径导入，但是不能使用相对路径导入。如果想用相对路径导入，就必须把入口文件当作一个模块来执行，用<code>python -m</code>指令执行，但必须必须返回上一级：</p>
 <pre><code class="language-python">python -m demo.main.py
 </code></pre>
@@ -730,7 +730,7 @@ result = round(a, 2)
 print(result) 
 &gt;&gt;&gt; 1.12 
 </code></pre>
-<p>Ps.round()函数会四舍五入
+<p>Ps.round()函数会四舍五入<br>
 小彩蛋：查看Python之禅，在python的终端中输入import this</p>
 <p>综上所述，从round()函数可以看出函数的特性：</p>
 <ul>
@@ -796,17 +796,17 @@ print(skill1_damage, skill2_damage)
     33 101
 </code></pre>
 <h2 id="3-序列解包">3、序列解包</h2>
-<p>把一个tuple拆开，就叫做序列解包，比如说
-d = 1,2,3
-此时 d 是一个tuple，
-a,b,c = d
+<p>把一个tuple拆开，就叫做序列解包，比如说<br>
+d = 1,2,3<br>
+此时 d 是一个tuple，<br>
+a,b,c = d<br>
 这样就会给给a,b,c赋值，这就叫做序列解包：</p>
 <pre><code class="language-python">d = 1, 2, 3
 a, b, c = d
 print(a, b, c)
 &gt;&gt;&gt; 1,2,3
 </code></pre>
-<p>但是要注意元素的个数要相等。
+<p>但是要注意元素的个数要相等。<br>
 链式赋值： a=b=c=1</p>
 <h2 id="4-必须参数与关键字参数">4、必须参数与关键字参数</h2>
 <ul>
@@ -831,7 +831,7 @@ print(ans)
 <li>定义了多少个形参就要传递多少个实参。</li>
 </ul>
 <h2 id="5-默认参数">5、默认参数</h2>
-<p>默认参数：不必每次输入大家都相同的参数，比如学校，年龄。
+<p>默认参数：不必每次输入大家都相同的参数，比如学校，年龄。<br>
 实现方法：在形参中直接赋值，实现默认参数，不一样的增加实参就行。</p>
 <pre><code class="language-python">def print_student_files(name, age=18, gender='男', college='人民路小学'):
     print('我叫' + name)
@@ -946,7 +946,7 @@ func1()
 &gt;&gt;&gt; 3
 </code></pre>
 <h2 id="9-global关键字">9、global关键字</h2>
-<p>全局变量不是只局限于此模块中，而是可以整个程序调用，通过import()命令。
+<p>全局变量不是只局限于此模块中，而是可以整个程序调用，通过import()命令。<br>
 访问函数内部的局部变量可以加入global关键字，使得内部的局部变量变成全局变量使其可以在外部访问：</p>
 <pre><code class="language-python">def demo():
     global c
@@ -1055,7 +1055,7 @@ else:
 </code></pre>
 <h1 id="面向对象">面向对象</h1>
 <h2 id="1-类的定义">1、类的定义</h2>
-<p>使用关键字<code>class</code>来定义类
+<p>使用关键字<code>class</code>来定义类<br>
 类的命名规则：类的第一个字母大写，不建议使用下划线，两个单词的话，两个首字母都大写</p>
 <pre><code>class Student（）:
    pass
@@ -1100,7 +1100,7 @@ student.print_file()
 <li>构造函数的调用会自动进行</li>
 <li>与其它函数不同，构造函数只能返回None，不能返回其它的值</li>
 <li>通过在参数列表里增加新的变量，可以生成不同的对象</li>
-<li>一般在构造函数的内部，初始化对象的属性（特征）
+<li>一般在构造函数的内部，初始化对象的属性（特征）<br>
 <code>name = name</code>  把构造函数的参数赋值给类定义的变量，名字可以一样</li>
 <li>访问一个对象下的变量用 . 来进行访问</li>
 <li>参数列表里的self可以是其它值，比如this、that等等，python推荐使用self</li>
@@ -1144,7 +1144,7 @@ print(Student.name)
 <pre><code class="language-python">print(student1.__dict__)
 </code></pre>
 <p>访问一个实例变量，如果对象实例列表没有，会继续在类变量里去寻找，所以前面会输出空字符。</p>
-<p>类下面定义的函数叫做实例方法，要默认固定的放入一个<code>self</code>，调用时不需要给self赋值。
+<p>类下面定义的函数叫做实例方法，要默认固定的放入一个<code>self</code>，调用时不需要给self赋值。<br>
 哪个对象调用了这个方法，self就和这个对象有关系，就代表这个实例，与类没有关系。</p>
 <p>方法需要对变量做一系列运算，然后去改变类的特征。</p>
 <ul>
@@ -1154,7 +1154,7 @@ print(Student.name)
 <p>在实例方法中访问类变量：</p>
 <ul>
 <li>通过<code>类名.变量名</code>来进行访问。</li>
-<li>通过<code>self.__class__.变量名</code>来进行访问
+<li>通过<code>self.__class__.变量名</code>来进行访问<br>
 在类的外部访问类变量，也可以通过<code>类名.变量名</code>来进行访问。比如：<code>Student.name</code></li>
 </ul>
 <h2 id="3-类方法">3、类方法</h2>
@@ -1166,10 +1166,10 @@ def fuc(cls):  #cls可以为其它，推荐使用cls
 <p><code>@classmethod</code>是装饰器，是类方法的特征。类方法操作与类相关的一些变量，即类方法只与类相关，与对象关系不大。</p>
 <p>调用类方法：</p>
 <ul>
-<li>直接用类来调用：
+<li>直接用类来调用：<br>
 <code>Student.plus_sum()</code></li>
-<li>用对象来调用类的方法：
-<code>student1.plus_sum()</code>
+<li>用对象来调用类的方法：<br>
+<code>student1.plus_sum()</code><br>
 建议还是用类来调用:</li>
 </ul>
 <pre><code class="language-python">class Student():
@@ -1197,7 +1197,7 @@ Student.plus_sum()
 def add(x,y):
 	pass
 </code></pre>
-<p>需要<code>@staticmethod</code>装饰器。
+<p>需要<code>@staticmethod</code>装饰器。<br>
 类和对象都可以调用这个静态方法：</p>
 <pre><code class="language-python">class Student():
     sum = 0
@@ -1220,14 +1220,14 @@ Student.add(2, 3)
 <h2 id="5-成员的可见性公开和私有">5、成员的可见性：公开和私有</h2>
 <p>为了保证数据的安全，可以让这个数据只在类的内部可以进行操作，而不能在类的外部被操作。</p>
 <p>如果一个变量或者函数是公开的(public)，那么就可以在类的外部进行访问，有时候为了避免被公开访问，可以进行私有化(private)设置,这样在外部就不能进行访问。</p>
-<p>变成私有的方法：
-变量或者方法前加双下划线：<code>__</code>
+<p>变成私有的方法：<br>
+变量或者方法前加双下划线：<code>__</code><br>
 PS.构造函数除外，因为后面也有双下划线:<code>__init__</code></p>
-<p>私有变量尽管已经私有化了，但是如果你想访问的话，还是可以的，当类里面定义一个私有变量后，Python会自动帮你把该私有变量的名字换掉，比如你定义了一个私有变量：<code>__score</code>，这个时候Python会把私有变量的名字改为：<code>_Student__score</code>,同时依然支持在类外进行访问（囧）。
+<p>私有变量尽管已经私有化了，但是如果你想访问的话，还是可以的，当类里面定义一个私有变量后，Python会自动帮你把该私有变量的名字换掉，比如你定义了一个私有变量：<code>__score</code>，这个时候Python会把私有变量的名字改为：<code>_Student__score</code>,同时依然支持在类外进行访问（囧）。<br>
 但是私有方法在外部是不可以进行访问的。</p>
 <h2 id="6-继承">6、继承</h2>
 <p>面向对象的三大特性：继承性，封装性，多态性</p>
-<p>继承性：避免定义 重复的方法 和 重复的变量
+<p>继承性：避免定义 重复的方法 和 重复的变量<br>
 建议：一个模块只写一个类，可以看下面c2.py中的调用方法</p>
 <h3 id="c1py">c1.py</h3>
 <pre><code class="language-python">class Human():
@@ -1263,7 +1263,7 @@ student1.get_name()
     11
     鸡小萌
 </code></pre>
-<p>在<code>c2.py</code>中，我们定义了一个类<code>Student</code>,它继承了父类<code>Human</code>，子类里也包括了一个构造函数，并且它还调用了父类的构造函数，此时，在子类构造函数的参数列表中要传入父类的参数，并且，在调用时，必须传入<code>self</code>关键字，即：<code>Human.__init__(self, name, age)</code>，从结果来看，我们成功的调用了父类文件中的类变量<code>sum</code>、实例变量<code>name age</code>以及方法。
+<p>在<code>c2.py</code>中，我们定义了一个类<code>Student</code>,它继承了父类<code>Human</code>，子类里也包括了一个构造函数，并且它还调用了父类的构造函数，此时，在子类构造函数的参数列表中要传入父类的参数，并且，在调用时，必须传入<code>self</code>关键字，即：<code>Human.__init__(self, name, age)</code>，从结果来看，我们成功的调用了父类文件中的类变量<code>sum</code>、实例变量<code>name age</code>以及方法。<br>
 那为什么我们在调用子类的构造函数的时候不需要传入<code>self</code>关键字呢，因为我们在实例化<code>Student</code>这个类的时候，Python会自动的调用构造函数，此时Python会帮我们补全<code>self</code>，而如果我们在子类中调用父类的构造函数，相当于用类调用了一个实例方法，在这种情况下，就是一个普通方法的调用，所以参数列表的参数都必须传入。</p>
 <p>一般来说，通过对象调用函数或者方法，Python知道self是谁，会自动帮你补全self，而你通过类去调用一个方法，就必须把所有的参数补全，所以实例化一个对象以后，明智的操作是通过这个对象去调用方法 。</p>
 <p>一般情况下，不推荐在子类的方法中使用父类名.父类方法的这种方式去调用父类的方法，推荐使用<code>super</code>关键字：</p>
@@ -1290,7 +1290,7 @@ print(student1.age)
 <h1 id="center日记四center"><center>日记四</center></h1>
 <h1 id="正则表达式与json">正则表达式与JSON</h1>
 <h2 id="1-初识正则表达式">1、初识正则表达式</h2>
-<p>正则表达式是一个特殊的字符序列，可以检测一个字符串是否与我们所设定的这样的字符序列相匹配。
+<p>正则表达式是一个特殊的字符序列，可以检测一个字符串是否与我们所设定的这样的字符序列相匹配。<br>
 匹配的话可以快速检索文本、实现文本替换。</p>
 <pre><code class="language-python">import re
 a = 'Python|C++|C#|JS|Java'
@@ -1319,7 +1319,7 @@ print(re.findall('a[c-f]c', a))
     ['abc', 'adc', 'agc', 'ahc']
     ['acc', 'adc', 'afc']
 </code></pre>
-<p>字符集[]，即元字符与普通字符的混用，一般情况下，普通字符起着定界的作用！
+<p>字符集[]，即元字符与普通字符的混用，一般情况下，普通字符起着定界的作用！<br>
 上面的代码块有三条print语句:</p>
 <ul>
 <li>第一个print语句中，使用了<code>a[cf]c</code>,它的作用是找出字符串中所有的acc和afc，即括号中的<code>[cf]</code>表示的是或的关系。</li>
@@ -1371,12 +1371,12 @@ print(re.findall('python?', a))
     ['python', 'pythonn'] 
     ['pytho', 'python', 'python']
 </code></pre>
-<p>在上面我们用到了三种匹配方式：
-<code>*</code> 匹配它前面的字符0次或无限多次，即<code>n</code>出现0次的时候也可以匹配
-<code>+</code> 匹配它前面的字符1次或无限多次，由于至少匹配一次，而pytho中一个<code>n</code>都没有
+<p>在上面我们用到了三种匹配方式：<br>
+<code>*</code> 匹配它前面的字符0次或无限多次，即<code>n</code>出现0次的时候也可以匹配<br>
+<code>+</code> 匹配它前面的字符1次或无限多次，由于至少匹配一次，而pytho中一个<code>n</code>都没有<br>
 <code>?</code> 匹配它前面的字符0次或者1次，当<code>?</code>前面是数量词时，它表示非贪婪，这两者是有区别的</p>
 <h2 id="8-边界匹配符">8、边界匹配符</h2>
-<p><code>^</code>从字符串开始开始匹配
+<p><code>^</code>从字符串开始开始匹配<br>
 <code>$</code>从字符串末尾开始匹配</p>
 <pre><code class="language-python">import re
 a = '100000001'
@@ -1440,7 +1440,7 @@ print(r2)
 &gt;&gt;&gt; JavaGoPythonGoPHPGo
     JavaGoPythonC#PHPC#
 </code></pre>
-<p>默认情况下，<code>count</code>的数值为0，表示会无限的替换下去，数值为1，表示只替换第一个
+<p>默认情况下，<code>count</code>的数值为0，表示会无限的替换下去，数值为1，表示只替换第一个<br>
 其实还可以用Python的内置函数<code>replace</code>方法：</p>
 <pre><code class="language-python">a = 'JavaC#PythonC#PHPC#'
 r = a.replace('C#', 'Go')
@@ -1494,9 +1494,9 @@ print(r2)
     &lt;_sre.SRE_Match object; span=(1, 2), match='1'&gt;
 </code></pre>
 <ul>
-<li><code>re.match()</code>
+<li><code>re.match()</code><br>
 从字符开始处开始匹配，如果第一位就不匹配，返回None。</li>
-<li><code>re.search()</code>
+<li><code>re.search()</code><br>
 从开始处开始搜索，搜索整个字符串，如果匹配，立即返回第一个对象，否则返回None。</li>
 </ul>
 <p>与findall的区别：</p>
@@ -1530,7 +1530,7 @@ print(r3)
 <p>因为<code>re.match()</code>匹配结果是一个对象，所以可以通过group()访问这个对象，一般情况下，<code>group()</code>和<code>group(0)</code>永远记录的是字符串完整的匹配结果，而要访问内部的分组，要从1开始。所以正则表达式内部有组的话，可以通过group方法来进行访问。</p>
 <p>如果用groups方法，只会输出分组的情况而不是完整的匹配结果。</p>
 <h2 id="14-json">14、Json</h2>
-<p>Json是一种<code>轻量级</code>的<code>数据交换格式</code>。
+<p>Json是一种<code>轻量级</code>的<code>数据交换格式</code>。<br>
 同<code>xml</code>相比，它确实时轻量级的，但最重要的时，它是一种数据交换格式，它的载体是字符串，符合Json格式的字符串叫做Json字符串。</p>
 <p>优势：易于阅读、解析，网络传输效率高。<code>可以跨语言进行数据交换。</code></p>
 <h2 id="15-反序列化与序列化">15、反序列化与序列化</h2>
@@ -1597,7 +1597,7 @@ class TypeDimond():
 <p>但是这样做有缺点：</p>
 <ul>
 <li>可变，可以轻易的在代码中改变标签的值</li>
-<li>没有防止相同标签的功能
+<li>没有防止相同标签的功能<br>
 而枚举就会有相应的保护措施</li>
 </ul>
 <h3 id="2-枚举类型枚举值枚举名称">2、枚举类型，枚举值，枚举名称</h3>
@@ -1624,8 +1624,8 @@ print(type(VIP.GREEN.value))
     2
     &lt;class 'int'&gt;
 </code></pre>
-<p><code>print(VIP.GREEN</code>)返回<code>VIP.GREEN</code>，是枚举类型（枚举下面的类型）。
-<code>print(VIP.GREEN.name)</code>返回<code>GREEN</code>，是枚举名称。
+<p><code>print(VIP.GREEN</code>)返回<code>VIP.GREEN</code>，是枚举类型（枚举下面的类型）。<br>
+<code>print(VIP.GREEN.name)</code>返回<code>GREEN</code>，是枚举名称。<br>
 <code>print(VIP.GREEN.value)</code>返回<code>2</code>，是对应的值类型。</p>
 <p>对枚举来说，是可以遍历的，可以获得枚举下面的每一种枚举类型：</p>
 <pre><code class="language-python">from enum import Enum
@@ -1648,8 +1648,8 @@ for dimond in VIP:
 </code></pre>
 <h3 id="3-枚举注意事项">3、枚举注意事项</h3>
 <p>枚举类型之间是可以进行等值<code>==</code>比较的，但是不支持大小比较。不同枚举类的枚举类型进行等值比较后都会返回False.</p>
-<p>枚举下不能有相同的标签名，但是标签下的数值可以相同，这个情况下第二个名称是第一个的别名。
-遍历时，数值相同的标签，只会打印第一个。
+<p>枚举下不能有相同的标签名，但是标签下的数值可以相同，这个情况下第二个名称是第一个的别名。<br>
+遍历时，数值相同的标签，只会打印第一个。<br>
 如果想遍历所有标签，可以使用<code>__members__</code>方法：</p>
 <pre><code class="language-python">from enum import Enum
 class VIP(Enum):
@@ -1782,7 +1782,7 @@ print(travel(5))
 <p>由于在闭包内部我们给环境变量赋值，<code>pos = new_pos</code>,Python会默认此时的<code>pos</code>不是环境变量而是局部变量，这样的话运行报错：在没有定义的时候使用局部变量，Python中提供了一个<code>nonlocal</code>关键字可以强制使<code>pos</code>变成环境变量。</p>
 <p>由于闭包内部的封闭性，使我们的程序更加的安全，整个问题解决之后我们的环境变量<code>origin</code>依然没变，如果我们用非闭包的方式，虽然用加<code>global</code>关键字的方式解决了问题，但是此时的环境变量<code>origin</code>也发生了改变，如果其它函数也要使用这个变量就会很混乱。</p>
 <h2 id="3-lambda表达式">3、lambda表达式</h2>
-<p>匿名函数：定义函数时不需要命名
+<p>匿名函数：定义函数时不需要命名<br>
 定义匿名函数时需要用到<code>lambda</code>关键字：</p>
 <pre><code class="language-python">lambda parameter_list: expression
 </code></pre>
@@ -1802,7 +1802,7 @@ print(f(1, 2))
 <p>虽然把一个对<code>lambda</code>表达式进行赋值是非常奇怪的，但是上面这个代码库还是很直观的显示了匿名函数与普通函数的区别</p>
 <h2 id="4-三元表达式">4、三元表达式</h2>
 <p>在其它的编程语言中，三元表达式的一般形式为：<code>x &gt; y ? x : y</code>，即x&gt;y为真时返回x，否则返回y</p>
-<p>在Python中，三元表达式的形式为：<code>条件为真时返回的结果 if 条件判断 else 条件为假时的返回结果</code>
+<p>在Python中，三元表达式的形式为：<code>条件为真时返回的结果 if 条件判断 else 条件为假时的返回结果</code><br>
 验证一下：</p>
 <pre><code class="language-python">x = 2
 y = 1
@@ -2048,10 +2048,10 @@ print(b2)
 &gt;&gt;&gt; ['一一', '二二', '三三']
     {12: '一一', 15: '二二', 18: '三三'}
 </code></pre>
-<p>遍历字典时需要用到<code>items()</code>这个方法，第一个print提取了字典的key值，第二个print颠倒了key和values的值。
+<p>遍历字典时需要用到<code>items()</code>这个方法，第一个print提取了字典的key值，第二个print颠倒了key和values的值。<br>
 而由于元组是不可变的，所以如果你想生成一个新的元组，会得到一个<code>generator</code>对象。</p>
 <h2 id="11-迭代器与生成器">11、迭代器与生成器</h2>
-<p>凡是可以被<code>for/in</code>循环遍历的数据结构都是可迭代对象(iterable)，比如说列表，元组，集合。
+<p>凡是可以被<code>for/in</code>循环遍历的数据结构都是可迭代对象(iterable)，比如说列表，元组，集合。<br>
 迭代器(iterator)是一个对象(class),它是一个可迭代对象，反过来说肯定是错误的。一般情况下，普通的class肯定是不能遍历，如果我们想遍历一个class，那就需要把它变成一个迭代器，通过在类中实现<code>__iter__()</code>和<code>__next__()</code>这个两个方法，for/in循环的实质是它会不断地调用__next__()方法来实现遍历。</p>
 <pre><code class="language-python">class BookCollection:
     def __init__(self):
@@ -2108,7 +2108,7 @@ for x in r:
 <li><code>yield</code>与<code>return</code>的区别就是，当执行到<code>return</code>语句时，整个函数的调用都会结束，而使用<code>yiled</code>，它会保留上次被调用时的返回结果，再次调用时会从上一次的结果开始而不是初始值。</li>
 </ul>
 <h2 id="12-none">12、None</h2>
-<p><code>None</code>的意思不是空，无论是从<strong>类型</strong>还是<strong>值</strong>来说都<strong>不等同</strong>于空字符串、空列表、0、False...
+<p><code>None</code>的意思不是空，无论是从<strong>类型</strong>还是<strong>值</strong>来说都<strong>不等同</strong>于空字符串、空列表、0、False...<br>
 None本身就是一个Nonetype对象：</p>
 <pre><code class="language-python">print(type(None))
 &gt;&gt;&gt; &lt;class 'NoneType'&gt;
@@ -2154,7 +2154,7 @@ else:
     F
 </code></pre>
 <p>从示例可以看出，可以对对象进行判空操作，但是对象存在不一定就是True。</p>
-<p>当调用<code>len()</code>函数来传递自己编写的类作为参数时，会自动调用类中定义的<code>__len__()</code>方法(必须在类中有定义，否则报错)。
+<p>当调用<code>len()</code>函数来传递自己编写的类作为参数时，会自动调用类中定义的<code>__len__()</code>方法(必须在类中有定义，否则报错)。<br>
 并且<code>__bool__()</code>会覆盖<code>__len__()</code>的结果。总之自定义对象是否会被视作False是由对象内部的<code>__bool__()</code>和<code>__len__()</code>决定。</p>
 <pre><code class="language-python">class Test1():
     def __bool__(self):
