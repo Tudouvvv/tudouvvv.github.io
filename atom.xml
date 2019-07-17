@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-17T07:02:27.413Z</updated>
+    <updated>2019-07-17T07:05:42.490Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -1179,38 +1179,37 @@ plt.xlabel('iterations (per hundreds)')
 plt.title(&quot;Learning rate =&quot; + str(data[&quot;learning_rate&quot;]))
 plt.show()
 </code></pre>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E6%88%90%E6%9C%AC%E6%9B%B2%E7%BA%BFpng.png)</center>
-可以看到伴随着迭代次数的增加，成本值在下降。
-<p>我们可以自己找一下图片，设置为64*64的，来测试一下这个的准确度：</p>
-<center>!![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-8_test.png)</center>
-找了8张图片，分别编号1--8，通过上面的predict函数来进行预测结果：
-```python
-import matplotlib.image as mpimg  # 在开始处导入，主要作用是读取图片信息
-<pre><code>img1 = mpimg.imread(&quot;test/1.jpg&quot;).reshape(-1, 1)
-img2 = mpimg.imread(&quot;test/2.jpg&quot;).reshape(-1, 1)
-img3 = mpimg.imread(&quot;test/3.jpg&quot;).reshape(-1, 1)
-img4 = mpimg.imread(&quot;test/4.jpg&quot;).reshape(-1, 1)
-img5 = mpimg.imread(&quot;test/5.jpg&quot;).reshape(-1, 1)
-img6 = mpimg.imread(&quot;test/6.png&quot;).reshape(-1, 1)
-img7 = mpimg.imread(&quot;test/7.png&quot;).reshape(-1, 1)
-img8 = mpimg.imread(&quot;test/8.jpg&quot;).reshape(-1, 1)
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E6%88%90%E6%9C%AC%E6%9B%B2%E7%BA%BFpng.png" alt=""><br>
+可以看到伴随着迭代次数的增加，成本值在下降。</p>
+<p>我们可以自己找一下图片，设置为64*64的，来测试一下这个的准确度：<br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-8_test.png" alt=""><br>
+找了8张图片，分别编号1--8，通过上面的predict函数来进行预测结果：</p>
+<pre><code class="language-python">import matplotlib.image as mpimg  # 在开始处导入，主要作用是读取图片信息
+    
+    img1 = mpimg.imread(&quot;test/1.jpg&quot;).reshape(-1, 1)
+    img2 = mpimg.imread(&quot;test/2.jpg&quot;).reshape(-1, 1)
+    img3 = mpimg.imread(&quot;test/3.jpg&quot;).reshape(-1, 1)
+    img4 = mpimg.imread(&quot;test/4.jpg&quot;).reshape(-1, 1)
+    img5 = mpimg.imread(&quot;test/5.jpg&quot;).reshape(-1, 1)
+    img6 = mpimg.imread(&quot;test/6.png&quot;).reshape(-1, 1)
+    img7 = mpimg.imread(&quot;test/7.png&quot;).reshape(-1, 1)
+    img8 = mpimg.imread(&quot;test/8.jpg&quot;).reshape(-1, 1)
 
-img = np.hstack((img1, img2, img3, img4, img5, img6, img7, img8))   # np.hstack()主要进行拼接矩阵的作用
+    img = np.hstack((img1, img2, img3, img4, img5, img6, img7, img8))   # np.hstack()主要进行拼接矩阵的作用
 
-w = data[&quot;w&quot;]
-b = data[&quot;b&quot;]
+    w = data[&quot;w&quot;]
+    b = data[&quot;b&quot;]
 
-Y_prediction = predict(img, w, b)
-Y_prediction = np.squeeze(Y_prediction)     # np.squeeze()主要进行矩阵降维的作用
-for i in range(len(Y_prediction)):
-    if Y_prediction[i] == 1:
-        print(&quot;第%i张图片中有猫&quot; %(i+1))
-    else:
-        print(&quot;第%i张图片中没有猫&quot; %(i+1))
+    Y_prediction = predict(img, w, b)
+    Y_prediction = np.squeeze(Y_prediction)     # np.squeeze()主要进行矩阵降维的作用
+    for i in range(len(Y_prediction)):
+        if Y_prediction[i] == 1:
+            print(&quot;第%i张图片中有猫&quot; %(i+1))
+        else:
+            print(&quot;第%i张图片中没有猫&quot; %(i+1))
 </code></pre>
-<pre><code>预测结果：
-```python
-第1张图片中有猫
+<p>预测结果：</p>
+<pre><code class="language-python">第1张图片中有猫
 第2张图片中有猫
 第3张图片中有猫
 第4张图片中有猫
