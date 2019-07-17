@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-17T09:58:15.628Z</updated>
+    <updated>2019-07-17T10:00:11.289Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -263,7 +263,7 @@ public:
 <code>( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。</code>请找出其中最小的元素，你可以假设数组中不存在重复元素。</p>
 <p>分析：题目就是说把一个升序数组的一部分移到了数组的前面，如果用二分法来做的话，就首先应该找到一个二段性，可以把整个区间分成两部分。<br>
 <img src="https://tudouvvv.github.io//post-images/1563356609008.png" alt=""><br>
-如图，整个数组的分布相当于这个样子，我们想找的就是红色的这个点，判断的条件就是：<code>nums[mid] &gt; nums.back()</code>，nums.back()就是蓝色的这个点，这样就把整个数组分成了两部分。</p>
+如图，整个数组的分布相当于这个样子，我们想找的就是红色的这个点，判断的条件就是：<code>nums[mid] &lt;= nums.back()</code>，nums.back()就是蓝色的这个点，这样就把整个数组分成了两部分。</p>
 <p>C++</p>
 <pre><code class="language-c++">class Solution {
 public:
