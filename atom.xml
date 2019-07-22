@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-18T08:49:26.141Z</updated>
+    <updated>2019-07-22T00:36:31.901Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -397,6 +397,96 @@ class Solution:
             else: l = mid + 1
         return l
 </code></pre>
+<h4 id="162-find-peak-element"><a href="https://leetcode.com/problems/find-peak-element/">162. Find Peak Element</a></h4>
+<p>题目描述：峰值元素是指其值大于左右相邻值的元素。<br>
+给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。<br>
+数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。<br>
+你可以假设 nums[-1] = nums[n] = -∞。</p>
+<p>分析：考虑二分的做法，不管怎么样，数组中一定是存在一个峰值的，我们比较nums[mid] 与 nums[mid+1]的关系，如果nums[mid]&lt;nums[mid+1]，那么二分的两段中，右边必存在峰值，就算一直递增，那么端点也算峰值；反之亦然。<br>
+所以用二分的思想，必然会找到一个峰值。</p>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int findPeakElement(vector&lt;int&gt;&amp; nums) {
+        int l = 0, r = nums.size() - 1;
+        while(l &lt; r)
+        {
+            int mid = l + r &gt;&gt; 1;
+						// 为什么不用判断mid+1是否越界呢，因为此时mid= n - 1的话
+						// l = r = n - 1，没有进入while循环
+            if (nums[mid] &gt; nums[mid+1]) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def findPeakElement(self, nums: List[int]) -&gt; int:
+        l, r = 0, len(nums) - 1
+        while l &lt; r:
+            mid = l + r &gt;&gt; 1
+            if nums[mid] &gt; nums[mid+1]:
+                r = mid
+            else: l = mid + 1
+        return l
+</code></pre>
+<h4 id="287-find-the-duplicate-number"><a href="https://leetcode.com/problems/find-the-duplicate-number/">287. Find the Duplicate Number</a></h4>
+<p>题目描述：给定一个包含 n + 1 个整数的数组 nums，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。假设只有一个重复的整数，找出这个重复的数。<br>
+Note：</p>
+<ul>
+<li>不能更改原数组（假设数组是只读的）。</li>
+<li>只能使用额外的 O(1) 的空间。</li>
+<li>时间复杂度小于 O(n2) 。</li>
+<li>数组中只有一个重复的数字，但它可能不止重复出现一次。</li>
+</ul>
+<p>分析：<br>
+<code>抽屉原理</code>：假如有n+1个元素放到n个集合中去，其中必定有一个集合里至少有两个元素。<br>
+将整个数组二分为两半，则两边至少会有一边存在重复的数，两边分别拥有的数的个数是：L = mid - l +1 ，R = r - mid + 1，现在我们的区间是[1, n]，mid就是1---&gt;n中间的那个数，举例：nums = [1,3,4,2,2]，此时的区间为[1, 4]，n= 4, mid = 2，统计小于等于mid的数的个数：</p>
+<pre><code>for num in nums:
+    if num &lt;= mid: 
+        cnt += 1
+</code></pre>
+<p>计算出来cnt = 3，然后来比较cnt与左边的数的个数，如果cnt &gt; L，说明<br>
+重复的这个数就在左边(这里的左边是相对区间[1, 4]来说的)<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int findDuplicate(vector&lt;int&gt;&amp; nums) {
+        int l = 1, r = nums.size() - 1;
+        while (l &lt; r)
+        {
+            int mid = l + r &gt;&gt; 1;
+            int cnt = 0;
+            for (auto num : nums)
+                if (num &gt;=l &amp;&amp; num &lt;= mid) 
+                    cnt++;
+            if (cnt&gt;mid-l+1) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def findDuplicate(self, nums: List[int]) -&gt; int:
+        l, r = 1, len(nums)-1
+        while l &lt; r:
+            mid = l + r &gt;&gt; 1
+            cnt = 0
+            for num in nums:
+                if num &gt;= l and num &lt;= mid:
+                    cnt += 1
+            if cnt &gt; mid - l + 1:
+                r = mid
+            else: l = mid + 1
+        return l
+</code></pre>
+<h4 id="275-h-index-ii"><a href="https://leetcode.com/problems/h-index-ii/">275. H-Index II</a></h4>
+<p>题目描述：给定一位研究者论文被引用次数的数组（被引用次数是非负整数），数组已经按照升序排列。编写一个方法，计算出研究者的 h 指数。<br>
+h 指数的定义: “h 代表“高引用次数”（high citations），一名科研人员的 h 指数是指他（她）的 （N 篇论文中）至多有 h 篇论文分别被引用了至少 h 次。（其余的 N - h 篇论文每篇被引用次数不多于 h 次。）&quot;</p>
 ]]></content>
     </entry>
     <entry>
