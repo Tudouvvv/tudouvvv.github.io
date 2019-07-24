@@ -1,175 +1,136 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-      
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Tudouvvv</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<meta name="description" content="人生还长，慢慢来"/>
-<meta name="keywords" content="人生还长，慢慢来"/>
-
-<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-<link rel="shortcut icon" href="https://tudouvvv.github.io//favicon.ico">
-
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>神经网络与深度学习-第二周作业 | Tudouvvv</title>	
+</style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
 
-<!-- Modernizr JS -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/modernizr-2.6.2.min.js"></script>
-<!-- FOR IE9 below -->
-<!--[if lt IE 9]>
-<scripts src="https://tudouvvv.github.io//media/scripts/_vendors/respond.min.js"></scripts>
-<![endif]-->
+<style type="text/css">
+header {
+    text-align: center;
+    padding: 120px 0px 40px 0px;
+    background: #515865 center no-repeat;
+    font-size: 16px;
+    color: #fff;
+    background-size: cover;
+    background-image:url();
+}
+		</style>
 
-<!-- Comment -->
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header ddq" class="site-header" 
+		
+		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-cat.jpeg)"
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://tudouvvv.github.io/" rel="home">Tudouvvv</a></h1>
+										
+					<h2 class="site-description">人生还长，慢慢来</h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div><!-- /nav-toggle -->
+					<div class="clear"></div>
+					<ul id="" class="vtmenu">
+		 
+     			
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+	 
+	<a  href="/"> 首页</a></li>
+	
+    
+     			
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+	 
+	<a  href="/archives"> 归档</a></li>
+	
+    
+     			
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+	 
+	<a  href="/tags"> 标签</a></li>
+	
+    
+     			
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+	 
+	<a  href="/post/about"> 关于</a></li>
+	
+    
 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/tomorrow-night.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
-<link crossorigin="anonymous" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" href="https://lib.baomitu.com/font-awesome/5.8.1/css/all.min.css" rel="stylesheet">
-
-  </head>
-  <body>
-  
-<div id="fh5co-offcanvas">
-    <a href="#!" class="fh5co-close-offcanvas js-fh5co-close-offcanvas">
-        <span><i class="icon-cross3"></i> <span>Close</span></span>
-    </a>
-    <div class="fh5co-bio">
-        <figure>
-            <img src="https://tudouvvv.github.io//media/images/avatar.png" alt="Tudouvvv" class="img-responsive">
-        </figure>
-        <h3 class="heading">ABOUT ME</h3>
-        <h2>Tudouvvv</h2>
-        <p>人生还长，慢慢来</p>
-        <ul class="fh5co-social">
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-                <li>
-                    
-                </li>
-            
-        </ul>
-    </div>
-
-    <div class="fh5co-menu">
-        <div class="fh5co-box">
-            <h3 class="heading">搜索</h3>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="输入关键字">
-                </div>
-            </form>
-        </div>
-        <div class="fh5co-box">
-            <h3 class="heading">标签</h3>
-            <ul>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/leetcode">Leetcode</a></li>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/python">Python</a></li>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/keras">Keras</a></li>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/mysql">Mysql</a></li>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/code">Code</a></li>
-                
-                    <li><a href="https://tudouvvv.github.io//tag/Ejc-I2BJt">Life</a></li>
-                
-            </ul>
-        </div>
-    </div>
-</div>
-
-<header id="fh5co-header">
-    <div class="container-fluid">
-        <div class="row">
-            <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
-            <ul class="fh5co-social">
-                
-                    <li>
-                        <a href="/"
-                         >
-                            首页
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/archives"
-                         >
-                            归档
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/tags"
-                         >
-                            标签
-                        </a>
-                    </li>
-                
-                    <li>
-                        <a href="/post/about"
-                         >
-                            关于
-                        </a>
-                    </li>
-                
-            </ul>
-            <div class="col-lg-12 col-md-12 text-center">
-                <h1 id="fh5co-logo">
-                    <a href="https://tudouvvv.github.io/">Tudouvvv</a>
-                </h1>
-            </div>
-        </div>
-    </div>
-</header>
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav><!-- #navigation -->
+						<div class="jingge">
 
 
-<!--  <a href="#" class="fh5co-post-prev"><span>👈 Prev</span></a>-->
-<!--  <a href="#" class="fh5co-post-next"><span>Next 👉</span></a>-->
+    
 
-  <div class="container-fluid">
-      <div class="row fh5co-post-entry single-entry">
-          <article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
-              <figure class="animate-box">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        </header><!-- #masthead -->
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="entry-title">神经网络与深度学习-第二周作业</h1>
+<div class="entry-meta">
+	
+	           <a href="https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业">
+							 <i class="iconfont icon-rili"> 
+							</i> 2018-10-19</a> 
+			
+</span>
+													 
+		</div>
                   
-                      <img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-cat.jpeg" alt="神经网络与深度学习-第二周作业" class="img-responsive">
-                  
-              </figure>
-              <span class="fh5co-meta animate-box">
-                  
-                      <div class="tag-container">
-                          
-                              <a href="https://tudouvvv.github.io//tag/python" class="tag">Python, </a>
-                          
-                      </div>
-                  
-              </span>
-              <h2 class="fh5co-article-title animate-box">神经网络与深度学习-第二周作业</h2>
-              <span class="fh5co-meta fh5co-date animate-box">2018-10-19</span>
-
-              <div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
-                  <div class="row">
-                      <div class="col-md-12 animate-box post-content">
-                          <p> <p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。<br>
+			<div class="entry-summary">
+				<p><p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。<br>
 参考文章：<a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Neural%20Networks%20and%20Deep%20Learning/Logistic%20Regression%20with%20a%20Neural%20Network%20mindset.ipynb">Logistic Regression with a Neural Network mindset</a></p>
 <h1 id="目标识别图片中有没有猫">目标：识别图片中有没有猫</h1>
 <h1 id="步骤">步骤：</h1>
@@ -577,62 +538,147 @@ plt.show()
 第7张图片中没有猫
 第8张图片中没有猫
 </code></pre>
-<center>以上!</center> </p>
-                      </div>
-                  </div>
+<center>以上!</center></p>
+							</div>
+	<div class="vt-post-tags">
+ 
+				<a href="https://tudouvvv.github.io//tag/python" rel="tag">Python</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		<div class="nav-previous3"><a href="https://tudouvvv.github.io//post/构建深度神经网络与初步尝试使用keras构建CNN" rel="prev"> 构建多层神经网络与初步尝试使用keras构建CNN</a></div>
+		 
+		 
+		<div class="nav-next3"><a href="https://tudouvvv.github.io//post/Python数据库学习" rel="next"> Python数据库学习</a></div>
+		
+		</div>
+	</nav>
+		</div>
+		
+ 
+		
+</article>
 
-                  <div class="row">
-                      <div class="col-md-12 animate-box">
-                          
-                              <div class="next-post">
-                                  <div class="next">下一篇</div>
-                                  <a href="https://tudouvvv.github.io//post/Python数据库学习">
-                                      <h3 class="post-title">
-                                          Python数据库学习
-                                      </h3>
-                                  </a>
-                              </div>
-                          
-                      </div>
-                  </div>
+<div id="marlin_lite_about_widget-2" class="widget marlin_lite_about_widget">
+			<h4 class="widget-title">评论</h4>	
 
-                  <div class="row">
-                      <div class="col-md-12 animate-box">
-                          
-                      </div>
-                  </div>
-              </div>
+			 
+   
+  
+ 
 
-          </article>
-      </div>
-  </div>
+		</div>
 
-    
-<footer id="fh5co-footer">
-  <p>Powered by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a></p>
-</footer>
+			</div>
+			
 
 
-    
-<!-- jQuery -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/jquery.min.js"></script>
-<!-- jQuery Easing -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/jquery.easing.1.3.js"></script>
-<!-- Bootstrap -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/bootstrap.min.js"></script>
-<!-- Waypoints -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/jquery.waypoints.min.js"></script>
-<!-- Main JS -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/main.js"></script>
-<!-- Md5 Min JS -->
-<script src="https://tudouvvv.github.io//media/scripts/_vendors/md5.min.js"></script>
+<div class="col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
 
-<script type="application/javascript">
-    hljs.initHighlightingOnLoad();
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">Powered by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div><!-- .container -->
+		
+		</footer><!-- #colophon -->
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/marlin-scripts.js'></script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
 </script>
 
-
-
-
-  </body>
+</body>
 </html>
