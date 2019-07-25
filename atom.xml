@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-24T13:31:04.981Z</updated>
+    <updated>2019-07-25T04:02:00.833Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -260,6 +260,65 @@ class Solution:
         head = second.next
         second.next = None
         return head
+</code></pre>
+<h4 id="24-swap-nodes-in-pairs"><a href="https://leetcode.com/problems/swap-nodes-in-pairs/">24. Swap Nodes in Pairs</a> ⭐⭐</h4>
+<p>题目描述：给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。<br>
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<pre><code>示例：
+Given 1-&gt;2-&gt;3-&gt;4, you should return the list as 2-&gt;1-&gt;4-&gt;3.
+</code></pre>
+<p>分析：每次枚举一对儿结点，因为这道题头结点会发生变化，所以创建虚拟头结点p，然后分别创建a、b两个结点。<br>
+<img src="https://tudouvvv.github.io//post-images/1564026372602.png" alt=""><br>
+修改三个指针的指向位置即可：<br>
+p-&gt;next = b；a-&gt;next = b-&gt;next；b-&gt;next = a；然后挪动p<br>
+的位置，指向下一对儿结点的头部p= a。</p>
+<p>C++</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        auto dummy = new ListNode(-1);
+        dummy -&gt; next = head;
+        
+        for (auto p=dummy; p-&gt;next &amp;&amp; p-&gt;next-&gt;next;)
+        {
+            auto a = p-&gt;next, b = a-&gt;next;
+            p-&gt;next = b;
+            a-&gt;next = b-&gt;next;
+            b-&gt;next = a;
+            p = a;
+        }
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def swapPairs(self, head: ListNode) -&gt; ListNode:
+        dummy = ListNode(-1)
+        dummy.next = head
+        p = dummy
+        while p.next and p.next.next:
+            a = p.next
+            b = a.next
+            p.next = b
+            a.next = b.next
+            b.next = a
+            p = a
+        return dummy.next
 </code></pre>
 ]]></content>
     </entry>
