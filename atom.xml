@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-25T04:02:00.833Z</updated>
+    <updated>2019-07-30T03:29:23.794Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -261,7 +261,7 @@ class Solution:
         second.next = None
         return head
 </code></pre>
-<h4 id="24-swap-nodes-in-pairs"><a href="https://leetcode.com/problems/swap-nodes-in-pairs/">24. Swap Nodes in Pairs</a> ⭐⭐</h4>
+<h4 id="24-swap-nodes-in-pairs">⭐<a href="https://leetcode.com/problems/swap-nodes-in-pairs/">24. Swap Nodes in Pairs</a></h4>
 <p>题目描述：给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。<br>
 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
 <pre><code>示例：
@@ -319,6 +319,353 @@ class Solution:
             b.next = a
             p = a
         return dummy.next
+</code></pre>
+<h4 id="206-reverse-linked-list">⭐<a href="https://leetcode.com/problems/reverse-linked-list/">206. Reverse Linked List</a></h4>
+<p>题目描述：反转一个单链表。</p>
+<pre><code>示例：
+输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL
+输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL
+</code></pre>
+<p>分析：翻转结点等价于把中间结点的指向位置翻转，具体做法就是：</p>
+<ol>
+<li>设定三个指针a\b分别指向1，2</li>
+<li>c = b-&gt;next;</li>
+<li>b-&gt;next=a;</li>
+<li>a=b, b=c<br>
+这样就完成了一次翻转，并且把两个指针移到到了下一个需要反转的位置。当b为空的时候，翻转结束；然后令head-&gt;next = NULL，head = a即可。</li>
+</ol>
+<p>C++</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (!head) return NULL;
+        auto a = head, b = a-&gt;next;
+        while (b)
+        {
+            auto c = b -&gt; next;
+            b-&gt;next = a;
+            a=b, b=c;
+        }
+        head-&gt;next = NULL;
+        head = a;
+        
+        return head;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseList(self, head: ListNode) -&gt; ListNode:
+        if not head:
+            return None
+        a = head
+        b = a.next
+        while b:
+            c = b.next
+            b.next = a
+            a = b
+            b = c
+        head.next = None
+        
+        return a
+</code></pre>
+<h4 id="92-reverse-linked-list-ii">⭐<a href="https://leetcode.com/problems/reverse-linked-list-ii/">92. Reverse Linked List II</a></h4>
+<p>题目描述：反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。</p>
+<pre><code>示例：
+输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL, m = 2, n = 4
+输出: 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;NULL
+</code></pre>
+<p>分析：我们要翻转其中一段链表m-&gt;n，我们首先得知道m的位置b，它前一个点a以及n的位置c以及它后一个点d，然后因为这道题中头结点也有可能发生翻转，所以我们创建一个虚拟的头结点。<br>
+具体做法：</p>
+<ol>
+<li>先建立一个虚拟头结点</li>
+<li>求出a、b、c、d的位置，a是虚拟头结点走m-1步，依此类推...</li>
+<li>然后复用上段代码，翻转b--c;</li>
+<li>然后a.next = c，b.next=d。<br>
+C++</li>
+</ol>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (m==n) return head;
+        auto dummy = new ListNode(-1);
+        dummy -&gt; next = head;
+        
+        auto a=dummy, c=dummy;
+        for (int i=0; i &lt; m- 1; i++) a = a-&gt;next;
+        for (int i=0; i &lt; n; i ++) c = c-&gt;next;
+        auto b = a-&gt;next, d = c-&gt;next;
+        
+        for (auto p = b, q = b-&gt;next; q != d;)
+        {
+            auto o = q-&gt;next;
+            q-&gt;next = p;
+            p = q;
+            q = o;
+        }
+        
+        a -&gt; next = c;
+        b -&gt; next = d;
+        
+    return dummy-&gt;next;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseBetween(self, head: ListNode, m: int, n: int) -&gt; ListNode:
+        if m == n:
+            return head
+        dummy = ListNode(-1)
+        dummy.next = head
+        
+        a, c  = dummy, dummy
+        while m-1 &gt; 0:
+            a = a.next
+            m -= 1
+        while n &gt; 0:
+            c = c.next
+            n -= 1
+        b = a.next
+        d = c.next
+        p, q = b, b.next
+        while q != d:
+            o = q.next
+            q.next = p
+            p, q = q, o
+        a.next = c
+        b.next = d
+        return dummy.next
+</code></pre>
+<h4 id="160-intersection-of-two-linked-lists"><a href="https://leetcode.com/problems/intersection-of-two-linked-lists/">160. Intersection of Two Linked Lists</a></h4>
+<p>题目描述：编写一个程序，找到两个单链表相交的起始节点。<br>
+如下面的两个链表：<br>
+<img src="https://tudouvvv.github.io//post-images/1564042210816.png" alt="">在节点 c1 开始相交。<br>
+注意：</p>
+<ol>
+<li>如果两个链表没有交点，返回 null.</li>
+<li>在返回结果后，两个链表仍须保持原有的结构。</li>
+<li>可假定整个链表结构中没有循环。</li>
+<li>程序尽量满足 O(n) 时间复杂度，且仅用 O(1) 内存。<br>
+分析：<img src="https://tudouvvv.github.io//post-images/1564042664892.png" alt=""><br>
+设定两个指针，每次向后走一位，走到头后交换出发点，如果两个链表相交，那么它们在走过a+b+c后就一定会相遇，如果最后为空，那么它们就没有相交。</li>
+</ol>
+<p>C++</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        auto p = headA, q = headB;
+        while (p!=q)
+        {
+            if (p) p = p-&gt;next;
+            else p = headB;
+            if (q) q = q-&gt;next;
+            else q = headA;
+        }
+        return p;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        &quot;&quot;&quot;
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        p, q = headA, headB
+        while p != q:
+            if p != None:
+                p = p.next
+            else: p = headB
+            if q != None:
+                q = q.next
+            else: q = headA
+        return p
+</code></pre>
+<h4 id="142-linked-list-cycle-ii"><a href="https://leetcode.com/problems/linked-list-cycle-ii/">142. Linked List Cycle II</a></h4>
+<p>题目描述：给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。<br>
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
+<ul>
+<li>不允许修改链表</li>
+<li>能否只用O(1)的空间</li>
+</ul>
+<p><img src="https://tudouvvv.github.io//post-images/1564452405688.png" alt=""><br>
+分析：设定两个指针，一个快指针fast（红色），一个慢指针slow（蓝色），fast指针每次走两步，slow指针每次走一步，当slow指针到b的时候，fast指针在左边c'处，离b的距离是y，由于快指针比慢指针快，所以二者会在c处相遇。相遇之后把慢指针重新放在头部，然后两个指针每次走一步，当两者相遇时一定在b点。因为第一次慢指针走到b时，走了x步，而快指针走了2x步，所以b--&gt;c'的距离是x步，整个圈的距离是x+y步，现在慢指针在开头，快指针在c处，两者每次走一步，当慢指针走x步时，快指针也走x步，就恰好相遇在b处。</p>
+<p>C++</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        auto slow = head, fast = head;
+        while (fast)
+        {
+            fast = fast-&gt;next;
+            slow = slow-&gt;next;
+            if (fast) fast = fast -&gt;next;
+            // if (slow) slow = slow-&gt;next;
+            else break;
+            
+            if  (fast == slow)
+            {
+                slow = head;
+                while (slow != fast)
+                {
+                    slow = slow -&gt;next;
+                    fast = fast -&gt;next;
+                }
+                return slow;
+            }
+        }
+        return NULL;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def detectCycle(self, head):
+        &quot;&quot;&quot;
+        :type head: ListNode
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        slow, fast = head, head
+        while fast:
+            fast = fast.next
+            slow = slow.next
+            if fast: fast = fast.next
+            else: break
+            if slow == fast:
+                slow = head
+                while slow!= fast:
+                    slow = slow.next
+                    fast = fast.next
+                return slow
+        return None
+</code></pre>
+<h4 id="148-sort-list存疑">⭐<a href="https://leetcode.com/problems/sort-list/">148. Sort List</a>【存疑】</h4>
+<p>题目描述：在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。</p>
+<pre><code>示例：
+Input: 4-&gt;2-&gt;1-&gt;3
+Output: 1-&gt;2-&gt;3-&gt;4
+</code></pre>
+<p>分析：快排和归并排序的空间复杂度不满足要求，<br>
+C++</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        int n = 0;
+        for (auto p=head; p; p=p-&gt;next)  n++;
+        auto dummy = new ListNode(-1);
+        dummy-&gt;next = head;
+        for (int i = 1; i &lt; n; i *= 2)
+        {
+            auto cur = dummy;
+            for (int j = 0; j + i &lt; n; j += i * 2)
+            {
+                auto left = cur-&gt;next, right = cur-&gt;next;
+                for (int k = 0; k &lt; i; k ++) right = right-&gt;next;
+                int l = 0, r = 0;
+                while (l &lt; i &amp;&amp; r &lt; i &amp;&amp; right)
+                    if (left-&gt;val &lt;= right-&gt;val)
+                    {
+                        cur-&gt;next = left;
+                        cur = left;
+                        left = left-&gt;next;
+                        l ++;
+                    }
+                    else
+                    {
+                        cur-&gt;next = right;
+                        cur = right;
+                        right = right-&gt;next;
+                        r ++;
+                    }
+                while (l &lt; i)
+                {
+                    cur-&gt;next = left;
+                    cur = left;
+                    left = left-&gt;next;
+                    l ++;
+                }
+                while (r &lt; i &amp;&amp; right)
+                {
+                    cur-&gt;next = right;
+                    cur = right;
+                    right = right-&gt;next;
+                    r ++;
+                }
+                
+                cur-&gt;next = right; 
+            }
+        }
+        
+        return dummy-&gt;next;
+        
+    }
+};
 </code></pre>
 ]]></content>
     </entry>
