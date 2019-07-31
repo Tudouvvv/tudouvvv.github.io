@@ -5,6 +5,7 @@
 <title>Tudouvvv</title>	
 </style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -22,7 +23,33 @@ header {
 			);
 }
 		</style>
+<script>
+(function(){
+    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
+ ||){
 
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        document.cookie = "night=1;path=/"
+        console.log('夜间模式开启');
+        }else{
+        document.cookie = "night=0;path=/"
+        console.log('夜间模式关闭');
+        }
+    }else{
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
+        if(night == '0'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        console.log('夜间模式关闭');
+        }else if(night == '1'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        console.log('夜间模式开启');
+
+        }
+    }
+})();
+</script>
 </head>
 <body class="home blog">
     <div id="wrapper">
@@ -118,6 +145,35 @@ header {
 		<div id="content" class="container">
 			<div class="row">
 	<div class="col-md-8 site-main">
+		
+ 						
+<article class="post post-index  post-318 type-post status-publish format-standard hentry category-uncategorized tag-40 tag-39">
+	
+	 
+	 <a href="https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气">
+		<div class="posttou" style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-03-18-banner.jpg)"></div>	
+		</a>		
+  	 
+	   
+	<div class="entry-content">
+		<h1 class="entry-title"><a href="https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气" rel="bookmark">用Python爬取斗鱼TV-LOL版块的主播人气</a></h1>
+		<div class="entry-meta">
+						<a href="https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气">
+							 <i class="iconfont icon-rili"> 
+							</i> 2018-03-18</a>  
+			
+		</div>
+
+		<div class="entry-summary">
+			<p></p>
+			<p class="readmore">
+				<a href="https://tudouvvv.github.io//post/用Python爬取斗鱼TV的LOL-版块的主播人气" class="link-more">Read more</a>
+			</p>
+		</div><!-- .entry-summary -->
+		
+	</div><!-- entry-content -->
+	
+</article><!-- #post-## -->			
 		
  						
 <article class="post post-index  post-318 type-post status-publish format-standard hentry category-uncategorized tag-40 tag-39">

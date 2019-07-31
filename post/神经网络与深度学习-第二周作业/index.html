@@ -6,6 +6,7 @@
 <title>神经网络与深度学习-第二周作业 | Tudouvvv</title>	
 </style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -23,7 +24,33 @@ header {
 			);
 }
 		</style>
+<script>
+(function(){
+    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
+ ||){
 
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        document.cookie = "night=1;path=/"
+        console.log('夜间模式开启');
+        }else{
+        document.cookie = "night=0;path=/"
+        console.log('夜间模式关闭');
+        }
+    }else{
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
+        if(night == '0'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        console.log('夜间模式关闭');
+        }else if(night == '1'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        console.log('夜间模式开启');
+
+        }
+    }
+})();
+</script>
  	
 </head>
 <body class="post-template-default single single-post postid-70 single-format-standard">
@@ -137,7 +164,7 @@ header {
 													 
 		</div>
                   
-			<div class="entry-summary">
+			<div class="entry-summary song">
 				<p><p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。<br>
 参考文章：<a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Neural%20Networks%20and%20Deep%20Learning/Logistic%20Regression%20with%20a%20Neural%20Network%20mindset.ipynb">Logistic Regression with a Neural Network mindset</a></p>
 <h1 id="目标识别图片中有没有猫">目标：识别图片中有没有猫</h1>

@@ -6,6 +6,7 @@
 <title>LeetCode暑期打卡第一周(二分专题) | Tudouvvv</title>	
 </style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -23,7 +24,33 @@ header {
 			);
 }
 		</style>
+<script>
+(function(){
+    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
+ ||){
 
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        document.cookie = "night=1;path=/"
+        console.log('夜间模式开启');
+        }else{
+        document.cookie = "night=0;path=/"
+        console.log('夜间模式关闭');
+        }
+    }else{
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
+        if(night == '0'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        console.log('夜间模式关闭');
+        }else if(night == '1'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        console.log('夜间模式开启');
+
+        }
+    }
+})();
+</script>
  	
 </head>
 <body class="post-template-default single single-post postid-70 single-format-standard">
@@ -137,7 +164,7 @@ header {
 													 
 		</div>
                   
-			<div class="entry-summary">
+			<div class="entry-summary song">
 				<p><!--more-->
 <p>二分的知识点就是每次把备选答案的空间缩小一半，但是整数二分一个很蛋疼的问题就是边界问题。</p>
 <h3 id="二分思想">二分思想：</h3>

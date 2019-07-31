@@ -6,6 +6,7 @@
 <title>用Python爬取斗鱼TV-LOL版块的主播人气 | Tudouvvv</title>	
 </style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -23,7 +24,33 @@ header {
 			);
 }
 		</style>
+<script>
+(function(){
+    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
+ ||){
 
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        document.cookie = "night=1;path=/"
+        console.log('夜间模式开启');
+        }else{
+        document.cookie = "night=0;path=/"
+        console.log('夜间模式关闭');
+        }
+    }else{
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
+        if(night == '0'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        console.log('夜间模式关闭');
+        }else if(night == '1'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        console.log('夜间模式开启');
+
+        }
+    }
+})();
+</script>
  	
 </head>
 <body class="post-template-default single single-post postid-70 single-format-standard">
@@ -137,7 +164,7 @@ header {
 													 
 		</div>
                   
-			<div class="entry-summary">
+			<div class="entry-summary song">
 				<p><p>刚好学完这个，就拿来练一练手Σ(っ °Д °;)っ</p>
 <p>觉得爬虫最重要的还是要理清思路，先爬什么，然后怎么筛选，我们想要输出怎样的格式...</p>
 <p>然后就是最重要的正则表达式了，至少我现在用的就是这个，至于各种爬虫框架还要继续学习，刚开始爬斗鱼的时候，竟然弹出403错误，本来都想换熊猫了，结果过了一会儿就好了 - - 不知道为什么</p>

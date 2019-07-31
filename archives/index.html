@@ -6,6 +6,7 @@
 <title>Tudouvvv</title>	
 </style>
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -23,7 +24,33 @@ header {
 			);
 }
 		</style>
+<script>
+(function(){
+    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
+ ||){
 
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        document.cookie = "night=1;path=/"
+        console.log('夜间模式开启');
+        }else{
+        document.cookie = "night=0;path=/"
+        console.log('夜间模式关闭');
+        }
+    }else{
+        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
+        if(night == '0'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        console.log('夜间模式关闭');
+        }else if(night == '1'){
+        document.querySelector('link[title="dark"]').disabled = true;
+        document.querySelector('link[title="dark"]').disabled = false;
+        console.log('夜间模式开启');
+
+        }
+    }
+})();
+</script>
 </head>
 <body class="post-template-default single single-post postid-70 single-format-standard">
     <div id="wrapper">
@@ -152,6 +179,13 @@ header {
 					 
       
                                     <div class="brick">
+                        <a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第三周(树专题)">
+                            <span class="time">2019-07-30</span> LeetCode暑期打卡第三周(树专题)                        </a>
+                    </div>
+                            
+                             
+      
+                                    <div class="brick">
                         <a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第二周(链表专题)">
                             <span class="time">2019-07-24</span> LeetCode暑期打卡第二周(链表专题)                        </a>
                     </div>
@@ -196,6 +230,8 @@ header {
                 <h3>2018</h3>
 					
 					 
+      
+                             
       
                              
       
