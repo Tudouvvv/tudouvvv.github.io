@@ -302,6 +302,137 @@ class Solution:
             p = p.right
         return res
 </code></pre>
+<h4 id="101-symmetric-tree"><a href="https://leetcode.com/problems/symmetric-tree/">101. Symmetric Tree</a></h4>
+<p>题目描述：给定一个二叉树，检查它是否是镜像对称的。</p>
+<pre><code>示例：
+    1
+   / \
+  2   2
+ / \ / \
+3  4 4  3
+二叉树 [1,2,2,3,4,4,3] 是对称的。
+</code></pre>
+<p>Note:</p>
+<ul>
+<li>如果你可以运用递归和迭代两种方法解决这个问题，会很加分。<br>
+分析：</li>
+<li>递归的方式</li>
+</ul>
+<ol>
+<li>两个根节点的值要相等</li>
+<li>左边的左子树与右边的右子树对称</li>
+<li>左边的右子树与右边的左子树对称</li>
+</ol>
+<ul>
+<li>迭代的方式</li>
+</ul>
+<ol>
+<li>左边的树：左中右遍历</li>
+<li>右边的树：右中左遍历</li>
+<li>同时遍历，判断两边的值是否一样<br>
+C++(递归的方式)</li>
+</ol>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        return dfs(root-&gt;left, root-&gt;right);        
+    }
+    bool dfs(TreeNode* p, TreeNode* q){
+        // 如果是空的，则必须同时为空才对称
+        if (!p || !q) return !p &amp;&amp; !q;
+        return p-&gt;val == q-&gt;val &amp;&amp; dfs(p-&gt;left, q-&gt;right) &amp;&amp; dfs(p-&gt;right, q-&gt;left);
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSymmetric(self, root: TreeNode) -&gt; bool:
+        if not root: return True
+        return self.dfs(root.left, root.right)
+    def dfs(self, p, q):
+        if (not p) or (not q): return (not p) and (not q)
+        return p.val == q.val and self.dfs(p.left, q.right) and self.dfs(p.right, q.left)
+</code></pre>
+<p>C++(迭代的方式)</p>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root) return true;
+        stack&lt;TreeNode*&gt; left, right;
+        auto l = root-&gt;left, r = root-&gt;right;
+        while (l || r || left.size() || right.size())
+        {
+            while (l &amp;&amp; r)
+            {
+                left.push(l), l = l-&gt;left;
+                right.push(r), r = r-&gt;right;
+            }
+            if (l || r) return false;
+            
+            l = left.top(), left.pop();
+            r = right.top(), right.pop();
+            if (l-&gt;val != r-&gt;val) return false;
+            l = l-&gt;right, r = r-&gt;left;
+        }
+        return true;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSymmetric(self, root: TreeNode) -&gt; bool:
+        if not root: return True
+        left, right = [], []
+        l, r = root.left, root.right
+        while (l or r or len(left) or len(right)):
+            while (l and r):
+                left.append(l)
+                l = l.left
+                right.append(r)
+                r = r.right
+            # 上面循环结束只有两种情况:全空或者一个空，一个不空
+            # 一个空，一个不空肯定不对称，返回False
+            if (l or r): return False
+            l = left.pop()
+            r = right.pop()
+            if l.val != r.val: return False
+            l = l.right
+            r = r.left
+        return True
+</code></pre>
 </p>
 							</div>
 	<div class="vt-post-tags">
