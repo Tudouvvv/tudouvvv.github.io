@@ -3,28 +3,23 @@
 <html lang="zh-CN">
 <head>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
 <title>LeetCode暑期打卡第三周(树专题) | Tudouvvv</title>	
-</style>
+
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<style type="text/css">
-header {
-    text-align: center;
-    padding: 120px 0px 40px 0px;
-    background: #515865 center no-repeat;
-    font-size: 16px;
-    color: #fff;
-    background-size: cover;
-    background-image:url(
-			https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/background1.jpg
-			);
-}
-		</style>
-<script>
+<script type="text/javascript">
 (function(){
     if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
  ||){
@@ -51,13 +46,15 @@ header {
     }
 })();
 </script>
+
+
  	
 </head>
 <body class="post-template-default single single-post postid-70 single-format-standard">
     <div id="wrapper">
         
 			
-		<header id="header ddq" class="site-header" 
+		<header id="header" class="site-header" 
 		
 		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E6%A0%91%E4%B8%93%E9%A2%98.jpg)"
 		
@@ -78,28 +75,28 @@ header {
 						</div>
 					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
-					<ul id="" class="vtmenu">
+					<ul id="" class="dove">
 		 
      			
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+<li>
 	 
 	<a  href="/"> 首页</a></li>
 	
     
      			
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+<li>
 	 
 	<a  href="/archives"> 归档</a></li>
 	
     
      			
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+<li>
 	 
 	<a  href="/tags"> 标签</a></li>
 	
     
      			
-<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12">
+<li>
 	 
 	<a  href="/post/about"> 关于</a></li>
 	
@@ -153,18 +150,17 @@ header {
 	
 	                      
 		<div class="entry-content">
-			<h1 class="entry-title">LeetCode暑期打卡第三周(树专题)</h1>
+			<h1 class="wow swing entry-title">LeetCode暑期打卡第三周(树专题)</h1>
 <div class="entry-meta">
-	
-	           <a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第三周(树专题)">
-							 <i class="iconfont icon-rili"> 
-							</i> 2019-07-30</a> 
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-07-30 11:56:28" itemprop="datePublished" pubdate="">2019-07-30</time></i>
+	          </div>
 			
 </span>
 													 
 		</div>
                   
-			<div class="entry-summary song">
+			<div class="wow slideInLeft entry-summary song">
 				<p><h4 id="98-validate-binary-search-tree"><a href="https://leetcode.com/problems/validate-binary-search-tree/">98. Validate Binary Search Tree</a></h4>
 <p>题目描述：给定一个二叉树，判断其是否是一个有效的二叉搜索树（BST）。<br>
 假设一个二叉搜索树具有如下特征：</p>
@@ -433,9 +429,26 @@ class Solution:
             r = r.left
         return True
 </code></pre>
+<h4 id="105-construct-binary-tree-from-preorder-and-inorder-traversal"><a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. Construct Binary Tree from Preorder and Inorder Traversal</a></h4>
+<p>题目描述：根据一棵树的前序遍历与中序遍历构造二叉树。<br>
+Node:</p>
+<ul>
+<li>你可以假设树中没有重复的元素。</li>
+</ul>
+<pre><code>示例：
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+返回如下的二叉树：
+    3
+   / \
+  9  20
+    /  \
+   15   7
+</code></pre>
+<p>分析：</p>
 </p>
 							</div>
-	<div class="vt-post-tags">
+	<div class="wow bounceInDown vt-post-tags">
  
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
@@ -443,20 +456,43 @@ class Solution:
 		<div class="nav-links3">
       
 		 
-		<div class="nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第二周(链表专题)" rel="next"> LeetCode暑期打卡第二周(链表专题)</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第二周(链表专题)" rel="next"> LeetCode暑期打卡第二周(链表专题)</a></div>
 		
 		</div>
 	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://tudouvvv.github.io//images/avatar.png" ></div>
+ 
+
 		</div>
 		
  
 		
 </article>
 
-<div id="marlin_lite_about_widget-2" class="widget marlin_lite_about_widget">
-			<h4 class="widget-title">评论</h4>	
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
 
-			 
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     	
+      	
+          
+        });
+    </script> 
+
+
    
   
  
@@ -467,7 +503,7 @@ class Solution:
 			
 
 
-<div class="col l3 hide-on-med-and-down">
+<div class="tocc col l3 hide-on-med-and-down">
 	
         <div class="toc-widget">
 			
@@ -532,7 +568,8 @@ class Solution:
 
 			<div class="container">
 	
-				<div class="copyright">Powered by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
+Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
 			</div><!-- .container -->
 		
 		</footer><!-- #colophon -->
@@ -541,6 +578,74 @@ class Solution:
 
 <script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="//tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
 
 		<script data-no-instant>
     (function ($) {

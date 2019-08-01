@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-07-31T09:54:07.972Z</updated>
+    <updated>2019-08-01T01:29:51.835Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -284,6 +284,23 @@ class Solution:
             r = r.left
         return True
 </code></pre>
+<h4 id="105-construct-binary-tree-from-preorder-and-inorder-traversal"><a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/">105. Construct Binary Tree from Preorder and Inorder Traversal</a></h4>
+<p>题目描述：根据一棵树的前序遍历与中序遍历构造二叉树。<br>
+Node:</p>
+<ul>
+<li>你可以假设树中没有重复的元素。</li>
+</ul>
+<pre><code>示例：
+前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]
+返回如下的二叉树：
+    3
+   / \
+  9  20
+    /  \
+   15   7
+</code></pre>
+<p>分析：</p>
 ]]></content>
     </entry>
     <entry>
