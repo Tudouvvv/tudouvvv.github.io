@@ -478,39 +478,40 @@ if __name__ == '__main__':
 <p><code>https://docs.sqlalchemy.org/en/latest/orm/</code>------&gt;官方文档地址<br>
 在MySQL中不同字符类型在sqlalchemy中都有对应的类型与之匹配，比如VARCHAR对应String，INT对应Integer。</p>
 <h4 id="创建一张表">创建一张表</h4>
-<p>如果我们想在某个数据库中创建一个表，我们首先要用到<code>engine</code>来与数据库建立连接，接着继承<code>Base</code>这个基类中的方法来同我们的数据库进行映射，接着定义数据表的每个字段的类型，最后通过下图中的方法来创建数据表：</p>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-py%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
-我们可以看到`Base.metadta.create_all(engine)`这条语句就相当于一条sql语句，编写代码来实验一下：
-```python
-from sqlalchemy import create_engine
+<p>如果我们想在某个数据库中创建一个表，我们首先要用到<code>engine</code>来与数据库建立连接，接着继承<code>Base</code>这个基类中的方法来同我们的数据库进行映射，接着定义数据表的每个字段的类型，最后通过下图中的方法来创建数据表：<br>
+<a href="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-py%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png"></a><br>
+我们可以看到<code>Base.metadta.create_all(engine)</code>这条语句就相当于一条sql语句，编写代码来实验一下：</p>
+<pre><code class="language-python">from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
-<h1 id="engine-create_enginemysqlscotttigerlocalhostfoo-官方给出的连接方法">engine = create_engine('mysql://scott:tiger@localhost/foo') #官方给出的连接方法</h1>
-<h1 id="scott-用户名-triger-密码-foo数据库">scott 用户名 triger 密码  foo数据库</h1>
-<p>engine = create_engine('mysql://root:手动打码此处的密码虽然没有什么卵用@localhost:3306/news_test')<br>
-Base = declarative_base()  # sqlalchemy定义的一个基类</p>
-<p>class News(Base):<br>
-<strong>tablename</strong> = 'news'<br>
-id = Column(Integer, primary_key=True)<br>
-title = Column(String(200), nullable=False)<br>
-img_url = Column(String(200), nullable=False)<br>
-content = Column(String(2000), nullable=False)<br>
-is_valid = Column(Boolean)<br>
-create_at = Column(DateTime)<br>
-update_at = Column(DateTime)<br>
-news_type = Column(String(20))</p>
-<p>News.metadata.create_all(engine)</p>
-<pre><code>
-可以在图形化的mysql数据库中看到，已经成功的创建了一张数据表。
-![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%96%B0%E5%BB%BA%E4%B8%80%E5%BC%A0%E6%95%B0%E6%8D%AE%E8%A1%A8.png)
+
+# engine = create_engine('mysql://scott:tiger@localhost/foo') #官方给出的连接方法
+# scott 用户名 triger 密码  foo数据库
+
+engine = create_engine('mysql://root:手动打码此处的密码虽然没有什么卵用@localhost:3306/news_test')
+Base = declarative_base()  # sqlalchemy定义的一个基类
 
 
-#### 新增数据
-在前面学些mysqldb的时候，无论时新增数据还是删除数据，都需要借助一个游标来完成操作，而在sqlalchemy中，需要借助`session`：
-![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BAsession.png)
-我们来试验一下：
-```python
-class AddTest():
+class News(Base):
+    __tablename__ = 'news'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200), nullable=False)
+    img_url = Column(String(200), nullable=False)
+    content = Column(String(2000), nullable=False)
+    is_valid = Column(Boolean)
+    create_at = Column(DateTime)
+    update_at = Column(DateTime)
+    news_type = Column(String(20))
+    
+News.metadata.create_all(engine)
+</code></pre>
+<p>可以在图形化的mysql数据库中看到，已经成功的创建了一张数据表。<br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%96%B0%E5%BB%BA%E4%B8%80%E5%BC%A0%E6%95%B0%E6%8D%AE%E8%A1%A8.png" alt=""></p>
+<h4 id="新增数据">新增数据</h4>
+<p>在前面学些mysqldb的时候，无论时新增数据还是删除数据，都需要借助一个游标来完成操作，而在sqlalchemy中，需要借助<code>session</code>：<br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BAsession.png" alt=""><br>
+我们来试验一下：</p>
+<pre><code class="language-python">class AddTest():
     def __init__(self):
         self.session = Session()
 
@@ -555,7 +556,11 @@ class AddTest():
 	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
 	<div class="author-avatar pull-left"><img src="https://tudouvvv.github.io//images/avatar.png" ></div>
  
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
 
+
+	<p class="author-bio">fighting！！！<a href="https://miracol.cn/post/Gx18-2uoM/">More..</a></p></div></div>
+	
 		</div>
 		
  
