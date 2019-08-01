@@ -21,7 +21,8 @@
 <script type="text/javascript">
 (function(){
     if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
- ||){
+
+        if(new Date().getHours() > 20  || new Date().getHours() <  8 ){
 
         document.querySelector('link[title="dark"]').disabled = true;
         document.querySelector('link[title="dark"]').disabled = false;
