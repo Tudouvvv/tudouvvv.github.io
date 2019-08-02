@@ -526,7 +526,74 @@ class Solution:
   [15,7]
 ]
 </code></pre>
-<p>分析：</p>
+<p>分析：一层一层地进行，设置一个队列，每次存储这层元素，最后再把每层的元素存储到一个二维数组中即可。<br>
+C++</p>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector&lt;vector&lt;int&gt;&gt; levelOrder(TreeNode* root) {
+        vector&lt;vector&lt;int&gt;&gt; res;
+        if (!root) return res;
+        
+        queue&lt;TreeNode*&gt; q;
+        q.push(root);
+        
+        while(q.size())
+        {
+            int len = q.size();
+            vector&lt;int&gt; level;
+            
+            for(int i = 0; i &lt; len; i++)
+            {
+                auto t = q.front();
+                q.pop();
+                level.push_back(t-&gt;val);
+                if (t-&gt;left) q.push(t-&gt;left);
+                if (t-&gt;right) q.push(t-&gt;right);
+            }
+            res.push_back(level);
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -&gt; List[List[int]]:
+        res = []
+        q = []
+        if not root: return res
+        q.append(root)
+        
+        while(len(q)):
+            length = len(q)
+            level = []
+            for i in range(length):
+                t = q[0]
+                del(q[0])
+                level.append(t.val)
+                if t.left: 
+                    q.append(t.left)
+                if t.right: 
+                    q.append(t.right)
+            res.append(level)
+        return res
+</code></pre>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
