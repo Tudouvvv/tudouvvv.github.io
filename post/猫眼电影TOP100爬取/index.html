@@ -9,7 +9,39 @@
 <title>猫眼电影TOP100爬取 | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
-<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
+<script type="text/javascript">
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+        if (thehour<20)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+       else if (thehour>8)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+
+        else if (thehour>20)
+           
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+        else if (thehour<8)
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -20,32 +52,7 @@
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
 <script type="text/javascript">
-(function(){
-    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
-
-        if(new Date().getHours() > 20  || new Date().getHours() <  8 ){
-
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        document.cookie = "night=1;path=/"
-        console.log('夜间模式开启');
-        }else{
-        document.cookie = "night=0;path=/"
-        console.log('夜间模式关闭');
-        }
-    }else{
-        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
-        if(night == '0'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        console.log('夜间模式关闭');
-        }else if(night == '1'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        console.log('夜间模式开启');
-
-        }
-    }
-})();
+window.onload=getCSS();
 </script>
 
 
@@ -57,7 +64,7 @@
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%82%AC%E5%B4%96%E4%B8%8A%E7%9A%84%E9%87%91%E9%B1%BC%E5%A7%AC.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%82%AC%E5%B4%96%E4%B8%8A%E7%9A%84%E9%87%91%E9%B1%BC%E5%A7%AC.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -74,7 +81,7 @@
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div><!-- /nav-toggle -->
+					</div>
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -107,7 +114,7 @@
 </li>		
 		
 </ul>				</div>
-			</nav><!-- #navigation -->
+			</nav>
 						<div class="jingge">
 
 
@@ -140,7 +147,7 @@
     
 
     
-        </header><!-- #masthead -->
+        </header>
 
 		<div id="content" class="container">
 			<div class="row">
@@ -162,7 +169,7 @@
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><center>今天又是充满希望的一天</center>
+				<center>今天又是充满希望的一天</center>
 <!--more-->
 <p>昨天刚好看了怎么把爬下来的数据存储到excle中，所以用猫眼电影TOP100拿来练手，可惜，效果不佳：构想的太过美好，以为先把一页的写好，最后加入多页的机制就好。<br>
 然后开始写爬取一页存储结果的代码，写完之后再加入爬取多页的代码，结果悲剧了，发现每次爬完一页后它存储结果的时候会把上次的结果给覆盖掉Σ(っ °Д °;)っ，找到了这个逻辑错误的地方，然后思考解决办法，纠结了半天不知道怎么修改，准备睡觉的时候灵机一动~~ 我干嘛存储的时候只存储一页啊，我为啥不设置一个空表，然后把每一页处理完的信息先存入总表，然后对总表再进行分析存储不就解决了吗。<br>
@@ -447,7 +454,7 @@ list是一个空的 没有一个元素
 <img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt=""></p>
 <p>最后成功获得了豆瓣TOP250的详细名单：</p>
 <p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></p>
-</p>
+
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -473,7 +480,7 @@ list是一个空的 没有一个元素
 	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
 
 
-	<p class="author-bio">fighting！！！<a href="https://miracol.cn/post/Gx18-2uoM/">More..</a></p></div></div>
+	<p class="author-bio">fighting！！！</p></div></div>
 	
 		</div>
 		
@@ -483,7 +490,7 @@ list是一个空的 没有一个元素
 
 <div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
 		
-
+        
 		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
 
@@ -498,6 +505,8 @@ list是一个空的 没有一个元素
             admin_email:'269995137@qq.com',
             
             
+            emoticon_url: 'output/alu',
+             
       emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
      
       app_id: 'OCUFvf1hIOEPVaYh87pSozz6-MdYXbMMI',
@@ -587,9 +596,9 @@ list是一个空的 没有一个元素
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div><!-- .container -->
+			</div>
 		
-		</footer><!-- #colophon -->
+		</footer>
 
 </div>
 

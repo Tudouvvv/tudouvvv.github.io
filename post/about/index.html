@@ -9,7 +9,39 @@
 <title>关于 | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
-<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
+<script type="text/javascript">
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+        if (thehour<20)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+       else if (thehour>8)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+
+        else if (thehour>20)
+           
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+        else if (thehour<8)
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -20,32 +52,7 @@
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
 <script type="text/javascript">
-(function(){
-    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
-
-        if(new Date().getHours() > 20  || new Date().getHours() <  8 ){
-
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        document.cookie = "night=1;path=/"
-        console.log('夜间模式开启');
-        }else{
-        document.cookie = "night=0;path=/"
-        console.log('夜间模式关闭');
-        }
-    }else{
-        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
-        if(night == '0'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        console.log('夜间模式关闭');
-        }else if(night == '1'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        console.log('夜间模式开启');
-
-        }
-    }
-})();
+window.onload=getCSS();
 </script>
 
 
@@ -72,7 +79,7 @@
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div><!-- /nav-toggle -->
+					</div>
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -105,7 +112,7 @@
 </li>		
 		
 </ul>				</div>
-			</nav><!-- #navigation -->
+			</nav>
 						<div class="jingge">
 
 
@@ -138,7 +145,7 @@
     
 
     
-        </header><!-- #masthead -->
+        </header>
 
 		<div id="content" class="container">
 			<div class="row">
@@ -160,11 +167,11 @@
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><p>姓名: Tudou</p>
+				<p>姓名: Tudou</p>
 <p>年龄: 24</p>
 <p>研一快结束了，emmm还是菜的一👎<br>
 <img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/bs1.jpg" alt=""></p>
-</p>
+
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -184,7 +191,7 @@
 	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
 
 
-	<p class="author-bio">fighting！！！<a href="https://miracol.cn/post/Gx18-2uoM/">More..</a></p></div></div>
+	<p class="author-bio">fighting！！！</p></div></div>
 	
 		</div>
 		
@@ -194,7 +201,7 @@
 
 <div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
 		
-
+        
 		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
 
@@ -209,6 +216,8 @@
             admin_email:'269995137@qq.com',
             
             
+            emoticon_url: 'output/alu',
+             
       emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
      
       app_id: 'OCUFvf1hIOEPVaYh87pSozz6-MdYXbMMI',
@@ -298,9 +307,9 @@
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div><!-- .container -->
+			</div>
 		
-		</footer><!-- #colophon -->
+		</footer>
 
 </div>
 

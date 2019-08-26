@@ -9,7 +9,39 @@
 <title>LeetCode暑期打卡第一周(二分专题) | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
-<link href="https://tudouvvv.github.io//media/scripts/dark.css" rel="alternate stylesheet" type="text/css" title="dark">
+<script type="text/javascript">
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+        if (thehour<20)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+       else if (thehour>8)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+
+        else if (thehour>20)
+           
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+        else if (thehour<8)
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -20,32 +52,7 @@
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
 <script type="text/javascript">
-(function(){
-    if(document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") === ''){
-
-        if(new Date().getHours() > 20  || new Date().getHours() <  8 ){
-
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        document.cookie = "night=1;path=/"
-        console.log('夜间模式开启');
-        }else{
-        document.cookie = "night=0;path=/"
-        console.log('夜间模式关闭');
-        }
-    }else{
-        var night = document.cookie.replace(/(?:(?:^|.*;\s*)night\s*\=\s*([^;]*).*$)|^.*$/, "$1") || '0';
-        if(night == '0'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        console.log('夜间模式关闭');
-        }else if(night == '1'){
-        document.querySelector('link[title="dark"]').disabled = true;
-        document.querySelector('link[title="dark"]').disabled = false;
-        console.log('夜间模式开启');
-
-        }
-    }
-})();
+window.onload=getCSS();
 </script>
 
 
@@ -57,7 +64,7 @@
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190715221209.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190715221209.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -74,7 +81,7 @@
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div><!-- /nav-toggle -->
+					</div>
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -107,7 +114,7 @@
 </li>		
 		
 </ul>				</div>
-			</nav><!-- #navigation -->
+			</nav>
 						<div class="jingge">
 
 
@@ -140,7 +147,7 @@
     
 
     
-        </header><!-- #masthead -->
+        </header>
 
 		<div id="content" class="container">
 			<div class="row">
@@ -162,7 +169,7 @@
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p><!--more-->
+				<!--more-->
 <p>二分的知识点就是每次把备选答案的空间缩小一半，但是整数二分一个很蛋疼的问题就是边界问题。</p>
 <h3 id="二分思想">二分思想：</h3>
 <p>答案是在一个区间之中，L-----R，通过中点的情况来判断答案的所处位置，然后删掉另外一边，缩小一半备选空间，然后再继续判断新的中点的情况，直到L==R找到答案。</p>
@@ -660,7 +667,7 @@ public:
             else: r = mid - 1;
         return l
 </code></pre>
-</p>
+
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -684,7 +691,7 @@ public:
 	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
 
 
-	<p class="author-bio">fighting！！！<a href="https://miracol.cn/post/Gx18-2uoM/">More..</a></p></div></div>
+	<p class="author-bio">fighting！！！</p></div></div>
 	
 		</div>
 		
@@ -694,7 +701,7 @@ public:
 
 <div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
 		
-
+        
 		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
 <script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
 
@@ -709,6 +716,8 @@ public:
             admin_email:'269995137@qq.com',
             
             
+            emoticon_url: 'output/alu',
+             
       emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
      
       app_id: 'OCUFvf1hIOEPVaYh87pSozz6-MdYXbMMI',
@@ -798,9 +807,9 @@ public:
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div><!-- .container -->
+			</div>
 		
-		</footer><!-- #colophon -->
+		</footer>
 
 </div>
 
