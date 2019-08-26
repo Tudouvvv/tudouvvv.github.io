@@ -790,6 +790,208 @@ class Solution:
         dfs(root)
         return self.ans
 </code></pre>
+<h4 id="173-binary-search-tree-iterator"><a href="https://leetcode.com/problems/binary-search-tree-iterator/">173. Binary Search Tree Iterator</a></h4>
+<p>题目描述：实现一个二叉搜索树迭代器。你将使用二叉搜索树的根节点初始化迭代器。<br>
+调用 next() 将返回二叉搜索树中的下一个最小的数。<br>
+Note:</p>
+<ul>
+<li>next() 和 hasNext() 操作的时间复杂度是 O(1)，并使用 O(h) 内存，其中 h 是树的高度。</li>
+<li>以假设 next() 调用总是有效的，也就是说，当调用 next() 时，BST 中至少存在一个下一个最小的数。<br>
+<img src="https://tudouvvv.github.io//post-images/1566803022501.png" alt=""></li>
+</ul>
+<pre><code>示例：
+BSTIterator iterator = new BSTIterator(root);
+iterator.next();    // return 3
+iterator.next();    // return 7
+iterator.hasNext(); // return true
+iterator.next();    // return 9
+iterator.hasNext(); // return true
+iterator.next();    // return 15
+iterator.hasNext(); // return true
+iterator.next();    // return 20
+iterator.hasNext(); // return false
+</code></pre>
+<p>分析：按照中序遍历的方法输出树中的每一个节点，<code>next</code>返回下一个值，<code>hasNext</code>返回是否存在下一个值，可以用栈的方式来进行，栈的空间大小与树的大小成正比。<br>
+C++</p>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class BSTIterator {
+public:
+    stack&lt;TreeNode*&gt; stk;
+    BSTIterator(TreeNode* root) {
+        while(root)
+        {
+            stk.push(root);
+            root = root-&gt;left;
+        }
+    }
+    
+    /** @return the next smallest number */
+    int next() {
+        auto p = stk.top();
+        stk.pop();
+        int res = p-&gt;val;
+        p = p-&gt;right;
+        while (p)
+        {
+            stk.push(p);
+            p = p-&gt;left;
+        }
+        return res;
+    }
+    
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        return ! stk.empty();
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj-&gt;next();
+ * bool param_2 = obj-&gt;hasNext();
+ */
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        self.stk = []
+        while root:
+            self.stk.append(root)
+            root = root.left
+
+    def next(self) -&gt; int:
+        &quot;&quot;&quot;
+        @return the next smallest number
+        &quot;&quot;&quot;
+        p = self.stk.pop()
+        res = p.val
+        p = p.right
+        while p:
+            self.stk.append(p)
+            p = p.left
+        return res
+
+    def hasNext(self) -&gt; bool:
+        &quot;&quot;&quot;
+        @return whether we have a next smallest number
+        &quot;&quot;&quot;
+        return len(self.stk) &gt; 0
+
+
+# Your BSTIterator object will be instantiated and called as such:
+# obj = BSTIterator(root)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
+</code></pre>
+<h4 id="297-serialize-and-deserialize-binary-tree"><a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/">297. Serialize and Deserialize Binary Tree</a>(存疑)</h4>
+<p>题目描述：序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。<br>
+请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。</p>
+<pre><code>示例：
+你可以将以下二叉树：
+
+    1
+   / \
+  2   3
+     / \
+    4   5
+
+序列化为 &quot;[1,2,3,null,null,4,5]&quot;
+</code></pre>
+<p>Note:</p>
+<ul>
+<li>这与 LeetCode 目前使用的方式一致，你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。</li>
+<li>不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。</li>
+</ul>
+<p>分析：采用前序遍历的方式，因为加上了空节点，所以可以用前序遍历的方式来构建一棵唯一二叉树。一般情况下，前序遍历并不能唯一确定一棵二叉树；前序遍历+中序遍历可以唯一确定一棵二叉树。<br>
+C++</p>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res;
+        dfs1(root, res);
+        return res;
+    }
+    
+    void dfs1(TreeNode* root, string &amp;res)
+    {
+        if (!root)
+        {
+            res += &quot;#,&quot;;
+            return;
+        }
+        res += to_string(root-&gt;val) + ',';
+        dfs1(root-&gt;left, res);
+        dfs1(root-&gt;right, res);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int u = 0;
+        return dfs2(data, u);
+    }
+    
+    TreeNode* dfs2(string &amp;data, int &amp;u)
+    {
+        if (data[u] == '#'){
+            u += 2;
+            return NULL;
+        }
+        
+        int t = 0;
+        bool is_minus = false;
+        if (data[u] == '-')
+        {
+            is_minus = true;
+            u ++;
+        }
+        while (data[u] != ',')
+        {
+            t = t * 10 + data[u] - '0';
+            u ++;
+        }
+        u ++;
+        if (is_minus) t = -t;
+        
+        auto root = new TreeNode(t);
+        root-&gt;left = dfs2(data, u);
+        root-&gt;right = dfs2(data, u);
+        
+        return root;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
@@ -799,6 +1001,8 @@ class Solution:
 		
 		<div class="nav-links3">
       
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第四周(字符串处理专题)" rel="prev"> LeetCode暑期打卡第四周(字符串处理专题)</a></div>
+		 
 		 
 		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第二周(链表专题)" rel="next"> LeetCode暑期打卡第二周(链表专题)</a></div>
 		
