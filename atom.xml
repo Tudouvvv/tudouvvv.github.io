@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-08-26T12:03:05.863Z</updated>
+    <updated>2019-08-27T07:29:34.313Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -83,8 +83,202 @@ public:
 <ul>
 <li>所有输入均为小写字母。</li>
 <li>不考虑答案输出的顺序。<br>
-分析：先把每个字符串排个序，构建一个字典，每个字符串是key，排好序的是value，这样就可以把相同的放在一起。</li>
+分析：先把每个字符串排个序，构建一个字典，每个字符串是value，排好序的是key，这样就可以把相同的放在一起。</li>
 </ul>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;vector&lt;string&gt;&gt; groupAnagrams(vector&lt;string&gt;&amp; strs) {
+        unordered_map&lt;string, vector&lt;string&gt;&gt; hash;
+        for (auto str: strs)
+        {
+            string key = str;
+            sort(key.begin(), key.end());
+            hash[key].push_back(str);
+        }
+        
+        vector&lt;vector&lt;string&gt;&gt; res;
+        for (auto item : hash) res.push_back(item.second);
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def groupAnagrams(self, strs: List[str]) -&gt; List[List[str]]:
+        dicts = {}
+        for sts in strs:
+            key = tuple(sorted(sts))
+            dicts[key] = dicts.get(key, []) + [sts]
+        return list(dicts.values())
+</code></pre>
+<h4 id="151-reverse-words-in-a-string"><a href="https://leetcode.com/problems/reverse-words-in-a-string/">151. Reverse Words in a String</a>(存疑)</h4>
+<p>题目描述：<br>
+给定一个字符串，逐个翻转字符串中的每个单词。</p>
+<pre><code>示例：
+输入: &quot;  hello world!  &quot;
+输出: &quot;world! hello&quot;
+解释: 输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。
+</code></pre>
+<p>Note：</p>
+<ul>
+<li>无空格字符构成一个单词。</li>
+<li>输入字符串可以在前面或者后面包含多余的空格，但是反转后的字符不能包括。</li>
+<li>如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。</li>
+</ul>
+<p>分析：用python写的话可以用<code>split</code>和<code>strip</code>来处理掉无关的空格，然后再用<code>join</code>连接即可。<br>
+也可以分两步来做：</p>
+<ol>
+<li>先把每个单词翻转</li>
+<li>翻转整个字符串<br>
+<img src="https://tudouvvv.github.io//post-images/1566872102761.png" alt=""><br>
+然后再找到连续的不包含空格的一段。<br>
+C++</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    string reverseWords(string s) {
+       int k = 0;
+        for (int i = 0; i &lt; s.size();)
+        {
+            while(i &lt; s.size() &amp;&amp; s[i] == ' ') i++;
+            if (i == s.size()) break;
+            int j = i;
+            while(j &lt; s.size() &amp;&amp; s[j] != ' ') j++;
+            reverse(s.begin()+i, s.begin()+j);
+            if (k) s[k ++] = ' ';
+            while(i &lt; j) s[k ++ ] = s[i ++];
+        }
+        s.erase(s.begin() + k, s.end());
+        reverse(s.begin(), s.end());
+        return s;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def reverseWords(self, s: str) -&gt; str:
+        sts = s.strip().split(' ')[::-1]
+        while '' in sts:
+            sts.remove('')
+        return &quot; &quot;.join(sts)
+</code></pre>
+<h4 id="165-compare-version-numbers"><a href="https://leetcode.com/problems/compare-version-numbers/">165. Compare Version Numbers</a></h4>
+<p>题目描述：比较两个版本号 version1 和 version2。<br>
+如果 version1 &gt; version2 返回 1，如果 version1 &lt; version2 返回 -1， 除此之外返回 0。<br>
+你可以假设版本字符串非空，并且只包含数字和 . 字符。<br>
+ . 字符不代表小数点，而是用于分隔数字序列。</p>
+<pre><code>示例：
+输入: version1 = &quot;7.5.2.4&quot;, version2 = &quot;7.5.3&quot;
+输出: -1
+</code></pre>
+<p>分析:<br>
+每次比较每位的数字是否一样。<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+   int compareVersion(string v1, string v2) {
+       int i = 0, j = 0;
+       while (i &lt; v1.size() || j &lt; v2.size())
+       {
+           int x = i, y = j;
+           while (x &lt; v1.size() &amp;&amp; v1[x] != '.') x++;
+           while (y &lt; v2.size() &amp;&amp; v2[y] != '.') y++;
+           int a = i == x ? 0 : atoi(v1.substr(i, x-i).c_str());
+           int b = j == y ? 0 : atoi(v2.substr(j, y-j).c_str());
+           if (a &gt; b) return 1;
+           if (a &lt; b) return -1;
+           i = x + 1, j = y + 1;
+       }
+       return 0;
+   }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+   def compareVersion(self, v1: str, v2: str) -&gt; int:
+       i, j = 0, 0
+       while (i &lt; len(v1) or j &lt; len(v2)):
+           x = i
+           y = j
+           while (x &lt; len(v1) and v1[x] != '.'):
+               x += 1
+           while (y &lt; len(v2) and v2[y] != '.'):
+               y += 1
+           a = 0 if i == x else int(v1[i:x])
+           b = 0 if y == j else int(v2[j:y])
+           
+           if a &gt; b: return 1
+           if a &lt; b: return -1
+           i = x + 1
+           j = y + 1
+       return 0
+</code></pre>
+<h4 id="929-unique-email-addresses"><a href="https://leetcode.com/problems/unique-email-addresses/">929. Unique Email Addresses</a></h4>
+<p>题目描述：如果在电子邮件地址的本地名称部分中的某些字符之间添加句点（'.'），则发往那里的邮件将会转发到本地名称中没有点的同一地址。例如，&quot;alice.z@leetcode.com” 和 “alicez@leetcode.com” 会转发到同一电子邮件地址。 （请注意，此规则不适用于域名。）<br>
+如果在本地名称中添加加号（'+'），则会忽略第一个加号后面的所有内容。这允许过滤某些电子邮件，例如 m.y+name@email.com 将转发到 my@email.com。 （同样，此规则不适用于域名。）<br>
+可以同时使用这两个规则。</p>
+<pre><code>示例：
+Input: [&quot;test.email+alex@leetcode.com&quot;,&quot;test.e.mail+bob.cathy@leetcode.com&quot;,&quot;testemail+david@lee.tcode.com&quot;]
+Output: 2
+Explanation: &quot;testemail@leetcode.com&quot; and &quot;testemail@lee.tcode.com&quot; actually receive mails
+</code></pre>
+<p>Note:</p>
+<ul>
+<li>1 &lt;= emails[i].length &lt;= 100</li>
+<li>1 &lt;= emails.length &lt;= 100</li>
+<li>每封 emails[i] 都包含有且仅有一个 '@' 字符。</li>
+<li>所有本地和域名都是非空的。</li>
+<li>本地名称不以“+”字符开头。<br>
+分析：拿到一个地址后，分成两部分：用户名和域名。对用户名进行过滤，.进行忽略，+后面忽略，然后在拼成一个新的email。然后再判断有多少个不同的即可。</li>
+</ul>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int numUniqueEmails(vector&lt;string&gt;&amp; emails) {
+        unordered_set&lt;string&gt; hash;
+        for (auto email : emails)
+        {
+            int at = email.find('@');
+            string name;
+            for (auto c : email.substr(0, at))
+            {
+                if (c == '+') break;
+                if (c != '.') name += c;
+            }
+            string domain = email.substr(at + 1);
+            hash.insert(name + '@' + domain);
+        }
+        return hash.size();
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def numUniqueEmails(self, emails: List[str]) -&gt; int:
+        email_set = set()
+        for email in emails:
+            name = &quot;&quot;
+            at = email.index('@')
+            for c in email[0:at]:
+                if c == '+': break
+                if c != '.': name += c
+            domain = email[at+1:]
+            email_set.add(name + '@' + domain)
+        return len(email_set)
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def numUniqueEmails(self, emails: List[str]) -&gt; int:
+        email_set = set()
+        for email in emails:
+            name, domain = email.split(&quot;@&quot;)
+            if('+' in name):
+                plus_pos = name.index('+')
+                name = name[ : plus_pos]
+            email_set.add(name.replace('.','')+'@'+ domain)
+        return len(email_set)
+</code></pre>
 ]]></content>
     </entry>
     <entry>
