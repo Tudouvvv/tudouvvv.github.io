@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-08-27T10:07:03.044Z</updated>
+    <updated>2019-08-27T13:31:12.030Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -328,7 +328,7 @@ public:
             i += 1
         return res
 </code></pre>
-<h4 id=""><a href=""></a></h4>
+<h4 id="6-zigzag-conversion"><a href="https://leetcode.com/problems/zigzag-conversion/">6. ZigZag Conversion</a></h4>
 <p>题目描述：将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。</p>
 <pre><code>示例：
 输入: s = &quot;LEETCODEISHIRING&quot;, numRows = 4
@@ -389,6 +389,64 @@ public:
                     q += 2 * (n-1)
             i += 1
         return res
+</code></pre>
+<h4 id="3-longest-substring-without-repeating-characters"><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">3. Longest Substring Without Repeating Characters</a></h4>
+<p>题目描述：给定一个字符串，请你找出其中不含有重复字符的<code>最长子串</code>的长度。<br>
+【这道题的要求是 ！！！找到字符串中最长的子串而不是子序列<br>
+子串即原序列中连在一起的字符串，而子序列是原序列中所有字母的集合】</p>
+<pre><code>示例:
+输入: &quot;pwwkew&quot;
+输出: 3
+解释: 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，&quot;pwke&quot; 是一个子序列，不是子串。
+</code></pre>
+<p>分析：双指针算法<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map&lt;char, int&gt; hash;
+        int res = 0;
+        for (int i = 0, j = 0; i &lt; s.size(); i++)
+        {
+            hash[s[i]] ++;
+            while (hash[s[i]] &gt; 1) hash[s[j++]] -- ;
+            res = max(res, i - j + 1);
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def lengthOfLongestSubstring(self, s: str) -&gt; int:
+        res = 0
+        dicts = {}
+        new_s = set(s[::])
+        for char in new_s:
+            dicts[char] = 0
+        i, j = 0, 0
+        while i &lt; len(s):
+            dicts[s[i]] += 1
+            while dicts[s[i]] &gt; 1:
+                dicts[s[j]] -= 1
+                j += 1
+            res = max(i - j + 1, res)
+            i += 1
+        return res
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def lengthOfLongestSubstring(self, s):
+        start = maxLength = 0
+        usedChar = {}
+        for i in range(len(s)):
+            if s[i] in usedChar and start &lt;= usedChar[s[i]]:
+                start = usedChar[s[i]] + 1
+            else:
+                maxLength = max(maxLength, i - start + 1)
+            usedChar[s[i]] = i
+        return maxLength
 </code></pre>
 ]]></content>
     </entry>
