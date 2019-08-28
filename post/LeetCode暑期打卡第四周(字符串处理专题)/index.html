@@ -553,7 +553,7 @@ public:
 解释: 因为无重复字符的最长子串是 &quot;wke&quot;，所以其长度为 3。
      请注意，你的答案必须是 子串 的长度，&quot;pwke&quot; 是一个子序列，不是子串。
 </code></pre>
-<p>分析：双指针算法<br>
+<p>分析：双指针算法，一个指针向前走，一个指针待命，如果前一个指针遇见了重复的字符，那么另一个指针向前走一格，构建一个哈希表表示每个字符出现的次数。<br>
 C++</p>
 <pre><code class="language-c++">class Solution {
 public:
@@ -600,6 +600,105 @@ public:
                 maxLength = max(maxLength, i - start + 1)
             usedChar[s[i]] = i
         return maxLength
+</code></pre>
+<h4 id="208-implement-trie-prefix-tree"><a href="https://leetcode.com/problems/implement-trie-prefix-tree/">208. Implement Trie (Prefix Tree)</a>（存疑）</h4>
+<p>题目描述：实现一个 Trie (前缀树)，包含 insert, search, 和 startsWith 这三个操作。</p>
+<pre><code>示例:
+Trie trie = new Trie();
+
+trie.insert(&quot;apple&quot;);
+trie.search(&quot;apple&quot;);   // 返回 true
+trie.search(&quot;app&quot;);     // 返回 false
+trie.startsWith(&quot;app&quot;); // 返回 true
+trie.insert(&quot;app&quot;);   
+trie.search(&quot;app&quot;);     // 返回 true
+</code></pre>
+<p>Note：</p>
+<ul>
+<li>你可以假设所有的输入都是由小写字母 a-z 构成的。</li>
+<li>保证所有输入均为非空字符串。<br>
+分析：Trie树是一个字典树，根节点为空，其它任何一个节点包含一个字母，当一个单词完成时，打一个标记。</li>
+</ul>
+<h4 id="273-integer-to-english-words"><a href="https://leetcode.com/problems/integer-to-english-words/">273. Integer to English Words</a></h4>
+<p>题目描述：将非负整数转换为其对应的英文表示。可以保证给定输入小于<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mn>2</mn><mn>31</mn></msup></mrow><annotation encoding="application/x-tex">2^{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>-1。</p>
+<pre><code>示例：
+输入: 1234567891
+输出: &quot;One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One&quot;
+</code></pre>
+<p><img src="https://tudouvvv.github.io//post-images/1566914676505.png" alt=""><br>
+分析：把整个流程分块儿，可以看出三位数是一块儿，构建这样一个函数得到三位数的表示方式，然后填入单位即可。</p>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string small[20] = {&quot;Zero&quot;, &quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;, &quot;Six&quot;, &quot;Seven&quot;, &quot;Eight&quot;, &quot;Nine&quot;, &quot;Ten&quot;,  &quot;Eleven&quot;, &quot;Twelve&quot;, &quot;Thirteen&quot;, &quot;Fourteen&quot;, &quot;Fifteen&quot;, &quot;Sixteen&quot;, &quot;Seventeen&quot;, &quot;Eighteen&quot;, &quot;Nineteen&quot;};
+    string decade[10] = {&quot;&quot;, &quot;&quot;, &quot;Twenty&quot;, &quot;Thirty&quot;, &quot;Forty&quot;, &quot;Fifty&quot;, &quot;Sixty&quot;, &quot;Seventy&quot;, &quot;Eighty&quot;, &quot;Ninety&quot;};
+    string big[4] = {&quot;Billion&quot;, &quot;Million&quot;, &quot;Thousand&quot;, &quot;&quot;};
+    
+    string numberToWords(int num) {
+        if (!num) return small[0];
+        
+        string res;
+        for (int i = 1000000000, j = 0; i &gt; 0; i /= 1000, j++)
+            if (num &gt;= i)
+            {
+                res += get_part(num / i) + big[j] + ' ';
+                num %= i;
+            }
+        while (res.back() == ' ') res.pop_back();
+        return res;
+    }
+    
+    string get_part(int num)
+    {
+        string res;
+        if (num &gt;= 100)
+        {
+            res += small[num / 100] + &quot; Hundred &quot;;
+            num %= 100;
+        }
+        if (!num) return res;
+        if (num &gt;= 20)
+        {
+            res += decade[num / 10] + ' ';
+            num %= 10;
+        }
+        if (!num) return res;
+        res += small[num] + ' ';
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def numberToWords(self, num: int) -&gt; str:
+        small = [&quot;Zero&quot;, &quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;, &quot;Six&quot;, &quot;Seven&quot;, &quot;Eight&quot;, &quot;Nine&quot;, &quot;Ten&quot;,                          &quot;Eleven&quot;, &quot;Twelve&quot;,&quot;Thirteen&quot;,&quot;Fourteen&quot;,&quot;Fifteen&quot;,&quot;Sixteen&quot;,&quot;Seventeen&quot;,&quot;Eighteen&quot;,&quot;Nineteen&quot;]
+        decade = [&quot;&quot;, &quot;&quot;, &quot;Twenty&quot;, &quot;Thirty&quot;, &quot;Forty&quot;, &quot;Fifty&quot;, &quot;Sixty&quot;, &quot;Seventy&quot;, &quot;Eighty&quot;, &quot;Ninety&quot;]
+        big = [&quot;Billion&quot;, &quot;Million&quot;, &quot;Thousand&quot;, &quot;&quot;]
+        
+        if not num: return small[0]
+        res = &quot;&quot;
+        i = 1000000000
+        j = 0
+        while i &gt; 0:
+            if num &gt;= i:
+                res += self.get_part(int(num // i), small, decade) + big[j] + ' '
+                num %= i
+            i /= 1000
+            j +=1
+        return res.strip()
+        
+    def get_part(self, num, small, decade):
+        res = &quot;&quot;
+        if num &gt;= 100:
+            res += small[int(num // 100)] + &quot; Hundred &quot;
+            num %= 100
+        if not num: return res
+        if num &gt;= 20:
+            res += decade[int(num // 10)] + ' '
+            num %= 10
+        if not num: return res
+        res += small[num] + ' '
+        return res
 </code></pre>
 
 							</div>
