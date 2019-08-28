@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-08-28T01:11:50.116Z</updated>
+    <updated>2019-08-28T04:02:51.323Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,59 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[LeetCode暑期打卡第五周(DFS+回溯专题)]]></title>
+        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第五周(DFS+回溯专题)</id>
+        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第五周(DFS+回溯专题)">
+        </link>
+        <updated>2019-08-28T03:18:25.000Z</updated>
+        <content type="html"><![CDATA[<p>搜索 != 递归</p>
+<h4 id="17-letter-combinations-of-a-phone-number"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">17. Letter Combinations of a Phone Number</a></h4>
+<p>题目描述：给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。<br>
+数字到字母的映射与以前电话九宫格按键相同，1不对应任何字母。</p>
+<pre><code>示例：
+输入：&quot;23&quot;
+输出：[&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;].
+</code></pre>
+<p>分析：用循环来来做这道题，首先设置空列表表示答案，先取出数字，再取出字母，最后再拿出列表中的元素，把它们拼接在一起，更新列表即可。<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    
+    string chars[8] = {&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;};
+    
+    vector&lt;string&gt; letterCombinations(string digits) {
+        if (digits.empty()) return vector&lt;string&gt;();
+        
+        vector &lt;string&gt; states(1, &quot;&quot;);
+        for (auto u : digits)
+        {
+            vector &lt;string&gt; now;
+            for (auto c : chars[u - '2'])
+                for (auto s : states)
+                    now.push_back(s + c);
+            states = now;
+        }
+        return states;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def letterCombinations(self, digits: str) -&gt; List[str]:
+        chars = [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;]
+        if not digits: return []
+        states = [&quot;&quot;]
+        for u in digits:
+            now = []
+            for c in chars[int(u) - 2]:
+                for s in states:
+                    now.append(s + c)
+            states = now
+        return states
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LeetCode暑期打卡第四周(字符串处理专题)]]></title>
         <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第四周(字符串处理专题)</id>
@@ -3992,300 +4045,6 @@ News.metadata.create_all(engine)
 添加多条数据时，我们可以填写多个<code>session.add()</code>语句，也可以使用<code>session.add_all()</code>语句进行添加：</p>
 <pre><code class="language-python">self.session.add_all((news_obj1, news_obj2, news_obj3))
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[猫眼电影TOP100爬取]]></title>
-        <id>https://tudouvvv.github.io//post/猫眼电影TOP100爬取</id>
-        <link href="https://tudouvvv.github.io//post/猫眼电影TOP100爬取">
-        </link>
-        <updated>2018-09-19T01:43:43.000Z</updated>
-        <summary type="html"><![CDATA[<center>今天又是充满希望的一天</center>]]></summary>
-        <content type="html"><![CDATA[<center>今天又是充满希望的一天</center>
-<!--more-->
-<p>昨天刚好看了怎么把爬下来的数据存储到excle中，所以用猫眼电影TOP100拿来练手，可惜，效果不佳：构想的太过美好，以为先把一页的写好，最后加入多页的机制就好。<br>
-然后开始写爬取一页存储结果的代码，写完之后再加入爬取多页的代码，结果悲剧了，发现每次爬完一页后它存储结果的时候会把上次的结果给覆盖掉Σ(っ °Д °;)っ，找到了这个逻辑错误的地方，然后思考解决办法，纠结了半天不知道怎么修改，准备睡觉的时候灵机一动~~ 我干嘛存储的时候只存储一页啊，我为啥不设置一个空表，然后把每一页处理完的信息先存入总表，然后对总表再进行分析存储不就解决了吗。<br>
-真的是太僵硬了Σ(っ °Д °;)っ<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%9D%8E%E5%85%89%E6%B4%99%E8%A1%A8%E6%83%85--%E4%B8%8D%E8%A1%8C%E5%95%8A.gif" alt=""></p>
-<p>好吧下面是所有的操作流程。</p>
-<h1 id="目的爬取猫眼电影top100的信息">目的：爬取猫眼电影TOP100的信息</h1>
-<h1 id="分析过程">分析过程</h1>
-<p>打开猫眼电影，找到	TOP100所在的网页(<code>http://maoyan.com/board/4</code>)<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%8C%AB%E7%9C%BCTOP100.png" alt="">)</p>
-<p>每一页有十部电影，一共十页，打开开发者工具，查看我们要爬取的信息有哪些：</p>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7.png" alt=""><br>
-OK，我们需要爬取电影海报链接，电影名，猫眼的ID编号，主演，上映时间，以及评分(我要吐槽一下这个评分，(╯‵□′)╯︵┻━┻为啥要分成两部分啊，好好的在一起不好吗)，每个电影的信息都在<code>&lt;dd&gt;&lt;/dd&gt;</code>这个节点中，然后开始写正则表达式来提取想要的信息(明明前几天才复习过正则表达式，一到用的时候就又忘记了，只能需要什么然后去翻笔记）：</p>
-<pre><code class="language-python">import requests
-import re
-import xlsxwriter as xlw
-import time
-
-
-class Movie():
-    root_pattern = '&lt;dd&gt;([\s\S]*?)&lt;/dd&gt;' # 每部电影的所有信息
-    pic_pattern = '&lt;img data-src=&quot;(.*?)@160w_220h_1e_1c' #海报信息
-    name_pattern = 'alt=&quot;(.*?)&quot; class=&quot;board-img&quot;'  # 名字信息
-    id_pattern = 'data-val=&quot;{movieId:([\w]*?)}&quot;'   #编号信息
-    star_pattern = '主演：([\s\S]*?)&lt;/p&gt;'     #主演信息
-    date_pattern = '&lt;p class=&quot;releasetime&quot;&gt;上映时间：([\s\S]*?)&lt;/p&gt;' #时间信息
-    score1_pattern = '&lt;i class=&quot;integer&quot;&gt;(\d\.)&lt;/i&gt;'  #评分信息
-    score2_pattern = '&lt;i class=&quot;fraction&quot;&gt;(\d)&lt;/i&gt;'
-</code></pre>
-<p>定义了一个类来复习一下类的用法，虽然并没有什么作用....这部分代码主要是定义了爬取各项信息的正则表达式。</p>
-<p>然后先爬取整个网页的信息，用了<code>requests</code>这个包，也是为了复习刚看到的知识:</p>
-<pre><code class="language-python"> def __get(self, url):
-        headers = {
-                   'User-Agent': 'Mozilla/5.0(Macintosh;Intel Mac OS X 10_13_3) \
-                   AppleWebKit/537.36(KHTML. like Gecko)\
-                   Chrome/65.0.3325.162 Safari/536.36'
-        }
-        response = requests.get(url, headers=headers)
-        htmls_source = response.text
-        return htmls_source
-</code></pre>
-<p>这里只是简单了用了<code>request</code>的<code>get</code>方法来获取网页，添加了<code>headers</code>来进行伪装，不然就会提示<code>很抱歉，我们检测到您所在的网络环境存在恶意访问</code>的信息(尴尬)......</p>
-<p>将网页的原始信息存储为<code>htmls_source</code>，然后对原始信息进行分析，也就是利用正则表达式来提取我们想要的信息：</p>
-<pre><code class="language-python">def __analysis(self, htmls_source):
-        htmls = re.findall(Movie.root_pattern, htmls_source)
-        anchors = []
-        for html in htmls:
-            pic = re.findall(Movie.pic_pattern, html)
-            name = re.findall(Movie.name_pattern, html)
-            id = re.findall(Movie.id_pattern, html)[0]
-            star = re.findall(Movie.star_pattern, html)
-            date = re.findall(Movie.date_pattern, html)
-            score1 = re.findall(Movie.score1_pattern, html)
-            score2 = re.findall(Movie.score2_pattern, html)
-            anchor = {'pic': pic, 'name': name, 'id': id, 'star': star,
-                      'date': date, 'score1': score1, 'score2': score2}
-            anchors.append(anchor)
-        return anchors
-</code></pre>
-<p>首先利用<code>findall</code>方法和前面定义的父节点的正则表达式<code>root_pattern</code>来爬取单个电影的所有信息，存为一个列表<code>htmls</code>，每个电影的信息都是该列表中的一个元素<code>htmls[i]</code>，然后定义一个空表<code>anchors</code>准备存放爬取的信息，接着对于单个电影的信息<code>html</code>进行正则提取，提取以后存为一个字典命名为<code>anchor</code>并使用<code>append()</code>增加元素的方法将该字典存到我们刚才定义的空表<code>anchors</code>中。</p>
-<p>因为正则提取以后的信息并不整齐，比如说<code>'star': ['张国荣,张丰毅,巩俐\n ']</code>中就包括了换行符和很多的空格，我们需要处理一下：</p>
-<pre><code class="language-python">    def __refine(self, anchors):
-        return map(lambda anchor: {
-            'pic': anchor['pic'][0], 'name': anchor['name'][0],
-            'id': anchor['id'], 'star': anchor['star'][0].strip(),
-            'date': anchor['date'][0],
-            'score': anchor['score1'][0].strip() + anchor['score2'][0].strip()
-        }, anchors)
-</code></pre>
-<p>先使用<code>lambda</code>表达式对每个电影信息<code>anchor</code>中的冗余元素进行剔除，然后用<code>map</code>这个类对<code>anchors</code>这个列表中的每个元素进行同样的操作，返回我们最终想要的信息。</p>
-<p>接着我设置了一个展示函数将结果展示出来：</p>
-<pre><code class="language-python">    def __show(self, anchors):
-        for anchor in anchors:
-            print('pic:', anchor['pic'], 'name:', anchor['name'], 
-                  'id:', anchor['id'], 'star:', anchor['star'],
-                  'date:', anchor['date'], 'score:', anchor['score'])
-</code></pre>
-<p>也就是每次执行后会把结果打印出来，后来觉得还是存储起来比较好，就又定义了一个存储为excle的方法，用了<code>xlsxwriter</code>这个包，其实根本不了解这个包的具体操作，我也是看着别人的代码照葫芦画瓢学的：</p>
-<pre><code>def __save_excle(self, anchors, filename):
-        workbook = xlw.Workbook('%s.xlsx' % filename)
-        # 这里首先对这个Workbook的类进行实例化，创建一个工作薄，然后设置存储的位置，我设置的是同级目录
-
-        sheet = workbook.add_worksheet()
-        # 接着创建工作表
-
-        title = ['电影海报链接', '电影名', '猫眼ID编号', '主演', '上映日期', '评分']
-        for i in range(0, len(title)):
-            sheet.write_string(0, i, title[i],
-                               workbook.add_format({'bold': True}))
-		#设置表的标题，并且采用字体加粗
-
-        sheet.set_column(0, 0, 50)
-        sheet.set_column(1, 1, 20)
-        sheet.set_column(2, 2, 10)
-        sheet.set_column(3, 3, 45)
-        sheet.set_column(4, 4, 20)
-        # 设置单独每列的单元格样式，这里我只设置了宽度
-
-        row, col = 1, 0
-        # row--&gt;行坐标   col--&gt;列坐标  设置写入的位置
-
-        for anchor in anchors:
-            sheet.write_string(row, col, anchor['pic'])
-            sheet.write_string(row, col + 1, anchor['name'])
-            sheet.write_string(row, col + 2, anchor['id'])
-            sheet.write_string(row, col + 3, anchor['star'])
-            sheet.write_string(row, col + 4, anchor['date'])
-            sheet.write_string(row, col + 5, anchor['score'])
-            row += 1
-         # 写入我们爬取的数据，由于都是字符串，所以是【write_string】
-
-        workbook.close()
-        # 关闭并保存
-</code></pre>
-<p>也是一边写，一边看别人怎么写，一边看xlsxwriter的介绍文档，写完之后发现可以用哈哈哈，然后就是定义了爬取多页的一个流程：</p>
-<pre><code class="language-python">    def go(self):
-        fin_achors = []
-        for i in range(10):
-            url = 'http://maoyan.com/board/4?offset={}'.format(i*10)
-            htmls_source = Movie.__get(self, url)
-            anchors = Movie.__analysis(self, htmls_source)
-            anchors = Movie.__refine(self, anchors)
-            time.sleep(1)
-            fin_achors.extend(anchors)
-        # Movie.__show(self, fin_achors)
-        Movie.__save_excle(self, fin_achors, '猫眼电影TOP100')
-</code></pre>
-<p>查看每一页的url后发现规律(吐槽斗鱼，每一页的url都相同，只能以后学了其它东西再尝试爬取了)，定义一个总的列表<code>fin_anchors</code>来存放爬取十页后的信息，设置一个for循环，将每一页的爬取信息利用<code>extend()</code>方法存放到我们定义的总表中，因为害怕爬取速度太快出现什么问题，所以增加了一个延时等待<code>time.sleep(1)</code>，然后对总表进行打印或者是存为excle的操作。</p>
-<p>其实最后能解决问题也是因为看到了<code>extend()</code>这个方法，因为出错的时候有尝试将两个列表相加的操作，结果只是列表相加而不是元素的聚合，前面也用过<code>append()</code>这个方法，上网查了一下两者的区别：</p>
-<pre><code class="language-python">list.append(object) 向列表中添加一个对象object
-list.extend(sequence) 把一个序列seq的内容添加到列表中
-
-music_media = ['compact disc', '8-track tape', 'long playing record']
-new_media = ['DVD Audio disc', 'Super Audio CD']
-music_media.append(new_media)
-print music_media
-&gt;&gt;&gt;['compact disc', '8-track tape', 'long playing record', ['DVD Audio disc', 'Super Audio CD']]
-使用append的时候，是将new_media看作一个对象，整体打包添加到music_media对象中。
-
-music_media = ['compact disc', '8-track tape', 'long playing record']
-new_media = ['DVD Audio disc', 'Super Audio CD']
-music_media.extend(new_media)
-print music_media
-&gt;&gt;&gt;['compact disc', '8-track tape', 'long playing record', 'DVD Audio disc', 'Super Audio CD']
-使用extend的时候，是将new_media看作一个序列，将这个序列和music_media序列合并，并放在其后面。
-</code></pre>
-<h1 id="最终代码">最终代码</h1>
-<pre><code class="language-python">import requests
-import re
-import xlsxwriter as xlw
-import time
-
-
-class Movie():
-    root_pattern = '&lt;dd&gt;([\s\S]*?)&lt;/dd&gt;'
-    pic_pattern = '&lt;img data-src=&quot;(.*?)@160w_220h_1e_1c'
-    name_pattern = 'alt=&quot;(.*?)&quot; class=&quot;board-img&quot;'
-    id_pattern = 'data-val=&quot;{movieId:([\w]*?)}&quot;'
-    star_pattern = '主演：([\s\S]*?)&lt;/p&gt;'
-    date_pattern = '&lt;p class=&quot;releasetime&quot;&gt;上映时间：([\s\S]*?)&lt;/p&gt;'
-    score1_pattern = '&lt;i class=&quot;integer&quot;&gt;(\d\.)&lt;/i&gt;'
-    score2_pattern = '&lt;i class=&quot;fraction&quot;&gt;(\d)&lt;/i&gt;'
-    
-    def __get(self, url):
-        headers = {
-                   'User-Agent': 'Mozilla/5.0(Macintosh;Intel Mac OS X 10_13_3) \
-                   AppleWebKit/537.36(KHTML. like Gecko)\
-                   Chrome/65.0.3325.162 Safari/536.36'
-        }
-        response = requests.get(url, headers=headers)
-        htmls_source = response.text
-        return htmls_source
-
-    def __analysis(self, htmls_source):
-        htmls = re.findall(Movie.root_pattern, htmls_source)
-        anchors = []
-        for html in htmls:
-            pic = re.findall(Movie.pic_pattern, html)
-            name = re.findall(Movie.name_pattern, html)
-            id = re.findall(Movie.id_pattern, html)[0]
-            star = re.findall(Movie.star_pattern, html)
-            date = re.findall(Movie.date_pattern, html)
-            score1 = re.findall(Movie.score1_pattern, html)
-            score2 = re.findall(Movie.score2_pattern, html)
-            anchor = {'pic': pic, 'name': name, 'id': id, 'star': star,
-                      'date': date, 'score1': score1, 'score2': score2}
-            anchors.append(anchor)
-        return anchors
-
-    def __refine(self, anchors):
-        return map(lambda anchor: {
-            'pic': anchor['pic'][0], 'name': anchor['name'][0],
-            'id': anchor['id'], 'star': anchor['star'][0].strip(),
-            'date': anchor['date'][0],
-            'score': anchor['score1'][0].strip() + anchor['score2'][0].strip()
-        }, anchors)
-
-    def __show(self, anchors):
-        for anchor in anchors:
-            print('pic:', anchor['pic'], 'name:', anchor['name'], 
-                  'id:', anchor['id'], 'star:', anchor['star'],
-                  'date:', anchor['date'], 'score:', anchor['score'])
-
-    def __save_excle(self, anchors, filename):
-        workbook = xlw.Workbook('%s.xlsx' % filename)
-        sheet = workbook.add_worksheet()
-        title = ['电影海报链接', '电影名', '猫眼ID编号', '主演', '上映日期', '评分']
-        for i in range(0, len(title)):
-            sheet.write_string(0, i, title[i],
-                               workbook.add_format({'bold': True}))
-        sheet.set_column(0, 0, 50)
-        sheet.set_column(1, 1, 20)
-        sheet.set_column(2, 2, 10)
-        sheet.set_column(3, 3, 45)
-        sheet.set_column(4, 4, 20)
-        
-        row, col = 1, 0
-        for anchor in anchors:
-            sheet.write_string(row, col, anchor['pic'])
-            sheet.write_string(row, col + 1, anchor['name'])
-            sheet.write_string(row, col + 2, anchor['id'])
-            sheet.write_string(row, col + 3, anchor['star'])
-            sheet.write_string(row, col + 4, anchor['date'])
-            sheet.write_string(row, col + 5, anchor['score'])
-            row += 1
-        workbook.close()
-
-    def go(self):
-        fin_achors = []
-        for i in range(10):
-            url = 'http://maoyan.com/board/4?offset={}'.format(i*10)
-            htmls_source = Movie.__get(self, url)
-            anchors = Movie.__analysis(self, htmls_source)
-            anchors = Movie.__refine(self, anchors)
-            time.sleep(1)
-            fin_achors.extend(anchors)
-        # Movie.__show(self, fin_achors)
-        Movie.__save_excle(self, fin_achors, '猫眼电影TOP100')
-
-movie = Movie()
-movie.go()
-</code></pre>
-<h1 id="最终结果">最终结果</h1>
-<h2 id="目录信息">目录信息</h2>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%9C.png" alt=""><br>
-我这里设置的是同级目录，也可以在<code>__save_excle</code>中修改成别的目录</p>
-<h2 id="爬取信息">爬取信息</h2>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt=""></p>
-<p>明天尝试爬一下豆瓣的TOP250哈哈哈哈哈<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%86%B2%E9%B8%AD.jpg" alt=""></p>
-<h1 id="爬取豆瓣后续">爬取豆瓣后续：</h1>
-<p>本来以为是改几个变量的值就可以了 = = 没想到还是遇到了点儿问题<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png" alt=""><br>
-分析正则表达式的时候使用排名第一的<code>肖申克的救赎</code>进行分析的，按照流程，一切都很正常，然后我准备储存进excle的时候出现了问题：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png" alt=""><br>
-噢，看来是存储主演姓名的时候出错了，出错原因并不清楚，然后百度了一下：</p>
-<pre><code>Python不支持dict的key为list或dict类型，因为list和dict类型是unhashable（不可哈希）的。
-</code></pre>
-<p>虽然不知道啥叫不可哈希，但是也差不多清楚了，可能是我的<code>star</code>名的<code>key</code>值没有转换过来，去看了一下，果然：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png" alt=""><br>
-数据精炼的时候，我的<code>star</code>还是列表，应该取列表里的元素的，于是我在后面加入了<code>[0]</code>,以为这下可以成功了，结果又出错了：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png" alt=""><br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg" alt=""><br>
-这又是什么错误？？？列表超出范围？？？什么鬼？？？于是我又百度了一下，找到了原因：</p>
-<pre><code>这个错误出现大约有两种情况： 
-第1种可能情况 
-list[index]index超出范围
-
-第2种可能情况 
-list是一个空的 没有一个元素 
-进行list[0]就会出现该错误
-</code></pre>
-<p>嗯？？？难道是我的<code>star</code>是空的？？？不可能啊，当时还打印出<code>anchors[0]</code>看过的啊，有值啊，难道是别的电影？？？于是我打开豆瓣TOP250，看了一下：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png" alt=""><br>
-果然，我发现有一部电影的<code>star</code>有一点不一样，这什么鬼啊，导演名字这么长？？？为什么后面三个点...以后就没东西了啊，除非你点进这部电影的详情页，否则你是看不到主演姓名的(暂时发现是这样)，所以又遇到了一个问题：</p>
-<pre><code>爬虫有的时候会匹配到空值，这个时候应该怎么处理？？
-</code></pre>
-<p>最后我写了一个<code>if</code>语句来判断如果<code>star</code>值为空，那么强行给<code>star</code>赋值为<code>None</code>，额，好像有点儿奇怪，反正先这样吧：</p>
-<pre><code class="language-python">star = re.findall(star_pattern, html)
-    if star == []:
-        star = 'None'
-</code></pre>
-<p>就这样，成功的解决了问题，并且这一次我是把每个部分的函数拆个一个一个模块来写的:<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt=""></p>
-<p>最后成功获得了豆瓣TOP250的详细名单：</p>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></p>
 ]]></content>
     </entry>
 </feed>
