@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-08-28T01:06:23.617Z</updated>
+    <updated>2019-08-28T01:11:50.116Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -518,8 +518,12 @@ public:
 <p>Python</p>
 <pre><code class="language-python">class Solution:
     def numberToWords(self, num: int) -&gt; str:
-        small = [&quot;Zero&quot;, &quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;, &quot;Six&quot;, &quot;Seven&quot;, &quot;Eight&quot;, &quot;Nine&quot;, &quot;Ten&quot;,                          &quot;Eleven&quot;, &quot;Twelve&quot;,&quot;Thirteen&quot;,&quot;Fourteen&quot;,&quot;Fifteen&quot;,&quot;Sixteen&quot;,&quot;Seventeen&quot;,&quot;Eighteen&quot;,&quot;Nineteen&quot;]
-        decade = [&quot;&quot;, &quot;&quot;, &quot;Twenty&quot;, &quot;Thirty&quot;, &quot;Forty&quot;, &quot;Fifty&quot;, &quot;Sixty&quot;, &quot;Seventy&quot;, &quot;Eighty&quot;, &quot;Ninety&quot;]
+        small = [&quot;Zero&quot;, &quot;One&quot;, &quot;Two&quot;, &quot;Three&quot;, &quot;Four&quot;, &quot;Five&quot;, 
+				  &quot;Six&quot;, &quot;Seven&quot;, &quot;Eight&quot;, &quot;Nine&quot;, &quot;Ten&quot;,
+				  &quot;Eleven&quot;,&quot;Twelve&quot;,&quot;Thirteen&quot;,&quot;Fourteen&quot;,&quot;Fifteen&quot;,
+				  &quot;Sixteen&quot;, &quot;Seventeen&quot;,&quot;Eighteen&quot;,&quot;Nineteen&quot;]
+        decade = [&quot;&quot;, &quot;&quot;, &quot;Twenty&quot;, &quot;Thirty&quot;, &quot;Forty&quot;, &quot;Fifty&quot;,
+				  &quot;Sixty&quot;, &quot;Seventy&quot;, &quot;Eighty&quot;, &quot;Ninety&quot;]
         big = [&quot;Billion&quot;, &quot;Million&quot;, &quot;Thousand&quot;, &quot;&quot;]
         
         if not num: return small[0]
