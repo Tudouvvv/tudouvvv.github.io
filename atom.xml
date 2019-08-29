@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-08-29T00:33:46.283Z</updated>
+    <updated>2019-08-29T03:03:41.895Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -61,6 +61,21 @@ public:
             states = now
         return states
 </code></pre>
+<h4 id="79-word-search"><a href="https://leetcode.com/problems/word-search/">79. Word Search</a></h4>
+<p>题目描述：给定一个二维网格和一个单词，找出该单词是否存在于网格中。<br>
+单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+<pre><code>示例：
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+给定 word = &quot;ABCCED&quot;, 返回 true.
+给定 word = &quot;SEE&quot;, 返回 true.
+给定 word = &quot;ABCB&quot;, 返回 false.
+</code></pre>
+<p>分析：首先枚举起点，从起点开始，依次搜索下一个点的位置，在枚举的过程中，要保证和目标单词匹配。</p>
 ]]></content>
     </entry>
     <entry>

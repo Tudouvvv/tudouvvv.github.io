@@ -10,7 +10,35 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+        if (thehour<20)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+       else if (thehour>8)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+
+        else if (thehour>20)
+           
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+        else if (thehour<8)
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -21,7 +49,9 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-
+<script type="text/javascript">
+window.onload=getCSS();
+</script>
 
 
  	
@@ -32,7 +62,7 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-11-14-banner.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-11-14-banner.jpg)"
 		
 		>
 			<div class="site-branding">

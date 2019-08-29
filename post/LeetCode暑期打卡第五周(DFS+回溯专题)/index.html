@@ -10,7 +10,35 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+        if (thehour<20)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+       else if (thehour>8)
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+
+        else if (thehour>20)
+           
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+        else if (thehour<8)
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -21,7 +49,9 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-
+<script type="text/javascript">
+window.onload=getCSS();
+</script>
 
 
  	
@@ -32,7 +62,7 @@ function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.set
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/WEEK5.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/WEEK5.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -182,6 +212,21 @@ public:
             states = now
         return states
 </code></pre>
+<h4 id="79-word-search"><a href="https://leetcode.com/problems/word-search/">79. Word Search</a></h4>
+<p>题目描述：给定一个二维网格和一个单词，找出该单词是否存在于网格中。<br>
+单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。</p>
+<pre><code>示例：
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+给定 word = &quot;ABCCED&quot;, 返回 true.
+给定 word = &quot;SEE&quot;, 返回 true.
+给定 word = &quot;ABCB&quot;, 返回 false.
+</code></pre>
+<p>分析：首先枚举起点，从起点开始，依次搜索下一个点的位置，在枚举的过程中，要保证和目标单词匹配。</p>
 </p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
