@@ -10,38 +10,8 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS()
-{
-        datetoday = new Date();
-        timenow=datetoday.getTime();
-        datetoday.setTime(timenow);
-        thehour = datetoday.getHours();
-
-        if (thehour<20)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";
-
-       else if (thehour>8)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";   
-
-        else if (thehour>20)
-           
-            display = "https://tudouvvv.github.io//media/css/day.css";
-
-        else if (thehour<8)
-
-            display = "https://tudouvvv.github.io//media/css/day.css";
-      
-
-var css = '<';
-        css+='link rel="stylesheet" href='+display+' \/';
-        css+='>';
-        document.write(css);
-}
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
-<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -51,9 +21,7 @@ var css = '<';
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<script type="text/javascript">
-window.onload=getCSS();
-</script>
+
 
 
  	
@@ -64,7 +32,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%82%AC%E5%B4%96%E4%B8%8A%E7%9A%84%E9%87%91%E9%B1%BC%E5%A7%AC.jpg)"
+		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%82%AC%E5%B4%96%E4%B8%8A%E7%9A%84%E9%87%91%E9%B1%BC%E5%A7%AC.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -81,7 +49,7 @@ window.onload=getCSS();
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div>
+					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -114,7 +82,7 @@ window.onload=getCSS();
 </li>		
 		
 </ul>				</div>
-			</nav>
+			</nav><!-- #navigation -->
 						<div class="jingge">
 
 
@@ -147,7 +115,7 @@ window.onload=getCSS();
     
 
     
-        </header>
+        </header><!-- #masthead -->
 
 		<div id="content" class="container">
 			<div class="row">
@@ -169,7 +137,7 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<center>今天又是充满希望的一天</center>
+				<p><center>今天又是充满希望的一天</center>
 <!--more-->
 <p>昨天刚好看了怎么把爬下来的数据存储到excle中，所以用猫眼电影TOP100拿来练手，可惜，效果不佳：构想的太过美好，以为先把一页的写好，最后加入多页的机制就好。<br>
 然后开始写爬取一页存储结果的代码，写完之后再加入爬取多页的代码，结果悲剧了，发现每次爬完一页后它存储结果的时候会把上次的结果给覆盖掉Σ(っ °Д °;)っ，找到了这个逻辑错误的地方，然后思考解决办法，纠结了半天不知道怎么修改，准备睡觉的时候灵机一动~~ 我干嘛存储的时候只存储一页啊，我为啥不设置一个空表，然后把每一页处理完的信息先存入总表，然后对总表再进行分析存储不就解决了吗。<br>
@@ -454,7 +422,7 @@ list是一个空的 没有一个元素
 <img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt=""></p>
 <p>最后成功获得了豆瓣TOP250的详细名单：</p>
 <p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></p>
-
+</p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -596,9 +564,9 @@ list是一个空的 没有一个元素
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div>
+			</div><!-- .container -->
 		
-		</footer>
+		</footer><!-- #colophon -->
 
 </div>
 

@@ -10,38 +10,8 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS()
-{
-        datetoday = new Date();
-        timenow=datetoday.getTime();
-        datetoday.setTime(timenow);
-        thehour = datetoday.getHours();
-
-        if (thehour<20)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";
-
-       else if (thehour>8)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";   
-
-        else if (thehour>20)
-           
-            display = "https://tudouvvv.github.io//media/css/day.css";
-
-        else if (thehour<8)
-
-            display = "https://tudouvvv.github.io//media/css/day.css";
-      
-
-var css = '<';
-        css+='link rel="stylesheet" href='+display+' \/';
-        css+='>';
-        document.write(css);
-}
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
-<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -51,9 +21,7 @@ var css = '<';
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<script type="text/javascript">
-window.onload=getCSS();
-</script>
+
 
 
  	
@@ -64,7 +32,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/WEEK5.jpg)"
+		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/WEEK5.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -81,7 +49,7 @@ window.onload=getCSS();
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div>
+					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -114,7 +82,7 @@ window.onload=getCSS();
 </li>		
 		
 </ul>				</div>
-			</nav>
+			</nav><!-- #navigation -->
 						<div class="jingge">
 
 
@@ -147,7 +115,7 @@ window.onload=getCSS();
     
 
     
-        </header>
+        </header><!-- #masthead -->
 
 		<div id="content" class="container">
 			<div class="row">
@@ -169,7 +137,7 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p>搜索 != 递归</p>
+				<p><p>搜索 != 递归</p>
 <h4 id="17-letter-combinations-of-a-phone-number"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">17. Letter Combinations of a Phone Number</a></h4>
 <p>题目描述：给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。<br>
 数字到字母的映射与以前电话九宫格按键相同，1不对应任何字母。</p>
@@ -214,7 +182,7 @@ public:
             states = now
         return states
 </code></pre>
-
+</p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -352,9 +320,9 @@ public:
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div>
+			</div><!-- .container -->
 		
-		</footer>
+		</footer><!-- #colophon -->
 
 </div>
 

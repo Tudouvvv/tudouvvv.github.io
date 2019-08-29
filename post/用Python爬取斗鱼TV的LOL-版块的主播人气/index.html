@@ -10,38 +10,8 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS()
-{
-        datetoday = new Date();
-        timenow=datetoday.getTime();
-        datetoday.setTime(timenow);
-        thehour = datetoday.getHours();
-
-        if (thehour<20)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";
-
-       else if (thehour>8)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";   
-
-        else if (thehour>20)
-           
-            display = "https://tudouvvv.github.io//media/css/day.css";
-
-        else if (thehour<8)
-
-            display = "https://tudouvvv.github.io//media/css/day.css";
-      
-
-var css = '<';
-        css+='link rel="stylesheet" href='+display+' \/';
-        css+='>';
-        document.write(css);
-}
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
-<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -51,9 +21,7 @@ var css = '<';
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<script type="text/javascript">
-window.onload=getCSS();
-</script>
+
 
 
  	
@@ -64,7 +32,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-03-18-banner.jpg)"
+		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-03-18-banner.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -81,7 +49,7 @@ window.onload=getCSS();
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div>
+					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -114,7 +82,7 @@ window.onload=getCSS();
 </li>		
 		
 </ul>				</div>
-			</nav>
+			</nav><!-- #navigation -->
 						<div class="jingge">
 
 
@@ -147,7 +115,7 @@ window.onload=getCSS();
     
 
     
-        </header>
+        </header><!-- #masthead -->
 
 		<div id="content" class="container">
 			<div class="row">
@@ -169,7 +137,7 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p>刚好学完这个，就拿来练一练手Σ(っ °Д °;)っ</p>
+				<p><p>刚好学完这个，就拿来练一练手Σ(っ °Д °;)っ</p>
 <p>觉得爬虫最重要的还是要理清思路，先爬什么，然后怎么筛选，我们想要输出怎样的格式...</p>
 <p>然后就是最重要的正则表达式了，至少我现在用的就是这个，至于各种爬虫框架还要继续学习，刚开始爬斗鱼的时候，竟然弹出403错误，本来都想换熊猫了，结果过了一会儿就好了 - - 不知道为什么</p>
 <p>还有，现在还没有学习关于数据库的知识，不知道怎么储存爬下来的数据，也只会爬取首页(lll￢ω￢)</p>
@@ -342,7 +310,7 @@ nu儿哈哈哈-----5936人
 青岛声优娜阿-----5785人
 丶小雪兔儿-----5763人
 </code></pre>
-
+</p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -484,9 +452,9 @@ nu儿哈哈哈-----5936人
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div>
+			</div><!-- .container -->
 		
-		</footer>
+		</footer><!-- #colophon -->
 
 </div>
 

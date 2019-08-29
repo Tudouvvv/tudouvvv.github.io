@@ -10,38 +10,8 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS()
-{
-        datetoday = new Date();
-        timenow=datetoday.getTime();
-        datetoday.setTime(timenow);
-        thehour = datetoday.getHours();
-
-        if (thehour<20)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";
-
-       else if (thehour>8)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";   
-
-        else if (thehour>20)
-           
-            display = "https://tudouvvv.github.io//media/css/day.css";
-
-        else if (thehour<8)
-
-            display = "https://tudouvvv.github.io//media/css/day.css";
-      
-
-var css = '<';
-        css+='link rel="stylesheet" href='+display+' \/';
-        css+='>';
-        document.write(css);
-}
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
-<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -51,9 +21,7 @@ var css = '<';
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<script type="text/javascript">
-window.onload=getCSS();
-</script>
+
 
 
  	
@@ -64,7 +32,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/终于完成了.jpg)"
+		style="background-image:url(https://tudouvvv.github.io//post-images/终于完成了.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -81,7 +49,7 @@ window.onload=getCSS();
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div>
+					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -114,7 +82,7 @@ window.onload=getCSS();
 </li>		
 		
 </ul>				</div>
-			</nav>
+			</nav><!-- #navigation -->
 						<div class="jingge">
 
 
@@ -147,7 +115,7 @@ window.onload=getCSS();
     
 
     
-        </header>
+        </header><!-- #masthead -->
 
 		<div id="content" class="container">
 			<div class="row">
@@ -169,12 +137,12 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p>做了好几天 终于完成了主要内容</p>
+				<p><p>做了好几天 终于完成了主要内容</p>
 <p>开心</p>
 <p>本来很早以前就想做一个的 感觉非常的酷  之前做的那个找的模板太搞笑  完全不知道怎么操作  以为还要学习html和css就放弃了</p>
 <p>考完研又网上看了一些 结果发现竟然如此简单 - -  刚开始时把 npm 命令 认成 nmp  被卡在第一步 简直要笑死 幸好还是搞成了</p>
 <p>那么  以后请多多指教！</p>
-
+</p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -312,9 +280,9 @@ window.onload=getCSS();
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div>
+			</div><!-- .container -->
 		
-		</footer>
+		</footer><!-- #colophon -->
 
 </div>
 

@@ -10,38 +10,8 @@
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
-function getCSS()
-{
-        datetoday = new Date();
-        timenow=datetoday.getTime();
-        datetoday.setTime(timenow);
-        thehour = datetoday.getHours();
-
-        if (thehour<20)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";
-
-       else if (thehour>8)
-
-            display = "https://tudouvvv.github.io//media/css/night.css";   
-
-        else if (thehour>20)
-           
-            display = "https://tudouvvv.github.io//media/css/day.css";
-
-        else if (thehour<8)
-
-            display = "https://tudouvvv.github.io//media/css/day.css";
-      
-
-var css = '<';
-        css+='link rel="stylesheet" href='+display+' \/';
-        css+='>';
-        document.write(css);
-}
+function getCSS(){datetoday=new Date();timenow=datetoday.getTime();datetoday.setTime(timenow);thehour=datetoday.getHours();if(thehour<20)display="https://tudouvvv.github.io//media/scripts/dark.css";else if(thehour>8)display="https://tudouvvv.github.io//media/scripts/dark.css";var css='<';css+='link rel="stylesheet" href='+display+' \/';css+='>';document.write(css)}
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
-<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
@@ -51,9 +21,7 @@ var css = '<';
   <script>hljs.initHighlightingOnLoad();</script>
   <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
 
-<script type="text/javascript">
-window.onload=getCSS();
-</script>
+
 
 
  	
@@ -64,7 +32,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/week_2.jpg)"
+		style="background-image:url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/week_2.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -81,7 +49,7 @@ window.onload=getCSS();
 							<div class="bar"></div>
 							<div class="bar"></div>
 						</div>
-					</div>
+					</div><!-- /nav-toggle -->
 					<div class="clear"></div>
 					<ul id="" class="dove">
 		 
@@ -114,7 +82,7 @@ window.onload=getCSS();
 </li>		
 		
 </ul>				</div>
-			</nav>
+			</nav><!-- #navigation -->
 						<div class="jingge">
 
 
@@ -147,7 +115,7 @@ window.onload=getCSS();
     
 
     
-        </header>
+        </header><!-- #masthead -->
 
 		<div id="content" class="container">
 			<div class="row">
@@ -169,7 +137,7 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p>链表的题目可以通过画图来看！！！</p>
+				<p><p>链表的题目可以通过画图来看！！！</p>
 <h4 id="19-remove-nth-node-from-end-of-list"><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/">19. Remove Nth Node From End of List</a></h4>
 <p>题目描述：给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。<br>
 你能尝试使用一趟扫描实现吗？</p>
@@ -820,7 +788,7 @@ public:
     }
 };
 </code></pre>
-
+</p>
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
@@ -960,9 +928,9 @@ public:
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
 Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
-			</div>
+			</div><!-- .container -->
 		
-		</footer>
+		</footer><!-- #colophon -->
 
 </div>
 
