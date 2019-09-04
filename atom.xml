@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-09-03T09:44:28.517Z</updated>
+    <updated>2019-09-04T09:26:37.631Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -193,7 +193,31 @@ public:
     }
 };
 </code></pre>
-<p>Python(存疑)</p>
+<p>Python (这里需要注意的是，当ans.append(path)时，只是引用了path的地址，当path变化的时候，ans中的path也是会变化的，所以如果不对path进行深拷贝的话，那么最后path会变成空，最后ans里面添加的数值都会变成空)</p>
+<pre><code class="language-python">class Solution:
+    def permute(self, nums: List[int]) -&gt; List[List[int]]:
+        n = len(nums)
+        st = [0] * n
+        path = []
+        ans = []
+        
+        def dfs(u):
+            if u == n:
+                path_copy = path[::1]
+                ans.append(path_copy)
+                # ans.append(copy.deepcopy(path))
+                return
+            for i in range(n):
+                if not st[i]:
+                    st[i] = True
+                    path.append(nums[i])
+                    dfs(u + 1)
+                    path.pop()
+                    st[i] = False
+        
+        dfs(0)
+        return ans
+</code></pre>
 <h4 id="47-permutations-ii"><a href="https://leetcode.com/problems/permutations-ii/">47. Permutations II</a></h4>
 <p>题目描述：给定一个可包含重复数字的序列，返回所有不重复的全排列。</p>
 <pre><code>示例：
@@ -456,6 +480,84 @@ public:
             }
     }
 };
+</code></pre>
+<h4 id="37-sudoku-solver"><a href="https://leetcode.com/problems/sudoku-solver/">37. Sudoku Solver</a></h4>
+<p>题目描述：编写一个程序，通过已填充的空格来解决数独问题。<br>
+一个数独的解法需遵循如下规则：<br>
+数字 1-9 在每一行只能出现一次。<br>
+数字 1-9 在每一列只能出现一次。<br>
+数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。<br>
+空白格用 '.' 表示。<br>
+Note:</p>
+<ul>
+<li>给定的数独序列只包含数字 1-9 和字符 '.' 。</li>
+<li>你可以假设给定的数独只有唯一解。</li>
+<li>给定数独永远是 9x9 形式的。<br>
+分析：搜索顺序：从前往后枚举每个空格该填哪个数。需要维护每一行、每一列以及每个九宫格的状态，因为每行、每列、每个九宫格中的数字不能重复，所以设定<code>row[9][9]（一共九行，每行九个数字）、col[9][9]、cell[3][3][9]（3 × 3的格子，每个格子有九个数字）</code>来表示状态。<br>
+Ps. 八皇后、数独都是精确覆盖问题，可以用Dancing Links来解决。</li>
+</ul>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    
+    bool row[9][9] = {0}, col[9][9] = {0}, cell[3][3][9] = {0};
+    
+    void solveSudoku(vector&lt;vector&lt;char&gt;&gt;&amp; board) {
+        for (int i = 0; i &lt; 9; i++)
+            for (int j = 0; j &lt; 9; j++)
+            {
+                char c = board[i][j];
+                if (c != '.')
+                {
+                    int t = c - '1';
+                    row[i][t] = col[j][t] = cell[i / 3][j / 3][t] = true;
+                }
+            }
+        dfs(board, 0, 0);
+    }
+    
+    bool dfs(vector&lt;vector&lt;char&gt;&gt;&amp; board, int x, int y)
+    {
+        if (y == 9)  x++, y = 0;
+        if (x == 9) return true;
+        if (board[x][y] != '.') return dfs(board, x, y + 1);
+        
+        for (int i = 0; i &lt; 9; i ++)
+            if (!row[x][i] &amp;&amp; !col[y][i] &amp;&amp; !cell[x / 3][y / 3][i])
+            {
+                board[x][y] = '1' + i;
+                row[x][i] = col[y][i] = cell[x / 3][y / 3][i] = true;
+                if (dfs(board, x, y + 1)) return true;            
+                row[x][i] = col[y][i] = cell[x / 3][y / 3][i] = false;
+                board[x][y] = '.';
+            }
+        return false;
+    }
+};
+</code></pre>
+<h4 id="473-matchsticks-to-square"><a href="https://leetcode.com/problems/matchsticks-to-square/">473. Matchsticks to Square</a></h4>
+<p>题目描述：还记得童话《卖火柴的小女孩》吗？现在，你知道小女孩有多少根火柴，请找出一种能使用所有火柴拼成一个正方形的方法。不能折断火柴，可以把火柴连接起来，并且每根火柴都要用到。<br>
+输入为小女孩拥有火柴的数目，每根火柴用其长度表示。输出即为是否能用所有的火柴拼成正方形。</p>
+<pre><code>示例 :
+输入: [1,1,2,2,2]
+输出: true
+解释: 能拼成一个边长为2的正方形，每边两根火柴。
+</code></pre>
+<p>Note:</p>
+<ul>
+<li>给定的火柴长度和在 0 到 10^9之间。</li>
+<li>火柴数组的长度不超过15。</li>
+</ul>
+<p>分析：一次构造正方形的每条边。</p>
+<ol>
+<li>从大到小枚举所有边</li>
+<li>每条边内部的木棒长度规定从大到小</li>
+<li>如果当前木棒拼接失败，则跳过接下来所有长度相同的木棒</li>
+<li>如果当前木棒拼接失败，且是当前边的第一个，则直接剪掉当前分支</li>
+<li>如果当前木棒拼接失败，且是当前边的最后一个，则直接剪掉分支<br>
+C++</li>
+</ol>
+<pre><code class="language-c++">
 </code></pre>
 ]]></content>
     </entry>
