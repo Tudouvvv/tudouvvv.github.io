@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-09-04T09:26:37.631Z</updated>
+    <updated>2019-09-05T09:32:22.351Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,100 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)]]></title>
+        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)</id>
+        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)">
+        </link>
+        <updated>2019-09-05T08:42:03.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="167-two-sum-ii-input-array-is-sorted"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">167. Two Sum II - Input array is sorted</a></h4>
+<p>题目描述：给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。<br>
+函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。<br>
+Note：</p>
+<ul>
+<li>返回的下标值（index1 和 index2）不是从零开始的。</li>
+<li>你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。</li>
+</ul>
+<pre><code>示例:
+输入: numbers = [2, 7, 11, 15], target = 9
+输出: [1,2]
+解释: 2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
+</code></pre>
+<p>分析：暴力做法：设置两个for循环，来遍历数对，由于是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> 的复杂度，所以超时了。<br>
+双指针算法：我们设定两个指针i和j，i &lt;= j ，并且nums[i] + nums[j] &gt;= target，当i增大时，j势必会减小，这样就有一个单调性，直到我们找到答案。<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; numbers, int target) {
+        for (int i = 0, j = numbers.size() - 1; i &lt; numbers.size(); i ++)
+        {
+            while (j - 1 &gt; i &amp;&amp; numbers[j - 1] + numbers[i] &gt;= target) j --;
+            if (numbers[i] + numbers[j] == target) return{i + 1, j + 1};
+        }
+        return {};
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def twoSum(self, numbers: List[int], target: int) -&gt; List[int]:
+        j = len(numbers) - 1
+        for i in range(len(numbers)):
+            while j - 1 &gt; i and numbers[j - 1] + numbers[i] &gt;= target:
+                j -= 1
+            if numbers[i] + numbers[j] == target: 
+                return [i + 1, j + 1]
+        return []
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)]]></title>
+        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第六周</id>
+        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第六周">
+        </link>
+        <updated>2019-09-05T08:42:03.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="167-two-sum-ii-input-array-is-sorted"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">167. Two Sum II - Input array is sorted</a></h4>
+<p>题目描述：给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。<br>
+函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。<br>
+Note：</p>
+<ul>
+<li>返回的下标值（index1 和 index2）不是从零开始的。</li>
+<li>你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。</li>
+</ul>
+<pre><code>示例:
+输入: numbers = [2, 7, 11, 15], target = 9
+输出: [1,2]
+解释: 2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
+</code></pre>
+<p>分析：暴力做法：设置两个for循环，来遍历数对，由于是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> 的复杂度，所以超时了。<br>
+双指针算法：我们设定两个指针i和j，i &lt;= j ，并且nums[i] + nums[j] &gt;= target，当i增大时，j势必会减小，这样就有一个单调性，直到我们找到答案。<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; numbers, int target) {
+        for (int i = 0, j = numbers.size() - 1; i &lt; numbers.size(); i ++)
+        {
+            while (j - 1 &gt; i &amp;&amp; numbers[j - 1] + numbers[i] &gt;= target) j --;
+            if (numbers[i] + numbers[j] == target) return{i + 1, j + 1};
+        }
+        return {};
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def twoSum(self, numbers: List[int], target: int) -&gt; List[int]:
+        j = len(numbers) - 1
+        for i in range(len(numbers)):
+            while j - 1 &gt; i and numbers[j - 1] + numbers[i] &gt;= target:
+                j -= 1
+            if numbers[i] + numbers[j] == target: 
+                return [i + 1, j + 1]
+        return []
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LeetCode暑期打卡第五周(DFS+回溯专题)]]></title>
         <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第五周(DFS+回溯专题)</id>
@@ -231,8 +325,11 @@ public:
 </code></pre>
 <p>分析：枚举每个数放在哪个位置上去，搜索的时候不能重复。</p>
 <ul>
-<li>先将所有相同数放在一起</li>
+<li>先将所有相同数放在一起：排序</li>
 <li>人为规定相同数字的相对顺序：不变<br>
+dfs(u, start)</li>
+<li>u表示枚举到了哪个数字。</li>
+<li>start表示当前可以从哪个位置开始搜，比如把第一个1放在了第五个位置上，那么第二个1就必须从第六个位置开始搜。枚举新的数字时，start = 0，枚举相同的数字时，start 从下一位开始。<br>
 C++</li>
 </ul>
 <pre><code class="language-c++">class Solution {
@@ -246,7 +343,7 @@ public:
     vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) {
         n = nums.size();
         st = vector&lt;bool&gt; (n);
-        path = vector&lt;int&gt;(n);
+        path = vector&lt;int&gt; (n);
         
         sort(nums.begin(), nums.end());
         dfs(nums, 0, 0);
@@ -3746,803 +3843,6 @@ test_loss 0.5197753620147705 test_acc 0.8399999928474426
 </blockquote>
 </blockquote>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[神经网络与深度学习-第二周作业]]></title>
-        <id>https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业</id>
-        <link href="https://tudouvvv.github.io//post/神经网络与深度学习-第二周作业">
-        </link>
-        <updated>2018-10-19T05:13:35.000Z</updated>
-        <content type="html"><![CDATA[<p>学习了本周的内容，对于logistic回归和梯度下降法有了一定的了解，恰好有作业可以把学习的内容串联起来，于是动手写一下，学习过程中遇到了很多问题，感谢阿毛的友情帮助。<br>
-参考文章：<a href="https://github.com/Kulbear/deep-learning-coursera/blob/master/Neural%20Networks%20and%20Deep%20Learning/Logistic%20Regression%20with%20a%20Neural%20Network%20mindset.ipynb">Logistic Regression with a Neural Network mindset</a></p>
-<h1 id="目标识别图片中有没有猫">目标：识别图片中有没有猫</h1>
-<h1 id="步骤">步骤：</h1>
-<h2 id="1-准备工作">1、准备工作</h2>
-<p>下载了相关文件(数据集)，训练集共有209张图片，测试集50张图片<br>
-分类方法：有猫为1，没有猫为0<br>
-导入相关的包:</p>
-<pre><code class="language-python">import numpy as np
-import h5py
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-</code></pre>
-<h2 id="2-数据处理">2、数据处理</h2>
-<pre><code class="language-python">def load_dataset():
-    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;) # h5py读取文件，要加r
-    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # 训练集数据
-    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # 训练集标签
-
-    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
-    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # 测试集数据
-    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # 测试集标签
-
-    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
-
-    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
-    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
-
-    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
-
-
-train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
-</code></pre>
-<p>这一部分代码是资料中给的，主要作用是从数据集中读取数据，直接拿来用就好。</p>
-<p>我们可以看一下训练集中第88张图片的信息以及图片到底是什么样的：</p>
-<pre><code class="language-python">train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
-
-index = 88
-img = train_set_x_orig[index]
-print(img.shape)
-plt.imshow(img)
-plt.show()
-
-&gt;&gt;&gt; (64, 64, 3)
-</code></pre>
-<p>img储存的是图片信息，计算机要保存一张照片，要保存为三个独立矩阵，因为图片的像素是由三原色(R,G,B)构成的，每个矩阵保存着每个单原色在各像素处的亮度，所以img是一个维度为(64, 64, 3)的数组。</p>
-<p>我们可以使用<code>matplotlib</code>这个包的<code>image</code>模块下的<code>imshow</code>函数来对图片信息进行&quot;编译&quot;,输出图片具体的样子，后面要加<code>plt.show()</code>来显示图片：</p>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-88%E5%9B%BE%E7%89%87%E4%BF%A1%E6%81%AF.png)</center>
-<p>编写代码来输出本次模拟的相关信息：</p>
-<pre><code class="language-python">
-number_train = train_set_y.shape[1]
-number_test = test_set_y.shape[1]
-number_px = train_set_x_orig.shape[1]
-
-print(&quot;训练集图片的数量:&quot;, number_train)
-print(&quot;测试集图片的数量:&quot;, number_test)
-print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
-print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
-print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
-print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
-print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
-
-&gt;&gt;&gt;
-
-训练集图片的数量: 209
-测试集图片的数量: 50
-每张图片的大小: 64 * 64
-训练集数据的维数: (209, 64, 64, 3)
-训练集标签的维数: (1, 209)
-测试集数据的维数: (50, 64, 64, 3)
-测试集标签的维数: (1, 50)
-</code></pre>
-<p>由于图片的维度是一个(64, 64, 3)的numpy数组，为了训练的方便，我们需要把一张图片上的信息整合到一起，即构造成一个(64*64*3, 1）的列向量，然后把所有的图片信息放在一个数组中，每一列储存着一张照片的信息。也就是要把训练集和数据集中的数据进行降维处理:</p>
-<pre><code class="language-python">train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
-test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
-print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
-print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
-
-&gt;&gt;&gt; 降维后训练集数据的维数: (12288, 209)
-    降维后测试集数据的维数: (12288, 50)
-</code></pre>
-<p><code>reshape()</code>可以对数组进行重新构造，以训练集的数据为例，由于共有209张图片，所以我们需要得到一个列为209的数组，但是由于数据量太大，我们并不知道有多少行，<code>reshape()</code>方法中有一个机制，即输入负数，它会帮我们算好行数，所以我们可以这样设置 <code>train_x_con = train_set_x_orig.reshape(-1, train_set_x_orig.shape[0])</code>，或者我们设置行数为209，最后加<code>.T</code>转置数列即可：<code>train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T</code>。</p>
-<p>以前做毕设的时候有对数据进行归一化处理，因为是不同特征的数字，属于奇异样本数据，归一化以后消除不同数据量纲数字大小的影响，加快学习的速度。而在机器学习中，对数据进行标准化也是很重要的，在图片数据集中，由于每个像素点的信息最大为255，所以可以对所有数除以255，让数据集数据位于[0, 1]之间：</p>
-<pre><code class="language-python">train_set_x = train_x_con /255
-test_set_x = test_x_con /255
-</code></pre>
-<h2 id="3-记录思路">3、记录思路</h2>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-LogReg_kiank.png" alt=""></p>
-<p>我们所需要用到的算法和函数：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E5%85%AC%E5%BC%8F.png" alt=""></p>
-<p>我们需要做的：</p>
-<ul>
-<li>1、初始化变量w,b</li>
-<li>2、前向传播得到概率和成本值J</li>
-<li>3、反向传播来得到成本值对w和b的导数</li>
-<li>4、通过梯度下降法来更新变量w和b</li>
-<li>5、重复步骤2、3、4</li>
-</ul>
-<h2 id="4-go">4、Go！</h2>
-<pre><code class="language-python">def init_variable(dim):
-    w = np.zeros((dim, 1))
-    b = 0
-    return w, b
-
-def sigmoid(z):
-    s = 1 / (1 + np.exp(-z))
-    return s
-</code></pre>
-<p>定义函数初始化变量w,b，w是每个输入特征的所占权重，所以应该是一个<code>(64*64*3， 1)</code>的列向量<br>
-定义前向传播函数Sigmoid的一般形式，输入参数z可以是一个numpy数组</p>
-<p>这样，初始化工作已经完成，可以开始进行学习操作了，定义传播函数propagate得到成本值以及w和b的梯度：</p>
-<pre><code class="language-python">def propagate(w, b, X, Y):
-    m = X.shape[1]
-    
-    # 前向传播
-    A = sigmoid(np.dot(w.T, X) + b)
-    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
-    
-    # 反向传播
-    dw = (1 / m) * np.dot(X, (A - Y).T)
-    db = (1 / m) * np.sum(A - Y)
-
-    reci = {
-        &quot;dw&quot;: dw,
-        &quot;db&quot;: db
-    }
-
-    return  reci, cost
-</code></pre>
-<p>上面用到的公式都是视频中推导过的，<code>np.dot()</code>可以完成两个矩阵的乘法，<code>np.sum()</code>可以进行累加操作。</p>
-<p>接下来定义梯度下降函数optimize来进行迭代，即通过最小化成本J来更新 w 和 b：</p>
-<pre><code class="language-python">def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
-    costs = []
-    for i in range(num_iterations):
-        reci, cost = propagate(w, b, X, Y)
-        dw = reci[&quot;dw&quot;]
-        db = reci[&quot;db&quot;]
-        
-        w = w - learning_rate * dw
-        b = b - learning_rate * db
-        
-        if i % 100 == 0:
-            costs.append(cost)
-        if (print_cost) and (i % 100 == 0):
-            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
-
-    params = {
-        &quot;w&quot;: w,
-        &quot;b&quot;: b
-    }
-    return params, costs
-</code></pre>
-<p>这里模仿参考文章，每迭代100次输出此时误差值。通过不断地迭代就完成了整个学习过程，设置迭代次数<code>num_iterations</code>可以决定迭代的次数，最后存储迭代结束的变量 w 和 b 用来进行预测。</p>
-<p>预测函数predict的主要作用就是通过学习得到变量w和b进行预测得到概率，当概率大于0.5时，我们认为这张图片中有猫，设置标签值为1，当概率小于0.5时，我们认为图片中没有猫，设置标签值为0，最后将所有的标签值进行存储用来进行准确度的比较：</p>
-<pre><code class="language-python">def predict(X, Y, w, b):
-    m = X.shape[1]
-    Y_prediction = np.zeros((1, m))
-    w = w.reshape(X.shape[0], 1)
-
-    A = sigmoid(np.dot(w.T, X) + b)
-
-    for i in range(m):
-        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
-
-    return Y_prediction
-</code></pre>
-<p>最后设置main函数来调动所有的‘模块’，并通过对 训练集 和 测试集  正确标签值的比较得到本次学习过程的准确程度，将本次训练后的参数进行保存：</p>
-<pre><code class="language-python">def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
-    w, b = init_variable(X_train.shape[0])   # 初始化变量
-    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)  # 进行学习过程
-    w, b = params[&quot;w&quot;], params[&quot;b&quot;]      # 得到学习后的变量
-
-    Y_train_prediction = predict(X_train, Y_train, w, b)  # 对训练集数据进行预测
-    Y_test_prediction = predict(X_test, Y_test, w, b)    # 对测试集数据进行预测
-
-    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)  # 得到训练集准确度
-    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)   # 得到测试集准确度
-
-    data = {
-            &quot;costs&quot; : costs,
-            &quot;Y_prediction_test&quot; : Y_test_prediction,
-            &quot;Y_prediciton_train&quot; : Y_train_prediction,
-            &quot;w&quot; : w,
-            &quot;b&quot; : b,
-            &quot;learning_rate&quot; : learning_rate,
-            &quot;num_iterations&quot; : num_iterations }
-    return data          # 保存相关参数
-</code></pre>
-<h2 id="5-完整代码">5、完整代码</h2>
-<pre><code>import numpy as np
-import h5py
-import matplotlib.pyplot as plt
-
-def load_dataset():
-    train_dataset = h5py.File('datasets/train_catvnoncat.h5', &quot;r&quot;)
-    train_set_x_orig = np.array(train_dataset[&quot;train_set_x&quot;][:]) # your train set features
-    train_set_y_orig = np.array(train_dataset[&quot;train_set_y&quot;][:]) # your train set labels
-
-    test_dataset = h5py.File('datasets/test_catvnoncat.h5', &quot;r&quot;)
-    test_set_x_orig = np.array(test_dataset[&quot;test_set_x&quot;][:]) # your test set features
-    test_set_y_orig = np.array(test_dataset[&quot;test_set_y&quot;][:]) # your test set labels
-
-    classes = np.array(test_dataset[&quot;list_classes&quot;][:]) # the list of classes
-
-    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
-    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
-
-    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
-
-
-train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
-# index = 88
-# img = train_set_x_orig[index]
-# print(img)
-# plt.imshow(img)
-# plt.show()
-
-number_train = train_set_y.shape[1]
-number_test = test_set_y.shape[1]
-number_px = train_set_x_orig.shape[1]
-
-print(&quot;训练集图片的数量:&quot;, number_train)
-print(&quot;测试集图片的数量:&quot;, number_test)
-print(&quot;每张图片的大小:&quot;, number_px, &quot;*&quot;, number_px)
-print(&quot;训练集数据的维数:&quot;, train_set_x_orig.shape)
-print(&quot;训练集标签的维数:&quot;, train_set_y.shape)
-print(&quot;测试集数据的维数:&quot;, test_set_x_orig.shape)
-print(&quot;测试集标签的维数:&quot;, test_set_y.shape)
-
-train_x_con = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
-test_x_con = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
-print(&quot;降维后训练集数据的维数:&quot;, train_x_con.shape)
-print(&quot;降维后测试集数据的维数:&quot;, test_x_con.shape)
-
-train_set_x = train_x_con /255
-test_set_x = test_x_con /255
-
-
-def sigmoid(z):
-    s = 1 / (1 + np.exp(-z))
-    return s
-
-
-def init_variable(dim):
-    w = np.zeros((dim, 1))
-    b = 0
-    return w, b
-
-
-def propagate(w, b, X, Y):
-    m = X.shape[1]
-
-    # 前向传播
-    A = sigmoid(np.dot(w.T, X) + b)
-    cost = (-1 / m) * np.sum(Y * np.log(A) + (1 - Y) * np.log(1 - A))
-
-    # 反向传播
-    dw = (1 / m) * np.dot(X, (A - Y).T)
-    db = (1 / m) * np.sum(A - Y)
-
-    reci = {
-        &quot;dw&quot;: dw,
-        &quot;db&quot;: db
-    }
-
-    return  reci, cost
-
-
-def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost= False):
-    costs = []
-    for i in range(num_iterations):
-        reci, cost = propagate(w, b, X, Y)
-        dw = reci[&quot;dw&quot;]
-        db = reci[&quot;db&quot;]
-        w = w - learning_rate * dw
-        b = b - learning_rate * db
-        if i % 100 == 0:
-            costs.append(cost)
-        if (print_cost) and (i % 100 == 0):
-            print(&quot;迭代次数:%d , 误差值: %f&quot;  %(i, cost))
-
-    params = {
-        &quot;w&quot;: w,
-        &quot;b&quot;: b
-    }
-    return params, costs
-
-
-def predict(X, Y, w, b):
-    m = X.shape[1]
-    Y_prediction = np.zeros((1, m))
-    w = w.reshape(X.shape[0], 1)
-
-    A = sigmoid(np.dot(w.T, X) + b)
-
-    for i in range(m):
-        Y_prediction[0, i] = 1 if A[0, i] &gt; 0.5 else 0
-
-    return Y_prediction
-
-
-def main(X_train, Y_train, X_test, Y_test, num_iterations, learning_rate, print_cost):
-    w, b = init_variable(X_train.shape[0])
-    params, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost)
-    w, b = params[&quot;w&quot;], params[&quot;b&quot;]
-
-    Y_train_prediction = predict(X_train, Y_train, w, b)
-    Y_test_prediction = predict(X_test, Y_test, w, b)
-
-    print(&quot;训练集准确度:&quot;, 100 - np.mean(np.abs(Y_train - Y_train_prediction)) * 100, &quot;%&quot;)
-    print(&quot;测试集准确度:&quot;, 100 - np.mean(np.abs(Y_test - Y_test_prediction)) * 100, &quot;%&quot;)
-
-    data = {
-            &quot;costs&quot; : costs,
-            &quot;Y_prediction_test&quot; : Y_test_prediction,
-            &quot;Y_prediciton_train&quot; : Y_train_prediction,
-            &quot;w&quot; : w,
-            &quot;b&quot; : b,
-            &quot;learning_rate&quot; : learning_rate,
-            &quot;num_iterations&quot; : num_iterations }
-    return data
-
-if __name__ == &quot;__main__&quot;:
-    data = main(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations=2000, learning_rate=0.005, print_cost=True)
-</code></pre>
-<h2 id="运行结果">运行结果：</h2>
-<pre><code class="language-python">训练集图片的数量: 209
-测试集图片的数量: 50
-每张图片的大小: 64 * 64
-训练集数据的维数: (209, 64, 64, 3)
-训练集标签的维数: (1, 209)
-测试集数据的维数: (50, 64, 64, 3)
-测试集标签的维数: (1, 50)
-降维后训练集数据的维数: (12288, 209)
-降维后测试集数据的维数: (12288, 50)
-迭代次数:0 , 误差值: 0.693147
-迭代次数:100 , 误差值: 0.584508
-迭代次数:200 , 误差值: 0.466949
-迭代次数:300 , 误差值: 0.376007
-迭代次数:400 , 误差值: 0.331463
-迭代次数:500 , 误差值: 0.303273
-迭代次数:600 , 误差值: 0.279880
-迭代次数:700 , 误差值: 0.260042
-迭代次数:800 , 误差值: 0.242941
-迭代次数:900 , 误差值: 0.228004
-迭代次数:1000 , 误差值: 0.214820
-迭代次数:1100 , 误差值: 0.203078
-迭代次数:1200 , 误差值: 0.192544
-迭代次数:1300 , 误差值: 0.183033
-迭代次数:1400 , 误差值: 0.174399
-迭代次数:1500 , 误差值: 0.166521
-迭代次数:1600 , 误差值: 0.159305
-迭代次数:1700 , 误差值: 0.152667
-迭代次数:1800 , 误差值: 0.146542
-迭代次数:1900 , 误差值: 0.140872
-训练集准确度: 99.04306220095694 %
-测试集准确度: 70.0 %
-</code></pre>
-<p>6、<br>
-<code>learning_rate</code>是我们的学习率α，选择学习率也是很重要的，它是我们更新变量的速率，如果太大，那么我们会错过最优解，太小的话又需要增加迭代次数，但是目前我还不知道合理的范围是什么，代码中设置的<code>0.005</code>是参考文章中给的，我自己尝试设置为0.5发现会出错，这方面后续会继续学习。</p>
-<p>我们可以画图来看一下本次的成本曲线：</p>
-<pre><code class="language-python"># 画图
-costs = data['costs']
-plt.plot(costs)
-plt.ylabel('cost')
-plt.xlabel('iterations (per hundreds)')
-plt.title(&quot;Learning rate =&quot; + str(data[&quot;learning_rate&quot;]))
-plt.show()
-</code></pre>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-%E6%88%90%E6%9C%AC%E6%9B%B2%E7%BA%BFpng.png" alt=""><br>
-可以看到伴随着迭代次数的增加，成本值在下降。</p>
-<p>我们可以自己找一下图片，设置为64*64的，来测试一下这个的准确度：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-10-19-8_test.png" alt=""><br>
-找了8张图片，分别编号1--8，通过上面的predict函数来进行预测结果：</p>
-<pre><code class="language-python">import matplotlib.image as mpimg  # 在开始处导入，主要作用是读取图片信息
-    
-    img1 = mpimg.imread(&quot;test/1.jpg&quot;).reshape(-1, 1)
-    img2 = mpimg.imread(&quot;test/2.jpg&quot;).reshape(-1, 1)
-    img3 = mpimg.imread(&quot;test/3.jpg&quot;).reshape(-1, 1)
-    img4 = mpimg.imread(&quot;test/4.jpg&quot;).reshape(-1, 1)
-    img5 = mpimg.imread(&quot;test/5.jpg&quot;).reshape(-1, 1)
-    img6 = mpimg.imread(&quot;test/6.png&quot;).reshape(-1, 1)
-    img7 = mpimg.imread(&quot;test/7.png&quot;).reshape(-1, 1)
-    img8 = mpimg.imread(&quot;test/8.jpg&quot;).reshape(-1, 1)
-
-    img = np.hstack((img1, img2, img3, img4, img5, img6, img7, img8))   # np.hstack()主要进行拼接矩阵的作用
-
-    w = data[&quot;w&quot;]
-    b = data[&quot;b&quot;]
-
-    Y_prediction = predict(img, w, b)
-    Y_prediction = np.squeeze(Y_prediction)     # np.squeeze()主要进行矩阵降维的作用
-    for i in range(len(Y_prediction)):
-        if Y_prediction[i] == 1:
-            print(&quot;第%i张图片中有猫&quot; %(i+1))
-        else:
-            print(&quot;第%i张图片中没有猫&quot; %(i+1))
-</code></pre>
-<p>预测结果：</p>
-<pre><code class="language-python">第1张图片中有猫
-第2张图片中有猫
-第3张图片中有猫
-第4张图片中有猫
-第5张图片中没有猫
-第6张图片中有猫
-第7张图片中没有猫
-第8张图片中没有猫
-</code></pre>
-<center>以上!</center>]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python数据库学习]]></title>
-        <id>https://tudouvvv.github.io//post/Python数据库学习</id>
-        <link href="https://tudouvvv.github.io//post/Python数据库学习">
-        </link>
-        <updated>2018-09-26T05:25:44.000Z</updated>
-        <summary type="html"><![CDATA[<center>程序员进阶之道👆</center>]]></summary>
-        <content type="html"><![CDATA[<center>程序员进阶之道👆</center>
-<!--more-->
-准备学习一些 进阶的知识，刚好看到这个课程，开一篇记录一下学习笔记！  
-<p>数据库，即存储数据的仓库，现在一般分为关系型数据库和非关系型数据库。</p>
-<h1 id="centermysqlcenter"><center>MySQL</center></h1>
-<h1 id="1-在终端使用">1、在终端使用</h1>
-<p>首先学习了一些mysql的命令：</p>
-<ul>
-<li>在终端中登录MySQL：<code>mysql -u root -p</code></li>
-<li><code>mysql -V</code>  :输出版本信息并且退出</li>
-<li><code>mysql -u</code>  :用户名</li>
-<li><code>mysql -p</code> :密码  回车后可以隐藏登录</li>
-<li><code>mysql -P</code> :端口号   默认3306，可不加</li>
-<li><code>mysql -h</code> :服务器名称  本地使用，默认127.0.0.1</li>
-<li>退出  :<code>exit；quit；\q；</code></li>
-<li>修改提示符(暂时还不知道有什么用)：<code>prompt xxx</code><br>
-常用提示符：<code>\D--&gt;完整的日期 \d--&gt;当前数据库 \h--&gt;服务器名称 \u--&gt;当前用户</code></li>
-</ul>
-<p>MySQL语句的规范：</p>
-<ul>
-<li>关键字与函数名称全部大写</li>
-<li>数据库名称、表名称、字段名称全部小写</li>
-<li>SQL语句必须以分号结尾</li>
-</ul>
-<p>其它命令：</p>
-<ul>
-<li>显示当前服务器版本:<code>SELECT VERSION();</code></li>
-<li>显示当前日期时间:<code>SELECT NOW();</code></li>
-<li>显示当前用户:<code>SELECT USER();</code></li>
-<li>显示当前数据库:<code>SELECT DATABASE() ;</code></li>
-</ul>
-<p>————————————————————————————</p>
-<h1 id="2-操作数据库">2、操作数据库</h1>
-<p>(Ps.<code>{}必须输入 [] 选择输入</code>)</p>
-<h2 id="1-创建数据库">1、创建数据库:</h2>
-<pre><code>CREATE {DATABASE | SCHEME}  [IF NOT EXISTS] db_name;
-</code></pre>
-<h2 id="2-设置编码方式">2、设置编码方式:</h2>
-<pre><code>[DEFAULT] CHARACTER SET [=] charset_name;
-</code></pre>
-<h2 id="3-查看warings">3、查看Warings:</h2>
-<pre><code>SHOW WARINIGS;
-</code></pre>
-<h2 id="4-查看创建数据库时的编码方式">4、查看创建数据库时的编码方式:</h2>
-<pre><code>SHOW CREATE DATABASE db_name;
-</code></pre>
-<h2 id="5-查看当前服务器下的数据库列表">5、查看当前服务器下的数据库列表:</h2>
-<pre><code>SHOW {DATABASES | SCHEMES};
-</code></pre>
-<h2 id="6-修改数据库">6、修改数据库:</h2>
-<pre><code>ALTER {DATABASE | SCHEME} [db_name]  
-[DEFAULT] CHARACTER SET [=] charset_name；
-</code></pre>
-<h2 id="7-删除数据库">7、删除数据库:</h2>
-<pre><code>DROP {DATABASE | SCHEME} [IF EXISTS] db_name;
-</code></pre>
-<p>————————————————————————————</p>
-<h1 id="3-数据类型">3、数据类型</h1>
-<ul>
-<li>数据类型是指列、存储过程参数、表达式和局部变量的数据特征，它决定了数据的存储格式，代表了不同的信息类型。</li>
-<li>MySQL中定义数据字段的类型对数据库的优化是非常重要的。</li>
-<li>MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E7%B1%BB%E5%9E%8B.png" alt=""><br>
-<code>UNSIGNED</code>表示无符号，一般放在数据类型的后面<br>
-————————————————————————————</p>
-<h1 id="4-数据表">4、数据表</h1>
-<p>数据表是数据库的最重要的组成部分之一，是其它对象的基础。</p>
-<h2 id="1-使用数据库">1、使用数据库:</h2>
-<pre><code>USE db_name;
-</code></pre>
-<h2 id="2-创建数据表">2、创建数据表:</h2>
-<pre><code>CREATE TABLE [IF NOT EXISTS] table_name(
-Column_name(列名称） data_type(数据类型) .... ,
-...
-);
-</code></pre>
-<center>实例：👇</center>
-<center>![](https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png)</center>
-## 3、查询数据表列表:
-```
-SHOW TABLES [FROM db_name]
-[LIKE 'pattern' | WHERE expr]
-```
-## 4、查看数据表结构:
-```
-SHOW COLUMNS FROM tb_name;
-```
-## 5、数据插入:
-```
-INSERT [INTO] tbl_name [( col_name,…)] VALUES(VAL,…);
-```
-## 6、修改数据:
-```
-UPDATE table_references
-SET col_name = expr1[, col_name2 = expr2…]
-[WHERE where_definition];   --->很重要
-```
-## 7、删除数据:
-```
-DELETE FROM tbl_name
-[WHERE where_defination];
-```
-<p>上面都是MySQL最基础的一些知识，再往后的会慢慢学习。<br>
-————————————————————————————</p>
-<h1 id="5-用python连接mysql数据库">5、用python连接mysql数据库</h1>
-<h2 id="1-mysqldb学习">1、MySQLdb学习</h2>
-<p>下载了MysqlDb这个包，因为之前创建了一个数据库并且添加了一些数据：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-news.png" alt=""><br>
-所以会尝试连接这个数据库并对这个数据表做一些操作！！！开始用一个新包的话，官方文档有很详细的讲解 。</p>
-<p>MySQLdb提供了<code>connect</code>方法来建立一个与数据库的连接，调用这个对象的<code>close</code>方法来关闭一个连接。通过这个连接可以创建出一个游标对象<code>cursor</code>，通过游标对象执行SQL语句来进行数据的增删查改。</p>
-<pre><code class="language-python">import MySQLdb
-try:
-    coon = MySQLdb.connect(
-        host='localhost',
-        user='root',
-        passwd='手动打码处理',
-        db='news',
-        port=3306,
-        charset='utf8'
-    )
-    cursor = coon.cursor()
-    cursor.execute('SELECT * FROM news;')
-    rest = cursor.fetchone()
-    cursor.close()
-    coon.close()
-    print(rest)
-except MySQLdb.Error as e:
-    print('Error: %s' % e)
-
-&gt;&gt;&gt; (1, '丰收节后第二天 习近平考察了这个地方', 'xl', '9月25日，习近平抵达中国“最早迎接太阳的垦区', 1, datetime.datetime(2018, 9, 26, 11, 14, 44), None, '百家')
-</code></pre>
-<p>刚开始运行的时候总会报错，所以用了一个<code>try</code>语句来捕获错误：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-2029%E9%94%99%E8%AF%AF.png" alt=""><br>
-查询后得知这是因为在MySQL8.0改变了认证方式，目前最新的MySQL8.0对用户密码的加密方式为<code>caching_sha2_password</code>, 可能MySQLdb还不支持，所以需要更改为老版本的认证方式<code>mysql_native_password</code>,更改方式：</p>
-<pre><code>mysql -u root -p  \登录mysql
-use mysql;           
-select user,plugin from user where user='root';     \执行命令查看加密方式
-alter user 'root'@'localhost' identified with mysql_native_password by 'yourpassword' \执行命令修改加密方式
-flush privileges                  \属性权限使配置生效
-</code></pre>
-<p>反正最后成功解决错误，连接到了本地数据库输出了第一条数据(因为用了<code>fetchone</code>命令)，但是可以看到输出的结果是一个元组，可能会不清楚里面各个元素的含义是什么，要是想建立一种映射关系，我们需要用到<code>cursor</code>的<code>description</code>方法来查看每个字段的查询名，然后把执行sql后的结果与执行<code>cursor.description()</code>后的结果拼成一个字典：</p>
-<pre><code class="language-python">    def get_one(self):
-        # 准备sql
-        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
-        # 找到cursor
-        cursor = self.conn.cursor()
-        # 执行sql
-        cursor.execute(sql, ('百家',))
-        print(cursor.description)
-        # 拿到结果
-        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
-        # 处理数据
-        print(rest)
-        print(rest['title'])
-        # 关闭连接，cursor
-        cursor.close()
-        self.close_conn()
-        return rest
-&gt;&gt;&gt; (('id', 2, 1, 6, 6, 0, 0), ('title', 253, 71, 600, 600, 0, 0), ('img_url', 253, 2, 600, 600, 0, 0), ('content', 253, 133, 6000, 6000, 0, 0), ('is_valid', 1, 1, 4, 4, 0, 1), ('create_at', 12, 19, 19, 19, 0, 1), ('updated_at', 12, 0, 19, 19, 0, 1), ('news_type', 253, 6, 600, 600, 0, 1))
-{'id': 9, 'title': '男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转', 'img_url': 'xl', 'content': '近日，郑州市民刘先生向河南商报记者反映，空空如也的房子，水表却自己转起来，诡异不已。', 'is_valid': 1, 'create_at': datetime.datetime(2018, 9, 26, 11, 21, 59), 'updated_at': None, 'news_type': '百家'}
-男子3个月竟&quot;用&quot;水11吨:家中半年没人 水表自己转
-</code></pre>
-<p>看到执行<code>cursor.description()</code>后的结果是字段的查询名和一串不知道什么意思的数字😰，第一次用了<code>zip()</code>和<code>dict()</code>两个方法，zip()可以把两个元组的对应元素一一打包，返回一个zip对象，而dict可以把两个元素组合起来变成一个字典：</p>
-<pre><code class="language-python">a = (1, 2, 3, 4)
-b = ('a', 'b', 'c', 'd')
-print(type(zip(a, b)))
-print(zip(a, b))
-print(dict(zip(a, b)))
-
-r = ((1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'))
-print(dict(r))
-
-&gt;&gt;&gt; &lt;class 'zip'&gt;
-    &lt;zip object at 0x000001F4AADEDC88&gt;
-    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
-    {1: 'a', 2: 'b', 3: 'c', 4: 'd'}
-</code></pre>
-<p>还以通过<code>fetchall()</code>的方法获得多个数据库数据，关键是要看你的sql语句怎么写。</p>
-<p>我们可以在sql语句中用<code>%s</code>，这是一种字符串格式化的语法，基本用法是将值插入到%s占位符的字符串中。</p>
-<p>并且可以通过写sql语句和<code>commit()</code>来添加数据：</p>
-<pre><code class="language-python"> def add(self):
-        try:
-            # 准备sql
-            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
-                   news_type) VALUES'
-                   '(%s,%s,%s,%s,%s);')
-            # 获取连接和cursor
-            cursor = self.conn.cursor()
-            # 执行sql
-            # # 提交数据到数据库
-            cursor.execute(sql, ('标题1', 'xl', '内容', 1, '国际'))
-            cursor.execute(sql, ('标题2', 'xl', '内容', '你好', '国际', '123'))
-            # 提交事务
-            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
-            # 关闭cursor和连接
-            cursor.close()
-        except:
-            print('Error')
-            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
-            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
-        self.conn.close()
-</code></pre>
-<p>在添加数据时一定要注意我们设定的数据表每个字段的类型，不能出错。</p>
-<p>完整代码：</p>
-<pre><code class="language-python">import MySQLdb
-
-
-class MysqlSearch():
-
-    def __init__(self):
-        self.get_conn()
-
-    def get_conn(self):
-        try:
-            self.conn = MySQLdb.connect(
-                host='127.0.0.1',
-                user='root',
-                passwd='mysql,,2012',
-                db='news',
-                port=3306,
-                charset='utf8'
-            )
-        except MySQLdb.Error as e:
-            print('Error:%s' % e)
-
-    def close_conn(self):
-        try:
-            if self.conn:
-                self.conn.close()
-        except MySQLdb.Error as e:
-            print('Error:%s' % e)
-
-    def get_one(self):
-        # 准备sql
-        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC'
-        # 找到cursor
-        cursor = self.conn.cursor()
-        # 执行sql
-        cursor.execute(sql, ('百家',))
-        print(cursor.description)
-        # 拿到结果
-        rest = dict(zip([k[0] for k in cursor.description], cursor.fetchone()))
-        # 处理数据
-        print(rest)
-        print(rest['title'])
-        # 关闭连接，cursor
-        cursor.close()
-        self.close_conn()
-        return rest
-
-    def get_more(self, page, page_size):
-        offset = (page - 1) * page_size
-        # 准备sql
-        sql = 'SELECT * FROM news WHERE news_type = %s ORDER BY create_at DESC\
-               LIMIT %s,%s ;'
-        # 找到cursor
-        cursor = self.conn.cursor()
-        # 执行sql
-        cursor.execute(sql, ('百家', offset, page_size))
-        # print(cursor.description)
-        # 拿到结果
-        rest = [dict(zip([k[0] for k in cursor.description], row))for row in
-                cursor.fetchall()]
-        # rest = cursor.fetchall()
-        # 处理数
-        # print(rest)
-        # print(rest['title'])
-        # 关闭连接，cursor
-        cursor.close()
-        self.close_conn()
-        return rest      
-
-    def add(self):
-        try:
-            # 准备sql
-            sql = ('INSERT INTO news (title, img_url, content, is_valid, \
-                   news_type) VALUES'
-                   '(%s,%s,%s,%s,%s);')
-            # 获取连接和cursor
-            cursor = self.conn.cursor()
-            # 执行sql
-            # 提交数据到数据库
-            cursor.execute(sql, ('标题8', 'xl', '内容', 1, '国际'))
-            cursor.execute(sql, ('标题9', 'xl', '内容', '你好', '国际', '123'))
-            # 提交事务
-            self.conn.commit()    # commit的作用是把缓存中的数据存入我们的数据库中
-            # 关闭cursor和连接
-            cursor.close()
-        except:
-            print('Error')
-            self.conn.commit()  # 只会提交成功的数据，失败的不会提交
-            # self.conn.rollback() # 如果提交的数据中出现一个错误，那么都不会被提交到数据库
-        self.close_conn()
-
-
-def main():
-    obj = MysqlSearch()
-    # rest = obj.get_one()
-    rest = obj.get_more(2, 2)
-    print(rest)
-    # for item in rest:
-    #     print(item)
-    #     print('-------')
-    # obj.add()
-
-if __name__ == '__main__':
-    main()
-</code></pre>
-<h2 id="2-orm">2、ORM</h2>
-<p>ORM：对象关系映射(Object Relational Mapping，简称ORM，或O/RM，或O/R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换 。从效果上说，它其实是创建了一个可在编程语言里使用的--“虚拟对象数据库”。</p>
-<p>这是百度百科里的介绍，在前面我们用mysqldb这个包的时候，它只是输出了数据库中的数据，我们还是用zip和description强行建立一种映射关系，并且还要写sql语句，而在ORM中，我们不需要关心这些东西，我们只要按照ORM的套路来就行。</p>
-<p>常用的ORM实现方法有SqlObject、peewee、Django's ORM  、SQLAlchemy</p>
-<h3 id="sqlalchemy学习">SQLAlchemy学习</h3>
-<p><code>https://docs.sqlalchemy.org/en/latest/orm/</code>------&gt;官方文档地址<br>
-在MySQL中不同字符类型在sqlalchemy中都有对应的类型与之匹配，比如VARCHAR对应String，INT对应Integer。</p>
-<h4 id="创建一张表">创建一张表</h4>
-<p>如果我们想在某个数据库中创建一个表，我们首先要用到<code>engine</code>来与数据库建立连接，接着继承<code>Base</code>这个基类中的方法来同我们的数据库进行映射，接着定义数据表的每个字段的类型，最后通过下图中的方法来创建数据表：<br>
-<a href="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-py%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8.png"></a><br>
-我们可以看到<code>Base.metadta.create_all(engine)</code>这条语句就相当于一条sql语句，编写代码来实验一下：</p>
-<pre><code class="language-python">from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
-
-# engine = create_engine('mysql://scott:tiger@localhost/foo') #官方给出的连接方法
-# scott 用户名 triger 密码  foo数据库
-
-engine = create_engine('mysql://root:手动打码此处的密码虽然没有什么卵用@localhost:3306/news_test')
-Base = declarative_base()  # sqlalchemy定义的一个基类
-
-
-class News(Base):
-    __tablename__ = 'news'
-    id = Column(Integer, primary_key=True)
-    title = Column(String(200), nullable=False)
-    img_url = Column(String(200), nullable=False)
-    content = Column(String(2000), nullable=False)
-    is_valid = Column(Boolean)
-    create_at = Column(DateTime)
-    update_at = Column(DateTime)
-    news_type = Column(String(20))
-    
-News.metadata.create_all(engine)
-</code></pre>
-<p>可以在图形化的mysql数据库中看到，已经成功的创建了一张数据表。<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%96%B0%E5%BB%BA%E4%B8%80%E5%BC%A0%E6%95%B0%E6%8D%AE%E8%A1%A8.png" alt=""></p>
-<h4 id="新增数据">新增数据</h4>
-<p>在前面学些mysqldb的时候，无论时新增数据还是删除数据，都需要借助一个游标来完成操作，而在sqlalchemy中，需要借助<code>session</code>：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E5%88%9B%E5%BB%BAsession.png" alt=""><br>
-我们来试验一下：</p>
-<pre><code class="language-python">class AddTest():
-    def __init__(self):
-        self.session = Session()
-
-    def add(self):
-        news_obj = News(
-            title='标题1',
-            img_url='xxx/xxx/xxx.jpg',
-            content='内容1',
-            create_at=datetime.datetime.now(),
-            news_type='国际'
-        )
-        self.session.add(news_obj)
-        self.session.commit()
-        return news_obj
-</code></pre>
-<p>执行几次以后发现，数据已经被添加到数据库中了：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-26-%E6%B7%BB%E5%8A%A0%E4%B8%80%E6%9D%A1%E6%95%B0%E6%8D%AE.png" alt=""></p>
-<p>不过这里我有一点疑惑，因为在写sql语句的时候，我们要让id自增必须填入<code>AUTO_INCREMENT</code>再加主键约束才可以，不知道为什么在这里只需要标明是主键约束就可以了。<br>
-添加多条数据时，我们可以填写多个<code>session.add()</code>语句，也可以使用<code>session.add_all()</code>语句进行添加：</p>
-<pre><code class="language-python">self.session.add_all((news_obj1, news_obj2, news_obj3))
-</code></pre>
 ]]></content>
     </entry>
 </feed>

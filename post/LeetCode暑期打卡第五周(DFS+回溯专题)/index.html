@@ -376,8 +376,11 @@ public:
 </code></pre>
 <p>分析：枚举每个数放在哪个位置上去，搜索的时候不能重复。</p>
 <ul>
-<li>先将所有相同数放在一起</li>
+<li>先将所有相同数放在一起：排序</li>
 <li>人为规定相同数字的相对顺序：不变<br>
+dfs(u, start)</li>
+<li>u表示枚举到了哪个数字。</li>
+<li>start表示当前可以从哪个位置开始搜，比如把第一个1放在了第五个位置上，那么第二个1就必须从第六个位置开始搜。枚举新的数字时，start = 0，枚举相同的数字时，start 从下一位开始。<br>
 C++</li>
 </ul>
 <pre><code class="language-c++">class Solution {
@@ -391,7 +394,7 @@ public:
     vector&lt;vector&lt;int&gt;&gt; permuteUnique(vector&lt;int&gt;&amp; nums) {
         n = nums.size();
         st = vector&lt;bool&gt; (n);
-        path = vector&lt;int&gt;(n);
+        path = vector&lt;int&gt; (n);
         
         sort(nums.begin(), nums.end());
         dfs(nums, 0, 0);
@@ -715,6 +718,8 @@ C++</li>
 		
 		<div class="nav-links3">
       
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第六周" rel="prev"> LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)</a></div>
+		 
 		 
 		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第四周(字符串处理专题)" rel="next"> LeetCode暑期打卡第四周(字符串处理专题)</a></div>
 		
