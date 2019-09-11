@@ -376,6 +376,112 @@ class Solution:
                     res = s[j : i+1]
         return res     
 </code></pre>
+<h4 id="32-longest-valid-parentheses"><a href="https://leetcode.com/problems/longest-valid-parentheses/">32. Longest Valid Parentheses</a></h4>
+<p>题目描述：给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。</p>
+<pre><code>示例 :
+输入: &quot;)()())&quot;
+输出: 4
+解释: 最长有效括号子串为 &quot;()()&quot;
+</code></pre>
+<p>分析：刚开始考虑用栈来做...<br>
+括号序列的一个性质：</p>
+<ul>
+<li>不论怎么匹配，左右括号一定是确定的</li>
+<li>一个括号序列合法&lt;=&gt;所有前缀和&gt;=0，且总和=0(左括号为1，右括号为-1)<br>
+所以我们可以用这个性质来做，start表示当前枚举的开头位置，cnt表示前缀和，然后开始遍历，计算start--&gt;i的前缀和cnt，如果cnt&lt;0，那就说明当前这一段不合法，start = i + 1，cnt = 0继续遍历；如果cnt &gt; 0那就说明当前合法，继续做；如果cnt = 0， 那就说明[start, i]这一段是合法序列，更新答案即可；但是会有这样一种情况，左括号的数量大于右括号的数量<code>(((())</code>这样cnt永远&gt;0，是更新不了答案的，所以还需要反着再来一遍。<br>
+C++</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    
+    int work(string s)
+    {
+        int res = 0;
+        for (int i = 0, start = 0, cnt = 0; i &lt; s.size(); i ++)
+        {
+            if (s[i] == '(') cnt ++ ;
+            else
+            {
+                cnt -- ;
+                if (cnt &lt; 0) start = i + 1, cnt = 0;
+                else if (cnt == 0)  res = max(res, i - start + 1);
+            }
+        }
+        return res;
+    }
+    
+    int longestValidParentheses(string s) {
+        int res = work(s);
+        reverse(s.begin(), s.end());
+        for (auto &amp;c : s) c ^= 1;
+        return max(res, work(s));
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def longestValidParentheses(self, s: str) -&gt; int:
+        res = self.work(s);
+        s = s[::-1];
+        s_reverse = &quot;&quot;
+        for char in s:
+            char = chr(ord(char) ^ 1)
+            s_reverse += char
+        return max(res, self.work(s_reverse))
+    
+    def work(self, s):
+        res, start, cnt = 0, 0, 0
+        for i in range(len(s)):
+            if s[i] == '(': cnt += 1
+            else:
+                cnt -= 1
+                if cnt &lt; 0: start, cnt = i + 1, 0
+                elif cnt == 0:
+                    res = max(res, i - start + 1)
+        return res      
+</code></pre>
+<p>用栈来做：<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack&lt;int&gt; stack;
+        int ans = 0;
+        int base = -1;
+        for (int i = 0; i &lt; s.size(); i ++ )
+        {
+            if (s[i] == '(') stack.push(i);
+            else 
+                if (stack.size() &gt; 0)
+                {
+                    stack.pop();
+                    if (stack.size() == 0) ans = max(ans, i - base);
+                    else ans = max(ans, i - stack.top());
+                }
+                else base = i;
+        }
+        return ans;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def longestValidParentheses(self, s: str) -&gt; int:
+        stack = []
+        ans = 0
+        base = -1
+        for i, c in enumerate(s):
+            if c == '(': stack.append(i)
+            elif stack:
+                stack.pop()
+                if stack:
+                    ans = max(ans, i - stack[-1])
+                else:
+                    ans = max(ans, i - base)
+            else:
+                base = i
+        return ans
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
