@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-09-11T02:36:13.818Z</updated>
+    <updated>2019-09-12T01:13:05.921Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -336,6 +336,99 @@ public:
             else:
                 base = i
         return ans
+</code></pre>
+<h4 id="155-min-stack"><a href="https://leetcode.com/problems/min-stack/">155. Min Stack</a></h4>
+<p>题目描述：设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。</p>
+<ul>
+<li>push(x) -- 将元素 x 推入栈中。</li>
+<li>pop() -- 删除栈顶的元素。</li>
+<li>top() -- 获取栈顶元素。</li>
+<li>getMin() -- 检索栈中的最小元素。</li>
+</ul>
+<pre><code>示例:
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   --&gt; 返回 -3.
+minStack.pop();
+minStack.top();      --&gt; 返回 0.
+minStack.getMin();   --&gt; 返回 -2.
+</code></pre>
+<p>分析：本来的想法是建立一个列表，通过append和del操作来构造所需要的函数。<br>
+后来发现可以直接调用push和pop操作，不过唯一不同的是，在进行getMin操作时，可以新建一个栈，存的当前栈的最小值，第一个元素表示第一个数的最小值（也就是第一个数），第二个元素存的是前两个数的最小值，以此类推...<br>
+C++</p>
+<pre><code class="language-c++">class MinStack {
+public:
+    
+    stack&lt;int&gt; stk, stk_min;
+    
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    
+    void push(int x) {
+        stk.push(x);
+        if (stk_min.empty()) stk_min.push(x);
+        else stk_min.push(min(x, stk_min.top()));
+    }
+    
+    void pop() {
+        stk.pop();
+        stk_min.pop();
+    }
+    
+    int top() {
+        return stk.top();
+    }
+    
+    int getMin() {
+        return stk_min.top();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj-&gt;push(x);
+ * obj-&gt;pop();
+ * int param_3 = obj-&gt;top();
+ * int param_4 = obj-&gt;getMin();
+ */
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class MinStack:
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        initialize your data structure here.
+        &quot;&quot;&quot;
+        self.stk = []
+        self.stk_min = []
+
+    def push(self, x: int) -&gt; None:
+        self.stk.append(x)
+        if self.stk_min:
+            self.stk_min.append(min(x, self.stk_min[-1]))
+        else: self.stk_min.append(x)
+
+    def pop(self) -&gt; None:
+        self.stk.pop()
+        self.stk_min.pop()
+
+    def top(self) -&gt; int:
+        return self.stk[-1]
+
+    def getMin(self) -&gt; int:
+        return self.stk_min[-1]
+
+# Your MinStack object will be instantiated and called as such:
+# obj = MinStack()
+# obj.push(x)
+# obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.getMin()
 </code></pre>
 ]]></content>
     </entry>
