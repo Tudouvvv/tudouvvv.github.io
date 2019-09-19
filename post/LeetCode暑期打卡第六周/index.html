@@ -575,6 +575,208 @@ public:
 # param_3 = obj.top()
 # param_4 = obj.getMin()
 </code></pre>
+<h4 id="84-largest-rectangle-in-histogram"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">84. Largest Rectangle in Histogram</a></h4>
+<p>题目描述：给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。<br>
+求在该柱状图中，能够勾勒出来的矩形的最大面积。<br>
+<img src="https://tudouvvv.github.io//post-images/1568512602453.png" alt=""></p>
+<pre><code>示例:
+输入: [2,1,5,6,2,3]
+输出: 10
+</code></pre>
+<p>分析：<br>
+单调栈：查找每个数左/右侧第一个比它小/大的数<br>
+单调队列：查找滑动窗口中的最值<br>
+这道题首先要考虑的是如何能枚举出来所有的矩形：</p>
+<ol>
+<li>枚举所有柱形的上边界作为整个矩形的上边界，然后求出左右边界（往左右可以扩充的位置）</li>
+<li>找出左边离它最近的，比它小的柱形</li>
+<li>找出右边离它最近的，比它小的柱形<br>
+比如输入[2,1,5,6,2,3]，构建一个栈，每次push元素的时候都要比栈顶元素大，如果没有，就pop栈直到栈中没有比它大的元素，再进栈，这样就构成了一个单调栈。<br>
+C++</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int largestRectangleArea(vector&lt;int&gt;&amp; heights) {
+        int n = heights.size();
+        vector&lt;int&gt; left(n), right(n);
+        
+        stack&lt;int&gt; stk;
+        for (int i = 0; i &lt; n; i ++)
+        {
+            while (stk.size() &amp;&amp; heights[stk.top()] &gt;= heights[i])  stk.pop();
+            if (stk.empty()) left[i] = -1;
+            else left[i] = stk.top();
+            stk.push(i);
+        }
+        while(stk.size()) stk.pop();
+        for (int i = n - 1; i &gt;= 0; i --)
+        {
+            while (stk.size() &amp;&amp; heights[stk.top()] &gt;= heights[i]) stk.pop();
+            if (stk.empty()) right[i] = n;
+            else right[i] = stk.top();
+            stk.push(i);
+        }
+        
+        int res = 0;
+        for (int i = 0; i &lt; n; i ++)  res = max(res, heights[i] * (right[i] - left[i] - 1));
+        
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def largestRectangleArea(self, heights: List[int]) -&gt; int:
+        n = len(heights)
+        right, left = [0] * n, [0] * n
+        stk = []
+        for i in range(n):
+            while (len(stk) and heights[stk[-1]] &gt;= heights[i]): stk.pop()
+            if not stk: left[i] = -1
+            else: left[i] = stk[-1]
+            stk.append(i)
+        while len(stk): stk.pop()
+        
+        for i in range(n-1, -1, -1):
+            while (len(stk) and heights[stk[-1]] &gt;= heights[i]): stk.pop()
+            if not stk: right[i] = n
+            else: right[i] = stk[-1]
+            stk.append(i)
+        res = 0
+        for i in range(n): res = max(res, heights[i] * (right[i] - left[i] - 1))
+
+        return res
+</code></pre>
+<h4 id="42-trapping-rain-water"><a href="https://leetcode.com/problems/trapping-rain-water/">42. Trapping Rain Water</a></h4>
+<p>题目描述：给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。<br>
+<img src="https://tudouvvv.github.io//post-images/1568259976116.png" alt=""></p>
+<pre><code>示例:
+输入: [0,1,0,2,1,0,1,3,2,1,2,1]
+输出: 6
+</code></pre>
+<p>分析：找到数组中的低谷，低谷就是雨水可以存在的位置。</p>
+<ul>
+<li>三次线性扫描<br>
+每个矩形上方的水的数量是由它自己、它左边最高的位置以及它右边最高的位置决定的，所以我们需要首先得到每个位置左边最高位置和右边最高位置，然后水的数量就等于 <code>min(left[i], right[i]) - height[i]</code>。<br>
+C++</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    int trap(vector&lt;int&gt;&amp; height) {
+        int n = height.size();
+        int res = 0;
+        
+        if (n == 0) return 0;
+        
+        vector&lt;int&gt; left(n), right(n);
+        left[0] = height[0];
+        for (int i = 1; i &lt; n; i ++)
+            left[i] = max(left[i - 1], height[i]);
+        right[n - 1] = height[n - 1];
+        for (int i = n - 2; i &gt;= 0; i --)
+            right[i] = max(right[i + 1], height[i]);
+        for (int i = 0; i &lt; n; i ++)
+            res += min(left[i], right[i]) - height[i];
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def trap(self, height: List[int]) -&gt; int:
+        n = len(height)
+        res = 0
+        left, right = [0] * n, [0] * n
+        
+        if not height: return 0
+        
+        left[0] = height[0]
+        for i in range(n):
+            left[i] = max(left[i - 1], height[i])
+        right[n - 1] = height[n - 1]
+        for i in range(n - 2, -1, -1):
+            right[i] = max(right[i + 1], height[i])
+            
+        for i in range(n):
+            res += min(left[i], right[i]) - height[i]
+        
+        return res
+</code></pre>
+<ul>
+<li>单调栈（存疑）</li>
+</ul>
+<h4 id="239-sliding-window-maximum"><a href="https://leetcode.com/problems/sliding-window-maximum/">239. Sliding Window Maximum</a></h4>
+<p>题目描述：给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。<br>
+返回滑动窗口中的最大值。</p>
+<pre><code>示例:
+输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
+输出: [3,3,5,5,6,7] 
+解释: 
+
+  滑动窗口的位置                最大值
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+</code></pre>
+<p>分析：</p>
+<ul>
+<li>暴力解法：枚举所有的情况，python可以进行切片操作，然后用max得到该窗口内的最大值。<br>
+Python</li>
+</ul>
+<pre><code class="language-python">class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -&gt; List[int]:
+        if not nums:
+            return []
+        res = []
+        n = len(nums)
+        for i in range(n - k + 1):
+            res.append(max(nums[i:i + k]))
+        return res
+</code></pre>
+<ul>
+<li>单调队列<br>
+单调队列是一个普通的双端队列，即队头和队尾都可以添加和弹出元素。维护这样一个队列：队头元素最大，队尾最小，这样在每个窗口中，只需要push队头元素即可。<br>
+每次添加元素时都需要进行检查：1）合法性检查：即如果队头元素下标已经不在窗口范围内，应该出队；2）单调性检查：如果nums[i]大于或等于队尾元素下标所对应的值，则当前队尾再也不可能充当某个滑动窗口的最大值了，故需要队尾出队。始终保持队中元素从队头到队尾单调递减。<br>
+C++</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) {
+        vector&lt;int&gt; res;
+        deque&lt;int&gt; q;
+        for(int i = 0; i &lt; nums.size(); i ++)
+        {
+            while (q.size() &amp;&amp; i - k + 1 &gt; q.front()) q.pop_front();
+            while(q.size() &amp;&amp; nums[i] &gt;= nums[q.back()]) q.pop_back();
+            q.push_back(i);
+            if (i &gt;= k - 1)  res.push_back(nums[q.front()]);
+        }
+        
+        return res;
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -&gt; List[int]:
+        res = []
+        q = []
+        n = len(nums)
+        for i in range(n):
+            if(len(q) and i - k + 1 &gt; q[0]): 
+                q.pop(0)
+            while(len(q) and nums[i] &gt;= nums[q[-1]]): 
+                q.pop()
+            q.append(i)
+            if i &gt;= k - 1: 
+                res.append(nums[q[0]])
+        return res
+</code></pre>
+<h4 id="918-maximum-sum-circular-subarray"><a href="https://leetcode.com/problems/maximum-sum-circular-subarray/">918. Maximum Sum Circular Subarray</a>(存疑)</h4>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
