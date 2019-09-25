@@ -577,30 +577,68 @@ public:
 };
 </code></pre>
 <p>Python</p>
-<pre><code class="language-python">class Solution {
+<pre><code class="language-python">class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -&gt; List[int]:
+        p = []
+        n = len(edges)
+        for i in range(n + 1): p.append(i)
+        
+        def find(x):
+            if p[x] != x: p[x] = find(p[x])
+            return p[x]
+        
+        for e in edges:
+            a = e[0]
+            b = e[1]
+            if find(a) == find(b): return [a, b];
+            p[find(a)] = find(b)
+        return [-1, -1]
+</code></pre>
+<h4 id="692-top-k-frequent-words"><a href="https://leetcode.com/problems/top-k-frequent-words/">692. Top K Frequent Words</a></h4>
+<p>Ps.对一个堆来说:</p>
+<ol>
+<li>查找最大值O(1)</li>
+<li>插入一个数O(logn)</li>
+<li>删除一个数O(logn)<br>
+题目描述：给一非空的单词列表，返回前 k 个出现次数最多的单词。<br>
+返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。<br>
+Note：</li>
+</ol>
+<ul>
+<li>假定 k 总为有效值， 1 ≤ k ≤ 集合元素数。</li>
+<li>输入的单词均由小写字母组成。</li>
+</ul>
+<pre><code>示例：
+输入: [&quot;i&quot;, &quot;love&quot;, &quot;leetcode&quot;, &quot;i&quot;, &quot;love&quot;, &quot;coding&quot;], k = 2
+输出: [&quot;i&quot;, &quot;love&quot;]
+解析: &quot;i&quot; 和 &quot;love&quot; 为出现次数最多的两个单词，均为2次。
+    注意，按字母顺序 &quot;i&quot; 在 &quot;love&quot; 之前。
+</code></pre>
+<p>分析：可不可以用hash来做！！！<br>
+我们要找出出现次数最多的k个单词，用小根堆来维护出现次数最多的k个单词。</p>
+<pre><code class="language-C++">class Solution {
 public:
-    
-    vector&lt;int&gt; p;
-    
-    int find(int x)
-    {
-        if (p[x] != x)  p[x] = find(p[x]);
-        return p[x];
-    }
-    
-    vector&lt;int&gt; findRedundantConnection(vector&lt;vector&lt;int&gt;&gt;&amp; edges) {
-        int n = edges.size();
+    vector&lt;string&gt; topKFrequent(vector&lt;string&gt;&amp; words, int k) {
+        unordered_map&lt;string, int&gt; hash;
+        typedef pair&lt;int, string&gt; PIS;
+        priority_queue&lt;PIS&gt; heap;
         
-        for (int i = 0; i &lt;= n; i ++) p.push_back(i);
+        for (auto word : words) hash[word] ++;
         
-        for (auto e : edges)
+        for (auto item : hash)
         {
-            int a = e[0], b = e[1];
-            if (find(a) == find(b)) return {a, b};
-            p[find(a)] = find(b);
+            PIS t(-item.second, item.first);
+            heap.push(t);
+            if (heap.size() &gt; k) heap.pop();
         }
         
-        return {-1, -1};
+        vector&lt;string&gt; res(k);
+        for (int i = k - 1; i &gt;= 0; i --)
+        {
+            res[i] = heap.top().second;
+            heap.pop();
+        }
+        return res;
     }
 };
 </code></pre>
