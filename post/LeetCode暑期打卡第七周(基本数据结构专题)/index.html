@@ -642,6 +642,16 @@ public:
     }
 };
 </code></pre>
+<p>也可以直接用排序来做：<br>
+Python</p>
+<pre><code class="language-python">class Solution:
+    def topKFrequent(self, words: List[str], k: int) -&gt; List[str]:
+        d = {}
+        for word in words: 
+            d[word] = d.get(word, 0) + 1
+        res = sorted(d, key = lambda word : (-d[word], word))
+        return res[:k]
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
