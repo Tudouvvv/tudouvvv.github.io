@@ -702,7 +702,156 @@ Python</p>
 # obj.addNum(num)
 # param_2 = obj.findMedian()
 </code></pre>
-<p>然后超时了，因为每次都要对列表进行排序，</p>
+<p>然后超时了，因为每次都要对列表进行排序，耗费的时间太多。<br>
+正确的解法：构建一个对顶堆：<br>
+<img src="https://tudouvvv.github.io//post-images/1569500324525.png" alt=""><br>
+如图，上面是一个小根堆，保存数值较大的一部分，下面是一个大根堆，保存数值较小的一部分，每部分的元素个数都是n / 2，这样中间的元素就是我们要找的数。<br>
+如果 x&gt;= 下面的根节点，插入上面的堆，反之插入下面的堆，然后维护两个堆的个数即可。<br>
+C++</p>
+<pre><code class="language-c++">class MedianFinder {
+public:
+    
+    priority_queue &lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; up;
+    priority_queue &lt;int&gt; down;
+    
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if (down.empty() || num &gt; down.top()) up.push(num);
+        else
+        {
+            down.push(num);
+            up.push(down.top());
+            down.pop();
+        }
+        if (up.size() &gt; down.size() + 1)
+        {
+            down.push(up.top());
+            up.pop();
+        }
+    }
+    
+    double findMedian() {
+        if (down.size() + up.size() &amp; 1) return up.top();
+        else return (down.top() + up.top()) / 2.0;
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj-&gt;addNum(num);
+ * double param_2 = obj-&gt;findMedian();
+ */
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">from heapq import heappush, heappop
+class MedianFinder:
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        initialize your data structure here.
+        &quot;&quot;&quot;
+        self.up = []
+        self.down = []
+
+    def addNum(self, num: int) -&gt; None:
+        if (len(self.down) == 0 or -num &lt; self.down[0]): 
+            heappush(self.up, num);
+        else:
+            heappush(self.down, -num)
+            heappush(self.up, -self.down[0])
+            heappop(self.down)
+            
+        if len(self.up) &gt; len(self.down) + 1:
+            heappush(self.down, -self.up[0])
+            heappop(self.up)
+
+    def findMedian(self) -&gt; float:
+        if len(self.up) + len(self.down) &amp; 1: return self.up[0]
+        else: 
+            return (self.up[0] - self.down[0]) * 0.5
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
+</code></pre>
+<h4 id="352-data-stream-as-disjoint-intervals"><a href="https://leetcode.com/problems/data-stream-as-disjoint-intervals/">352. Data Stream as Disjoint Intervals</a></h4>
+<p>题目描述：给定一个非负整数的数据流输入 a1，a2，…，an，…，将到目前为止看到的数字总结为不相交的区间列表。<br>
+例如，假设数据流中的整数为 1，3，7，2，6，…，每次的总结为：</p>
+<ol>
+<li>[1, 1]</li>
+<li>[1, 1], [3, 3]</li>
+<li>[1, 1], [3, 3], [7, 7]</li>
+<li>[1, 3], [7, 7]</li>
+<li>[1, 3], [6, 7]<br>
+分析：根据题意，在第四步的时候，应该加一个区间[2, 2]，但是由于[1, 2, 3]是连续的，所以合并区间，变为了[1, 3]。<br>
+用平衡树来维护所有区间，构建两个字典，L和R，分别对左右端点进行映射，L中的value是左端点，R中的value是右端点，然后当有新的x插入的时候，一共有四种情况：<br>
+<img src="https://tudouvvv.github.io//post-images/1569506788992.png" alt=""><br>
+比如说一个区间是[x, y]，那么L[y] = x, R[x] = y。<br>
+C++</li>
+</ol>
+<pre><code class="language-c++">class SummaryRanges {
+public:
+    /** Initialize your data structure here. */
+    
+    map&lt;int, int&gt; L, R;
+    
+    SummaryRanges() {
+        
+    }
+    
+    void addNum(int x) {
+        if (L.size())
+        {
+            auto it = L.lower_bound(x);
+            if (it != L.end() &amp;&amp; it-&gt;second &lt;= x) return;
+        }
+        
+        int left = L.count(x - 1), right = R.count(x + 1);
+        
+        if (left &amp;&amp; right)
+        {
+            R[L[x - 1]] = R[x + 1];
+            L[R[x + 1]] = L[x - 1];
+            L.erase(x - 1), R.erase(x + 1);
+        }
+        else if (left)
+        {
+            R[L[x - 1]] = x;
+            L[x] = L[x - 1];
+            L.erase(x - 1);
+        }
+        else if (right)
+        {
+            L[R[x + 1]] = x;
+            R[x] = R[x + 1];
+            R.erase(x + 1);
+        }
+        else
+        {
+            R[x] = L[x] = x;
+        }
+        
+    }
+    vector&lt;vector&lt;int&gt;&gt; getIntervals() {
+        vector&lt;vector&lt;int&gt;&gt; res;
+        for (auto item : R) res.push_back({item.first, item.second});
+        return res;
+    }
+};
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges* obj = new SummaryRanges();
+ * obj-&gt;addNum(val);
+ * vector&lt;vector&lt;int&gt;&gt; param_2 = obj-&gt;getIntervals();
+ */
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
