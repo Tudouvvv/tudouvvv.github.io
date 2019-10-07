@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-10-03T08:16:37.630Z</updated>
+    <updated>2019-10-07T09:18:33.028Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -346,7 +346,7 @@ public:
 <ul>
 <li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
 <li>你算法的时间复杂度应该为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 。<br>
-分析：用DP来解决，首先状态表示f[i]：表示以第i个数结尾的上升子序列的最大值；然后是状态更新，我们要遍历从0到i的所有数，如果nums[j] &lt; nums[j]， 就说明它可以被放进去，那么f[i] = max(f[i], f[j] + 1)，最后再遍历f，找出最大值即可。</li>
+分析：用DP来解决，首先状态表示f[i]：表示以第i个数结尾的上升子序列的最大值；然后是状态更新，我们要遍历从0到i的所有数，如果nums[j] &lt; nums[i]， 就说明它可i以被放进去，那么f[i] = max(f[i], f[j] + 1)，最后再遍历f，找出最大值即可。</li>
 </ul>
 <p>C++</p>
 <pre><code class="language-c++">class Solution {
@@ -383,6 +383,194 @@ public:
         for i in range(n): res = max(res, f[i])
         return res
 </code></pre>
+<h4 id="72-edit-distance"><a href="https://leetcode.com/problems/edit-distance/">72. Edit Distance</a></h4>
+<p>题目描述：给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。<br>
+你可以对一个单词进行如下三种操作：</p>
+<ul>
+<li>插入一个字符</li>
+<li>删除一个字符</li>
+<li>替换一个字符</li>
+</ul>
+<pre><code>示例:
+输入: word1 = &quot;horse&quot;, word2 = &quot;ros&quot;
+输出: 3
+解释: 
+horse -&gt; rorse (将 'h' 替换为 'r')
+rorse -&gt; rose (删除 'r')
+rose -&gt; ros (删除 'e')
+</code></pre>
+<p>分析：首先集合表示：f[i, j]表示将第一个字符串的前i个字母，变成第二个字符串的前j个字母的方案的最小值，那么在进行状态计算时，我们考虑最后一步的情况，由于它共有三种操作方式，所以最后一步的情况如下：</p>
+<ol>
+<li>插入：我在第一个字符串中插入一个字符使得它和第二个字符串的前j个字符串相同，所以说，现在第一个字符串的前i个字符和第二个字符串的前j - 1个字符相同，所以f[i, j] = f[i, j - 1] + 1</li>
+<li>删除：我在第一个字符串中删除一个字符使得它和第二个字符串的前j个字符串相同，所以说，现在第一个字符串的前i - 1个字符和第二个字符串的前j的字符相同，所以f[i, j] = f[i - 1, j] + 1</li>
+<li>替换：替换又分为两种情况：1）第一个字符串的第i个字符和第二个字符串的第j个字符是相同的，不需要替换了，所以f[i, j] = f[i - 1, j - 1]; 2）第一个字符串的第i个字符和第二个字符串的第j个字符是不同的，需要替换一下，所以f[i, j] = f[i - 1, j - 1] + 1;<br>
+最后只需要在上面四种方案中求一个最小值代表状态即可。</li>
+</ol>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int n = word1.size(), m = word2.size();
+        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(m + 1));
+        for (int i = 0; i &lt;= n; i ++) f[i][0] = i;
+        for (int i = 0; i &lt;= m; i ++) f[0][i] = i;
+        for (int i = 1; i &lt;= n; i ++)
+            for (int j = 1; j &lt;= m; j ++)
+            {
+                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + 1;
+                f[i][j] = min(f[i][j], f[i - 1][j - 1] + (word1[i -1] != word2[j - 1]));
+            }
+        
+        return f[n][m];
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def minDistance(self, word1: str, word2: str) -&gt; int:
+        n, m = len(word1), len(word2)
+        f = [[0 for _ in range(m + 1)] for _ in range(n + 1)]
+        for i in range(n + 1): f[i][0] = i
+        for i in range(m + 1): f[0][i] = i
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + 1
+                f[i][j] = min(f[i][j], f[i - 1][j - 1] + (word1[i - 1] != word2[j - 1]));
+        return f[n][m]
+</code></pre>
+<h4 id="518-coin-change-2"><a href="https://leetcode.com/problems/coin-change-2/">518. Coin Change 2</a></h4>
+<p>题目描述：给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。<br>
+Note:<br>
+你可以假设：</p>
+<ul>
+<li>0 &lt;= amount (总金额) &lt;= 5000</li>
+<li>1 &lt;= coin (硬币面额) &lt;= 5000</li>
+<li>硬币种类不超过 500 种</li>
+<li>结果符合 32 位符号整数</li>
+</ul>
+<pre><code>示例:
+输入: amount = 5, coins = [1, 2, 5]
+输出: 4
+解释: 有四种方式可以凑成总金额:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+</code></pre>
+<p>分析：首先状态表示f[i,j]表示为用前i个硬币凑出总钱数为j的凑法的数量，那么在状态表示时，有很多种情况：</p>
+<ol>
+<li>用了0个第i个硬币，所以f[i, j] = f[i - 1, j];</li>
+<li>用了t个第i个硬币，所以f[i, j] = f[i - 1, j - t * coins[i]];<br>
+所以，f[i ,j] = f[i - 1, j] + f[i - 1, j - c] + f[i - 1, j - 2c] + ... + f[i - 1, j - kc]<br>
+但是，f[i, j - c] = f[i - 1, j - c] + f[i - 1, j - 2c]  + ... + f[i - 1, j - kc]<br>
+所以，我们可以用f[i, j - c]的状态替换掉后面一堆东西，于是f[i, j] = f[i - 1, j] + f[i, j - c]<br>
+由于这里i只与上一层有关系，所以可以用滚动数组来求解，同时f[i - 1, j] 与 f[i , j]表示的j都是一样的，所以可以用一个一维的滚动数组来简化f[j] = f[j] + f[j - c]。</li>
+</ol>
+<p>C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int change(int amount, vector&lt;int&gt;&amp; coins) {
+        int m = amount;
+        vector&lt;int&gt; f(m + 1);
+        f[0] = 1;
+        for (auto c : coins)
+            for (int j = c; j &lt;= m; j ++)
+                f[j] += f[j - c];
+        return f[m];
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def change(self, amount: int, coins: List[int]) -&gt; int:
+        m = amount
+        f = [0 for _ in range(m + 1)]
+        f[0] = 1
+        for coin in coins:
+            for j in range(coin, m + 1):
+                f[j] += f[j - coin]
+        return f[m]
+</code></pre>
+<h4 id="664-strange-printer"><a href="https://leetcode.com/problems/strange-printer/">664. Strange Printer</a></h4>
+<p>题目描述：有台奇怪的打印机有以下两个特殊要求：<br>
+打印机每次只能打印同一个字符序列。<br>
+每次可以在任意起始和结束位置打印新字符，并且会覆盖掉原来已有的字符。<br>
+给定一个只包含小写英文字母的字符串，你的任务是计算这个打印机打印它需要的最少次数。</p>
+<pre><code>示例:
+输入: &quot;aba&quot;
+输出: 2
+解释: 首先打印 &quot;aaa&quot; 然后在第二个位置打印 &quot;b&quot; 覆盖掉原来的字符 'a'。
+</code></pre>
+<p>分析：f[l][r]表示将[L, R]染成最终模样的方式的最小值：<br>
+<img src="https://tudouvvv.github.io//post-images/1570433988785.png" alt=""><br>
+首先是把端点染成想要的颜色，f[l][r] = f[l + 1][r] + 1<br>
+然后另一种情况是染[l, k]，l和k处的颜色相同的话，f[l][r]= f[l][k - 1] + f[k + 1][r]<br>
+最后求两者的最小值即可。<br>
+C++</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int strangePrinter(string s) {
+        int n = s.size();
+        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(n + 1));
+        if (s.empty()) return 0;
+        for (int len = 1; len &lt;= n; len ++)
+            for (int l = 0; l + len - 1 &lt; n; l ++)
+            {
+                int r = l + len - 1;
+                f[l][r] = f[l + 1][r] + 1;
+                for (int k = l + 1; k &lt;= r; k ++)
+                    if (s[l] == s[k])
+                        f[l][r] = min(f[l][r], f[l][k - 1] + f[k + 1][r]);
+            }
+        return f[0][n - 1];
+    }
+};
+</code></pre>
+<p>Python</p>
+<pre><code class="language-python">class Solution:
+    def strangePrinter(self, s: str) -&gt; int:
+        n = len(s)
+        if n == 0: return 0
+        f = [[0 for _ in range(n + 1)]for _ in range(n + 1)]
+        for lens in range(1, n + 1):
+            for l in range(0, n - lens + 1):
+                r = l + lens - 1
+                f[l][r] = f[l + 1][r] + 1
+                for k in range(l + 1, r + 1):
+                    if s[l] == s[k]:
+                        f[l][r] = min(f[l][r], f[l][k - 1] + f[k + 1][r])
+                        print(f)
+        return f[0][n - 1]
+</code></pre>
+<h4 id="10-regular-expression-matching存疑">❌<a href="https://leetcode.com/problems/regular-expression-matching/">10. Regular Expression Matching</a>(存疑)</h4>
+<p>题目描述：给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。</p>
+<pre><code>'.' 匹配任意单个字符
+'*' 匹配零个或多个前面的那一个元素
+</code></pre>
+<p>所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。<br>
+Note:</p>
+<ul>
+<li>s 可能为空，且只包含从 a-z 的小写字母。</li>
+<li>p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</li>
+</ul>
+<pre><code>示例:
+输入:
+s = &quot;aa&quot;
+p = &quot;a*&quot;
+输出: true
+解释: 因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 &quot;aa&quot; 可被视为 'a' 重复了一次。
+</code></pre>
+<p>分析：考虑用DP来做，f[i][j]表示s的第i个字符与p的第j个字符是否匹配，我们现在已经得知了之前的状态，也就是f[i - 1][j - 1]，现在要考虑的就是s[i]与p[j]的关系：</p>
+<ol>
+<li>如果s[i] = p[j], 那么f[i][j] = f[i - 1][j - 1]</li>
+<li>如果p[j] = '.', 那么f[i][j] = f[i - 1][j - 1]</li>
+<li>如果p[j] = '*', 那么我们要考虑s[i] 与 p[j - 1]的关系：
+<ol>
+<li>如果s[i] != p[j - 1], 那么f[i][j] = f[i - 1][j - 2]，此时*表示匹配0个前面的字母</li>
+<li>如果p[j - 1] = '.' || p[j - 1] = s[i]：</li>
+</ol>
+</li>
+</ol>
 ]]></content>
     </entry>
     <entry>
