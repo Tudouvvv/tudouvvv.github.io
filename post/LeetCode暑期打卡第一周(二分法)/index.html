@@ -182,6 +182,7 @@ window.onload=getCSS();
     return l;
 }
 </code></pre>
+<p>上面这个模板是用来求解最大值最小的问题</p>
 <h4 id="模板二">模板二</h4>
 <p>当我们将区间<code>[l, r]</code>划分成<code>[l, mid - 1]</code>和<code>[mid, r]</code>时，其更新操作是<code>r = mid - 1</code>或者<code>l = mid</code>;，此时为了防止死循环，计算<code>mid</code>时需要加1。</p>
 <pre><code>int bsearch_2(int l, int r)
@@ -195,6 +196,7 @@ window.onload=getCSS();
     return l;
 }
 </code></pre>
+<p>这个模板是用来求解最小值最大的问题</p>
 <h3 id="二分的流程">二分的流程：</h3>
 <ol>
 <li>先考虑二分的区间;</li>
@@ -204,7 +206,7 @@ window.onload=getCSS();
 <li>如果更新方式写的是l = mid，r = mid - 1，那么就在算mid的时候加上1</li>
 </ol>
 <h3 id="习题练习">习题练习</h3>
-<h5 id="69-sqrtx"><a href="https://leetcode.com/problems/sqrtx/">69. Sqrt(x)</a></h5>
+<h4 id="69-sqrtx"><a href="https://leetcode.com/problems/sqrtx/">69. Sqrt(x)</a></h4>
 <p>题目描述：计算并返回 x 的平方根，其中 x 是非负整数。<br>
 由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。</p>
 <p>分析：首先二分的区间是[0, x]，然后确定一下判断的性质，我们想要<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>i</mi><msup><mi>d</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">mid^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>&lt;=x，那么就应该用第二个模板。</p>
@@ -267,9 +269,10 @@ public:
 <h4 id="35-search-insert-position"><a href="https://leetcode.com/problems/search-insert-position/">35. Search Insert Position</a></h4>
 <p>题目描述：给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。<br>
 你可以假设数组中无重复元素。</p>
-<p>分析：首先可二分的边界条件就是数组的大小，即[0, nums.size()]，我们确定的check条件是：nums[mid] &gt;= target，那就说明target在mid的左边，需要改变 右边界<code>r = mid</code>，如果nums[mid] &lt; target，就说明target在mid右边，需要改变左边界，<code>l = mid + 1</code>。当然check条件也可以改为nums[mid]&lt;target，这样区间更新策略换一下就行。</p>
-<p>确定一下边界条件：如果数组为空，那么应该返回0；如果target&gt;nums.back()，返回数组的长度。<br>
-C++</p>
+<p>分析：首先可二分的边界条件就是数组的大小，即[0, nums.size()]，我们确定的check条件是：nums[mid] &gt;= target，那就说明target在mid的左边，需要改变 右边界<code>r = mid</code>，如果nums[mid] &lt; target，就说明target在mid右边，需要改变左边界，<code>l = mid + 1</code>。当然check条件也可以改为nums[mid] &lt; target，这样区间更新策略换一下就行。</p>
+<p>确定一下边界条件：如果数组为空，那么应该返回0；如果target&gt;nums.back()，返回数组的长度。</p>
+<p>updata✅:该题实际上返回的是大于等于target的元素的索引</p>
+<p>C++</p>
 <pre><code class="language-c++">class Solution {
 public:
     int searchInsert(vector&lt;int&gt;&amp; nums, int target) {
