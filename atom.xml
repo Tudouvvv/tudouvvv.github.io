@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-10-08T09:37:50.261Z</updated>
+    <updated>2019-10-09T14:30:52.589Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -4802,7 +4802,7 @@ public:
 <pre><code class="language-c++">class Solution {
 public:
     int findMin(vector&lt;int&gt;&amp; nums) {
-        int l = 0, r = nums.size();
+        int l = 0, r = nums.size() - 1;
         while(l &lt; r)
         {
             int mid = l + r &gt;&gt; 1;
@@ -4936,8 +4936,9 @@ class Solution:
 给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。<br>
 数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。<br>
 你可以假设 nums[-1] = nums[n] = -∞。</p>
-<p>分析：考虑二分的做法，不管怎么样，数组中一定是存在一个峰值的，我们比较nums[mid] 与 nums[mid+1]的关系，如果nums[mid]&lt;nums[mid+1]，那么二分的两段中，右边必存在峰值，就算一直递增，那么端点也算峰值；反之亦然。<br>
-所以用二分的思想，必然会找到一个峰值。</p>
+<p>分析：考虑二分的做法，不管怎么样，数组中一定是存在一个峰值的，我们比较nums[mid] 与 nums[mid+1]的关系，如果nums[mid] &lt; nums[mid+1]，那么二分的两段中，右边必存在峰值，就算一直递增，那么端点也算峰值；反之亦然。<br>
+所以用二分的思想，必然会找到一个峰值。<br>
+update✅:每次都砍掉小的那一边，这样保证另一边中一定存在一个比较大的值，这样不管是接下来递增还是递减就一定保证会有峰值。</p>
 <p>C++</p>
 <pre><code class="language-c++">class Solution {
 public:
