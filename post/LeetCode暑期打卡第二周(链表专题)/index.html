@@ -473,10 +473,10 @@ class Solution:
 </code></pre>
 <p>分析：翻转结点等价于把中间结点的指向位置翻转，具体做法就是：</p>
 <ol>
-<li>设定三个指针a\b分别指向1，2</li>
+<li>设定两个指针a、b分别指向1，2</li>
 <li>c = b-&gt;next;</li>
 <li>b-&gt;next=a;</li>
-<li>a=b, b=c<br>
+<li>a = b, b = c<br>
 这样就完成了一次翻转，并且把两个指针移到到了下一个需要反转的位置。当b为空的时候，翻转结束；然后令head-&gt;next = NULL，head = a即可。</li>
 </ol>
 <p>C++</p>
