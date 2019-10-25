@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-10-22T02:22:40.106Z</updated>
+    <updated>2019-10-25T02:09:01.182Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,124 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[剑指offer刷题-Day1]]></title>
+        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1</id>
+        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1">
+        </link>
+        <updated>2019-10-25T00:54:07.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="13-找出数组中重复的数字">13. 找出数组中重复的数字</h4>
+<p>给定一个长度为 n 的整数数组 nums，数组中所有的数字都在 0∼n−1 的范围内。<br>
+数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。<br>
+请找出数组中任意一个重复的数字。<br>
+注意：如果某些数字不在 0∼n−1 的范围内，或数组中不包含重复数字，则返回 -1；</p>
+<pre><code>样例
+给定 nums = [2, 3, 5, 4, 3, 2, 6, 7]。
+返回 2 或 3。
+</code></pre>
+<p>思路：刚开始看到这道题就想用字典来做，用字典存储每个数字出现的次数，然后&gt;1的话返回即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    unordered_map&lt;int, int&gt; hash;
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return -1;
+        for (auto num : nums)
+        {   
+            if (num &gt; 0 || num &lt; nums.size() - 1)
+                hash[num] ++;
+            else return -1;
+        }
+        int t = 0;
+        for (int i = 0; i &lt; nums.size(); i ++)
+        {
+            t = max(t, hash[nums[i]]);
+            if (t &gt; 1) return nums[i];
+        }
+        if (t == 1) return -1;
+    }
+};
+</code></pre>
+<p>一个更妙的解题方法：因为一共有n个数，n个坑，所以可以把每个数放在属于自己的位置上，如果出现两个相同的数字，那么返回即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        int n = nums.size();
+        for (auto num : nums) 
+        {
+            if (num &lt; 0 || num &gt; n - 1) return -1;
+        }
+        for (int i = 0; i &lt; n; i ++)
+        {
+            while (i != nums[i] &amp;&amp; nums[nums[i]] != nums[i]) swap(nums[i], nums[nums[i]]);
+            if (i != nums[i] &amp;&amp; nums[i] == nums[nums[i]]) return nums[i];
+        }
+        return -1;
+    }
+};
+</code></pre>
+<h4 id="14-不修改数组找出重复的数字">14. 不修改数组找出重复的数字</h4>
+<p>给定一个长度为 n+1 的数组nums，数组中所有的数均在 1∼n 的范围内，其中 n≥1。<br>
+请找出数组中任意一个重复的数，但不能修改输入的数组。</p>
+<pre><code>样例
+给定 nums = [2, 3, 5, 4, 3, 2, 6, 7]。
+返回 2 或 3。
+</code></pre>
+<p>思考题：如果只能使用 O(1) 的额外空间，该怎么做呢？<br>
+思路：之前做过这道题，用二分即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return -1;
+        int n = nums.size();
+        int l = 1, r = n - 1;
+        while (l &lt; r)
+        {
+            int mid = l + r &gt;&gt; 1;
+            int cnt = 0;
+            for (auto num : nums)
+            {
+                if (num &gt;= l &amp;&amp; num &lt;= mid) cnt ++;
+            }
+            if (cnt &gt; mid - l + 1) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+};
+</code></pre>
+<h4 id="15-二维数组中的查找">15. 二维数组中的查找</h4>
+<p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。<br>
+请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<pre><code>样例
+输入数组：
+[
+  [1,2,8,9]，
+  [2,4,9,12]，
+  [4,7,10,13]，
+  [6,8,11,15]
+]
+</code></pre>
+<p>如果输入查找数值为7，则返回true，<br>
+如果输入查找数值为5，则返回false。<br>
+思路:刚开始看到这道题以为和<a href="https://leetcode.com/problems/search-a-2d-matrix/">LeetCode74</a>一模一样，用二分写了，后来发现不一样hh。<br>
+一个很妙的方法：每次都用右上角(左下角)的点进行比较，因为这个点的左边一行比它小，下边一列比它大，所以如果大于它，那么可以去掉一行，小于它可以去掉一列，直到找到答案。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool searchArray(vector&lt;vector&lt;int&gt;&gt; array, int target) {
+        if (array.empty() || array[0].empty()) return false;
+        int i = 0, j = array[0].size() - 1;
+        while (i &lt; array.size() &amp;&amp; j &gt;= 0)
+        {
+            if (array[i][j] == target) return true;
+            if (array[i][j] &gt; target) j --;
+            else i ++;
+        }
+        return false;
+    }
+};
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常①]]></title>
         <id>https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang</id>
@@ -5066,53 +5184,6 @@ public:
             else: r = mid - 1;
         return l
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[每日一题]-942. DI String Match]]></title>
-        <id>https://tudouvvv.github.io//post/942-DI-String-Match</id>
-        <link href="https://tudouvvv.github.io//post/942-DI-String-Match">
-        </link>
-        <updated>2019-04-04T08:19:05.000Z</updated>
-        <summary type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>]]></summary>
-        <content type="html"><![CDATA[<center>升 级 打 怪 ing ~ ~</center>
-<!--more-->
-<p>题目地址：<a href="https://leetcode.com/problems/di-string-match/">942. DI String Match</a></p>
-<p>题目要求：</p>
-<p>输入一个字符串S，只包含I(increase)和D(decrease)，然后A是一个从0到len(S)的数组，现在要求如果S[i] == &quot;I&quot;，那么A[i] &lt; A[i+1]；如果S[i] == &quot;D&quot;，那么A[i] &gt; A[i+1]。</p>
-<p>思路：</p>
-<p>必须要为后面的操作留有余地，所以遇见I的时候，拿出最小的数保证剩余的数都比它大；遇见D的时候，拿出最大的数保证剩下的数都比它小。</p>
-<center>----------------------</center>
-<p>所以我的做法是：</p>
-<pre><code class="language-python">class Solution:
-    def diStringMatch(self, S: str) -&gt; List[int]:
-        p = []
-        N = []
-        for i in range(len(S)+ 1):
-            p.append(i)
-        for char in S:
-            if char == &quot;D&quot;:
-                N.append(max(p))
-                p.remove(max(p))
-            else:
-                N.append(min(p))
-                p.remove(min(p))
-        N.append(p[0])
-        return N
-</code></pre>
-<p>先构建一个从0到len(S)的序列(现在看来很蠢)然后遍历S，遇见D取大的，遇见I取小的，最后再把剩下的数加进去</p>
-<p>提交后果然，Time Limit Exceeded</p>
-<p>去讨论区看一看，我为什么要新建一个数组？？？每次取的数都是最左边或者最右边的数，直接设置两个指针指向两边即可。</p>
-<pre><code class="language-python">
-class Solution:
-    def diStringMatch(self, S: str) -&gt; List[int]:
-        l, r, N = 0, len(S), []
-        for char in S:
-            N.append(l if char =='I' else r)
-            l, r = l +(char == 'I'), r - (char == 'D')
-        return N + [l]
-</code></pre>
-<p>基本上大家的思路都是这样，可能写法不太一样，像我这种写法就非常的臃肿-----</p>
 ]]></content>
     </entry>
 </feed>

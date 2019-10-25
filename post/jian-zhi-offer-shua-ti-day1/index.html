@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>做作的日常① | Tudouvvv</title>	
+<title>剑指offer刷题-Day1 | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
@@ -56,7 +56,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/20191007_1.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/offer1.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -150,10 +150,10 @@ window.onload=getCSS();
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">做作的日常①</h1>
+			<h1 class="wow swing entry-title">剑指offer刷题-Day1</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-10-07 20:45:12" itemprop="datePublished" pubdate="">2019-10-07</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-10-25 08:54:07" itemprop="datePublished" pubdate="">2019-10-25</time></i>
 	          </div>
 			
 </span>
@@ -161,71 +161,129 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<p>十一就要结束了呀！！！<br>
-时间呀时间，你慢点撒！</p>
-<ol>
-<li>求斐波那契数列的前1000个数（当时连斐波那契数列是啥都不知道hh）<br>
-斐波那契数列是这样一个数列：1, 1, 2, 3, 5, 8, ..., ...<br>
-即f(1) = 1, f(2) = 1, f(n) = f(n - 1) + f(n - 2)这样一个递推关系式<br>
-可以开一个1000个空间的数组，也可以用while循环来做，但是没啥区别，都是要通过迭代的方式来进行。<br>
-Python</li>
-</ol>
-<pre><code class="language-python">class Solution:
-    def Fibonacci_sequence(self, nums):
-        f = [0 for _ in range(nums)]
-        if nums == 1:
-            return [1]
-        if nums == 2:
-            return [1, 1]
-        f[0], f[1] = 1, 1
-        for i in range(2, nums):
-            f[i] = f[i - 1] + f[i - 2]
-        return f
+				<h4 id="13-找出数组中重复的数字">13. 找出数组中重复的数字</h4>
+<p>给定一个长度为 n 的整数数组 nums，数组中所有的数字都在 0∼n−1 的范围内。<br>
+数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。<br>
+请找出数组中任意一个重复的数字。<br>
+注意：如果某些数字不在 0∼n−1 的范围内，或数组中不包含重复数字，则返回 -1；</p>
+<pre><code>样例
+给定 nums = [2, 3, 5, 4, 3, 2, 6, 7]。
+返回 2 或 3。
 </code></pre>
-<ol start="2">
-<li>求前1000个质数<br>
-质数是指在大于1的自然数中，除了1和它本身以外不再有其他因数的自然数。<br>
-可以写一个函数来判断一个数是不是质数，然后主函数用一个while循环进行判断，直到有1000个数，而且判断的时候只需要从2到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msqrt><mi>x</mi></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{x}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8002800000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathdefault">x</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
--10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
--50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
-35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
--221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
-s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
-s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"><span></span></span></span></span></span></span></span></span>即可。<br>
-Python</li>
-</ol>
-<pre><code class="language-python">class Solution:
-    def Prime(self, nums):
-        f = [2]
-        if nums == 1:
-            return f
-        i = 3
-        while len(f) &lt; nums:
-            if self.is_prime(i): f.append(i)
-            i += 1
-        return f
-
-    def is_prime(self, n):
-        for i in range(2, int(n ** 0.5) + 1):
-            if n % i == 0:
-                return False
-        return True
+<p>思路：刚开始看到这道题就想用字典来做，用字典存储每个数字出现的次数，然后&gt;1的话返回即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    unordered_map&lt;int, int&gt; hash;
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return -1;
+        for (auto num : nums)
+        {   
+            if (num &gt; 0 || num &lt; nums.size() - 1)
+                hash[num] ++;
+            else return -1;
+        }
+        int t = 0;
+        for (int i = 0; i &lt; nums.size(); i ++)
+        {
+            t = max(t, hash[nums[i]]);
+            if (t &gt; 1) return nums[i];
+        }
+        if (t == 1) return -1;
+    }
+};
+</code></pre>
+<p>一个更妙的解题方法：因为一共有n个数，n个坑，所以可以把每个数放在属于自己的位置上，如果出现两个相同的数字，那么返回即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        int n = nums.size();
+        for (auto num : nums) 
+        {
+            if (num &lt; 0 || num &gt; n - 1) return -1;
+        }
+        for (int i = 0; i &lt; n; i ++)
+        {
+            while (i != nums[i] &amp;&amp; nums[nums[i]] != nums[i]) swap(nums[i], nums[nums[i]]);
+            if (i != nums[i] &amp;&amp; nums[i] == nums[nums[i]]) return nums[i];
+        }
+        return -1;
+    }
+};
+</code></pre>
+<h4 id="14-不修改数组找出重复的数字">14. 不修改数组找出重复的数字</h4>
+<p>给定一个长度为 n+1 的数组nums，数组中所有的数均在 1∼n 的范围内，其中 n≥1。<br>
+请找出数组中任意一个重复的数，但不能修改输入的数组。</p>
+<pre><code>样例
+给定 nums = [2, 3, 5, 4, 3, 2, 6, 7]。
+返回 2 或 3。
+</code></pre>
+<p>思考题：如果只能使用 O(1) 的额外空间，该怎么做呢？<br>
+思路：之前做过这道题，用二分即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int duplicateInArray(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return -1;
+        int n = nums.size();
+        int l = 1, r = n - 1;
+        while (l &lt; r)
+        {
+            int mid = l + r &gt;&gt; 1;
+            int cnt = 0;
+            for (auto num : nums)
+            {
+                if (num &gt;= l &amp;&amp; num &lt;= mid) cnt ++;
+            }
+            if (cnt &gt; mid - l + 1) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+};
+</code></pre>
+<h4 id="15-二维数组中的查找">15. 二维数组中的查找</h4>
+<p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。<br>
+请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+<pre><code>样例
+输入数组：
+[
+  [1,2,8,9]，
+  [2,4,9,12]，
+  [4,7,10,13]，
+  [6,8,11,15]
+]
+</code></pre>
+<p>如果输入查找数值为7，则返回true，<br>
+如果输入查找数值为5，则返回false。<br>
+思路:刚开始看到这道题以为和<a href="https://leetcode.com/problems/search-a-2d-matrix/">LeetCode74</a>一模一样，用二分写了，后来发现不一样hh。<br>
+一个很妙的方法：每次都用右上角(左下角)的点进行比较，因为这个点的左边一行比它小，下边一列比它大，所以如果大于它，那么可以去掉一行，小于它可以去掉一列，直到找到答案。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool searchArray(vector&lt;vector&lt;int&gt;&gt; array, int target) {
+        if (array.empty() || array[0].empty()) return false;
+        int i = 0, j = array[0].size() - 1;
+        while (i &lt; array.size() &amp;&amp; j &gt;= 0)
+        {
+            if (array[i][j] == target) return true;
+            if (array[i][j] &gt; target) j --;
+            else i ++;
+        }
+        return false;
+    }
+};
 </code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://tudouvvv.github.io//tag/Ejc-I2BJt" rel="tag">Life</a>	
+				<a href="https://tudouvvv.github.io//tag/code" rel="tag">Code</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1" rel="prev"> 剑指offer刷题-Day1</a></div>
 		 
-		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第八周(动态规划专题)" rel="next"> LeetCode暑期打卡第八周(动态规划专题)</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang" rel="next"> 做作的日常①</a></div>
 		
 		</div>
 	</nav>
