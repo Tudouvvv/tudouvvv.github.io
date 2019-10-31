@@ -1,0 +1,770 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>剑指offer刷题-DAY2(2道题不会做) | Tudouvvv</title>	
+
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+      
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+<script type="text/javascript">
+window.onload=getCSS();
+</script>
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/day2.jpg)"
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://tudouvvv.github.io/" rel="home">Tudouvvv</a></h1>
+										
+					<h2 class="site-description">人生还长，慢慢来</h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/post/about"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav>
+						<div class="jingge">
+
+
+    
+
+    
+			
+<a  href="https://github.com/tudouvvv" target="_blank" ><i class="iconfont icon-github"></i></a>
+ 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+			
+<a  href="https://www.instagram.com/gu_lo__/" target="_blank" ><i class="iconfont icon-instagram"></i></a>
+ 
+    
+
+    
+			
+<a  href="https://weibo.com/u/3037316034" target="_blank" ><i class="iconfont icon-weibo"></i></a>
+ 
+    
+
+    
+        </header>
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">剑指offer刷题-DAY2(2道题不会做)</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-10-29 11:04:52" itemprop="datePublished" pubdate="">2019-10-29</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<h4 id="24-机器人的运动范围">24. 机器人的运动范围</h4>
+<p>题目描述: 地上有一个 m 行和 n 列的方格，横纵坐标范围分别是 0∼m−1 和 0∼n−1。<br>
+一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格。<br>
+但是不能进入行坐标和列坐标的数位之和大于 k 的格子。<br>
+请问该机器人能够达到多少个格子？</p>
+<pre><code>样例
+输入：k=18, m=40, n=40
+输出：1484
+解释：当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。
+      但是，它不能进入方格（35,38），因为3+5+3+8 = 19。
+</code></pre>
+<p>注意:</p>
+<ul>
+<li>0&lt;=m&lt;=50</li>
+<li>0&lt;=n&lt;=50</li>
+<li>0&lt;=k&lt;=100<br>
+分析：去枚举每个格子，要记得只能从合法格子进入非法格子，不能从非法格子进入合法格子。</li>
+</ul>
+<pre><code class="language-c++">class Solution {
+public:
+    int movingCount(int threshold, int rows, int cols)
+    {
+        if (! rows || ! cols) return 0;
+        int count = 1;
+        // 表示格子状态
+        int st[rows][cols] = {0};
+        st[0][0] = 1;
+        for (int i = 0; i &lt; rows; i ++)
+            for (int j = 0; j &lt; cols; j ++)
+            {
+                int p = i / 10 + i % 10 + j / 10 + j % 10;
+                // 只能从左边或者上边进入
+                if (p &lt;= threshold &amp;&amp; (st[i - 1][j] == 1 || st[i][j - 1] == 1))
+                {
+                    count ++;
+                    st[i][j] = 1;
+                }
+            }
+        return count;
+    }
+};
+</code></pre>
+<p>也可以通过宽搜的方式来进行遍历：</p>
+<pre><code class="language-c++">class Solution {
+public:
+
+    int get_single(int x){
+        int s  = x / 10 + x % 10;
+        return s;
+    }
+    
+    int get_sum(pair&lt;int, int&gt; p){
+        return get_single(p.first) + get_single(p.second);
+    }
+    
+    int movingCount(int threshold, int rows, int cols)
+    {
+        if (! rows || ! cols) return 0;
+        queue&lt;pair&lt;int, int&gt;&gt; q;
+        vector&lt;vector&lt;bool&gt;&gt; st(rows, vector&lt;bool&gt;(cols));
+        int res = 0;
+        q.push({0, 0});
+        int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+        
+        while (q.size()){
+            auto t = q.front();
+            q.pop();
+            if (get_sum(t) &gt; threshold || st[t.first][t.second]) continue;
+            res ++;
+            st[t.first][t.second] = true;
+            for (int i = 0; i &lt; 4; i++)
+            {
+                int x = t.first + dx[i], y = t.second + dy[i];
+                if (x &gt;= 0 &amp;&amp; x &lt; rows &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; cols) q.push({x, y});
+            }
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="25-剪绳子">25. 剪绳子</h4>
+<p>题目描述：给你一根长度为 n 绳子，请把绳子剪成 m 段（m、n 都是整数，2≤n≤58 并且 m≥2）。<br>
+每段的绳子的长度记为k[0]、k[1]、……、k[m]。k[0]k[1] … k[m] 可能的最大乘积是多少？<br>
+例如当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到最大的乘积18。</p>
+<pre><code>样例
+输入：8
+输出：18
+</code></pre>
+<p>思路：尽可能分更多的3的绳子，if n &gt;= 5, 那么3 * (n - 3) = 3n - 9 &gt; n.</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxProductAfterCutting(int n) {
+        if (n &lt;= 3) return 1 * (n - 1);
+        int res = 1;
+        if (n % 3 == 1)
+        {
+            res *= 4;
+            n -= 4;
+        }
+        if (n % 3 == 2)
+        {
+            res *= 2;
+            n -= 2;
+        }
+        while (n)
+        {
+            res *= 3;
+            n -= 3;
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="26-二进制中1的个数">26. 二进制中1的个数</h4>
+<p>题目描述：输入一个32位整数，输出该数二进制表示中1的个数。<br>
+注意：<br>
+负数在计算机中用其绝对值的补码来表示。</p>
+<p>ps.什么叫补码呢？这得从原码，反码说起。<br>
+原码：一个整数，按照绝对值大小转换成的二进制数，称为原码。<br>
+比如 00000000 00000000 00000000 00000101 是 5的 原码。<br>
+反码：将二进制数按位取反，所得的新二进制数称为原二进制数的反码。<br>
+取反操作指：原为1，得0；原为0，得1。（1变0; 0变1）</p>
+<pre><code>样例1
+输入：9
+输出：2
+解释：9的二进制表示是1001，一共有2个1。
+样例2
+输入：-2
+输出：31
+解释：-2在计算机里会被表示成11111111111111111111111111111110，
+      一共有31个1。
+</code></pre>
+<p>思路：每次与 1 &amp;，就相当于看看二进制末尾是不是1，然后右移一位，但是有个问题就是正数右移会在前面补0是ok的，但是负数会在前面补1，这样就会多算好多，所以可以把负数变为无符号整数，如果是正数不会变，如果是负数，那么会变为绝对值的反码，但是依然表示为正数，这样就可以了。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int NumberOf1(int n) {
+        int res = 0;
+        unsigned int un = n;
+        while (un){
+            res += un &amp; 1, un &gt;&gt;= 1;
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>并且由于题目中说了这是一个32位的整数，所以也可以一位一位的进行判断：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int NumberOf1(int n) {
+        int res = 0;
+        for (int i = 32; i &gt; 0; i --){
+            res += n &gt;&gt; i &amp; 1;
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="27-数值的整数次方">27. 数值的整数次方</h4>
+<p>题目描述: 实现函数double Power(double base, int exponent)，求base的 exponent次方。<br>
+不得使用库函数，同时不需要考虑大数问题。<br>
+注意：<br>
+不会出现底数和指数同为0的情况</p>
+<pre><code>样例1
+输入：10 ，2
+输出：100
+
+样例2
+输入：10 ，-2  
+输出：0.01
+</code></pre>
+<p>思路：就正常相乘就可以了，判断一下指数的正负，&lt; 0 的话翻一下就好了。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    double Power(double base, int exponent) {
+        if (exponent == 0) return 1;
+        if (exponent &gt; 0) return help(base, exponent);
+        else return 1 / help(base, -exponent);
+    }
+    
+    double help(double base, int exponent){
+        int k = base;
+        while (-- exponent){
+            base *= k;
+        }
+        return base;
+    }
+};
+</code></pre>
+<p>也可以不用这么麻烦：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    double Power(double base, int exponent) {
+        double res = 1;
+        bool minus = false;
+        if (exponent &lt; 0) minus = true, exponent = -exponent;
+        while (exponent --){
+            res *= base;
+        }
+        if (minus) return 1 / res;
+        return res;
+    }
+};
+</code></pre>
+<h4 id="28-在o1时间删除链表结点">28. 在O(1)时间删除链表结点</h4>
+<p>题目描述：给定单向链表的一个节点指针，定义一个函数在O(1)时间删除该结点。<br>
+假设链表一定存在，并且该节点一定不是尾节点。<br>
+思路：之前做过这道题，因为不知道它之前的节点，所以可以把它后面的节点赋值给它，然后删掉它后面的点，曲线救国。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node-&gt;val = node-&gt;next-&gt;val;
+        node-&gt;next = node-&gt;next-&gt;next;
+    }
+};
+</code></pre>
+<h4 id="29-删除链表中重复的节点">29. 删除链表中重复的节点</h4>
+<p>在一个排序的链表中，存在重复的结点，请删除该链表中重复的结点，重复的结点不保留。</p>
+<pre><code>样例1
+输入：1-&gt;2-&gt;3-&gt;3-&gt;4-&gt;4-&gt;5
+输出：1-&gt;2-&gt;5
+
+样例2
+输入：1-&gt;1-&gt;1-&gt;2-&gt;3
+输出：2-&gt;3
+</code></pre>
+<p>思路：值得注意的重复的节点不会保留，所以头结点是会变的，需要创建虚拟头结点。需要两个指针，p指向一段末尾，q指向一段的开头，如果发现q的这一段长度大于一，那么q移动到另一段的开头，p直接指向q就可以删掉这一段。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplication(ListNode* head) {
+        auto dummy = new ListNode(-1);
+        dummy-&gt;next = head;
+        
+        auto p = dummy;
+        while (p-&gt;next){
+            auto q = p-&gt;next;
+            while (q &amp;&amp; p-&gt;next-&gt;val == q-&gt;val) q = q-&gt;next;
+            if (p-&gt;next-&gt;next == q) p = p-&gt;next;
+            else p-&gt;next = q;
+        }
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<h4 id="30-正则表达式匹配">30. 正则表达式匹配</h4>
+<p>题目描述：请实现一个函数用来匹配包括'.'和'<em>'的正则表达式。<br>
+模式中的字符'.'表示任意一个字符，而'</em>'表示它前面的字符可以出现任意次（含0次）。<br>
+在本题中，匹配是指字符串的所有字符匹配整个模式。<br>
+例如，字符串&quot;aaa&quot;与模式&quot;a.a&quot;和&quot;ab<em>ac</em>a&quot;匹配，但是与&quot;aa.a&quot;和&quot;ab*a&quot;均不匹配。</p>
+<pre><code>样例
+输入：
+s=&quot;aa&quot;
+p=&quot;a*&quot;
+
+输出:true
+</code></pre>
+<h4 id="32-调整数组顺序使奇数位于偶数前面">32. 调整数组顺序使奇数位于偶数前面</h4>
+<p>题目描述：输入一个整数数组，实现一个函数来调整该数组中数字的顺序。<br>
+使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分。</p>
+<pre><code>样例
+输入：[1,2,3,4,5]
+输出: [1,3,5,2,4]
+</code></pre>
+<p>思路：返回的顺序只要奇数在前，偶数在后面，不需要内部有序。设定两个指针，第一个l之前全是奇数，第二个r后面全是偶数，每次l++，r--，这样每次交换两个指针位置的数字即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    void reOrderArray(vector&lt;int&gt; &amp;array) {
+        int l = 0, r = array.size();
+        while (l &lt; r){
+            while (l &lt; r &amp;&amp; array[l] % 2 == 1) l ++;
+            while (l &lt; r &amp;&amp; array[r] % 2 == 0) r --;
+            if (l &lt; r){
+                int tmp = array[l];
+                array[l] = array[r], array[r] = tmp;
+            }
+        }
+    }
+};
+</code></pre>
+<h4 id="33-链表中倒数第k个节点">33. 链表中倒数第k个节点</h4>
+<p>题目描述: 输入一个链表，输出该链表中倒数第k个结点。<br>
+注意：<br>
+k &gt;= 0;<br>
+如果k大于链表长度，则返回 NULL;</p>
+<pre><code>样例
+输入：链表：1-&gt;2-&gt;3-&gt;4-&gt;5 ，k=2
+输出：4
+</code></pre>
+<p>思路：倒数第k个就是正数第n - k个，所以先遍历一遍找出链表的长度，然后再遍历一遍，找到第n-k个返回即可。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findKthToTail(ListNode* head, int k) {
+        auto p = head;
+        int n = 0;
+        for (auto t = head; t; t = t-&gt;next) n++;
+        if (k &gt; n) return NULL;
+        for (int i = 0; i &lt; n - k; i ++) p = p-&gt;next;
+        return p;
+    }
+};
+</code></pre>
+<h4 id="34-链表中环的入口结点">34. 链表中环的入口结点</h4>
+<p>题目描述：给定一个链表，若其中包含环，则输出环的入口节点。<br>
+若其中不包含环，则输出null。<br>
+思路：之前做过这道题，LC链表专题。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *entryNodeOfLoop(ListNode *head) {
+        auto fast = head, slow = head;
+        while (fast)
+        {
+            fast = fast -&gt; next;
+            slow = slow -&gt; next;
+            if (fast) fast = fast -&gt; next;
+            else break;
+            
+            if (fast == slow){
+                slow = head;
+                while (slow != fast)
+                {
+                    slow = slow -&gt; next;
+                    fast = fast -&gt; next;
+                }
+                return slow;
+            }
+        }
+        return NULL;
+    }
+};
+</code></pre>
+
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://tudouvvv.github.io//tag/code" rel="tag">Code</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1" rel="next"> 剑指offer刷题-Day1</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://tudouvvv.github.io//images/avatar.png" ></div>
+ 
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
+
+
+	<p class="author-bio">fighting！！！</p></div></div>
+	
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            admin_email:'269995137@qq.com',
+            
+            
+            emoticon_url: 'output/alu',
+             
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     
+      app_id: 'OCUFvf1hIOEPVaYh87pSozz6-MdYXbMMI',
+      	
+      
+      app_key: 'uPz5zstgqjnR3QQKS5g9rdIw',
+         	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
+Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div>
+		
+		</footer>
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="//tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

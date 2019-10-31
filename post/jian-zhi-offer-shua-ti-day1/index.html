@@ -271,6 +271,445 @@ public:
     }
 };
 </code></pre>
+<h4 id="16-替换空格">16. 替换空格</h4>
+<p>请实现一个函数，把字符串中的每个空格替换成&quot;%20&quot;。<br>
+你可以假定输入字符串的长度最大是1000。<br>
+注意输出字符串的长度可能大于1000。</p>
+<pre><code>样例
+输入：&quot;We are happy.&quot;
+输出：&quot;We%20are%20happy.&quot;
+</code></pre>
+<p>思路：可以设定一个新的字符串，每次遇见空格就加'%20'，其它的就加上即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string replaceSpaces(string &amp;str) {
+        string res;
+        for (auto c : str)
+        {
+            if (c == ' ') res += &quot;%20&quot;;
+            else res += c;
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>也可以首先计算出替换空格后的字符串长度，然后扩充原来的字符串，用两个指针直接在原字符串上进行修改。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string replaceSpaces(string &amp;str) {
+        int len = 0;
+        for (auto c : str)
+        {
+            if (c == ' ') len += 3;
+            else len += 1;
+        }
+        int i = str.size() - 1, j = len - 1;
+        str.resize(len);
+        while (i &gt;= 0)
+        {
+            if (str[i] == ' ')
+            {
+                str[j --] = '0';
+                str[j --] = '2';
+                str[j --] = '%';
+            }
+            else str[j --] = str[i];
+            i --;
+        }
+        return str;
+    }
+};
+</code></pre>
+<p>当然用python来写肯定更简单</p>
+<pre><code class="language-python">class Solution(object):
+    def replaceSpaces(self, s):
+        &quot;&quot;&quot;
+        :type s: str
+        :rtype: str
+        &quot;&quot;&quot;
+        res = s.split(' ')
+        return '%20'.join(res)
+</code></pre>
+<h4 id="17-从尾到头打印链表">17. 从尾到头打印链表</h4>
+<p>题目描述:输入一个链表的头结点，按照<code>从尾到头</code>的顺序返回节点的值。<br>
+返回的结果用数组存储。</p>
+<pre><code>样例
+输入：[2, 3, 5]
+返回：[5, 3, 2]
+</code></pre>
+<p>思路：首先反转链表，最后遍历一次，把每个节点的值放进列表中即可。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector&lt;int&gt; printListReversingly(ListNode* head) {
+        if (! head) return {};
+        vector&lt;int&gt; res;
+        auto a = head, b = head -&gt;next;
+        while (b)
+        {
+            auto c = b-&gt;next;
+            b -&gt; next = a;
+            a = b;
+            b = c;
+        }
+        head -&gt; next = NULL;
+        head = a;
+        for (auto p = head; p; p = p-&gt;next) res.push_back(p-&gt;val);
+        return res;
+    }
+};
+</code></pre>
+<p>也可以不用翻转列表，直接先得到正常顺序的节点值列表，然后翻转这个列表即可。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector&lt;int&gt; printListReversingly(ListNode* head) {
+        vector &lt;int&gt; res;
+        for (auto p = head; p; p = p-&gt;next) res.push_back(p-&gt;val);
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
+</code></pre>
+<h4 id="18-重建二叉树">18. 重建二叉树</h4>
+<p>题目描述：输入一棵二叉树前序遍历和中序遍历的结果，请重建该二叉树。<br>
+注意:<br>
+二叉树中每个节点的值都互不相同；<br>
+输入的前序遍历和中序遍历一定合法；</p>
+<pre><code>样例
+给定：
+前序遍历是：[3, 9, 20, 15, 7]
+中序遍历是：[9, 3, 15, 20, 7]
+返回：[3, 9, 20, null, null, 15, 7, null, null, null, null]
+返回的二叉树如下所示：
+    3
+   / \
+  9  20
+    /  \
+   15   7
+</code></pre>
+<p>思路：之前做过这道题，因为前序遍历的第一个数字肯定是根节点，然后在中序遍历中找到这个数，那么它的左边就是左子树，右边就是右子树，然后不断递归即可。</p>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map &lt;int, int&gt; pos;
+    TreeNode* buildTree(vector&lt;int&gt;&amp; preorder, vector&lt;int&gt;&amp; inorder) {
+        int n = preorder.size();
+        for (int i = 0; i &lt; n; i ++) pos[inorder[i]] = i;
+        return dfs(preorder, inorder, 0, n - 1, 0, n - 1);
+    }
+    TreeNode* dfs(vector&lt;int&gt;&amp; preorder, vector&lt;int&gt;&amp; inorder, int pl, int pr, int il, int ir)
+    {
+        if (pl &gt; pr) return NULL;
+        int val = preorder[pl];
+        int k = pos[val];
+        int len = k - il;
+        auto root = new TreeNode(val);
+        root-&gt;left = dfs(preorder, inorder, pl + 1, pl + len, il, k - 1);
+        root-&gt;right = dfs(preorder, inorder, pl + len + 1, pr, k + 1, ir);
+        return root;
+    }
+};
+</code></pre>
+<h4 id="19-二叉树的下一个节点">19. 二叉树的下一个节点</h4>
+<p>题目描述：给定一棵二叉树的其中一个节点，请找出中序遍历序列的下一个节点。<br>
+注意：<br>
+如果给定的节点是中序遍历序列的最后一个，则返回空节点;<br>
+二叉树一定不为空，且给定的节点一定不是空节点；</p>
+<pre><code>样例
+假定二叉树是：[2, 1, 3, null, null, null, null]， 给出的是值等于2的节点。
+则应返回值等于3的节点。
+解释：该二叉树的结构如下，2的后继节点是3。
+  2
+ / \
+1   3
+</code></pre>
+<p>思路：树的后继：当前节点在中序遍历中的下一个节点，即整颗二叉搜索树中比我大的最小的元素。<br>
+要分情况讨论<br>
+<img src="https://tudouvvv.github.io//post-images/1572309512253.png" alt=""></p>
+<ol>
+<li>如图，如果当前节点有右儿子，那么右子树最左侧的节点就是当前节点的后继，比如F的后继就是H；</li>
+<li>如果没有的话，就要去寻找它的父节点的，如果当前节点是它父节点的左子树，那么它的父节点就是后继,比如H的后继就是E，否则，就一直向上寻找，比如D，它是它父节点的右子树，那么就继续向上找，直到找到是左子树的父节点，它的父节点是C，C是父节点F的左子树，所以F就是D的后继。</li>
+</ol>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode *father;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL), father(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* inorderSuccessor(TreeNode* p) {
+        if (p-&gt;right)
+        {
+            p = p-&gt;right;
+            while (p-&gt;left) p = p-&gt;left;
+            return p;
+        }
+        while (p-&gt;father &amp;&amp; p == p-&gt;father-&gt;right) p = p-&gt;father;
+        return p-&gt;father;
+    }
+};
+</code></pre>
+<h4 id="20-用两个栈实现队列">20. 用两个栈实现队列</h4>
+<p>题目描述: 请用栈实现一个队列，支持如下四种操作：<br>
+push(x) – 将元素x插到队尾；<br>
+pop() – 将队首的元素弹出，并返回该元素；<br>
+peek() – 返回队首元素；<br>
+empty() – 返回队列是否为空；<br>
+注意：<br>
+你只能使用栈的标准操作：push to top，peek/pop from top, size 和 is empty；<br>
+如果你选择的编程语言没有栈的标准库，你可以使用list或者deque等模拟栈的操作；<br>
+输入数据保证合法，例如，在队列为空时，不会进行pop或者peek等操作；<br>
+思路：用两个栈来做，当需要pop的时候可以把原始栈内元素push进cache栈中，然后pop就是队首元素，然后再恢复，peek操作也一样。</p>
+<pre><code class="language-c++">class MyQueue {
+public:
+    stack&lt;int&gt; stk, help;
+    /** Initialize your data structure here. */
+    MyQueue() {
+    }
+    
+    /** Push element x to the back of queue. */
+    void push(int x) {
+        stk.push(x);
+    }
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() {
+        while (! stk.empty())
+        {
+            int k = stk.top();
+            help.push(k);
+            stk.pop();
+        }
+        int t = help.top();
+        help.pop();
+        while (! help.empty())
+        {
+            int k = help.top();
+            stk.push(k);
+            help.pop();
+        }
+        return t;
+    }
+    
+    /** Get the front element. */
+    int peek() {
+        while (! stk.empty())
+        {
+            int k = stk.top();
+            help.push(k);
+            stk.pop();
+        }
+        int t = help.top();
+        while (! help.empty())
+        {
+            int k = help.top();
+            stk.push(k);
+            help.pop();
+        }
+        return t;
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty() {
+        return stk.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * bool param_4 = obj.empty();
+ */
+</code></pre>
+<p>可以写一个函数，来进行两个栈内元素互换的操作。</p>
+<pre><code class="language-c++">class MyQueue {
+public:
+    /** Initialize your data structure here. */
+    stack&lt;int&gt; stk, cache;
+    MyQueue() {
+        
+    }
+    
+    void copy(stack&lt;int&gt; &amp;a, stack&lt;int&gt; &amp;b){
+        while (a.size()){
+            b.push(a.top());
+            a.pop();
+        }
+    }
+    
+    /** Push element x to the back of queue. */
+    void push(int x) {
+        stk.push(x);
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() {
+        copy(stk, cache);
+        int val = cache.top();
+        cache.pop();
+        copy(cache, stk);
+        return val;
+    }
+    
+    /** Get the front element. */
+    int peek() {
+        copy(stk, cache);
+        int val = cache.top();
+        copy(cache, stk);
+        return val;
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty() {
+        return stk.empty();
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * bool param_4 = obj.empty();
+ */
+</code></pre>
+<h4 id="21-斐波那契数列">21. 斐波那契数列</h4>
+<p>题目描述：输入一个整数 n ，求斐波那契数列的第 n 项。<br>
+假定从0开始，第0项为0。(n&lt;=39)</p>
+<pre><code>样例
+输入整数 n=5 
+返回 5
+</code></pre>
+<p>思路：设定一个初始值全为1，大小为n的vector，有几个特殊情况需要判断一下，如果n = 0，返回0， 如果n = 1 或者 n = 2，返回1，然后就用迭代方法计算即可，其实也可以用一个滚动数组来节省空间。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int Fibonacci(int n) {
+        vector&lt;int&gt; res(n, 1);
+        if (n == 0) return 0;
+        if (n == 1 || n == 2) return 1;
+        for (int i = 2; i &lt; n; i ++)
+        {
+            res[i] = res[i - 1] + res[i - 2];
+        }
+        return res[n - 1];
+    }
+};
+</code></pre>
+<p>滚动数组：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int Fibonacci(int n) {
+        int a = 0, b = 1;
+        while (n --)
+        {
+            int c = a + b;
+            a = b, b = c;
+        }
+        return a;
+    }
+};
+</code></pre>
+<p>ps.<a href="https://www.acwing.com/blog/content/25/">求解斐波那契数列的若干方法</a></p>
+<h4 id="22-旋转数组的最小数字">22. 旋转数组的最小数字</h4>
+<p>题目描述：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。<br>
+输入一个升序的数组的一个旋转，输出旋转数组的最小元素。<br>
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。<br>
+数组可能包含重复项。<br>
+注意：数组内所含元素非负，若数组大小为0，请返回-1。</p>
+<pre><code>样例
+输入：nums=[2,2,2,0,1]
+输出：0
+</code></pre>
+<p>思路:之前做过这道题，唯一不同的是，这道题中有重复元素，所以如果用二分做的话，需要先把后面的重复元素删掉，保证二分的性质。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int findMin(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return -1;
+        int l = 0, r = nums.size() - 1;
+        while (nums[r] == nums[0]) r--;
+        if (nums[r] &gt; nums[0]) return nums[0];
+        int k = r;
+        while (l &lt; r)
+        {
+            int mid = l + r &gt;&gt; 1;
+            if (nums[mid] &lt; nums[k]) r = mid;
+            else l = mid + 1;
+        }
+        return nums[l];
+    }
+};
+</code></pre>
+<h4 id="23-矩阵中的路径">23. 矩阵中的路径</h4>
+<p>题目描述: 请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。<br>
+路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。<br>
+如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。</p>
+<pre><code>注意：
+输入的路径不为空；
+所有出现的字符均为大写英文字母；
+</code></pre>
+<p>思路: 之前做过这道题但是都忘记了... 就是先枚举起点，然后在上下左右的去寻找后面的单词。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool hasPath(vector&lt;vector&lt;char&gt;&gt;&amp; matrix, string str) {
+        if (matrix.empty() || matrix[0].empty()) return false;
+        int n = matrix.size(), m = matrix[0].size();
+        for (int i = 0; i &lt; n; i ++)
+            for (int j = 0; j &lt; m; j++)
+                if (dfs(matrix, str, i, j, 0))
+                    return true;
+        return false;
+    }
+    
+    bool dfs(vector&lt;vector&lt;char&gt;&gt;&amp; matrix, string &amp; str, int x, int y, int u){
+        if (matrix[x][y] != str[u]) return false;
+        if (u == str.size() - 1) return true;
+        char t = matrix[x][y];
+        matrix[x][y] = '*';
+        int dx[4] = {-1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+        for (int i = 0; i &lt; 4; i ++)
+        {
+            int a = x + dx[i], b = y + dy[i];
+            if (a &gt;= 0 &amp;&amp; a &lt; matrix.size() &amp;&amp; b &gt;= 0 &amp;&amp; b &lt; matrix[0].size())
+            {
+                if (dfs(matrix, str, a, b, u + 1)) return true;
+            }
+        }
+        matrix[x][y] = t;
+        return false;
+    }
+};
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
@@ -282,6 +721,8 @@ public:
 		
 		<div class="nav-links3">
       
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day2" rel="prev"> 剑指offer刷题-DAY2(2道题不会做)</a></div>
+		 
 		 
 		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang" rel="next"> 做作的日常①</a></div>
 		
