@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-11-07T11:44:55.685Z</updated>
+    <updated>2019-11-07T12:08:20.277Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -145,6 +145,28 @@ public:
                 f[i][j] = max(f[i - 1][j], f[i][j - 1]) + grid[i - 1][j - 1];
             }
         return f[n][m];
+    }
+};
+</code></pre>
+<h4 id="61-最长不含重复字符的子字符串">61. 最长不含重复字符的子字符串</h4>
+<p>题目描述：请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。<br>
+假设字符串中只包含从’a’到’z’的字符。</p>
+<pre><code>样例
+输入：&quot;abcabc&quot;
+输出：3
+</code></pre>
+<p>思路: 两个指针，一个一直往前走，用字典存储它里面每个字母出现的次数，如果遇见了之前遇见的，那么另一个指针就往前走，直到该字母的出现次数再度变为一。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int longestSubstringWithoutDuplication(string s) {
+        unordered_map &lt;char, int&gt; hash;
+        int res = 0;
+        for (int i = 0, j = 0; i &lt; s.size(); i ++){
+            hash[s[i]] ++;
+            while (hash[s[i]] &gt; 1) hash[s[j ++]] --;
+            res = max(res, i - j + 1);
+        }
+        return res;
     }
 };
 </code></pre>
