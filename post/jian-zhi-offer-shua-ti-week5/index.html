@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
+<meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
+<meta HTTP-EQUIV="expires" CONTENT="0"> 
+<title>剑指offer刷题-Week5 | Tudouvvv</title>	
+
+<link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
+<script type="text/javascript">
+function getCSS()
+{
+        datetoday = new Date();
+        timenow=datetoday.getTime();
+        datetoday.setTime(timenow);
+        thehour = datetoday.getHours();
+
+            display = "https://tudouvvv.github.io//media/css/night.css";
+
+            display = "https://tudouvvv.github.io//media/css/night.css";   
+      
+            display = "https://tudouvvv.github.io//media/css/day.css";
+
+            display = "https://tudouvvv.github.io//media/css/day.css";
+      
+
+var css = '<';
+        css+='link rel="stylesheet" href='+display+' \/';
+        css+='>';
+        document.write(css);
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/script.js'></script>
+<link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.bootcss.com/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdn.bootcss.com/highlight.js/9.15.8/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <script>wow=new WOW({boxClass:'wow',animateClass:'animated',offset:0,mobile:true,live:true});wow.init();</script>
+
+<script type="text/javascript">
+window.onload=getCSS();
+</script>
+
+
+ 	
+</head>
+<body class="post-template-default single single-post postid-70 single-format-standard">
+    <div id="wrapper">
+        
+			
+		<header id="header" class="site-header" 
+		
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/jian-zhi-offer-shua-ti-week5.jpg)"
+		
+		>
+			<div class="site-branding">
+									<h1 class="site-title"><a href="https://tudouvvv.github.io/" rel="home">Tudouvvv</a></h1>
+										
+					<h2 class="site-description">人生还长，慢慢来</h2>
+										
+							</div>
+			<nav id="nav-wrapper">
+				<div class="container">
+					<div class="nav-toggle">
+						<div class="bars">
+							<div class="bar"></div>
+							<div class="bar"></div>
+							<div class="bar"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<ul id="" class="dove">
+		 
+     			
+<li>
+	 
+	<a  href="/"> 首页</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/archives"> 归档</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/tags"> 标签</a></li>
+	
+    
+     			
+<li>
+	 
+	<a  href="/post/about"> 关于</a></li>
+	
+    
+
+</ul>
+</li>		
+		
+</ul>				</div>
+			</nav>
+						<div class="jingge">
+
+
+    
+
+    
+			
+<a  href="https://github.com/tudouvvv" target="_blank" ><i class="iconfont icon-github"></i></a>
+ 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+			
+<a  href="https://www.instagram.com/gu_lo__/" target="_blank" ><i class="iconfont icon-instagram"></i></a>
+ 
+    
+
+    
+			
+<a  href="https://weibo.com/u/3037316034" target="_blank" ><i class="iconfont icon-weibo"></i></a>
+ 
+    
+
+    
+        </header>
+
+		<div id="content" class="container">
+			<div class="row">
+	<div class="col-md-8 site-main">
+				
+<article id="post-70" class="post-70 post type-post status-publish format-standard hentry category-5 tag-10 tag-9 tag-11">
+
+	
+	                      
+		<div class="entry-content">
+			<h1 class="wow swing entry-title">剑指offer刷题-Week5</h1>
+<div class="entry-meta">
+<div class="wow bounce">
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-11-06 20:13:03" itemprop="datePublished" pubdate="">2019-11-06</time></i>
+	          </div>
+			
+</span>
+													 
+		</div>
+                  
+			<div class="wow slideInLeft entry-summary song">
+				<h4 id="57-数字序列中某一位的数字">57. 数字序列中某一位的数字</h4>
+<p>题目描述：数字以0123456789101112131415…的格式序列化到一个字符序列中。<br>
+在这个序列中，第5位（从0开始计数）是5，第13位是1，第19位是4，等等。<br>
+请写一个函数求任意位对应的数字。</p>
+<pre><code>样例
+输入：13
+输出：1
+</code></pre>
+<p>思路：</p>
+<ol>
+<li>首先确定它是几位数</li>
+<li>确定是几位数的第几个数</li>
+<li>确定是那个数的第几位</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int digitAtIndex(int n) {
+         long long i = 1, s = 9, base = 1;//i表示是几位数，s表示位数共有多少个，base表示位数的起始值。
+         while(n &gt; i * s) {   // 9, 90, 900, 9000, 90000, i * s表示位数总共占多少位。
+             n -= i * s;         // 1000 - 9 - 90 * 2 - 900 * 3 ,当i= 3 时不符合条件，说明是在三位数里面。
+             i ++;                
+             s *= 10;
+             base *= 10;
+         }
+         int number = base + (n + i - 1) / i - 1; //求位数的第几个数， 1000 - 9 - 180 = n , n / 3 + base - 1（考虑0故减1）, 向上取整 n + i - 1。
+         int r = n % i ? n % i : i;              // 除不尽就是第几位，除尽力了就是最后一位。
+         for (int j = 0; j &lt; i - r; j ++) number /= 10; //求数的第i - r位，取出第i - r位。
+
+         return number % 10;
+    }
+};
+</code></pre>
+<h4 id="58-把数组排成最小的数">58. 把数组排成最小的数</h4>
+<p>题目描述：<br>
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。<br>
+例如输入数组[3, 32, 321]，则打印出这3个数字能排成的最小数字321323。</p>
+<pre><code>样例
+输入：[3, 32, 321]
+输出：321323
+</code></pre>
+<p>注意：输出数字的格式为字符串。<br>
+思路：这道题本来想的是先寻找所有可能的取值，然后在进行大小的比较，后来超时了。<br>
+看到的做法是定义一个新的排序规则，str(a) + str(b) &lt; str(b) + str(a)，这样的话就会使得最小的数排在前面，然后拼起来就好了。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    
+    static bool cmp(int a, int b){
+        string as = to_string(a), bs = to_string(b);
+        return as + bs &lt; bs + as;
+    }
+        
+    string printMinNumber(vector&lt;int&gt;&amp; nums) {
+        sort(nums.begin(), nums.end(), cmp);
+        string res;
+        for (auto x : nums) res += to_string(x);
+        return res;
+    }
+};
+</code></pre>
+<h4 id="59-把数字翻译成字符串">59. 把数字翻译成字符串</h4>
+<p>题目描述：给定一个数字，我们按照如下规则把它翻译为字符串：<br>
+0翻译成”a”，1翻译成”b”，……，11翻译成”l”，……，25翻译成”z”。<br>
+一个数字可能有多个翻译。例如12258有5种不同的翻译，它们分别是”bccfi”、”bwfi”、”bczi”、”mcfi”和”mzi”。<br>
+请编程实现一个函数用来计算一个数字有多少种不同的翻译方法。</p>
+<pre><code>样例
+输入：&quot;12258&quot;
+输出：5
+</code></pre>
+<p>思路：这道题之前做过，可以用动态规划来做。</p>
+<pre><code class="language-python">class Solution:
+    def getTranslationCount(self, s):
+        &quot;&quot;&quot;
+        :type s: str
+        :rtype: int
+        &quot;&quot;&quot;
+        n = len(s);
+        f = [0 for _ in range(n + 2)]
+        f[0] = 1
+        for i in range(1, n + 1):
+            f[i] = f[i - 1]
+            t = int(s[i - 1]) + int(s[i - 2]) * 10
+            if (t &gt;= 10 and t &lt;= 25): f[i] += f[i - 2]
+        return f[i]
+</code></pre>
+<pre><code class="language-c++">class Solution {
+public:
+    int getTranslationCount(string s) {
+        int n = s.size();
+        vector&lt;int&gt; f(n + 1);
+        f[0] = 1;
+        for (int i = 1; i &lt;= n; i ++){
+            f[i] = f[i - 1];
+            if (i &gt; 1){
+                int t = (s[i - 1] - '0') + (s[i - 2] - '0') * 10;
+                if (t &gt;= 10 &amp;&amp; t &lt;= 25) f[i] += f[i - 2];
+            }
+        }
+        return f[n];
+    }
+};
+</code></pre>
+<h4 id="60-礼物的最大价值">60. 礼物的最大价值</h4>
+<p>题目描述：一个m×n的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于0）。<br>
+你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格直到到达棋盘的右下角。<br>
+给定一个棋盘及其上面的礼物，请计算你最多能拿到多少价值的礼物？<br>
+注意：<br>
+m, n &gt; 0</p>
+<pre><code>样例：
+输入：
+[
+  [2,3,1],
+  [1,7,1],
+  [4,6,1]
+]
+输出：19
+解释：沿着路径 2→3→7→6→1 可以得到拿到最大价值礼物。
+</code></pre>
+<p>思路：因为只能向右或者向下走，所以每个点的状态只能通过它上面的格子或者左边的格子转移过来。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int getMaxValue(vector&lt;vector&lt;int&gt;&gt;&amp; grid) {
+        int n = grid.size(), m = grid[0].size();
+        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt; (m + 1));
+        for (int i = 1; i &lt;= n; i ++)
+            for (int j = 1; j &lt;= m; j ++)
+            {
+                f[i][j] = max(f[i - 1][j], f[i][j - 1]) + grid[i - 1][j - 1];
+            }
+        return f[n][m];
+    }
+};
+</code></pre>
+
+							</div>
+	<div class="wow bounceInDown vt-post-tags">
+ 
+				<a href="https://tudouvvv.github.io//tag/code" rel="tag">Code</a>	
+				 
+					</div>						
+<nav class="navigation3 post-navigation3" role="navigation">
+		
+		<div class="nav-links3">
+      
+		 
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week4" rel="next"> 剑指offer刷题-Week4（1道不会做）</a></div>
+		
+		</div>
+	</nav>
+	<div class="wow rollIn author-info" style="visibility: visible; animation-name: rollIn;">
+	<div class="author-avatar pull-left"><img src="https://tudouvvv.github.io//images/avatar.png" ></div>
+ 
+	<div class="author-description"><div class="author-title"><div class="author-link" rel="author">Tudouvvv</div></div>
+
+
+	<p class="author-bio">fighting！！！</p></div></div>
+	
+		</div>
+		
+ 
+		
+</article>
+
+<div id="marlin_lite_about_widget-2" class="wow bounceInUp widget marlin_lite_about_widget" data-wow-delay="0.1s">
+		
+        
+		<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://tudouvvv.github.io//media/scripts/Valine.min.js'></script>
+
+<div class="comment"></div>
+<script>
+        new Valine({
+            // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+            av: AV, 
+            el: '.comment',
+            lang: 'zh-cn',
+            
+            admin_email:'269995137@qq.com',
+            
+            
+            emoticon_url: 'output/alu',
+             
+      emoticon_list: ["吐.png","喷血.png","狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","中指.png","尴尬.png","瞅你.png","想一想.png","中枪.png","得意.png","肿包.png","扇耳光.png","亲亲.png","惊喜.png","脸红.png","无所谓.png","便便.png","愤怒.png","蜡烛.png","献黄瓜.png","内伤.png","投降.png","观察.png","看不见.png","击掌.png","抠鼻.png","邪恶.png","看热闹.png","口水.png","抽烟.png","锁眉.png","装大款.png","吐舌.png","无奈.png","长草.png","赞一个.png","呲牙.png","无语.png","阴暗.png","不出所料.png","咽气.png","期待.png","高兴.png","吐血倒地.png","哭泣.png","欢呼.png","黑线.png","喜极而泣.png","喷水.png","深思.png","鼓掌.png","暗地观察.png"],
+     
+      app_id: 'OCUFvf1hIOEPVaYh87pSozz6-MdYXbMMI',
+      	
+      
+      app_key: 'uPz5zstgqjnR3QQKS5g9rdIw',
+         	
+          
+        });
+    </script> 
+
+
+   
+  
+ 
+
+		</div>
+
+			</div>
+			
+
+
+<div class="tocc col l3 hide-on-med-and-down">
+	
+        <div class="toc-widget">
+			
+            <div class="toc-title"></div>
+			
+            <div id="toc-content">
+			
+			
+			</div>
+        </div>
+    </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '.entry-summary',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('.entry-summary').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+    });
+</script>										 
+
+ 
+       
+
+
+			</div>
+		</div>
+
+		
+		 	<footer id="colophon" class="site-footer">
+
+			<div class="container">
+	
+				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
+Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+			</div>
+		
+		</footer>
+
+</div>
+
+<script src="https://cdn.bootcss.com/fitvids/1.2.0/jquery.fitvids.min.js"></script>
+<script type='text/javascript' src='https://tudouvvv.github.io//media/scripts/marlin-scripts.js'></script>
+ <script src="//tokinx.github.io/lately/lately.min.js"></script>
+  <script>jQuery(document).ready(function(){$.lately({'target':'.lately-a,.lately-b,.lately-c'})});</script>
+  <style type="text/css">a.back_to_top {
+    text-decoration: none;
+    position: fixed;
+    bottom: 40px;
+    right: 30px;
+    background: #f0f0f0;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    line-height: 36px;
+    font-size: 18px;
+    text-align: center;
+    transition-duration: .5s;
+    transition-propety: background-color;
+    display: none;
+}
+
+a.back_to_top span {
+    color: #888;
+}
+
+a.back_to_top:hover {
+    cursor: pointer;
+    background: #dfdfdf;
+}
+
+a.back_to_top:hover span {
+    color: #555;
+}
+
+@media print, screen and (max-width: 580px) {
+    .back_to_top {
+        display: none !important;
+    }
+}
+
+
+
+</style><a id="back_to_top" href="#" class="back_to_top"><span><i class="iconfont icon-xiangshang"></i></span>
+</a>
+
+
+<script>$(document).ready((function(_this) {
+  return function() {
+    var bt;
+    bt = $('#back_to_top');
+    if ($(document).width() > 480) {
+      $(window).scroll(function() {
+        var st;
+        st = $(window).scrollTop();
+        if (st > 30) {
+          return bt.css('display', 'block');
+        } else {
+          return bt.css('display', 'none');
+        }
+      });
+      return bt.click(function() {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+        return false;
+      });
+    }
+  };
+})(this));
+</script>
+
+		<script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $('.navigation:eq(0)').remove();
+                $("").attr("rel" , "external");
+                $("a[rel='external'],a[rel='external nofollow']").attr("target","_blank");
+                $("a.vi").attr("rel" , "");
+                $.viewImage({
+                    'target'  : 'img',
+                    'exclude' : '.vsmile-icons img,.gallery img',
+                    'delay'   : 300
+                });
+                $.lately({
+                    'target' : '.commentmetadata a,.infos time,.post-list time'
+                });
+                prettyPrint();
+                
+                $('ul.links li a').each(function(){
+                    if($(this).parent().find('.bg').length==0){
+                        $(this).parent().append('<!---<div class="bg" style="background-image:url(https://c3.glgoo.top/s2/favicons?domain='+$(this).attr("href")+')"></div>--->')
+                    }
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+
+</body>
+</html>

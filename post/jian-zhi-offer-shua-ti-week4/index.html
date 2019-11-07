@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>剑指offer刷题-WEEK4 | Tudouvvv</title>	
+<title>剑指offer刷题-Week4（1道不会做） | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
@@ -150,7 +150,7 @@ window.onload=getCSS();
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">剑指offer刷题-WEEK4</h1>
+			<h1 class="wow swing entry-title">剑指offer刷题-Week4（1道不会做）</h1>
 <div class="entry-meta">
 <div class="wow bounce">
 	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-11-04 10:27:34" itemprop="datePublished" pubdate="">2019-11-04</time></i>
@@ -237,7 +237,477 @@ public:
     }
 };
 </code></pre>
-<h4 id=""></h4>
+<h4 id="48-复杂链表的复刻leecode138">48. 复杂链表的复刻（Leecode138）</h4>
+<p>题目描述：请实现一个函数可以复制一个复杂链表。<br>
+在复杂链表中，每个结点除了有一个指针指向下一个结点外，还有一个额外的指针指向链表中的任意结点或者null。<br>
+注意：<br>
+函数结束后原链表要与输入时保持一致。<br>
+思路：题意就是让我们把一个复杂链表复制再返回，因为有额外指针的关系，我们可以这样来做：<br>
+<img src="https://tudouvvv.github.io//post-images/1572873769602.png" alt=""><br>
+首先每个节点可以在后面复制一个它，再接到下一个节点上，本来可能是1-&gt;2-&gt;3，现在变成了1-&gt;1-&gt;2-&gt;2-&gt;3-&gt;3，假如1.random = 3，那么现在，1.next.random = 1.random.next，之后再把下面这些多加的节点拿出来就好了。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list with a random pointer.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next, *random;
+ *     ListNode(int x) : val(x), next(NULL), random(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *copyRandomList(ListNode *head) {
+        for (auto p = head; p;){
+            auto np = new ListNode(p-&gt;val);
+            auto next = p-&gt;next;
+            p-&gt;next = np;
+            np-&gt;next= next;
+            p = next;
+        }
+        
+        for (auto p = head; p; p = p-&gt;next-&gt;next){
+            if (p-&gt;random) p-&gt;next-&gt;random = p-&gt;random-&gt;next;
+        }
+        auto dummy = new ListNode(-1);
+        auto cur = dummy;
+        for (auto p = head; p; p = p-&gt;next){
+            cur-&gt;next = p-&gt;next;
+            cur = cur-&gt;next;
+            p -&gt; next = p-&gt;next-&gt;next;
+        }
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<h4 id="49-二叉搜索树与双向链表">49. 二叉搜索树与双向链表</h4>
+<p>题目描述: 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。<br>
+要求不能创建任何新的结点，只能调整树中结点指针的指向。<br>
+注意：<br>
+需要返回双向链表最左侧的节点。<br>
+例如，输入下图中左边的二叉搜索树，则输出右边的排序双向链表。<br>
+<img src="https://tudouvvv.github.io//post-images/1572919419174.png" alt=""><br>
+思路:</p>
+<ol>
+<li>二叉搜索树的中序遍历就是双向链表的顺序，唯一不同的是，在中序遍历的时候需要把当前节点的左指针指向前一个点，前一个点的右指针指向当前点。</li>
+</ol>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* convert(TreeNode* root) {
+        stack&lt;TreeNode*&gt; q;
+        if (! root || (! root-&gt;left &amp;&amp; ! root-&gt;right)) return root;
+        auto dummy = new TreeNode(0);
+        auto head = dummy;
+        while (root || q.size()){
+            if (root) q.push(root), root = root-&gt;left;
+            else{
+                root = q.top();
+                q.pop();
+                auto cur = root;
+                cur-&gt;left = dummy;
+                dummy-&gt;right = cur;
+                dummy = cur;
+                root = root-&gt;right;
+            }
+        }
+        head-&gt;right-&gt;left = NULL;
+        return head-&gt;right;
+    }
+};
+</code></pre>
+<ol start="2">
+<li>也可以通过递归的方式，设定一个pair，它存的是当前节点的子树的最左边的点和最右边的点，左子树需要把左子树的pair.second-&gt;right = root，root-&gt;left = pair.second，右子树同理。</li>
+</ol>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* convert(TreeNode* root) {
+        if (! root) return NULL;
+        auto sides = dfs(root);
+        return sides.first;
+    }
+    
+    pair&lt;TreeNode*, TreeNode*&gt; dfs(TreeNode * root){
+        if (!root-&gt;left &amp;&amp; !root-&gt;right) return {root, root};
+        if (root-&gt;left &amp;&amp; root-&gt;right){
+            auto lside = dfs(root-&gt;left), rside = dfs(root-&gt;right);
+            lside.second-&gt;right = root, root-&gt;left = lside.second;
+            rside.first-&gt;left = root, root-&gt;right = rside.first;
+            return {lside.first, rside.second};
+        }
+        if (root-&gt;left){
+            auto lside = dfs(root-&gt;left);
+            lside.second-&gt;right = root, root-&gt;left = lside.second;
+            return {lside.first, root};
+        }
+        if (root-&gt;right){
+            auto rside = dfs(root-&gt;right);
+            rside.first-&gt;left = root, root-&gt;right = rside.first;
+            return {root, rside.second};
+        }
+        
+    }
+};
+</code></pre>
+<h4 id="50-序列化二叉树">50. 序列化二叉树</h4>
+<p>题目描述：请实现两个函数，分别用来序列化和反序列化二叉树。<br>
+您需要确保二叉树可以序列化为字符串，并且可以将此字符串反序列化为原始树结构。</p>
+<pre><code>样例
+你可以序列化如下的二叉树
+    8
+   / \
+  12  2
+     / \
+    6   4
+
+为：&quot;[8, 12, 2, null, null, 6, 4, null, null, null, null]&quot;
+</code></pre>
+<p>思路：</p>
+<ol>
+<li>序列化按照中序遍历的顺序，从根开始，遇见空的就添加'#,'，否则就添加'root.val' + ','。<br>
+比较困难的是反序列化的步骤，需要判断各种情况：</li>
+</ol>
+<ul>
+<li>遇见了'#'，那么返回NULL，向后跳两个字符 u += 2；</li>
+<li>遇见了'-'，那么需要标记一下这是个负数，然后对字符进行恢复，比如从'123'恢复成123，在 c++ 中，可以这样: <code>int t = 0, t = t * 10 + str[i]</code>，最后在根据正负号确定节点的val</li>
+<li>迭代</li>
+</ul>
+<pre><code class="language-c++">/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string res;
+        dfs_1(root, res);
+        return res;
+    }
+    
+    void dfs_1(TreeNode* root, string &amp;res){
+        if(!root) 
+        {
+            res += &quot;#,&quot;;
+            return;
+        }
+        res += to_string(root-&gt;val) + ',';
+        dfs_1(root-&gt;left, res);
+        dfs_1(root-&gt;right, res);
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        int u = 0;
+        return dfs_2(data, u);
+    }
+    
+    TreeNode* dfs_2(string data, int &amp;u){
+        if (data[u] == '#'){
+            u += 2;
+            return NULL;
+        }
+        int t = 0;
+        bool is_minus = false;
+        if (data[u] == '-'){
+             u ++;
+             is_minus = true;
+        }
+        while (data[u] != ','){
+            t = t * 10 + data[u] - '0';
+            u ++;
+        }
+        u ++;
+        if (is_minus) t = -t;
+        auto root = new TreeNode(t);
+        root-&gt;left = dfs_2(data, u);
+        root-&gt;right = dfs_2(data, u);
+        return root;
+    } 
+};
+</code></pre>
+<ol start="2">
+<li>使用python来写的话，可以用split函数把节点值都给分开。</li>
+</ol>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+
+    def serialize(self, root):
+        &quot;&quot;&quot;Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        &quot;&quot;&quot;
+        if not root:
+            return 'None';
+        return str(root.val) + ',' +  self.serialize(root.left) + ',' + self.serialize(root.right);
+        
+
+    def deserialize(self, data):
+        &quot;&quot;&quot;Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        &quot;&quot;&quot;
+        self.i = -1
+        data = data.split(',')
+        return self.dfs(data);
+        
+    def dfs(self, data):
+        if self.i &gt;= len(data): 
+            return
+        self.i += 1
+        root = None
+        if data[self.i] != 'None':
+            root = TreeNode(int(data[self.i]))
+            root.left = self.dfs(data)
+            root.right = self.dfs(data)
+        return root       
+</code></pre>
+<h4 id="51-数字排列">51. 数字排列</h4>
+<p>题目描述：输入一组数字（可能包含重复数字），输出其所有的排列方式。</p>
+<pre><code>样例
+输入：[1,2,3]
+输出：
+      [
+        [1,2,3],
+        [1,3,2],
+        [2,1,3],
+        [2,3,1],
+        [3,1,2],
+        [3,2,1]
+      ]
+</code></pre>
+<pre><code class="language-c++">class Solution {
+public:
+
+    int n ;
+    vector&lt;vector&lt;int&gt;&gt; ans;
+    vector&lt;int&gt; path;
+    vector&lt;bool&gt; st;
+    
+    vector&lt;vector&lt;int&gt;&gt; permutation(vector&lt;int&gt;&amp; nums) {
+        n = nums.size();
+        path = vector&lt;int&gt;(n);
+        st = vector&lt;bool&gt;(n);
+        sort(nums.begin(), nums.end());
+        dfs(nums, 0, 0);
+        return ans;
+    }
+    
+    void dfs(vector&lt;int&gt;&amp; nums, int u, int start){
+        if (u == n){
+            ans.push_back(path);
+            return ;
+        }
+        
+        for (int i = start; i &lt; n; i ++){
+            if (! st[i]){
+                st[i] = true;
+                path[i] = nums[u];
+                dfs(nums, u + 1, nums[u] == nums[u + 1] ? i + 1 : 0);
+                st[i] = false;
+            }
+        }
+    }
+};
+</code></pre>
+<h4 id="52-数组中出现次数超过一半的数字">52. 数组中出现次数超过一半的数字</h4>
+<p>题目描述：数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。<br>
+假设数组非空，并且一定存在满足条件的数字。<br>
+思考题：<br>
+假设要求只能使用 O(n) 的时间和额外 O(1) 的空间，该怎么做呢？</p>
+<pre><code>样例
+输入：[1,2,1,1,3]
+输出：1
+</code></pre>
+<p>思路：</p>
+<ol>
+<li>开心消消乐：首先取第一个元素为标记元素，记录次数n = 1，然后和后面的元素进行比较，一样的时候，次数加一，不一样的时候次数减一，当次数为0的时候，换标记元素为当前元素，记录次数n归一，继续，因为题目中告诉我们一定存在这样一个数字超过一半，所以这样消消乐下来，剩下的一定就是我们想要的。</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int moreThanHalfNum_Solution(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return NULL;
+        if (nums.size() == 1) return nums[0];
+        
+        int res = nums[0];
+        int n = 1;
+        for (int i = 1; i &lt; nums.size(); i ++){
+            if (nums[i] == res) n ++;
+            else n --;
+            if (n == 0){
+                res = nums[i];
+                n = 1;
+            }
+        }
+        return res;
+    }
+};
+</code></pre>
+<ol start="2">
+<li>排序然后输出中间元素就是的，但是这样时间复杂度就不满足要求了。</li>
+</ol>
+<h4 id="53-最小的k个数">53. 最小的k个数</h4>
+<p>题目描述:输入n个整数，找出其中最小的k个数。<br>
+注意：<br>
+数据保证k一定小于等于输入数组的长度;<br>
+输出数组内元素请按从小到大顺序排序;</p>
+<pre><code>样例
+输入：[1,2,3,4,5,6,7,8] , k=4
+输出：[1,2,3,4]
+</code></pre>
+<p>思路：创建一个大根堆，遍历输入元素，push进堆里，如果发现堆里元素超过了k，那么就pop掉，这样就能保证堆内元素一定是最小的k个。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; getLeastNumbers_Solution(vector&lt;int&gt; input, int k) {
+        priority_queue&lt;int&gt; heap;
+        for (auto c : input){
+            heap.push(c);
+            if (heap.size() &gt; k) heap.pop();
+        }
+        
+        vector&lt;int&gt; res;
+        while (heap.size()){
+            res.push_back(heap.top());
+            heap.pop();
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
+</code></pre>
+<h4 id="54-数据流中的中位数">54. 数据流中的中位数</h4>
+<p>题目描述：如何得到一个数据流中的中位数？<br>
+如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。<br>
+如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。</p>
+<pre><code>样例
+输入：1, 2, 3, 4
+输出：1,1.5,2,2.5
+解释：每当数据流读入一个数据，就进行一次判断并输出当前的中位数。
+</code></pre>
+<p>思路: 构建一个对顶堆，上面是一个小根堆，存的是比较大的数，下面是一个大根堆，存的是比较小的数，保证小根堆最多只比大根堆多一个数，这样两个堆的top处存的就是中间的两个数，然后再判断奇偶就可以了。</p>
+<pre><code class="language-c++">class Solution {
+public:
+
+    priority_queue &lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; up;
+    priority_queue &lt;int&gt; down;
+    
+    void insert(int num){
+        if (down.empty() || num &gt; down.top()) up.push(num);
+        else{
+            down.push(num);
+            up.push(down.top());
+            down.pop();
+        }
+        if (up.size() &gt; down.size() + 1){
+            down.push(up.top());
+            up.pop();
+        }
+    }
+
+    double getMedian(){
+        if ((down.size() + up.size()) % 2 == 1) return up.top();
+        else return (down.top() + up.top()) / 2.;
+    }
+};
+</code></pre>
+<h4 id="55-连续子数组的最大和">55. 连续子数组的最大和</h4>
+<p>题目描述：输入一个 非空 整型数组，数组里的数可能为正，也可能为负。<br>
+数组中一个或连续的多个整数组成一个子数组。<br>
+求所有子数组的和的最大值。<br>
+要求时间复杂度为O(n)。</p>
+<pre><code>样例
+输入：[1, -2, 3, 10, -4, 7, 2, -5]
+输出：18
+</code></pre>
+<p>思路：</p>
+<ol>
+<li>只有前面的和对我是有益的（大于0），我才会去加它，否则就抛弃前面的所有数字。遍历整个数组，如果前面的数字大于0，那么就加上，相当于求一个前缀和，但是不同的是只看是否大于0，这样整个数组中最大的元素就是连续子数组的最大和；</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxSubArray(vector&lt;int&gt;&amp; nums) {
+        int ans = INT_MIN;
+        for (int i = 1; i &lt; nums.size(); i ++){
+            if (nums[i - 1] &gt; 0) nums[i] += nums[i - 1];
+        }
+        for (auto x : nums){
+            ans = max(ans, x);
+        }
+        return ans;
+    }
+};
+</code></pre>
+<ol start="2">
+<li>设定一个s表示前面n - 1位数字的和，每次加元素之前判断一下s是否大于0，如果小于0，那么归零s，从现在开始重新加。</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxSubArray(vector&lt;int&gt;&amp; nums) {
+        int s = 0, ans = INT_MIN;
+        for (auto x : nums){
+            if (s &lt; 0) s = 0;
+            s += x;
+            ans = max(ans, s);
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h4 id="56-从1到n整数中1出现的次数">56. 从1到n整数中1出现的次数</h4>
+<p>题目描述：输入一个整数n，求从1到n这n个整数的十进制表示中1出现的次数。<br>
+例如输入12，从1到12这些整数中包含“1”的数字有1，10，11和12，其中“1”一共出现了5次。</p>
+<pre><code>样例
+输入： 12
+输出： 5
+</code></pre>
+<p>思路:</p>
+<ol>
+<li>暴力搜索(❌)TLE了</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int numberOf1Between1AndN_Solution(int n) {
+        if (n == 1) return 1;
+        int cnt = 0;
+        for (int i = 1; i &lt;= n; i ++){
+            auto tmp = to_string(i);
+            for (auto x : tmp){
+                if (x == '1') cnt ++;
+            }
+        }
+        return cnt;
+    }
+};
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
@@ -249,6 +719,8 @@ public:
 		
 		<div class="nav-links3">
       
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week5" rel="prev"> 剑指offer刷题-Week5</a></div>
+		 
 		 
 		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week3" rel="next"> 剑指offer刷题-Week3</a></div>
 		

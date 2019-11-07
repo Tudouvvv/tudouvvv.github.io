@@ -210,6 +210,25 @@ public:
     }
 };
 </code></pre>
+<p>update:</p>
+<pre><code class="language-python">class Solution(object):
+    def duplicateInArray(self, nums):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :rtype int
+        &quot;&quot;&quot;
+        n = len(nums)
+        for x in nums:
+            if (x &lt; 0 or x &gt; n - 1): return -1
+        i = 0
+        for i in range(n):
+            while (i != nums[i] and nums[nums[i]] != nums[i]):
+                x, y = nums[i], nums[nums[i]]
+                nums[nums[i]], nums[i] = x, y
+            if (i != nums[i] and nums[i] == nums[nums[i]]):
+                return nums[i]
+        return -1
+</code></pre>
 <h4 id="14-不修改数组找出重复的数字">14. 不修改数组找出重复的数字</h4>
 <p>给定一个长度为 n+1 的数组nums，数组中所有的数均在 1∼n 的范围内，其中 n≥1。<br>
 请找出数组中任意一个重复的数，但不能修改输入的数组。</p>
