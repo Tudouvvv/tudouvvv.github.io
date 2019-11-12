@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>剑指offer刷题-Week6 | Tudouvvv</title>	
+<title>剑指offer刷题-Week7 | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
@@ -64,7 +64,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/jian-zhi-offer-shua-ti-week6.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/jian-zhi-offer-shua-ti-week7.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -158,10 +158,10 @@ window.onload=getCSS();
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">剑指offer刷题-Week6</h1>
+			<h1 class="wow swing entry-title">剑指offer刷题-Week7</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-11-08 16:46:58" itemprop="datePublished" pubdate="">2019-11-08</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-11-12 09:23:56" itemprop="datePublished" pubdate="">2019-11-12</time></i>
 	          </div>
 			
 </span>
@@ -169,343 +169,263 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<h4 id="68-0到n-1中缺失的数字">68. 0到n-1中缺失的数字</h4>
-<p>一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0到n-1之内。<br>
-在范围0到n-1的n个数字中有且只有一个数字不在该数组中，请找出这个数字。</p>
-<pre><code>样例
-输入：[0,1,2,4]
-输出：3
+				<h4 id="80-骰子的点数">80. 骰子的点数</h4>
+<p>题目描述：将一个骰子投掷n次，获得的总点数为s，s的可能范围为n~6n。<br>
+掷出某一点数，可能有多种掷法，例如投掷2次，掷出3点，共有[1,2],[2,1]两种掷法。<br>
+请求出投掷n次，掷出n~6n点分别有多少种掷法。</p>
+<pre><code>样例1
+输入：n=1
+输出：[1, 1, 1, 1, 1, 1]
+解释：投掷1次，可能出现的点数为1-6，共计6种。每种点数都只有1种掷法。所以输出[1, 1, 1, 1, 1, 1]。
 </code></pre>
 <p>思路:</p>
 <ol>
-<li>第一眼看到这道题就想到用前n个数字的和去求。</li>
+<li>递归方法来做，我们用次数n和总和sum作为状态，sum的取值为n--6n.</li>
 </ol>
 <pre><code class="language-c++">class Solution {
 public:
-    int getMissingNumber(vector&lt;int&gt;&amp; nums) {
-        int n = nums.size();
-        int count = n * (n + 1) &gt;&gt; 1;
-        int res = 0;
-        for (x : nums) res += x;
-        return count - res;
-    }
-};
-</code></pre>
-<ol start="2">
-<li>可是谁又能想到这道题竟然也可以用二分的方式来做呢。❓❓❓因为数组下标的关系，所以正常的序列当前值就是下标的值，同通过这个判断条件进行判断。</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int getMissingNumber(vector&lt;int&gt;&amp; nums) {
-        if (nums.empty()) return 0;
-        int l = 0, r = nums.size() - 1;
-        while (l &lt; r){
-            int mid = l + r &gt;&gt; 1;
-            if (nums[mid] == mid) l = mid + 1;
-            else r = mid;
-        }
-        if (nums[l] == l) l ++;  // 当所有数都满足的时候，缺失就是n
-        return l;
-    }
-};
-</code></pre>
-<h4 id="69-数组中数值和下标相等的元素">69. 数组中数值和下标相等的元素</h4>
-<p>题目描述：假设一个单调递增的数组里的每个元素都是整数并且是唯一的。<br>
-请编程实现一个函数找出数组中任意一个数值等于其下标的元素。<br>
-例如，在数组[-3, -1, 1, 3, 5]中，数字3和它的下标相等。</p>
-<pre><code>样例
-输入：[-3, -1, 1, 3, 5]
-输出：3
-注意:如果不存在，则返回-1。
-</code></pre>
-<p>思路：</p>
-<ol>
-<li>直接遍历，复杂度O(n);</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int getNumberSameAsIndex(vector&lt;int&gt;&amp; nums) {
-        if (nums.empty()) return -1;
-        for (int i = 0; i &lt; nums.size(); i ++){
-            if (nums[i] == i) return i;
-        }
-        return -1;
-    }
-};
-</code></pre>
-<ol start="2">
-<li>又一次没想到这道题可以用二分来做，由于给的数组是单调递增的，所以在答案的左边，肯定所有的元素都小于下标，右边所有的元素都大于下标。</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int getNumberSameAsIndex(vector&lt;int&gt;&amp; nums) {
-        int l = 0, r = nums.size() - 1;
-        while (l &lt; r){
-            int mid = l + r &gt;&gt; 1;
-            if (nums[mid] &gt;= mid) r = mid;
-            else l = mid + 1;
-        }
-        if (nums[l] - l == 0) return nums[l];
-        return -1;
-    }   
-};
-</code></pre>
-<h4 id="70-二叉搜索树的第k个结点">70. 二叉搜索树的第k个结点</h4>
-<p>题目描述：给定一棵二叉搜索树，请找出其中的第k小的结点。<br>
-你可以假设树和k都存在，并且1≤k≤树的总结点数。</p>
-<pre><code>样例
-输入：root = [2, 1, 3, null, null, null, null] ，k = 3
-
-    2
-   / \
-  1   3
-
-输出：3
-</code></pre>
-<p>思路: 中序遍历该树即可，然后每次pop的时候记得k--，当k为0的时候就说明这就是我们要找的第k小的节点。</p>
-<pre><code class="language-c++">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    TreeNode* kthNode(TreeNode* root, int k) {
-        stack&lt;TreeNode*&gt; stk;
-        auto p = root;
-        while (p || stk.size()){
-            while (p){
-                stk.push(p);
-                p = p-&gt;left;
-            }
-            if (stk.size()){
-                p = stk.top();
-                stk.pop();
-                k --;
-                if (! k) return p;
-                else {
-                    p = p -&gt; right;
-                }
-            }
-        }
-        return NULL;
-    }
-};
-</code></pre>
-<h4 id="71-二叉树的深度">71. 二叉树的深度</h4>
-<p>题目描述：输入一棵二叉树的根结点，求该树的深度。<br>
-从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</p>
-<pre><code>样例
-输入：二叉树[8, 12, 2, null, null, 6, 4, null, null, null, null]如下图所示：
-    8
-   / \
-  12  2
-     / \
-    6   4
-
-输出：3
-</code></pre>
-<p>思路：</p>
-<ol>
-<li>遍历的时候，每次可以成功遍历的时候，深度 + 1, 存储一个全局的最深深度。</li>
-</ol>
-<pre><code class="language-c++">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    int ans = 0;
-    int treeDepth(TreeNode* root) {
-        if (! root) return 0;
-        dfs(root, 1);
-        return ans;
+    vector&lt;int&gt; numberOfDice(int n) {
+        vector&lt;int&gt; res;
+        for (int i = n; i &lt;= 6 * n; i ++) res.push_back(dfs(n, i));
+        return res;
     }
     
-    void dfs(TreeNode* root, int d){
-        if (root-&gt;left) dfs(root-&gt;left, d + 1);
-        if (root-&gt;right) dfs(root-&gt;right, d + 1);
-        ans = max(ans, d);
+    int dfs(int n, int sum){
+        if (sum &lt; 0) return 0;
+        if (n == 0) return !sum;
+        int res = 0;
+        
+        for(int i = 1; i &lt;= 6; i ++){
+            res += dfs(n - 1, sum - i);
+        }
+        return res;
     }
 };
 </code></pre>
-<ol start="2">
-<li>可以用自己递归来做, 分别找到左节点和右节点的最大深度，然后max一下取最大值即可。</li>
-</ol>
-<pre><code class="language-c++">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
+<p>但是由于计算的状态太多，超时了。<br>
+2. 动态规划</p>
+<pre><code class="language-c++">class Solution {
 public:
-    int treeDepth(TreeNode* root) {
-        if (! root) return 0;
-        return max(treeDepth(root-&gt;left) + 1, treeDepth(root-&gt;right) + 1);
+    vector&lt;int&gt; numberOfDice(int n) {
+        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(6 * n + 1));
+        f[0][0] = 1;
+        for (int i = 1; i &lt;= n; i ++)  // 表示次数
+            for (int j = i; j &lt;= 6 * i; j ++) // 表示sum的取值
+                for (int k = 1; k &lt;= min(j ,6); k ++){
+                    f[i][j] += f[i - 1][j - k];  // 状态转移
+                }
+        vector&lt;int&gt; res;
+        for (int i = n; i &lt;= 6 * n; i ++) res.push_back(f[n][i]);
+        return res;
     }
 };
 </code></pre>
-<h4 id="72-平衡二叉树">72. 平衡二叉树</h4>
-<p>题目描述: 输入一棵二叉树的根结点，判断该树是不是平衡二叉树。<br>
-如果某二叉树中任意结点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。<br>
+<h4 id="79-滑动窗口的最大值">79. 滑动窗口的最大值</h4>
+<p>题目描述：给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。<br>
+例如，如果输入数组[2, 3, 4, 2, 6, 2, 5, 1]及滑动窗口的大小3,那么一共存在6个滑动窗口，它们的最大值分别为[4, 4, 6, 6, 6, 5]。<br>
 注意：<br>
-规定空树也是一棵平衡二叉树。</p>
+数据保证k大于0，且k小于等于数组长度。</p>
 <pre><code>样例
-输入：二叉树[5,7,11,null,null,12,9,null,null,null,null]如下所示，
-    5
-   / \
-  7  11
-    /  \
-   12   9
+输入：[2, 3, 4, 2, 6, 2, 5, 1] , k=3
+输出: [4, 4, 6, 6, 6, 5]
+</code></pre>
+<p>思路：我们维护一个双向单调队列，队列放的是元素的下标。我们假设该双端队列的队头是整个队列的最大元素所在下标，至队尾下标代表的元素值依次降低。初始时单调队列为空。随着对数组的遍历过程中，每次插入元素前，首先需要看队头是否还能留在队列中，如果队头下标距离i超过了k，则应该出队。同时需要维护队列的单调性，如果nums[i]大于或等于队尾元素下标所对应的值，则当前队尾再也不可能充当某个滑动窗口的最大值了，故需要队尾出队。始终保持队中元素从队头到队尾单调递减。依次遍历一遍数组，每次队头就是每个滑动窗口的最大值所在下标。<br>
+时间复杂度分析：每个元素最多入队出队一次，复杂度为O(n)</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; maxInWindows(vector&lt;int&gt;&amp; nums, int k) {
+        deque&lt;int&gt; q;
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt; nums.size(); i ++){
+            while (q.size() &amp;&amp; nums[i] &gt; nums[q.back()]) q.pop_back();  // 维护单调性
+            if (q.size() &amp;&amp; i - q.front() &gt;= k) q.pop_front();  // 如果队头元素与下标距离超过k，则应该出队
+            q.push_back(i);
+            if (i - k + 1 &gt;= 0) res.push_back(nums[q.front()]);
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="81-扑克牌的顺子">81. 扑克牌的顺子</h4>
+<p>题目描述：从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。<br>
+2～10为数字本身，A为1，J为11，Q为12，K为13，大小王可以看做任意数字。<br>
+为了方便，大小王均以0来表示，并且假设这副牌中大小王均有两张。</p>
+<pre><code>样例1
+输入：[8,9,10,11,12]
 输出：true
 </code></pre>
-<p>思路: 分别求出左右子树的深度，然后进行判断。</p>
-<pre><code class="language-c++">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
+<p>思路：<br>
+1.<br>
+首先要计算出给定的数组中0的个数<br>
+其次需要知道不是顺子的条件：1）如果给定的牌中有对子，那么肯定不是顺子；2）如果两个牌之间的差值超过了0的个数，那么肯定也不是。</p>
+<pre><code class="language-c++">class Solution {
 public:
-    
-    bool ans = true;
-    
-    bool isBalanced(TreeNode* root) {
-        dfs(root);
-        return ans;
-    }
-    
-    int dfs(TreeNode* root){
-        if (! root) return 0;
-        auto left = dfs(root-&gt;left);
-        auto right = dfs(root-&gt;right);
-        if (abs(left-right) &gt; 1) ans = false;
-        return max(left, right) + 1;
+    bool isContinuous( vector&lt;int&gt; numbers ) {
+        int n = numbers.size();
+        if (n &lt; 5) return false;
+        sort(numbers.begin(), numbers.end());
+        int cnt = 0;
+        for (int i = 0; i &lt; n - 1; i ++){
+            if (numbers[i] == 0) cnt ++;
+            else
+            {
+                if (numbers[i + 1] == numbers[i]) return false;
+                if (numbers[i + 1] - numbers[i] - 1 &gt; cnt) return false;
+                cnt -= numbers[i + 1] - numbers[i] - 1;
+            }
+        }
+        return true;
     }
 };
 </code></pre>
-<h4 id="73-数组中只出现一次的两个数字">73. 数组中只出现一次的两个数字</h4>
-<p>题目描述：一个整型数组里除了<strong>两个数字</strong>之外，其他的数字都出现了<strong>两次</strong>。<br>
-请写程序找出这两个只出现一次的数字。<br>
-你可以假设这两个数字一定存在。</p>
-<pre><code>样例
-输入：[1,2,3,3,4,4]
-
-输出：[1,2]
-</code></pre>
-<p>思路：</p>
-<ol>
-<li>创一个hash存每个元素出现的次数，最后再遍历一遍，把次数为1的存起来就好了。</li>
+<ol start="2">
+<li>一个总和为5的顺子，那么最大值与最小值之间的差距一定是5</li>
 </ol>
 <pre><code class="language-c++">class Solution {
 public:
-    vector&lt;int&gt; findNumsAppearOnce(vector&lt;int&gt;&amp; nums) {
-        unordered_map &lt;int, int&gt; hash;
-        vector&lt;int&gt; res;
-        for (auto x : nums) hash[x] ++;
-        for (item : hash){
-            if (item.second == 1) res.push_back(item.first);
+    bool isContinuous( vector&lt;int&gt; numbers ) {
+        if (numbers.empty()) return false;
+        sort(numbers.begin(), numbers.end());
+        int k = 0;
+        while (! numbers[k]) k ++;
+        for (int i = k + 1; i &lt; numbers.size();i ++){
+            if (numbers[i] == numbers[i - 1]) return false; 
         }
+        return numbers.back() - numbers[k] &lt;= 4;
+    }
+};
+</code></pre>
+<h4 id="82-圆圈中最后剩下的数字">82. 圆圈中最后剩下的数字</h4>
+<p>题目描述：0, 1, …, n-1这n个数字(n&gt;0)排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。<br>
+求出这个圆圈里剩下的最后一个数字。</p>
+<pre><code>样例
+输入：n=5 , m=3
+输出：3
+</code></pre>
+<p>思路: 每次需要计算出删除元素的索引值，然后删除即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int lastRemaining(int n, int m){
+        if (n == 0 || m == 0) return -1;
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt; n; i ++) res.push_back(i);
+        int pos = 0;
+        while (res.size() &gt; 1){
+            pos = (pos + m - 1) % res.size();
+            res.erase(res.begin() + pos);
+        }
+        return res[0];
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution(object):
+    def lastRemaining(self, n, m):
+        &quot;&quot;&quot;
+        :type n: int
+        :type m: int
+        :rtype: int
+        &quot;&quot;&quot;
+        if n == 0 or m == 0: return -1;
+        res = [i for i in range(n)]
+        pos = 0
+        while len(res) &gt; 1:
+            pos = (pos + m - 1) % len(res)
+            res.pop(pos)
+        return res[0]   
+</code></pre>
+<h4 id="83-股票的最大利润">83. 股票的最大利润</h4>
+<p>题目描述：假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖 一次 该股票可能获得的利润是多少？<br>
+例如一只股票在某些时间节点的价格为[9, 11, 8, 5, 7, 12, 16, 14]。<br>
+如果我们能在价格为5的时候买入并在价格为16时卖出，则能收获最大的利润11。</p>
+<pre><code>样例
+输入：[9, 11, 8, 5, 7, 12, 16, 14]
+输出：11
+</code></pre>
+<p>思路:</p>
+<ol>
+<li>构建一个数组，每个位置存的是当前元素之前的min(自己，自己之前的最小值)，最后算最大值的时候只需要遍历一次该数组就可以了。</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxDiff(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return 0;
+        int n = nums.size();
+        vector&lt;int&gt; minnum(n);
+        minnum[0] = nums[0];
+        for (int i = 1; i &lt; n; i ++){
+            if (nums[i] &lt; minnum[i - 1]) minnum[i] = nums[i];
+            else minnum[i] = minnum[i - 1];
+        }
+        int res = 0;
+        for (int i = 0; i &lt; n; i ++) res = max(res, nums[i] - minnum[i]);
         return res;
     }
 };
 </code></pre>
 <ol start="2">
-<li>因为异或运算中，两个相同的数异或结果肯定为0，所以整个数组的异或结果就是两个不同的数的异或结果，寻找这个结果中为1的那位，根据这位为1，将数组分为两部分，这样两个不同的数就属于不同的集合，然后在每个集合中进行异或运算得到结果。</li>
+<li>也可以只维护一个最小值的变量就可以了。</li>
 </ol>
-<pre><code>c++
-class Solution {
-public:
-    vector&lt;int&gt; findNumsAppearOnce(vector&lt;int&gt;&amp; nums) {
-        int sum = 0;
-        for (auto x : nums) sum ^= x;
-        int k = 0;
-        while (!(sum &gt;&gt; k &amp; 1)) k ++;
-        int first = 0;
-        for (auto x : nums){
-            if (x &gt;&gt; k &amp; 1) first ^= x;
-        }
-        return vector&lt;int&gt; {first, sum^first};
-   
-</code></pre>
-<h4 id="74-数组中唯一只出现一次的数字">74. 数组中唯一只出现一次的数字</h4>
-<p>题目描述：在一个数组中除了一个数字只出现一次之外，其他数字都出现了三次。<br>
-请找出那个只出现一次的数字。<br>
-你可以假设满足条件的数字一定存在。<br>
-思考题：<br>
-如果要求只使用 O(n) 的时间和额外  O(1)  的空间，该怎么做呢？</p>
-<pre><code>样例
-输入：[1,1,1,2,2,2,3,4,4,4]
-输出：3
-</code></pre>
-<p>思路: 由于是int型数，所有共有32位，我们统计每个位上0和1的个数，最后再模3，如果是1就说明出现一次的这个数该位是1，反之则是0，最后拼起来就好了。</p>
 <pre><code class="language-c++">class Solution {
 public:
-    int findNumberAppearingOnce(vector&lt;int&gt;&amp; nums) {
-        vector&lt;int&gt; sum(32);
-        for (auto x : nums){
-            for (int i = 0; i &lt; 32; i ++){
-                int p = (x &gt;&gt; i &amp; 1);
-                sum[i] += p;
-            }
-        }
-        
+    int maxDiff(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return 0;
         int res = 0;
-        for (int i = 0; i &lt; 32; i ++){
-            res += (sum[i] % 3 == 0 ? 0 : 1) &lt;&lt; i;
+        for (int i = 1, minv = nums[0]; i &lt; nums.size(); i ++){
+            res = max(res, nums[i] - minv);
+            minv = min(minv, nums[i]);
         }
         return res;
     }
 };
 </code></pre>
-<h4 id="75-和为s的两个数字">75. 和为S的两个数字</h4>
-<p>题目描述：输入一个数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。<br>
-如果有多对数字的和等于s，输出任意一对即可。<br>
-你可以认为每组输入中都至少含有一组满足条件的输出。</p>
+<h4 id="84-求12n">84. 求1+2+…+n</h4>
+<p>题目描述：求1+2+…+n,要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
 <pre><code>样例
-输入：[1,2,3,4] , sum=7
-输出：[3,4]
+输入：10
+输出：55
 </code></pre>
-<p>思路: 和leetcode的第一题一样，不同的是那道题存放的是索引，这道题可以存放每个数本身，然后进行判断即可。</p>
+<p>思路: 求和运算可以通过递归的方式来做，主要的问题就是我们的终止条件是什么，可以通过判断n是否为0来进行终止。</p>
 <pre><code class="language-c++">class Solution {
 public:
-    vector&lt;int&gt; findNumbersWithSum(vector&lt;int&gt;&amp; nums, int target) {
-        unordered_map&lt;int, int&gt; hash;
-        for (int i = 0; i &lt; nums.size(); i ++){
-            if (hash.count(target - nums[i])) return {hash[target - nums[i]], nums[i]};
-            hash[nums[i]] = nums[i];
-        }
+    int getSum(int n) {
+        int sum = n;
+        n &amp;&amp; (sum += getSum(--n));
+        return sum;
     }
 };
 </code></pre>
+<h4 id="85-不用加减乘除做加法">85. 不用加减乘除做加法</h4>
+<p>题目描述：写一个函数，求两个整数之和，要求在函数体内不得使用＋、－、×、÷ 四则运算符号。</p>
+<pre><code>样例
+输入：num1 = 1 , num2 = 2
+输出：3
+</code></pre>
+<p>思路:<br>
+1、两个整数做异或^，得到各位相加不进位的运算结果；<br>
+2、两个整数做与&amp;，然后再左移一位，即得到进位的运算结果；<br>
+3、将上面两个结果相加，即重复步骤1,2，直至进位的运算结果为0；</p>
 <pre><code class="language-c++">class Solution {
 public:
-    vector&lt;int&gt; findNumbersWithSum(vector&lt;int&gt;&amp; nums, int target) {
-        unordered_set&lt;int&gt; hash;
-        for (int i = 0; i &lt; nums.size(); i ++){
-            if (hash.count(target - nums[i])) return {target - nums[i], nums[i]};
-            hash.insert(nums[i]);
+    int add(int num1, int num2){
+        while (num2){
+            int sum = num1 ^ num2;
+            int carry = (num1 &amp; num2) &lt;&lt; 1;
+            num1 = sum, num2 = carry;
         }
+        return num1;
     }
 };
 </code></pre>
+<h4 id="86-构建乘积数组">86. 构建乘积数组</h4>
+<p>题目描述：给定一个数组A[0, 1, …, n-1]，请构建一个数组B[0, 1, …, n-1]，其中B中的元素B[i]=A[0]×A[1]×… ×A[i-1]×A[i+1]×…×A[n-1]。<br>
+<strong>不能使用除法。</strong></p>
+<pre><code>样例
+输入：[1, 2, 3, 4, 5]
+输出：[120, 60, 40, 30, 24]
+</code></pre>
+<p>思考题：<br>
+能不能只使用常数空间？（除了输出的数组之外）<br>
+思路：</p>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
@@ -517,10 +437,8 @@ public:
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7" rel="prev"> 剑指offer刷题-Week7</a></div>
 		 
-		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week5" rel="next"> 剑指offer刷题-Week5(1道没有做)</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week6" rel="next"> 剑指offer刷题-Week6</a></div>
 		
 		</div>
 	</nav>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-11-09T11:56:14.743Z</updated>
+    <updated>2019-11-12T08:48:18.759Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,271 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[剑指offer刷题-Week7]]></title>
+        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7</id>
+        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7">
+        </link>
+        <updated>2019-11-12T01:23:56.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="80-骰子的点数">80. 骰子的点数</h4>
+<p>题目描述：将一个骰子投掷n次，获得的总点数为s，s的可能范围为n~6n。<br>
+掷出某一点数，可能有多种掷法，例如投掷2次，掷出3点，共有[1,2],[2,1]两种掷法。<br>
+请求出投掷n次，掷出n~6n点分别有多少种掷法。</p>
+<pre><code>样例1
+输入：n=1
+输出：[1, 1, 1, 1, 1, 1]
+解释：投掷1次，可能出现的点数为1-6，共计6种。每种点数都只有1种掷法。所以输出[1, 1, 1, 1, 1, 1]。
+</code></pre>
+<p>思路:</p>
+<ol>
+<li>递归方法来做，我们用次数n和总和sum作为状态，sum的取值为n--6n.</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; numberOfDice(int n) {
+        vector&lt;int&gt; res;
+        for (int i = n; i &lt;= 6 * n; i ++) res.push_back(dfs(n, i));
+        return res;
+    }
+    
+    int dfs(int n, int sum){
+        if (sum &lt; 0) return 0;
+        if (n == 0) return !sum;
+        int res = 0;
+        
+        for(int i = 1; i &lt;= 6; i ++){
+            res += dfs(n - 1, sum - i);
+        }
+        return res;
+    }
+};
+</code></pre>
+<p>但是由于计算的状态太多，超时了。<br>
+2. 动态规划</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; numberOfDice(int n) {
+        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(6 * n + 1));
+        f[0][0] = 1;
+        for (int i = 1; i &lt;= n; i ++)  // 表示次数
+            for (int j = i; j &lt;= 6 * i; j ++) // 表示sum的取值
+                for (int k = 1; k &lt;= min(j ,6); k ++){
+                    f[i][j] += f[i - 1][j - k];  // 状态转移
+                }
+        vector&lt;int&gt; res;
+        for (int i = n; i &lt;= 6 * n; i ++) res.push_back(f[n][i]);
+        return res;
+    }
+};
+</code></pre>
+<h4 id="79-滑动窗口的最大值">79. 滑动窗口的最大值</h4>
+<p>题目描述：给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。<br>
+例如，如果输入数组[2, 3, 4, 2, 6, 2, 5, 1]及滑动窗口的大小3,那么一共存在6个滑动窗口，它们的最大值分别为[4, 4, 6, 6, 6, 5]。<br>
+注意：<br>
+数据保证k大于0，且k小于等于数组长度。</p>
+<pre><code>样例
+输入：[2, 3, 4, 2, 6, 2, 5, 1] , k=3
+输出: [4, 4, 6, 6, 6, 5]
+</code></pre>
+<p>思路：我们维护一个双向单调队列，队列放的是元素的下标。我们假设该双端队列的队头是整个队列的最大元素所在下标，至队尾下标代表的元素值依次降低。初始时单调队列为空。随着对数组的遍历过程中，每次插入元素前，首先需要看队头是否还能留在队列中，如果队头下标距离i超过了k，则应该出队。同时需要维护队列的单调性，如果nums[i]大于或等于队尾元素下标所对应的值，则当前队尾再也不可能充当某个滑动窗口的最大值了，故需要队尾出队。始终保持队中元素从队头到队尾单调递减。依次遍历一遍数组，每次队头就是每个滑动窗口的最大值所在下标。<br>
+时间复杂度分析：每个元素最多入队出队一次，复杂度为O(n)</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; maxInWindows(vector&lt;int&gt;&amp; nums, int k) {
+        deque&lt;int&gt; q;
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt; nums.size(); i ++){
+            while (q.size() &amp;&amp; nums[i] &gt; nums[q.back()]) q.pop_back();  // 维护单调性
+            if (q.size() &amp;&amp; i - q.front() &gt;= k) q.pop_front();  // 如果队头元素与下标距离超过k，则应该出队
+            q.push_back(i);
+            if (i - k + 1 &gt;= 0) res.push_back(nums[q.front()]);
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="81-扑克牌的顺子">81. 扑克牌的顺子</h4>
+<p>题目描述：从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。<br>
+2～10为数字本身，A为1，J为11，Q为12，K为13，大小王可以看做任意数字。<br>
+为了方便，大小王均以0来表示，并且假设这副牌中大小王均有两张。</p>
+<pre><code>样例1
+输入：[8,9,10,11,12]
+输出：true
+</code></pre>
+<p>思路：<br>
+1.<br>
+首先要计算出给定的数组中0的个数<br>
+其次需要知道不是顺子的条件：1）如果给定的牌中有对子，那么肯定不是顺子；2）如果两个牌之间的差值超过了0的个数，那么肯定也不是。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    bool isContinuous( vector&lt;int&gt; numbers ) {
+        int n = numbers.size();
+        if (n &lt; 5) return false;
+        sort(numbers.begin(), numbers.end());
+        int cnt = 0;
+        for (int i = 0; i &lt; n - 1; i ++){
+            if (numbers[i] == 0) cnt ++;
+            else
+            {
+                if (numbers[i + 1] == numbers[i]) return false;
+                if (numbers[i + 1] - numbers[i] - 1 &gt; cnt) return false;
+                cnt -= numbers[i + 1] - numbers[i] - 1;
+            }
+        }
+        return true;
+    }
+};
+</code></pre>
+<ol start="2">
+<li>一个总和为5的顺子，那么最大值与最小值之间的差距一定是5</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    bool isContinuous( vector&lt;int&gt; numbers ) {
+        if (numbers.empty()) return false;
+        sort(numbers.begin(), numbers.end());
+        int k = 0;
+        while (! numbers[k]) k ++;
+        for (int i = k + 1; i &lt; numbers.size();i ++){
+            if (numbers[i] == numbers[i - 1]) return false; 
+        }
+        return numbers.back() - numbers[k] &lt;= 4;
+    }
+};
+</code></pre>
+<h4 id="82-圆圈中最后剩下的数字">82. 圆圈中最后剩下的数字</h4>
+<p>题目描述：0, 1, …, n-1这n个数字(n&gt;0)排成一个圆圈，从数字0开始每次从这个圆圈里删除第m个数字。<br>
+求出这个圆圈里剩下的最后一个数字。</p>
+<pre><code>样例
+输入：n=5 , m=3
+输出：3
+</code></pre>
+<p>思路: 每次需要计算出删除元素的索引值，然后删除即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int lastRemaining(int n, int m){
+        if (n == 0 || m == 0) return -1;
+        vector&lt;int&gt; res;
+        for (int i = 0; i &lt; n; i ++) res.push_back(i);
+        int pos = 0;
+        while (res.size() &gt; 1){
+            pos = (pos + m - 1) % res.size();
+            res.erase(res.begin() + pos);
+        }
+        return res[0];
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution(object):
+    def lastRemaining(self, n, m):
+        &quot;&quot;&quot;
+        :type n: int
+        :type m: int
+        :rtype: int
+        &quot;&quot;&quot;
+        if n == 0 or m == 0: return -1;
+        res = [i for i in range(n)]
+        pos = 0
+        while len(res) &gt; 1:
+            pos = (pos + m - 1) % len(res)
+            res.pop(pos)
+        return res[0]   
+</code></pre>
+<h4 id="83-股票的最大利润">83. 股票的最大利润</h4>
+<p>题目描述：假设把某股票的价格按照时间先后顺序存储在数组中，请问买卖 一次 该股票可能获得的利润是多少？<br>
+例如一只股票在某些时间节点的价格为[9, 11, 8, 5, 7, 12, 16, 14]。<br>
+如果我们能在价格为5的时候买入并在价格为16时卖出，则能收获最大的利润11。</p>
+<pre><code>样例
+输入：[9, 11, 8, 5, 7, 12, 16, 14]
+输出：11
+</code></pre>
+<p>思路:</p>
+<ol>
+<li>构建一个数组，每个位置存的是当前元素之前的min(自己，自己之前的最小值)，最后算最大值的时候只需要遍历一次该数组就可以了。</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxDiff(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return 0;
+        int n = nums.size();
+        vector&lt;int&gt; minnum(n);
+        minnum[0] = nums[0];
+        for (int i = 1; i &lt; n; i ++){
+            if (nums[i] &lt; minnum[i - 1]) minnum[i] = nums[i];
+            else minnum[i] = minnum[i - 1];
+        }
+        int res = 0;
+        for (int i = 0; i &lt; n; i ++) res = max(res, nums[i] - minnum[i]);
+        return res;
+    }
+};
+</code></pre>
+<ol start="2">
+<li>也可以只维护一个最小值的变量就可以了。</li>
+</ol>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxDiff(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return 0;
+        int res = 0;
+        for (int i = 1, minv = nums[0]; i &lt; nums.size(); i ++){
+            res = max(res, nums[i] - minv);
+            minv = min(minv, nums[i]);
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="84-求12n">84. 求1+2+…+n</h4>
+<p>题目描述：求1+2+…+n,要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。</p>
+<pre><code>样例
+输入：10
+输出：55
+</code></pre>
+<p>思路: 求和运算可以通过递归的方式来做，主要的问题就是我们的终止条件是什么，可以通过判断n是否为0来进行终止。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int getSum(int n) {
+        int sum = n;
+        n &amp;&amp; (sum += getSum(--n));
+        return sum;
+    }
+};
+</code></pre>
+<h4 id="85-不用加减乘除做加法">85. 不用加减乘除做加法</h4>
+<p>题目描述：写一个函数，求两个整数之和，要求在函数体内不得使用＋、－、×、÷ 四则运算符号。</p>
+<pre><code>样例
+输入：num1 = 1 , num2 = 2
+输出：3
+</code></pre>
+<p>思路:<br>
+1、两个整数做异或^，得到各位相加不进位的运算结果；<br>
+2、两个整数做与&amp;，然后再左移一位，即得到进位的运算结果；<br>
+3、将上面两个结果相加，即重复步骤1,2，直至进位的运算结果为0；</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int add(int num1, int num2){
+        while (num2){
+            int sum = num1 ^ num2;
+            int carry = (num1 &amp; num2) &lt;&lt; 1;
+            num1 = sum, num2 = carry;
+        }
+        return num1;
+    }
+};
+</code></pre>
+<h4 id="86-构建乘积数组">86. 构建乘积数组</h4>
+<p>题目描述：给定一个数组A[0, 1, …, n-1]，请构建一个数组B[0, 1, …, n-1]，其中B中的元素B[i]=A[0]×A[1]×… ×A[i-1]×A[i+1]×…×A[n-1]。<br>
+<strong>不能使用除法。</strong></p>
+<pre><code>样例
+输入：[1, 2, 3, 4, 5]
+输出：[120, 60, 40, 30, 24]
+</code></pre>
+<p>思考题：<br>
+能不能只使用常数空间？（除了输出的数组之外）<br>
+思路：</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week6]]></title>
         <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week6</id>
@@ -3941,630 +4206,6 @@ public:
  * vector&lt;vector&lt;int&gt;&gt; param_2 = obj-&gt;getIntervals();
  */
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)]]></title>
-        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第六周</id>
-        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第六周">
-        </link>
-        <updated>2019-09-05T08:42:03.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="167-two-sum-ii-input-array-is-sorted"><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">167. Two Sum II - Input array is sorted</a></h4>
-<p>题目描述：给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。<br>
-函数应该返回这两个下标值 index1 和 index2，其中 index1 必须小于 index2。<br>
-Note：</p>
-<ul>
-<li>返回的下标值（index1 和 index2）不是从零开始的。</li>
-<li>你可以假设每个输入只对应唯一的答案，而且你不可以重复使用相同的元素。</li>
-</ul>
-<pre><code>示例:
-输入: numbers = [2, 7, 11, 15], target = 9
-输出: [1,2]
-解释: 2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
-</code></pre>
-<p>分析：暴力做法：设置两个for循环，来遍历数对，由于是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">n^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> 的复杂度，所以超时了。<br>
-双指针算法：我们设定两个指针i和j，i &lt;= j ，并且nums[i] + nums[j] &gt;= target，当i增大时，j势必会减小，这样就有一个单调性，直到我们找到答案。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; numbers, int target) {
-        for (int i = 0, j = numbers.size() - 1; i &lt; numbers.size(); i ++)
-        {
-            while (j - 1 &gt; i &amp;&amp; numbers[j - 1] + numbers[i] &gt;= target) j --;
-            if (numbers[i] + numbers[j] == target) return{i + 1, j + 1};
-        }
-        return {};
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def twoSum(self, numbers: List[int], target: int) -&gt; List[int]:
-        j = len(numbers) - 1
-        for i in range(len(numbers)):
-            while j - 1 &gt; i and numbers[j - 1] + numbers[i] &gt;= target:
-                j -= 1
-            if numbers[i] + numbers[j] == target: 
-                return [i + 1, j + 1]
-        return []
-</code></pre>
-<h4 id="88-merge-sorted-array"><a href="https://leetcode.com/problems/merge-sorted-array/">88. Merge Sorted Array</a></h4>
-<p>题目描述：给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。<br>
-Note：<br>
-说明:</p>
-<ul>
-<li>初始化 nums1 和 nums2 的元素数量分别为 m 和 n。</li>
-<li>你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。</li>
-</ul>
-<pre><code>示例:
-输入:
-nums1 = [1,2,3,0,0,0], m = 3
-nums2 = [2,5,6],       n = 3
-输出: [1,2,2,3,5,6]
-</code></pre>
-<p>分析：先用两个指针分别指向每个数组的最后一位，表示该数组的最大值；每次把两个指针指向的最大值拿出来，然后放在后面。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    void merge(vector&lt;int&gt;&amp; nums1, int m, vector&lt;int&gt;&amp; nums2, int n) {
-        int i = m - 1, j = n - 1, k = m + n - 1;
-        while (i &gt;= 0 &amp;&amp; j &gt;= 0)
-            if (nums1[i] &gt; nums2[j]) nums1[k -- ] = nums1[i --];
-            else nums1[k --] = nums2[j --];
-        while (j &gt;= 0) nums1[k --] = nums2[j --];        
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -&gt; None:
-        &quot;&quot;&quot;
-        Do not return anything, modify nums1 in-place instead.
-        &quot;&quot;&quot;
-        while m &gt; 0 and n &gt; 0:
-            if nums1[m - 1] &gt; nums2[n - 1]:
-                nums1[m + n - 1] = nums1[m - 1]
-                m -= 1
-            else:
-                nums1[m + n - 1] = nums2[n - 1]
-                n -= 1
-        if n &gt; 0:
-            nums1[:n] = nums2[:n]
-</code></pre>
-<h4 id="26-remove-duplicates-from-sorted-array"><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/">26. Remove Duplicates from Sorted Array</a></h4>
-<p>题目描述：给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。<br>
-不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。</p>
-<pre><code>示例 :
-给定 nums = [0,0,1,1,1,2,2,3,3,4],
-函数应该返回新的长度 5, 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4。
-你不需要考虑数组中超出新长度后面的元素。
-</code></pre>
-<p>分析：可以设置一个指针target指向最小的数字，每次与它进行判断，如果比它大，那么这就是一个新的数，替换target，并且交换位置。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int removeDuplicates(vector&lt;int&gt;&amp; nums) {
-        if (nums.empty()) return 0;
-        int target = nums[0];
-        int count = 1;
-        for (int i = 1; i &lt; nums.size(); i ++)
-        {
-            if (nums[i] &gt; target)
-            {
-                target = nums[i];
-                int tmp = nums[count];
-                nums[count] = nums[i];
-                nums[i] = tmp;
-                count += 1;
-            }
-        }
-        return count;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def removeDuplicates(self, nums):
-        &quot;&quot;&quot;
-        :type nums: List[int]
-        :rtype: int
-        &quot;&quot;&quot;
-        if not nums:
-            return 0
-        min_target = nums[0]
-        count = 1
-        i = 1
-        while i &lt; len(nums):
-            if nums[i] &gt; min_target:
-                min_target = nums[i]
-                nums[count], nums[i] = nums[i], nums[count]
-                count += 1
-            i += 1
-        return count
-</code></pre>
-<p>其实，不需要这么麻烦，设定一个指针k指向前面不同的数的最后一位的下一位，从前往后遍历，每次与它的前一个数进行比较，不同的话替换前面的指针k指向的数，k + 1即可；</p>
-<p>C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int removeDuplicates(vector&lt;int&gt;&amp; nums) {
-        if (nums.empty()) return 0;
-        int k = 1;
-        for (int j = 1; j &lt; nums.size(); j ++)
-        {
-        if (nums[j] != nums[j - 1]) nums[k ++] = nums[j];
-        }
-        return k;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def removeDuplicates(self, nums: List[int]) -&gt; int:
-        if not nums: return 0
-        k = 1;
-        for i in range(1, len(nums)):
-            if nums[i] != nums[i - 1]:
-                nums[k] = nums[i];
-                k += 1
-        return k;
-</code></pre>
-<h4 id="76-minimum-window-substring"><a href="https://leetcode.com/problems/minimum-window-substring/">76. Minimum Window Substring</a></h4>
-<p>题目描述：给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。<br>
-Note：</p>
-<ul>
-<li>如果 S 中不存这样的子串，则返回空字符串 &quot;&quot;。</li>
-<li>如果 S 中存在这样的子串，我们保证它是唯一的答案。</li>
-</ul>
-<pre><code>示例：
-输入: S = &quot;ADOBECODEBANC&quot;, T = &quot;ABC&quot;
-输出: &quot;BANC&quot;
-</code></pre>
-<p>分析：暴力写法：枚举S所有的子串，再去看是否包含T里所有的字母。<br>
-滑动窗口算法：i和j表示窗口的左右两个边界，j随i的变化而变化，设定一个hash表表示t中字母的数量，cnt表示有多少个不同的字母；然后遍历s，设定一个变量c表示遇到了几个我们需要的字母，当遇到需要的字母时<code>if hash[s[i]] == 1: c ++</code>，然后<code>hash[s[i]] --</code>表示需要的数量-1，这样不断挪动右窗口的边界就行，那做做窗口怎么更新呢？当我们一直往右走时，总会遇到一段拥有所有的字母，此时再往右走，hash中包含我们需要的字母的数值就会变为负值，此时进行判断，如果左边界的字母的hash值是负值，那就说明这个字母我们不需要，因为右边已经有了或者不是我们需要的，然后往右挪动一下，hash++即可。每次挪动右边记得要更新答案。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    string minWindow(string s, string t) {
-        unordered_map&lt;char, int&gt; hash;
-        string res;
-        for (auto c : t) hash[c] ++;
-        int cnt = hash.size();
-        for (int i = 0, j = 0, c = 0; i &lt; s.size(); i ++)
-        {
-            if (hash[s[i]] == 1) c++;
-            hash[s[i]] --;
-            while (hash[s[j]] &lt; 0) hash[s[j ++]] ++;
-            if (c == cnt)
-            {
-                if (res.empty() || res.size() &gt; i - j + 1) res = s.substr(j, i - j + 1);
-            }
-        }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">import collections
-
-class Solution:
-    def minWindow(self, s: str, t: str) -&gt; str:
-        hash_dict = collections.Counter(t)
-        res = &quot;&quot;
-        cnt = len(hash_dict)
-        j = 0
-        c = 0
-        for i in range(len(s)):
-            if (hash_dict[s[i]] == 1): c += 1
-            hash_dict[s[i]] -= 1
-            while j &lt; len(s) and hash_dict[s[j]] &lt; 0:
-                hash_dict[s[j]] += 1
-                j += 1
-            if c == cnt:
-                if (not res) or len(res) &gt; i - j + 1:
-                    res = s[j : i+1]
-        return res     
-</code></pre>
-<h4 id="32-longest-valid-parentheses"><a href="https://leetcode.com/problems/longest-valid-parentheses/">32. Longest Valid Parentheses</a></h4>
-<p>题目描述：给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。</p>
-<pre><code>示例 :
-输入: &quot;)()())&quot;
-输出: 4
-解释: 最长有效括号子串为 &quot;()()&quot;
-</code></pre>
-<p>分析：刚开始考虑用栈来做...<br>
-括号序列的一个性质：</p>
-<ul>
-<li>不论怎么匹配，左右括号一定是确定的</li>
-<li>一个括号序列合法&lt;=&gt;所有前缀和&gt;=0，且总和=0(左括号为1，右括号为-1)<br>
-所以我们可以用这个性质来做，start表示当前枚举的开头位置，cnt表示前缀和，然后开始遍历，计算start--&gt;i的前缀和cnt，如果cnt&lt;0，那就说明当前这一段不合法，start = i + 1，cnt = 0继续遍历；如果cnt &gt; 0那就说明当前合法，继续做；如果cnt = 0， 那就说明[start, i]这一段是合法序列，更新答案即可；但是会有这样一种情况，左括号的数量大于右括号的数量<code>(((())</code>这样cnt永远&gt;0，是更新不了答案的，所以还需要反着再来一遍。<br>
-C++</li>
-</ul>
-<pre><code class="language-c++">class Solution {
-public:
-    
-    int work(string s)
-    {
-        int res = 0;
-        for (int i = 0, start = 0, cnt = 0; i &lt; s.size(); i ++)
-        {
-            if (s[i] == '(') cnt ++ ;
-            else
-            {
-                cnt -- ;
-                if (cnt &lt; 0) start = i + 1, cnt = 0;
-                else if (cnt == 0)  res = max(res, i - start + 1);
-            }
-        }
-        return res;
-    }
-    
-    int longestValidParentheses(string s) {
-        int res = work(s);
-        reverse(s.begin(), s.end());
-        for (auto &amp;c : s) c ^= 1;
-        return max(res, work(s));
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def longestValidParentheses(self, s: str) -&gt; int:
-        res = self.work(s);
-        s = s[::-1];
-        s_reverse = &quot;&quot;
-        for char in s:
-            char = chr(ord(char) ^ 1)
-            s_reverse += char
-        return max(res, self.work(s_reverse))
-    
-    def work(self, s):
-        res, start, cnt = 0, 0, 0
-        for i in range(len(s)):
-            if s[i] == '(': cnt += 1
-            else:
-                cnt -= 1
-                if cnt &lt; 0: start, cnt = i + 1, 0
-                elif cnt == 0:
-                    res = max(res, i - start + 1)
-        return res      
-</code></pre>
-<p>用栈来做：<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int longestValidParentheses(string s) {
-        stack&lt;int&gt; stack;
-        int ans = 0;
-        int base = -1;
-        for (int i = 0; i &lt; s.size(); i ++ )
-        {
-            if (s[i] == '(') stack.push(i);
-            else 
-                if (stack.size() &gt; 0)
-                {
-                    stack.pop();
-                    if (stack.size() == 0) ans = max(ans, i - base);
-                    else ans = max(ans, i - stack.top());
-                }
-                else base = i;
-        }
-        return ans;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def longestValidParentheses(self, s: str) -&gt; int:
-        stack = []
-        ans = 0
-        base = -1
-        for i, c in enumerate(s):
-            if c == '(': stack.append(i)
-            elif stack:
-                stack.pop()
-                if stack:
-                    ans = max(ans, i - stack[-1])
-                else:
-                    ans = max(ans, i - base)
-            else:
-                base = i
-        return ans
-</code></pre>
-<h4 id="155-min-stack"><a href="https://leetcode.com/problems/min-stack/">155. Min Stack</a></h4>
-<p>题目描述：设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。</p>
-<ul>
-<li>push(x) -- 将元素 x 推入栈中。</li>
-<li>pop() -- 删除栈顶的元素。</li>
-<li>top() -- 获取栈顶元素。</li>
-<li>getMin() -- 检索栈中的最小元素。</li>
-</ul>
-<pre><code>示例:
-MinStack minStack = new MinStack();
-minStack.push(-2);
-minStack.push(0);
-minStack.push(-3);
-minStack.getMin();   --&gt; 返回 -3.
-minStack.pop();
-minStack.top();      --&gt; 返回 0.
-minStack.getMin();   --&gt; 返回 -2.
-</code></pre>
-<p>分析：本来的想法是建立一个列表，通过append和del操作来构造所需要的函数。<br>
-后来发现可以直接调用push和pop操作，不过唯一不同的是，在进行getMin操作时，可以新建一个栈，存的当前栈的最小值，第一个元素表示第一个数的最小值（也就是第一个数），第二个元素存的是前两个数的最小值，以此类推...<br>
-C++</p>
-<pre><code class="language-c++">class MinStack {
-public:
-    
-    stack&lt;int&gt; stk, stk_min;
-    
-    /** initialize your data structure here. */
-    MinStack() {
-        
-    }
-    
-    void push(int x) {
-        stk.push(x);
-        if (stk_min.empty()) stk_min.push(x);
-        else stk_min.push(min(x, stk_min.top()));
-    }
-    
-    void pop() {
-        stk.pop();
-        stk_min.pop();
-    }
-    
-    int top() {
-        return stk.top();
-    }
-    
-    int getMin() {
-        return stk_min.top();
-    }
-};
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack* obj = new MinStack();
- * obj-&gt;push(x);
- * obj-&gt;pop();
- * int param_3 = obj-&gt;top();
- * int param_4 = obj-&gt;getMin();
- */
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class MinStack:
-
-    def __init__(self):
-        &quot;&quot;&quot;
-        initialize your data structure here.
-        &quot;&quot;&quot;
-        self.stk = []
-        self.stk_min = []
-
-    def push(self, x: int) -&gt; None:
-        self.stk.append(x)
-        if self.stk_min:
-            self.stk_min.append(min(x, self.stk_min[-1]))
-        else: self.stk_min.append(x)
-
-    def pop(self) -&gt; None:
-        self.stk.pop()
-        self.stk_min.pop()
-
-    def top(self) -&gt; int:
-        return self.stk[-1]
-
-    def getMin(self) -&gt; int:
-        return self.stk_min[-1]
-
-# Your MinStack object will be instantiated and called as such:
-# obj = MinStack()
-# obj.push(x)
-# obj.pop()
-# param_3 = obj.top()
-# param_4 = obj.getMin()
-</code></pre>
-<h4 id="84-largest-rectangle-in-histogram"><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/">84. Largest Rectangle in Histogram</a></h4>
-<p>题目描述：给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。<br>
-求在该柱状图中，能够勾勒出来的矩形的最大面积。<br>
-<img src="https://tudouvvv.github.io//post-images/1568512602453.png" alt=""></p>
-<pre><code>示例:
-输入: [2,1,5,6,2,3]
-输出: 10
-</code></pre>
-<p>分析：<br>
-单调栈：查找每个数左/右侧第一个比它小/大的数<br>
-单调队列：查找滑动窗口中的最值<br>
-这道题首先要考虑的是如何能枚举出来所有的矩形：</p>
-<ol>
-<li>枚举所有柱形的上边界作为整个矩形的上边界，然后求出左右边界（往左右可以扩充的位置）</li>
-<li>找出左边离它最近的，比它小的柱形</li>
-<li>找出右边离它最近的，比它小的柱形<br>
-比如输入[2,1,5,6,2,3]，构建一个栈，每次push元素的时候都要比栈顶元素大，如果没有，就pop栈直到栈中没有比它大的元素，再进栈，这样就构成了一个单调栈。<br>
-C++</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int largestRectangleArea(vector&lt;int&gt;&amp; heights) {
-        int n = heights.size();
-        vector&lt;int&gt; left(n), right(n);
-        
-        stack&lt;int&gt; stk;
-        for (int i = 0; i &lt; n; i ++)
-        {
-            while (stk.size() &amp;&amp; heights[stk.top()] &gt;= heights[i])  stk.pop();
-            if (stk.empty()) left[i] = -1;
-            else left[i] = stk.top();
-            stk.push(i);
-        }
-        while(stk.size()) stk.pop();
-        for (int i = n - 1; i &gt;= 0; i --)
-        {
-            while (stk.size() &amp;&amp; heights[stk.top()] &gt;= heights[i]) stk.pop();
-            if (stk.empty()) right[i] = n;
-            else right[i] = stk.top();
-            stk.push(i);
-        }
-        
-        int res = 0;
-        for (int i = 0; i &lt; n; i ++)  res = max(res, heights[i] * (right[i] - left[i] - 1));
-        
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def largestRectangleArea(self, heights: List[int]) -&gt; int:
-        n = len(heights)
-        right, left = [0] * n, [0] * n
-        stk = []
-        for i in range(n):
-            while (len(stk) and heights[stk[-1]] &gt;= heights[i]): stk.pop()
-            if not stk: left[i] = -1
-            else: left[i] = stk[-1]
-            stk.append(i)
-        while len(stk): stk.pop()
-        
-        for i in range(n-1, -1, -1):
-            while (len(stk) and heights[stk[-1]] &gt;= heights[i]): stk.pop()
-            if not stk: right[i] = n
-            else: right[i] = stk[-1]
-            stk.append(i)
-        res = 0
-        for i in range(n): res = max(res, heights[i] * (right[i] - left[i] - 1))
-
-        return res
-</code></pre>
-<h4 id="42-trapping-rain-water"><a href="https://leetcode.com/problems/trapping-rain-water/">42. Trapping Rain Water</a></h4>
-<p>题目描述：给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。<br>
-<img src="https://tudouvvv.github.io//post-images/1568259976116.png" alt=""></p>
-<pre><code>示例:
-输入: [0,1,0,2,1,0,1,3,2,1,2,1]
-输出: 6
-</code></pre>
-<p>分析：找到数组中的低谷，低谷就是雨水可以存在的位置。</p>
-<ul>
-<li>三次线性扫描<br>
-每个矩形上方的水的数量是由它自己、它左边最高的位置以及它右边最高的位置决定的，所以我们需要首先得到每个位置左边最高位置和右边最高位置，然后水的数量就等于 <code>min(left[i], right[i]) - height[i]</code>。<br>
-C++</li>
-</ul>
-<pre><code class="language-c++">class Solution {
-public:
-    int trap(vector&lt;int&gt;&amp; height) {
-        int n = height.size();
-        int res = 0;
-        
-        if (n == 0) return 0;
-        
-        vector&lt;int&gt; left(n), right(n);
-        left[0] = height[0];
-        for (int i = 1; i &lt; n; i ++)
-            left[i] = max(left[i - 1], height[i]);
-        right[n - 1] = height[n - 1];
-        for (int i = n - 2; i &gt;= 0; i --)
-            right[i] = max(right[i + 1], height[i]);
-        for (int i = 0; i &lt; n; i ++)
-            res += min(left[i], right[i]) - height[i];
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def trap(self, height: List[int]) -&gt; int:
-        n = len(height)
-        res = 0
-        left, right = [0] * n, [0] * n
-        
-        if not height: return 0
-        
-        left[0] = height[0]
-        for i in range(n):
-            left[i] = max(left[i - 1], height[i])
-        right[n - 1] = height[n - 1]
-        for i in range(n - 2, -1, -1):
-            right[i] = max(right[i + 1], height[i])
-            
-        for i in range(n):
-            res += min(left[i], right[i]) - height[i]
-        
-        return res
-</code></pre>
-<ul>
-<li>单调栈（存疑）</li>
-</ul>
-<h4 id="239-sliding-window-maximum"><a href="https://leetcode.com/problems/sliding-window-maximum/">239. Sliding Window Maximum</a></h4>
-<p>题目描述：给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。<br>
-返回滑动窗口中的最大值。</p>
-<pre><code>示例:
-输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3
-输出: [3,3,5,5,6,7] 
-解释: 
-
-  滑动窗口的位置                最大值
----------------               -----
-[1  3  -1] -3  5  3  6  7       3
- 1 [3  -1  -3] 5  3  6  7       3
- 1  3 [-1  -3  5] 3  6  7       5
- 1  3  -1 [-3  5  3] 6  7       5
- 1  3  -1  -3 [5  3  6] 7       6
- 1  3  -1  -3  5 [3  6  7]      7
-</code></pre>
-<p>分析：</p>
-<ul>
-<li>暴力解法：枚举所有的情况，python可以进行切片操作，然后用max得到该窗口内的最大值。<br>
-Python</li>
-</ul>
-<pre><code class="language-python">class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -&gt; List[int]:
-        if not nums:
-            return []
-        res = []
-        n = len(nums)
-        for i in range(n - k + 1):
-            res.append(max(nums[i:i + k]))
-        return res
-</code></pre>
-<ul>
-<li>单调队列<br>
-单调队列是一个普通的双端队列，即队头和队尾都可以添加和弹出元素。维护这样一个队列：队头元素最大，队尾最小，这样在每个窗口中，只需要push队头元素即可。<br>
-每次添加元素时都需要进行检查：1）合法性检查：即如果队头元素下标已经不在窗口范围内，应该出队；2）单调性检查：如果nums[i]大于或等于队尾元素下标所对应的值，则当前队尾再也不可能充当某个滑动窗口的最大值了，故需要队尾出队。始终保持队中元素从队头到队尾单调递减。<br>
-C++</li>
-</ul>
-<pre><code class="language-c++">class Solution {
-public:
-    vector&lt;int&gt; maxSlidingWindow(vector&lt;int&gt;&amp; nums, int k) {
-        vector&lt;int&gt; res;
-        deque&lt;int&gt; q;
-        for(int i = 0; i &lt; nums.size(); i ++)
-        {
-            while (q.size() &amp;&amp; i - k + 1 &gt; q.front()) q.pop_front();
-            while(q.size() &amp;&amp; nums[i] &gt;= nums[q.back()]) q.pop_back();
-            q.push_back(i);
-            if (i &gt;= k - 1)  res.push_back(nums[q.front()]);
-        }
-        
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -&gt; List[int]:
-        res = []
-        q = []
-        n = len(nums)
-        for i in range(n):
-            if(len(q) and i - k + 1 &gt; q[0]): 
-                q.pop(0)
-            while(len(q) and nums[i] &gt;= nums[q[-1]]): 
-                q.pop()
-            q.append(i)
-            if i &gt;= k - 1: 
-                res.append(nums[q[0]])
-        return res
-</code></pre>
-<h4 id="918-maximum-sum-circular-subarray"><a href="https://leetcode.com/problems/maximum-sum-circular-subarray/">918. Maximum Sum Circular Subarray</a>(存疑)</h4>
 ]]></content>
     </entry>
 </feed>
