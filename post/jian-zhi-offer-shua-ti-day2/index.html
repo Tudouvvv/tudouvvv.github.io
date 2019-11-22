@@ -372,6 +372,39 @@ public:
     }
 };
 </code></pre>
+<p>update: 快速幂<br>
+比如我们要求 a ^ b，加入b = 13, 那么二进制表示就是1101，即8 + 4 + 1, 所以a ^ b = a ^ 8 * a ^ 4 * a ^ 1, 这就表明当b的二进制位是1的时候，我们可以乘以a ^ 2 ^ 位数。<br>
+所以这道题也可以这样做：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    double Power(double base, int exponent) {
+        double res = 1, t = base;
+        bool is_minus = false;
+        if (exponent &lt; 0) is_minus = true, exponent = -exponent;
+        while (exponent &gt; 0){
+            if (exponent &amp; 1) res *= t;
+            t *= t;
+            exponent &gt;&gt;= 1;
+        }
+        if (is_minus) return 1 / res;
+        return res;
+    }
+};
+</code></pre>
+<p>快速幂模板：<br>
+求 m^k%p ，时间复杂度 O(logk)。</p>
+<pre><code class="language-c++">int qmi(int m, int k, int p)
+{
+    int res = 1 % p, t = m;
+    while (k)
+    {
+        if (k&amp;1) res = res * t % p;
+        t = t * t % p;
+        k &gt;&gt;= 1;
+    }
+    return res;
+}
+</code></pre>
 <h4 id="28-在o1时间删除链表结点">28. 在O(1)时间删除链表结点</h4>
 <p>题目描述：给定单向链表的一个节点指针，定义一个函数在O(1)时间删除该结点。<br>
 假设链表一定存在，并且该节点一定不是尾节点。<br>

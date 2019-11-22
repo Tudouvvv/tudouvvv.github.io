@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-11-12T08:48:18.759Z</updated>
+    <updated>2019-11-22T07:27:43.229Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -2152,6 +2152,39 @@ public:
     }
 };
 </code></pre>
+<p>update: 快速幂<br>
+比如我们要求 a ^ b，加入b = 13, 那么二进制表示就是1101，即8 + 4 + 1, 所以a ^ b = a ^ 8 * a ^ 4 * a ^ 1, 这就表明当b的二进制位是1的时候，我们可以乘以a ^ 2 ^ 位数。<br>
+所以这道题也可以这样做：</p>
+<pre><code class="language-c++">class Solution {
+public:
+    double Power(double base, int exponent) {
+        double res = 1, t = base;
+        bool is_minus = false;
+        if (exponent &lt; 0) is_minus = true, exponent = -exponent;
+        while (exponent &gt; 0){
+            if (exponent &amp; 1) res *= t;
+            t *= t;
+            exponent &gt;&gt;= 1;
+        }
+        if (is_minus) return 1 / res;
+        return res;
+    }
+};
+</code></pre>
+<p>快速幂模板：<br>
+求 m^k%p ，时间复杂度 O(logk)。</p>
+<pre><code class="language-c++">int qmi(int m, int k, int p)
+{
+    int res = 1 % p, t = m;
+    while (k)
+    {
+        if (k&amp;1) res = res * t % p;
+        t = t * t % p;
+        k &gt;&gt;= 1;
+    }
+    return res;
+}
+</code></pre>
 <h4 id="28-在o1时间删除链表结点">28. 在O(1)时间删除链表结点</h4>
 <p>题目描述：给定单向链表的一个节点指针，定义一个函数在O(1)时间删除该结点。<br>
 假设链表一定存在，并且该节点一定不是尾节点。<br>
@@ -2416,6 +2449,24 @@ public:
     }
 };
 </code></pre>
+<p>update:</p>
+<pre><code class="language-python">class Solution(object):
+    def duplicateInArray(self, nums):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :rtype int
+        &quot;&quot;&quot;
+        if not nums: return -1;
+        l, r = 0, len(nums) - 1
+        while l &lt; r:
+            mid = l + r &gt;&gt; 1;
+            cnt = 0
+            for num in nums:
+                if (num &gt;= l and num &lt;= mid): cnt += 1
+            if (cnt &gt; mid - l + 1): r = mid
+            else: l = mid + 1
+        return l
+</code></pre>
 <h4 id="15-二维数组中的查找">15. 二维数组中的查找</h4>
 <p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。<br>
 请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
@@ -2446,6 +2497,24 @@ public:
         return false;
     }
 };
+</code></pre>
+<p>update:</p>
+<pre><code class="language-c++">class Solution(object):
+    def searchArray(self, array, target):
+        &quot;&quot;&quot;
+        :type array: List[List[int]]
+        :type target: int
+        :rtype: bool
+        &quot;&quot;&quot;
+        if (len(array) == 0 or len(array[0]) == 0): return False
+        n = len(array)
+        m = len(array[0])
+        i, j = 0, m - 1;
+        while i &lt; n and j &gt;=0:
+            if array[i][j] == target: return True
+            if array[i][j] &gt; target: j -= 1
+            else: i += 1
+        return False
 </code></pre>
 <h4 id="16-替换空格">16. 替换空格</h4>
 <p>请实现一个函数，把字符串中的每个空格替换成&quot;%20&quot;。<br>
