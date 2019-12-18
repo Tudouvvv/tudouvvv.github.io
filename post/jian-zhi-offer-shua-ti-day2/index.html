@@ -496,6 +496,15 @@ public:
     }
 };
 </code></pre>
+<pre><code class="language-python">class Solution(object):
+    def reOrderArray(self, array):
+        l, r = 0, len(array) - 1
+        while (l &lt; r):
+            while (l &lt; r and array[l] % 2 == 1): l += 1
+            while (l &lt; r and array[r] % 2 == 0): r -= 1
+            if (l &lt; r):
+                array[l], array[r] = array[r], array[l]
+</code></pre>
 <h4 id="33-链表中倒数第k个节点">33. 链表中倒数第k个节点</h4>
 <p>题目描述: 输入一个链表，输出该链表中倒数第k个结点。<br>
 注意：<br>
@@ -523,6 +532,32 @@ public:
         if (k &gt; n) return NULL;
         for (int i = 0; i &lt; n - k; i ++) p = p-&gt;next;
         return p;
+    }
+};
+</code></pre>
+<p>Update:<br>
+也可以用双指针算法来做</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findKthToTail(ListNode* head, int k) {
+        auto p = head, q = head;
+        int n = 0;
+        for (auto q = head; q; q = q-&gt;next) n ++;
+        if (k &gt; n) return NULL;
+        while (k --) p = p-&gt;next;
+        while (p){
+            p = p -&gt; next;
+            q = q-&gt;next;
+        }
+        return q;
     }
 };
 </code></pre>

@@ -169,7 +169,7 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<h4 id="57-数字序列中某一位的数字">57. 数字序列中某一位的数字</h4>
+				<h4 id="57-数字序列中某一位的数字">57. <a href="https://www.acwing.com/problem/content/52/">数字序列中某一位的数字</a></h4>
 <p>题目描述：数字以0123456789101112131415…的格式序列化到一个字符序列中。<br>
 在这个序列中，第5位（从0开始计数）是5，第13位是1，第19位是4，等等。<br>
 请写一个函数求任意位对应的数字。</p>
@@ -186,21 +186,39 @@ window.onload=getCSS();
 <pre><code class="language-c++">class Solution {
 public:
     int digitAtIndex(int n) {
-         long long i = 1, s = 9, base = 1;//i表示是几位数，s表示位数共有多少个，base表示位数的起始值。
-         while(n &gt; i * s) {   // 9, 90, 900, 9000, 90000, i * s表示位数总共占多少位。
-             n -= i * s;         // 1000 - 9 - 90 * 2 - 900 * 3 ,当i= 3 时不符合条件，说明是在三位数里面。
-             i ++;                
-             s *= 10;
-             base *= 10;
-         }
-         int number = base + (n + i - 1) / i - 1; //求位数的第几个数， 1000 - 9 - 180 = n , n / 3 + base - 1（考虑0故减1）, 向上取整 n + i - 1。
-         int r = n % i ? n % i : i;              // 除不尽就是第几位，除尽力了就是最后一位。
-         for (int j = 0; j &lt; i - r; j ++) number /= 10; //求数的第i - r位，取出第i - r位。
-
-         return number % 10;
+        long long i = 1, s = 9, base = 1;
+        // i 表示几位数，s表示该位共有几个数字，base表示该位的起始数字是几
+        while (n &gt; i * s){
+            n -= i * s;
+            i ++;
+            s *= 10;
+            base *= 10;
+        }
+        int number = base + (n + i - 1) / i - 1;
+        // 这里应该n/i上取整，但是c++中没有上取整，所以用n+i-1代替
+        int r = n % i ? n % i : i;
+        for (int j = 0; j &lt; i - r; j ++) number /= 10;
+        // 已经知道是哪个数字，并且也知道是哪一位，只需要把后面的删掉就可以了
+        // 比如number=23432，r=2，我们要求的就是3，把后三位删掉，即i-r位删掉
+        return number % 10;
     }
 };
 </code></pre>
+<pre><code class="language-python">class Solution:
+    def findNthDigit(self, n: int) -&gt; int:
+        i, s, base = 1, 9, 1
+        while n &gt; i * s:
+            n -= i * s
+            i += 1
+            s *= 10
+            base *= 10
+        number = base + int ((n + i - 1) / i ) - 1
+        r = n % i if n % i else i;
+        for j in range(i - r):
+            number /= 10
+        return int (number % 10)
+</code></pre>
+<p>ps. leetcode400</p>
 <h4 id="58-把数组排成最小的数">58. 把数组排成最小的数</h4>
 <p>题目描述：<br>
 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。<br>
@@ -237,7 +255,8 @@ public:
 输入：&quot;12258&quot;
 输出：5
 </code></pre>
-<p>思路：这道题之前做过，可以用动态规划来做。</p>
+<p>思路：这道题之前做过，可以用动态规划来做。<br>
+f[i]表示前i位数字有多少种不同的表示方式，</p>
 <pre><code class="language-python">class Solution:
     def getTranslationCount(self, s):
         &quot;&quot;&quot;

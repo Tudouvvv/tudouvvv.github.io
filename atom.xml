@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-11-22T07:27:43.229Z</updated>
+    <updated>2019-12-18T01:46:32.470Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,48 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[做作的日常②]]></title>
+        <id>https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2</id>
+        <link href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2">
+        </link>
+        <updated>2019-12-17T03:46:53.000Z</updated>
+        <content type="html"><![CDATA[<h4 id="179-largest-number"><a href="https://leetcode.com/problems/largest-number/">179. Largest Number</a></h4>
+<p>题目描述：<br>
+Given a list of non negative integers, arrange them such that they form the largest number.</p>
+<pre><code>Example 1:
+Input: [10,2]
+Output: &quot;210&quot;
+</code></pre>
+<pre><code class="language-c++">class Solution {
+public:
+    
+    static bool cmp(int a, int b){
+        string as = to_string(a), bs = to_string(b);
+        return as + bs &gt; bs + as;
+    }
+    
+    string largestNumber(vector&lt;int&gt;&amp; nums) {
+        sort(nums.begin(), nums.end(), cmp);
+        string res;
+        for (auto x : nums) res += to_string(x);
+        int k = 0;
+        while (res[k] == '0') k ++;
+        return k == res.size() ? &quot;0&quot; : res.substr(k, res.size());
+    }
+};
+</code></pre>
+<pre><code class="language-python">from functools import cmp_to_key
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -&gt; str:
+        if not nums: return ''
+        nums = map(str, nums)
+        nums = sorted(nums, key = cmp_to_key(lambda a, b : int(a + b) - int (b + a)), reverse=True)
+        return &quot;&quot;.join(nums).lstrip('0') or '0'
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week7]]></title>
         <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7</id>
@@ -626,7 +668,7 @@ public:
         <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week5">
         </link>
         <updated>2019-11-06T12:13:03.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="57-数字序列中某一位的数字">57. 数字序列中某一位的数字</h4>
+        <content type="html"><![CDATA[<h4 id="57-数字序列中某一位的数字">57. <a href="https://www.acwing.com/problem/content/52/">数字序列中某一位的数字</a></h4>
 <p>题目描述：数字以0123456789101112131415…的格式序列化到一个字符序列中。<br>
 在这个序列中，第5位（从0开始计数）是5，第13位是1，第19位是4，等等。<br>
 请写一个函数求任意位对应的数字。</p>
@@ -643,21 +685,39 @@ public:
 <pre><code class="language-c++">class Solution {
 public:
     int digitAtIndex(int n) {
-         long long i = 1, s = 9, base = 1;//i表示是几位数，s表示位数共有多少个，base表示位数的起始值。
-         while(n &gt; i * s) {   // 9, 90, 900, 9000, 90000, i * s表示位数总共占多少位。
-             n -= i * s;         // 1000 - 9 - 90 * 2 - 900 * 3 ,当i= 3 时不符合条件，说明是在三位数里面。
-             i ++;                
-             s *= 10;
-             base *= 10;
-         }
-         int number = base + (n + i - 1) / i - 1; //求位数的第几个数， 1000 - 9 - 180 = n , n / 3 + base - 1（考虑0故减1）, 向上取整 n + i - 1。
-         int r = n % i ? n % i : i;              // 除不尽就是第几位，除尽力了就是最后一位。
-         for (int j = 0; j &lt; i - r; j ++) number /= 10; //求数的第i - r位，取出第i - r位。
-
-         return number % 10;
+        long long i = 1, s = 9, base = 1;
+        // i 表示几位数，s表示该位共有几个数字，base表示该位的起始数字是几
+        while (n &gt; i * s){
+            n -= i * s;
+            i ++;
+            s *= 10;
+            base *= 10;
+        }
+        int number = base + (n + i - 1) / i - 1;
+        // 这里应该n/i上取整，但是c++中没有上取整，所以用n+i-1代替
+        int r = n % i ? n % i : i;
+        for (int j = 0; j &lt; i - r; j ++) number /= 10;
+        // 已经知道是哪个数字，并且也知道是哪一位，只需要把后面的删掉就可以了
+        // 比如number=23432，r=2，我们要求的就是3，把后三位删掉，即i-r位删掉
+        return number % 10;
     }
 };
 </code></pre>
+<pre><code class="language-python">class Solution:
+    def findNthDigit(self, n: int) -&gt; int:
+        i, s, base = 1, 9, 1
+        while n &gt; i * s:
+            n -= i * s
+            i += 1
+            s *= 10
+            base *= 10
+        number = base + int ((n + i - 1) / i ) - 1
+        r = n % i if n % i else i;
+        for j in range(i - r):
+            number /= 10
+        return int (number % 10)
+</code></pre>
+<p>ps. leetcode400</p>
 <h4 id="58-把数组排成最小的数">58. 把数组排成最小的数</h4>
 <p>题目描述：<br>
 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。<br>
@@ -694,7 +754,8 @@ public:
 输入：&quot;12258&quot;
 输出：5
 </code></pre>
-<p>思路：这道题之前做过，可以用动态规划来做。</p>
+<p>思路：这道题之前做过，可以用动态规划来做。<br>
+f[i]表示前i位数字有多少种不同的表示方式，</p>
 <pre><code class="language-python">class Solution:
     def getTranslationCount(self, s):
         &quot;&quot;&quot;
@@ -2276,6 +2337,15 @@ public:
     }
 };
 </code></pre>
+<pre><code class="language-python">class Solution(object):
+    def reOrderArray(self, array):
+        l, r = 0, len(array) - 1
+        while (l &lt; r):
+            while (l &lt; r and array[l] % 2 == 1): l += 1
+            while (l &lt; r and array[r] % 2 == 0): r -= 1
+            if (l &lt; r):
+                array[l], array[r] = array[r], array[l]
+</code></pre>
 <h4 id="33-链表中倒数第k个节点">33. 链表中倒数第k个节点</h4>
 <p>题目描述: 输入一个链表，输出该链表中倒数第k个结点。<br>
 注意：<br>
@@ -2303,6 +2373,32 @@ public:
         if (k &gt; n) return NULL;
         for (int i = 0; i &lt; n - k; i ++) p = p-&gt;next;
         return p;
+    }
+};
+</code></pre>
+<p>Update:<br>
+也可以用双指针算法来做</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* findKthToTail(ListNode* head, int k) {
+        auto p = head, q = head;
+        int n = 0;
+        for (auto q = head; q; q = q-&gt;next) n ++;
+        if (k &gt; n) return NULL;
+        while (k --) p = p-&gt;next;
+        while (p){
+            p = p -&gt; next;
+            q = q-&gt;next;
+        }
+        return q;
     }
 };
 </code></pre>
@@ -3576,705 +3672,6 @@ p = &quot;a*&quot;
 </ol>
 </li>
 </ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LeetCode暑期打卡第七周(基本数据结构专题)]]></title>
-        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第七周(基本数据结构专题)</id>
-        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第七周(基本数据结构专题)">
-        </link>
-        <updated>2019-09-23T07:09:57.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="1-two-sum"><a href="https://leetcode.com/problems/two-sum/">1. Two Sum</a></h4>
-<p>题目描述：给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。<br>
-你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。</p>
-<pre><code>示例:
-给定 nums = [2, 7, 11, 15], target = 9
-因为 nums[0] + nums[1] = 2 + 7 = 9
-所以返回 [0, 1]
-</code></pre>
-<p>分析：可以设计一个字典来保存值与索引的映射关系，然后去找target-nums[i]是否在字典中，如果在并且该值不等于nums[i]的话(避免重复利用)，就说明这是一个答案。<br>
-Python</p>
-<pre><code class="language-python">class Solution:
-    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
-        dicts = {}
-        for i, v in enumerate(nums):
-            dicts[v] = i
-        for i in range(len(nums)):
-            if target - nums[i] in dicts and dicts[target - nums[i]] != i:
-                return [i, dicts[target-nums[i]]]
-</code></pre>
-<p>也可以用hash表来做：<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
-        unordered_map&lt;int, int&gt; hash;
-        for (int i = 0; i &lt; nums.size(); i ++)
-        {
-            if (hash.count(target - nums[i]))  return{hash[target - nums[i]], i};
-            hash[nums[i]] = i;
-        }
-        return {-1, -1};
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
-        dicts = {}
-        for i in range(len(nums)):
-            if target - nums[i] in dicts:
-                return [dicts[target - nums[i]], i]
-            dicts[nums[i]] = i
-        return [-1, -1]
-</code></pre>
-<p>Ps.</p>
-<ul>
-<li>if (hash.count(key)) 是判断hash表中是否存在关键字key；</li>
-<li>if (hash[key]) 是判断key对应的value值是否是真，如果key在hash表中不存在，则会先为其创建默认值，比如int的默认值是0，vector<int>的默认值是vector<int>()；<br>
-在C++中，如果想往哈希表中插入一对(key, value)，一般写hash[key] = value；<br>
-如果想查找一个key是否存在，一般有两种写法：</li>
-<li>if (hash.find(key) != hash.end())</li>
-<li>if (hash.count(key) != 0)<br>
-第二种写法短一些，所以用得比较多。<br>
-来源：<a href="https://www.acwing.com/">AcWing</a></li>
-</ul>
-<h4 id="187-repeated-dna-sequences"><a href="https://leetcode.com/problems/repeated-dna-sequences/">187. Repeated DNA Sequences</a></h4>
-<p>题目描述：所有 DNA 由一系列缩写为 A，C，G 和 T 的核苷酸组成，例如：“ACGAATTCCG”。在研究 DNA 时，识别 DNA 中的重复序列有时会对研究非常有帮助。<br>
-编写一个函数来查找 DNA 分子中所有出现超多一次的10个字母长的序列（子串）。</p>
-<pre><code>示例:=
-输入: s = &quot;AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT&quot;
-输出: [&quot;AAAAACCCCC&quot;, &quot;CCCCCAAAAA&quot;]
-</code></pre>
-<p>分析：如果是确定的十个字母长的字符串，那是否可以从前往后枚举，至多就有n - 1中情况，这样是不是有点慢。<br>
-好吧，确实是这样做的，先把字符串中长度为10的子串拿出啦插入到hash表中，然后统计次数，最后输出次数大于等于2的子串就可以了。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    vector&lt;string&gt; findRepeatedDnaSequences(string s) {
-        unordered_map &lt;string, int&gt; hash;
-        vector&lt;string&gt; res;
-        for (int i = 0; i + 10 &lt;= s.size(); i ++)
-        {
-            string str = s.substr(i, 10);
-            hash[str] ++;
-            if (hash[str] == 2) res.push_back(str);
-        }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def findRepeatedDnaSequences(self, s: str) -&gt; List[str]:
-        dicts = {}
-        res  = []
-        for i in range(len(s) - 9):
-            substr = s[i : i + 10]
-            dicts.setdefault(substr, 0)
-            dicts[substr] += 1
-            if dicts[substr] == 2: res.append(substr)
-        return res
-</code></pre>
-<h4 id="706-design-hashmap"><a href="https://leetcode.com/problems/design-hashmap/">706. Design HashMap</a></h4>
-<p>题目描述：不使用任何内建的哈希表库设计一个哈希映射<br>
-具体地说，你的设计应该包含以下的功能</p>
-<ul>
-<li>put(key, value)：向哈希映射中插入(键,值)的数值对。如果键对应的值已经存在，更新这个值。</li>
-<li>get(key)：返回给定的键所对应的值，如果映射中不包含这个键，返回-1。</li>
-<li>remove(key)：如果映射中存在这个键，删除这个数值对。<br>
-Note:</li>
-<li>所有的值都在 [1, 1000000]的范围内。</li>
-<li>操作的总数目在[1, 10000]范围内。</li>
-<li>不要使用内建的哈希库。</li>
-</ul>
-<pre><code>示例：
-MyHashMap hashMap = new MyHashMap();
-hashMap.put(1, 1);          
-hashMap.put(2, 2);         
-hashMap.get(1);            // 返回 1
-hashMap.get(3);            // 返回 -1 (未找到)
-hashMap.put(2, 1);         // 更新已有的值
-hashMap.get(2);            // 返回 1 
-hashMap.remove(2);         // 删除键为2的数据
-hashMap.get(2);            // 返回 -1 (未找到) 
-</code></pre>
-<p>分析：为了避免插入的时候冲突，使用拉链法，用一个链表来存储映射到该位置的元素。</p>
-<ol>
-<li>对于put(key, value)操作:<br>
-先求出key的哈希值(取模)，然后遍历该位置上的链表:<br>
-如果链表中包含key，则更新其对应的value；<br>
-如果链表中不包含key，则直接将（key，value）插入该链表中。</li>
-<li>对于get(key)操作:<br>
-求出key对应的哈希值后，遍历该位置上的链表.<br>
-如果key在链表中，则返回其对应的value，否则返回-1。</li>
-<li>对于remove(key)，求出key的哈希值后，遍历该位置上的链表，如果key在链表中，则将其删除。</li>
-</ol>
-<p>Python</p>
-<pre><code class="language-python">class MyHashMap:
-
-    def __init__(self):
-        &quot;&quot;&quot;
-        Initialize your data structure here.
-        &quot;&quot;&quot;
-        self.hash = [[] for _ in range(20011)]
-        # 开辟一个大数组，长度为质数，注意这里不能用 [[]] * 20011，会被覆盖
-        # 一般定义成离2的整次幂比较远的质数，这样取模之后冲突的概率比较低。
-
-    def put(self, key: int, value: int) -&gt; None:
-        &quot;&quot;&quot;
-        value will always be non-negative.
-        &quot;&quot;&quot;
-        index = key % 20011
-        for item in self.hash[index]:
-            if item[0] == key:
-                item[1] = value
-                return
-        self.hash[index].append([key, value])
-
-    def get(self, key: int) -&gt; int:
-        &quot;&quot;&quot;
-        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
-        &quot;&quot;&quot;
-        index = key % 20011
-        for item in self.hash[index]:
-            if item[0] == key:
-                return item[1]
-        return -1
-
-    def remove(self, key: int) -&gt; None:
-        &quot;&quot;&quot;
-        Removes the mapping of the specified value key if this map contains a mapping for the key
-        &quot;&quot;&quot;
-        index = key % 20011
-        delete = []
-        for item in self.hash[index]:
-            if item[0] == key:
-                self.hash[index].remove(item)
-
-# Your MyHashMap object will be instantiated and called as such:
-# obj = MyHashMap()
-# obj.put(key,value)
-# param_2 = obj.get(key)
-# obj.remove(key)
-</code></pre>
-<h4 id="652-find-duplicate-subtrees"><a href="https://leetcode.com/problems/find-duplicate-subtrees/">652. Find Duplicate Subtrees</a></h4>
-<p>题目描述：给定一棵二叉树，返回所有重复的子树。对于同一类的重复子树，你只需要返回其中任意一棵的根结点即可。<br>
-两棵树重复是指它们具有相同的结构以及相同的结点值。<br>
-分析:<br>
-首先把所有的子树枚举出来，然后把该子树用hash映射成一个整数。然后在建一个hash表示每个子树出现的次数，寻找子树时可以使用前序遍历的深度优先搜索。<br>
-C++</p>
-<pre><code class="language-c++">/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
-public:
-    
-    int cnt = 0;
-    unordered_map&lt;string, int&gt; hash;
-    unordered_map&lt;int, int&gt; count;
-    vector &lt;TreeNode*&gt; ans;
-    
-    string dfs(TreeNode* root)
-    {
-        if (!root) return to_string(hash[&quot;#&quot;]);
-        
-        auto left = dfs(root-&gt;left);
-        auto right = dfs(root-&gt;right);
-        string tree = to_string(root-&gt;val) + ',' + left + ',' + right;
-        if (! hash.count(tree)) hash[tree] = ++ cnt;
-        int t = hash[tree];
-        count[t] ++ ;
-        if (count[t] == 2) ans.push_back(root);
-        
-        return to_string(t);
-        
-    }
-    
-    vector&lt;TreeNode*&gt; findDuplicateSubtrees(TreeNode* root) {
-        hash[&quot;#&quot;] = ++ cnt;
-        dfs(root);
-        return ans;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python"># Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def findDuplicateSubtrees(self, root: TreeNode) -&gt; List[TreeNode]:
-        self.cnt = 0
-        hashs = {}
-        count = {}
-        ans = []
-        hashs['#'] = self.cnt = self.cnt + 1
-        
-        def dfs(root):
-            if not root: return str(hashs['#'])
-            
-            left = dfs(root.left)
-            right = dfs(root.right)
-            
-            tree = str(root.val) + ',' + left + ',' + right
-            self.cnt += 1
-            hashs.setdefault(tree, self.cnt)
-            t = hashs[tree]
-            count.setdefault(t, 0)
-            count[t] += 1
-            if count[t] == 2: ans.append(root)
-            
-            return str(t)
-        
-        dfs(root);
-        return ans;
-</code></pre>
-<h4 id="560-subarray-sum-equals-k"><a href="https://leetcode.com/problems/subarray-sum-equals-k/">560. Subarray Sum Equals K</a></h4>
-<p>题目描述：给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。<br>
-Note:</p>
-<ul>
-<li>数组的长度为 [1, 20,000]。</li>
-<li>数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。</li>
-</ul>
-<pre><code>示例:
-输入: nums = [1,1,1], k = 2
-输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
-</code></pre>
-<p>分析：滑动窗口嘛//前缀和！！！<br>
-用前缀和加hash的方式可以做，每次记录s[i] - k出现的次数，因为假设s[j] = s[i] - k, 那么说明从j+1 到 i的和为k。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int subarraySum(vector&lt;int&gt;&amp; nums, int k) {
-        unordered_map&lt;int, int&gt; hash;
-        int res = 0;
-        hash[0] = 1;
-        
-        for (int i = 0, sum = 0; i &lt; nums.size(); i ++)
-        {
-            sum += nums[i];
-            res += hash[sum - k];
-            hash[sum] ++;
-        }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def subarraySum(self, nums: List[int], k: int) -&gt; int:
-        hashs = {}
-        res = 0
-        count = 0
-        hashs[0] = 1
-        for i in range(len(nums)):
-            count += nums[i]
-            if count - k in hashs:
-                res += hashs[count - k]
-            if count in hashs:
-                hashs[count] += 1
-            else: hashs[count] = 1
-        return res
-</code></pre>
-<h4 id="547-friend-circles"><a href="https://leetcode.com/problems/friend-circles/">547. Friend Circles</a>(存疑)</h4>
-<p>题目描述：班上有 N 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 A 是 B 的朋友，B 是 C 的朋友，那么我们可以认为 A 也是 C 的朋友。所谓的朋友圈，是指所有朋友的集合。<br>
-给定一个 N * N 的矩阵 M，表示班级中学生之间的朋友关系。如果M[i][j] = 1，表示已知第 i 个和 j 个学生互为朋友关系，否则为不知道。你必须输出所有学生中的已知的朋友圈总数。<br>
-Note:</p>
-<ul>
-<li>N 在[1,200]的范围内。</li>
-<li>对于所有学生，有M[i][i] = 1。</li>
-<li>如果有M[i][j] = 1，则有M[j][i] = 1。</li>
-</ul>
-<pre><code>示例:
-输入: 
-[[1,1,0],
- [1,1,1],
- [0,1,1]]
-输出: 1
-说明：已知学生0和学生1互为朋友，学生1和学生2互为朋友，所以学生0和学生2也是朋友，所以他们三个在一个朋友圈，返回1。
-</code></pre>
-<p>分析：<br>
-并查集：1）合并两个集合；2）判断两个点是否在同一个集合中。<br>
-所以刚开始每个都是单独的集合，如果两个点之间为1，说明它们在一个集合之中，于是合并它们，集合个数减一。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    
-    vector&lt;int&gt; p;
-    
-    int find(int x)
-    {
-        if (p[x] != x) p[x] = find(p[x]);
-        return p[x];
-    }
-    
-    int findCircleNum(vector&lt;vector&lt;int&gt;&gt;&amp; M) {
-        int n = M.size();
-        int res = n;
-        for (int i = 0; i &lt; n; i ++) p.push_back(i);
-        for (int i = 0; i &lt; n; i ++)
-            for (int j = 0; j &lt; i; j ++)
-            {
-                if (M[i][j] == 0) continue;
-                if (find(i) != find(j))
-                {
-                    p[find(i)] = find(p[j]);
-                    res --;
-                }
-            }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def findCircleNum(self, M: List[List[int]]) -&gt; int:
-        p = []
-        res = n = len(M)
-        for i in range(n):
-            p.append(i)
-            
-        def find(x):
-            if p[x] != x:
-                p[x] = find(p[x])
-            return p[x]
-        
-        for i in range(n):
-            for j in range(i):
-                if M[i][j] == 0: continue
-                if find(i) != find(j):
-                    p[find(i)] = find(j)
-                    res -= 1
-        return res
-</code></pre>
-<h4 id="684-redundant-connection"><a href="https://leetcode.com/problems/redundant-connection/">684. Redundant Connection</a></h4>
-<p>题目描述：在本问题中, 树指的是一个连通且无环的无向图。<br>
-输入一个图，该图由一个有着N个节点 (节点值不重复1, 2, ..., N) 的树及一条附加的边构成。附加的边的两个顶点包含在1到N中间，这条附加的边不属于树中已存在的边。<br>
-结果图是一个以边组成的二维数组。每一个边的元素是一对[u, v] ，满足 u &lt; v，表示连接顶点u 和v的无向图的边。<br>
-返回一条可以删去的边，使得结果图是一个有着N个节点的树。如果有多个答案，则返回二维数组中最后出现的边。答案边 [u, v] 应满足相同的格式 u &lt; v。</p>
-<pre><code>示例：
-输入: [[1,2], [2,3], [3,4], [1,4], [1,5]]
-输出: [1,4]
-解释: 给定的无向图为:
-5 - 1 - 2
-    |   |
-    4 - 3
-</code></pre>
-<p>分析：并查集应用：<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    
-    vector&lt;int&gt; p;
-    
-    int find(int x)
-    {
-        if (p[x] != x)  p[x] = find(p[x]);
-        return p[x];
-    }
-    
-    vector&lt;int&gt; findRedundantConnection(vector&lt;vector&lt;int&gt;&gt;&amp; edges) {
-        int n = edges.size();
-        
-        for (int i = 0; i &lt;= n; i ++) p.push_back(i);
-        
-        for (auto e : edges)
-        {
-            int a = e[0], b = e[1];
-            if (find(a) == find(b)) return {a, b};
-            p[find(a)] = find(b);
-        }
-        
-        return {-1, -1};
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def findRedundantConnection(self, edges: List[List[int]]) -&gt; List[int]:
-        p = []
-        n = len(edges)
-        for i in range(n + 1): p.append(i)
-        
-        def find(x):
-            if p[x] != x: p[x] = find(p[x])
-            return p[x]
-        
-        for e in edges:
-            a = e[0]
-            b = e[1]
-            if find(a) == find(b): return [a, b];
-            p[find(a)] = find(b)
-        return [-1, -1]
-</code></pre>
-<h4 id="692-top-k-frequent-words"><a href="https://leetcode.com/problems/top-k-frequent-words/">692. Top K Frequent Words</a></h4>
-<p>Ps.对一个堆来说:</p>
-<ol>
-<li>查找最大值O(1)</li>
-<li>插入一个数O(logn)</li>
-<li>删除一个数O(logn)<br>
-题目描述：给一非空的单词列表，返回前 k 个出现次数最多的单词。<br>
-返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。<br>
-Note：</li>
-</ol>
-<ul>
-<li>假定 k 总为有效值， 1 ≤ k ≤ 集合元素数。</li>
-<li>输入的单词均由小写字母组成。</li>
-</ul>
-<pre><code>示例：
-输入: [&quot;i&quot;, &quot;love&quot;, &quot;leetcode&quot;, &quot;i&quot;, &quot;love&quot;, &quot;coding&quot;], k = 2
-输出: [&quot;i&quot;, &quot;love&quot;]
-解析: &quot;i&quot; 和 &quot;love&quot; 为出现次数最多的两个单词，均为2次。
-    注意，按字母顺序 &quot;i&quot; 在 &quot;love&quot; 之前。
-</code></pre>
-<p>分析：可不可以用hash来做！！！<br>
-我们要找出出现次数最多的k个单词，用小根堆来维护出现次数最多的k个单词。</p>
-<pre><code class="language-C++">class Solution {
-public:
-    vector&lt;string&gt; topKFrequent(vector&lt;string&gt;&amp; words, int k) {
-        unordered_map&lt;string, int&gt; hash;
-        typedef pair&lt;int, string&gt; PIS;
-        priority_queue&lt;PIS&gt; heap;
-        
-        for (auto word : words) hash[word] ++;
-        
-        for (auto item : hash)
-        {
-            PIS t(-item.second, item.first);
-            heap.push(t);
-            if (heap.size() &gt; k) heap.pop();
-        }
-        
-        vector&lt;string&gt; res(k);
-        for (int i = k - 1; i &gt;= 0; i --)
-        {
-            res[i] = heap.top().second;
-            heap.pop();
-        }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution(object):
-    def topKFrequent(self, words, k):
-        count = collections.Counter(words)
-        heap = [(-freq, word) for word, freq in count.items()]
-        heapq.heapify(heap)
-        # print(heapq.nsmallest(3, heap))
-        return [heapq.heappop(heap)[1] for _ in range(k)]
-</code></pre>
-<p>也可以直接用排序来做：<br>
-Python</p>
-<pre><code class="language-python">class Solution:
-    def topKFrequent(self, words: List[str], k: int) -&gt; List[str]:
-        d = {}
-        for word in words: 
-            d[word] = d.get(word, 0) + 1
-        res = sorted(d, key = lambda word : (-d[word], word))
-        return res[:k]
-</code></pre>
-<h4 id="295-find-median-from-data-stream"><a href="https://leetcode.com/problems/find-median-from-data-stream/">295. Find Median from Data Stream</a></h4>
-<p>题目描述：中位数是有序列表中间的数。如果列表长度是偶数，中位数则是中间两个数的平均值。<br>
-例如，<br>
-[2,3,4] 的中位数是 3<br>
-[2,3] 的中位数是 (2 + 3) / 2 = 2.5<br>
-设计一个支持以下两种操作的数据结构：<br>
-void addNum(int num) - 从数据流中添加一个整数到数据结构中。<br>
-double findMedian() - 返回目前所有元素的中位数。</p>
-<pre><code>示例：
-addNum(1)
-addNum(2)
-findMedian() -&gt; 1.5
-addNum(3) 
-findMedian() -&gt; 2
-</code></pre>
-<p>分析：init一个列表，每次add的时候就往里加元素，find的时候判断长度是否为偶数，可能需要注意的是添加数以后列表应该也是有序的。<br>
-Python</p>
-<pre><code class="language-python">class MedianFinder:
-
-    def __init__(self):
-        &quot;&quot;&quot;
-        initialize your data structure here.
-        &quot;&quot;&quot;
-        self.res = []
-
-    def addNum(self, num: int) -&gt; None:
-        self.res.append(num)
-
-    def findMedian(self) -&gt; float:
-        self.res = sorted(self.res)
-        n = len(self.res)
-        if n % 2 == 0:
-            return float((self.res[n//2] + self.res[n//2 - 1]) * 0.5)
-        else:
-             return self.res[int(n/2)]
-
-# Your MedianFinder object will be instantiated and called as such:
-# obj = MedianFinder()
-# obj.addNum(num)
-# param_2 = obj.findMedian()
-</code></pre>
-<p>然后超时了，因为每次都要对列表进行排序，耗费的时间太多。<br>
-正确的解法：构建一个对顶堆：<br>
-<img src="https://tudouvvv.github.io//post-images/1569500324525.png" alt=""><br>
-如图，上面是一个小根堆，保存数值较大的一部分，下面是一个大根堆，保存数值较小的一部分，每部分的元素个数都是n / 2，这样中间的元素就是我们要找的数。<br>
-如果 x&gt;= 下面的根节点，插入上面的堆，反之插入下面的堆，然后维护两个堆的个数即可。<br>
-C++</p>
-<pre><code class="language-c++">class MedianFinder {
-public:
-    
-    priority_queue &lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; up;
-    priority_queue &lt;int&gt; down;
-    
-    /** initialize your data structure here. */
-    MedianFinder() {
-        
-    }
-    
-    void addNum(int num) {
-        if (down.empty() || num &gt; down.top()) up.push(num);
-        else
-        {
-            down.push(num);
-            up.push(down.top());
-            down.pop();
-        }
-        if (up.size() &gt; down.size() + 1)
-        {
-            down.push(up.top());
-            up.pop();
-        }
-    }
-    
-    double findMedian() {
-        if (down.size() + up.size() &amp; 1) return up.top();
-        else return (down.top() + up.top()) / 2.0;
-    }
-};
-
-/**
- * Your MedianFinder object will be instantiated and called as such:
- * MedianFinder* obj = new MedianFinder();
- * obj-&gt;addNum(num);
- * double param_2 = obj-&gt;findMedian();
- */
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">from heapq import heappush, heappop
-class MedianFinder:
-
-    def __init__(self):
-        &quot;&quot;&quot;
-        initialize your data structure here.
-        &quot;&quot;&quot;
-        self.up = []
-        self.down = []
-
-    def addNum(self, num: int) -&gt; None:
-        if (len(self.down) == 0 or -num &lt; self.down[0]): 
-            heappush(self.up, num);
-        else:
-            heappush(self.down, -num)
-            heappush(self.up, -self.down[0])
-            heappop(self.down)
-            
-        if len(self.up) &gt; len(self.down) + 1:
-            heappush(self.down, -self.up[0])
-            heappop(self.up)
-
-    def findMedian(self) -&gt; float:
-        if len(self.up) + len(self.down) &amp; 1: return self.up[0]
-        else: 
-            return (self.up[0] - self.down[0]) * 0.5
-
-# Your MedianFinder object will be instantiated and called as such:
-# obj = MedianFinder()
-# obj.addNum(num)
-# param_2 = obj.findMedian()
-</code></pre>
-<h4 id="352-data-stream-as-disjoint-intervals"><a href="https://leetcode.com/problems/data-stream-as-disjoint-intervals/">352. Data Stream as Disjoint Intervals</a></h4>
-<p>题目描述：给定一个非负整数的数据流输入 a1，a2，…，an，…，将到目前为止看到的数字总结为不相交的区间列表。<br>
-例如，假设数据流中的整数为 1，3，7，2，6，…，每次的总结为：</p>
-<ol>
-<li>[1, 1]</li>
-<li>[1, 1], [3, 3]</li>
-<li>[1, 1], [3, 3], [7, 7]</li>
-<li>[1, 3], [7, 7]</li>
-<li>[1, 3], [6, 7]<br>
-分析：根据题意，在第四步的时候，应该加一个区间[2, 2]，但是由于[1, 2, 3]是连续的，所以合并区间，变为了[1, 3]。<br>
-用平衡树来维护所有区间，构建两个字典，L和R，分别对左右端点进行映射，L中的value是左端点，R中的value是右端点，然后当有新的x插入的时候，一共有四种情况：<br>
-<img src="https://tudouvvv.github.io//post-images/1569506788992.png" alt=""><br>
-比如说一个区间是[x, y]，那么L[y] = x, R[x] = y。<br>
-C++</li>
-</ol>
-<pre><code class="language-c++">class SummaryRanges {
-public:
-    /** Initialize your data structure here. */
-    
-    map&lt;int, int&gt; L, R;
-    
-    SummaryRanges() {
-        
-    }
-    
-    void addNum(int x) {
-        if (L.size())
-        {
-            auto it = L.lower_bound(x);
-            if (it != L.end() &amp;&amp; it-&gt;second &lt;= x) return;
-        }
-        
-        int left = L.count(x - 1), right = R.count(x + 1);
-        
-        if (left &amp;&amp; right)
-        {
-            R[L[x - 1]] = R[x + 1];
-            L[R[x + 1]] = L[x - 1];
-            L.erase(x - 1), R.erase(x + 1);
-        }
-        else if (left)
-        {
-            R[L[x - 1]] = x;
-            L[x] = L[x - 1];
-            L.erase(x - 1);
-        }
-        else if (right)
-        {
-            L[R[x + 1]] = x;
-            R[x] = R[x + 1];
-            R.erase(x + 1);
-        }
-        else
-        {
-            R[x] = L[x] = x;
-        }
-        
-    }
-    vector&lt;vector&lt;int&gt;&gt; getIntervals() {
-        vector&lt;vector&lt;int&gt;&gt; res;
-        for (auto item : R) res.push_back({item.first, item.second});
-        return res;
-    }
-};
-
-/**
- * Your SummaryRanges object will be instantiated and called as such:
- * SummaryRanges* obj = new SummaryRanges();
- * obj-&gt;addNum(val);
- * vector&lt;vector&lt;int&gt;&gt; param_2 = obj-&gt;getIntervals();
- */
-</code></pre>
 ]]></content>
     </entry>
 </feed>
