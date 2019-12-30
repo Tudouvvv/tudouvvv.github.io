@@ -173,14 +173,14 @@ window.onload=getCSS();
 <!--more-->
 <p>昨天刚好看了怎么把爬下来的数据存储到excle中，所以用猫眼电影TOP100拿来练手，可惜，效果不佳：构想的太过美好，以为先把一页的写好，最后加入多页的机制就好。<br>
 然后开始写爬取一页存储结果的代码，写完之后再加入爬取多页的代码，结果悲剧了，发现每次爬完一页后它存储结果的时候会把上次的结果给覆盖掉Σ(っ °Д °;)っ，找到了这个逻辑错误的地方，然后思考解决办法，纠结了半天不知道怎么修改，准备睡觉的时候灵机一动~~ 我干嘛存储的时候只存储一页啊，我为啥不设置一个空表，然后把每一页处理完的信息先存入总表，然后对总表再进行分析存储不就解决了吗。<br>
-真的是太僵硬了Σ(っ °Д °;)っ<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%9D%8E%E5%85%89%E6%B4%99%E8%A1%A8%E6%83%85--%E4%B8%8D%E8%A1%8C%E5%95%8A.gif" alt=""></p>
+真的是太僵硬了Σ(っ °Д °;)っ<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%9D%8E%E5%85%89%E6%B4%99%E8%A1%A8%E6%83%85--%E4%B8%8D%E8%A1%8C%E5%95%8A.gif" alt="" loading="lazy"></p>
 <p>好吧下面是所有的操作流程。</p>
 <h1 id="目的爬取猫眼电影top100的信息">目的：爬取猫眼电影TOP100的信息</h1>
 <h1 id="分析过程">分析过程</h1>
 <p>打开猫眼电影，找到	TOP100所在的网页(<code>http://maoyan.com/board/4</code>)<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%8C%AB%E7%9C%BCTOP100.png" alt="">)</p>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%8C%AB%E7%9C%BCTOP100.png" alt="" loading="lazy">)</p>
 <p>每一页有十部电影，一共十页，打开开发者工具，查看我们要爬取的信息有哪些：</p>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7.png" alt=""><br>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7.png" alt="" loading="lazy"><br>
 OK，我们需要爬取电影海报链接，电影名，猫眼的ID编号，主演，上映时间，以及评分(我要吐槽一下这个评分，(╯‵□′)╯︵┻━┻为啥要分成两部分啊，好好的在一起不好吗)，每个电影的信息都在<code>&lt;dd&gt;&lt;/dd&gt;</code>这个节点中，然后开始写正则表达式来提取想要的信息(明明前几天才复习过正则表达式，一到用的时候就又忘记了，只能需要什么然后去翻笔记）：</p>
 <pre><code class="language-python">import requests
 import re
@@ -413,24 +413,24 @@ movie.go()
 </code></pre>
 <h1 id="最终结果">最终结果</h1>
 <h2 id="目录信息">目录信息</h2>
-<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%9C.png" alt=""><br>
+<p><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%9C.png" alt="" loading="lazy"><br>
 我这里设置的是同级目录，也可以在<code>__save_excle</code>中修改成别的目录</p>
 <h2 id="爬取信息">爬取信息</h2>
-<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt=""></figure>
-<p>明天尝试爬一下豆瓣的TOP250哈哈哈哈哈<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%86%B2%E9%B8%AD.jpg" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E7%88%AC%E5%8F%96%E7%BB%93%E6%9E%9C.png" alt="" loading="lazy"></figure>
+<p>明天尝试爬一下豆瓣的TOP250哈哈哈哈哈<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%86%B2%E9%B8%AD.jpg" alt="" loading="lazy"></p>
 <h1 id="爬取豆瓣后续">爬取豆瓣后续：</h1>
 <p>本来以为是改几个变量的值就可以了 = = 没想到还是遇到了点儿问题<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E8%B1%86%E7%93%A3top250_%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.png" alt="" loading="lazy"><br>
 分析正则表达式的时候使用排名第一的<code>肖申克的救赎</code>进行分析的，按照流程，一切都很正常，然后我准备储存进excle的时候出现了问题：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E5%AD%98%E5%82%A8%E5%87%BA%E9%94%99.png" alt="" loading="lazy"><br>
 噢，看来是存储主演姓名的时候出错了，出错原因并不清楚，然后百度了一下：</p>
 <pre><code>Python不支持dict的key为list或dict类型，因为list和dict类型是unhashable（不可哈希）的。
 </code></pre>
 <p>虽然不知道啥叫不可哈希，但是也差不多清楚了，可能是我的<code>star</code>名的<code>key</code>值没有转换过来，去看了一下，果然：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-star.png" alt="" loading="lazy"><br>
 数据精炼的时候，我的<code>star</code>还是列表，应该取列表里的元素的，于是我在后面加入了<code>[0]</code>,以为这下可以成功了，结果又出错了：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png" alt=""><br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg" alt=""><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-list_out_of_range.png" alt="" loading="lazy"><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg" alt="" loading="lazy"><br>
 这又是什么错误？？？列表超出范围？？？什么鬼？？？于是我又百度了一下，找到了原因：</p>
 <pre><code>这个错误出现大约有两种情况： 
 第1种可能情况 
@@ -441,7 +441,7 @@ list是一个空的 没有一个元素
 进行list[0]就会出现该错误
 </code></pre>
 <p>嗯？？？难道是我的<code>star</code>是空的？？？不可能啊，当时还打印出<code>anchors[0]</code>看过的啊，有值啊，难道是别的电影？？？于是我打开豆瓣TOP250，看了一下：<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png" alt=""><br>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%B2%A1%E6%9C%89star%E5%80%BC.png" alt="" loading="lazy"><br>
 果然，我发现有一部电影的<code>star</code>有一点不一样，这什么鬼啊，导演名字这么长？？？为什么后面三个点...以后就没东西了啊，除非你点进这部电影的详情页，否则你是看不到主演姓名的(暂时发现是这样)，所以又遇到了一个问题：</p>
 <pre><code>爬虫有的时候会匹配到空值，这个时候应该怎么处理？？
 </code></pre>
@@ -451,26 +451,26 @@ list是一个空的 没有一个元素
         star = 'None'
 </code></pre>
 <p>就这样，成功的解决了问题，并且这一次我是把每个部分的函数拆个一个一个模块来写的:<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt=""></p>
+<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-%E6%A8%A1%E5%9D%97.png" alt="" loading="lazy"></p>
 <p>最后成功获得了豆瓣TOP250的详细名单：</p>
-<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt=""></figure>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/2018-09-19-top250.png" alt="" loading="lazy"></figure>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://tudouvvv.github.io//tag/python" rel="tag">Python</a>	
+				<a href="https://tudouvvv.github.io/tag/python" rel="tag">Python</a>	
 				 
-				<a href="https://tudouvvv.github.io//tag/code" rel="tag">Code</a>	
+				<a href="https://tudouvvv.github.io/tag/code" rel="tag">Code</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/Python数据库学习" rel="prev"> Python数据库学习</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io/post/Python数据库学习" rel="prev"> Python数据库学习</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/Python学习之路" rel="next"> Python学习日记</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io/post/Python学习之路" rel="next"> Python学习日记</a></div>
 		
 		</div>
 	</nav>

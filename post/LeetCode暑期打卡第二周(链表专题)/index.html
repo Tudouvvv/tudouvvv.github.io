@@ -353,7 +353,7 @@ class Solution:
 向右旋转 2 步: 4-&gt;5-&gt;1-&gt;2-&gt;3-&gt;NULL
 </code></pre>
 <p>分析：翻转就是把最后k个结点移到前面，由于k可能超过链表的长度，所以应该首先取模；<br>
-<img src="https://tudouvvv.github.io//post-images/1563972831098.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1563972831098.png" alt="" loading="lazy"><br>
 然后利用双指针，first指针首先从头往后走k步，然后second指针和first同时走，first走到结尾的时候停止，此时，first指向末尾，second指向倒数第k+1位；最后1. first-&gt;next=head； 2. head=second.next；3. second.next-&gt;null。<br>
 ps. 头结点变得情况可以用虚拟头结点<br>
 C++</p>
@@ -421,7 +421,7 @@ class Solution:
 Given 1-&gt;2-&gt;3-&gt;4, you should return the list as 2-&gt;1-&gt;4-&gt;3.
 </code></pre>
 <p>分析：每次枚举一对儿结点，因为这道题头结点会发生变化，所以创建虚拟头结点p，然后分别创建a、b两个结点。<br>
-<img src="https://tudouvvv.github.io//post-images/1564026372602.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1564026372602.png" alt="" loading="lazy"><br>
 修改三个指针的指向位置即可：<br>
 p-&gt;next = b；a-&gt;next = b-&gt;next；b-&gt;next = a；然后挪动p<br>
 的位置，指向下一对儿结点的头部p= a。</p>
@@ -621,14 +621,14 @@ class Solution:
 <h4 id="160-intersection-of-two-linked-lists"><a href="https://leetcode.com/problems/intersection-of-two-linked-lists/">160. Intersection of Two Linked Lists</a></h4>
 <p>题目描述：编写一个程序，找到两个单链表相交的起始节点。<br>
 如下面的两个链表：<br>
-<img src="https://tudouvvv.github.io//post-images/1564042210816.png" alt="">在节点 c1 开始相交。<br>
+<img src="https://tudouvvv.github.io//post-images/1564042210816.png" alt="" loading="lazy">在节点 c1 开始相交。<br>
 注意：</p>
 <ol>
 <li>如果两个链表没有交点，返回 null.</li>
 <li>在返回结果后，两个链表仍须保持原有的结构。</li>
 <li>可假定整个链表结构中没有循环。</li>
 <li>程序尽量满足 O(n) 时间复杂度，且仅用 O(1) 内存。<br>
-分析：<img src="https://tudouvvv.github.io//post-images/1564042664892.png" alt=""><br>
+分析：<img src="https://tudouvvv.github.io//post-images/1564042664892.png" alt="" loading="lazy"><br>
 设定两个指针，每次向后走一位，走到头后交换出发点，如果两个链表相交，那么它们在走过a+b+c后就一定会相遇，如果最后为空，那么它们就没有相交。</li>
 </ol>
 <p>C++</p>
@@ -685,7 +685,7 @@ class Solution(object):
 <li>不允许修改链表</li>
 <li>能否只用O(1)的空间</li>
 </ul>
-<p><img src="https://tudouvvv.github.io//post-images/1564452405688.png" alt=""><br>
+<p><img src="https://tudouvvv.github.io//post-images/1564452405688.png" alt="" loading="lazy"><br>
 分析：设定两个指针，一个快指针fast（红色），一个慢指针slow（蓝色），fast指针每次走两步，slow指针每次走一步，当slow指针到b的时候，fast指针在左边c'处，离b的距离是y，由于快指针比慢指针快，所以二者会在c处相遇。相遇之后把慢指针重新放在头部，然后两个指针每次走一步，当两者相遇时一定在b点。因为第一次慢指针走到b时，走了x步，而快指针走了2x步，所以b--&gt;c'的距离是x步，整个圈的距离是x+y步，现在慢指针在开头，快指针在c处，两者每次走一步，当慢指针走x步时，快指针也走x步，就恰好相遇在b处。</p>
 <p>C++</p>
 <pre><code class="language-c++">/**
@@ -824,17 +824,17 @@ public:
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://tudouvvv.github.io//tag/leetcode" rel="tag">Leetcode</a>	
+				<a href="https://tudouvvv.github.io/tag/leetcode" rel="tag">Leetcode</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第三周(树专题)" rel="prev"> LeetCode暑期打卡第三周(树专题)</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io/post/LeetCode暑期打卡第三周(树专题)" rel="prev"> LeetCode暑期打卡第三周(树专题)</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第一周(二分法)" rel="next"> LeetCode暑期打卡第一周(二分专题)</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io/post/LeetCode暑期打卡第一周(二分法)" rel="next"> LeetCode暑期打卡第一周(二分专题)</a></div>
 		
 		</div>
 	</nav>

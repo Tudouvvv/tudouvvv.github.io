@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-12-30T03:18:08.885Z</updated>
+    <updated>2019-12-30T03:25:21.038Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
-    <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
+    <link rel="self" href="https://tudouvvv.github.io/atom.xml"/>
     <subtitle>人生还长，慢慢来</subtitle>
-    <logo>https://tudouvvv.github.io//images/avatar.png</logo>
-    <icon>https://tudouvvv.github.io//favicon.ico</icon>
+    <logo>https://tudouvvv.github.io/images/avatar.png</logo>
+    <icon>https://tudouvvv.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
     <entry>
         <title type="html"><![CDATA[杂记①]]></title>
-        <id>https://tudouvvv.github.io//post/za-ji</id>
-        <link href="https://tudouvvv.github.io//post/za-ji">
+        <id>https://tudouvvv.github.io/post/za-ji</id>
+        <link href="https://tudouvvv.github.io/post/za-ji">
         </link>
         <updated>2019-12-24T01:45:22.000Z</updated>
         <content type="html"><![CDATA[<h2 id="树专题">树专题</h2>
@@ -30,8 +30,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常②]]></title>
-        <id>https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2</id>
-        <link href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2">
+        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2</id>
+        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2">
         </link>
         <updated>2019-12-17T03:46:53.000Z</updated>
         <content type="html"><![CDATA[<h4 id="179-largest-number"><a href="https://leetcode.com/problems/largest-number/">179. Largest Number</a></h4>
@@ -72,8 +72,8 @@ class Solution:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week7]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week7">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7">
         </link>
         <updated>2019-11-12T01:23:56.000Z</updated>
         <content type="html"><![CDATA[<h4 id="80-骰子的点数">80. 骰子的点数</h4>
@@ -355,8 +355,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week6]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week6</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week6">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6">
         </link>
         <updated>2019-11-08T08:46:58.000Z</updated>
         <content type="html"><![CDATA[<h4 id="68-0到n-1中缺失的数字">68. 0到n-1中缺失的数字</h4>
@@ -790,8 +790,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week5(1道没有做)]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week5</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week5">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5">
         </link>
         <updated>2019-11-06T12:13:03.000Z</updated>
         <content type="html"><![CDATA[<h4 id="57-数字序列中某一位的数字">57. <a href="https://www.acwing.com/problem/content/52/">数字序列中某一位的数字</a></h4>
@@ -1139,8 +1139,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week4（1道不会做）]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week4</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week4">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4">
         </link>
         <updated>2019-11-04T02:27:34.000Z</updated>
         <content type="html"><![CDATA[<h4 id="46-二叉搜索树的后序遍历序列">46. 二叉搜索树的后序遍历序列</h4>
@@ -1225,7 +1225,7 @@ public:
 注意：<br>
 函数结束后原链表要与输入时保持一致。<br>
 思路：题意就是让我们把一个复杂链表复制再返回，因为有额外指针的关系，我们可以这样来做：<br>
-<img src="https://tudouvvv.github.io//post-images/1572873769602.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1572873769602.png" alt="" loading="lazy"><br>
 首先每个节点可以在后面复制一个它，再接到下一个节点上，本来可能是1-&gt;2-&gt;3，现在变成了1-&gt;1-&gt;2-&gt;2-&gt;3-&gt;3，假如1.random = 3，那么现在，1.next.random = 1.random.next，之后再把下面这些多加的节点拿出来就好了。</p>
 <pre><code class="language-c++">/**
  * Definition for singly-linked list with a random pointer.
@@ -1266,7 +1266,7 @@ public:
 注意：<br>
 需要返回双向链表最左侧的节点。<br>
 例如，输入下图中左边的二叉搜索树，则输出右边的排序双向链表。<br>
-<img src="https://tudouvvv.github.io//post-images/1572919419174.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1572919419174.png" alt="" loading="lazy"><br>
 思路:</p>
 <ol>
 <li>二叉搜索树的中序遍历就是双向链表的顺序，唯一不同的是，在中序遍历的时候需要把当前节点的左指针指向前一个点，前一个点的右指针指向当前点。</li>
@@ -1694,8 +1694,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week3]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week3</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-week3">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3">
         </link>
         <updated>2019-10-31T08:34:44.000Z</updated>
         <content type="html"><![CDATA[<h4 id="35-反转链表">35. 反转链表</h4>
@@ -2157,8 +2157,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week2(2道题不会做)]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day2</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day2">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2">
         </link>
         <updated>2019-10-29T03:04:52.000Z</updated>
         <content type="html"><![CDATA[<h4 id="24-机器人的运动范围">24. 机器人的运动范围</h4>
@@ -2594,8 +2594,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week1]]></title>
-        <id>https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1</id>
-        <link href="https://tudouvvv.github.io//post/jian-zhi-offer-shua-ti-day1">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1">
         </link>
         <updated>2019-10-25T00:54:07.000Z</updated>
         <content type="html"><![CDATA[<h4 id="13-找出数组中重复的数字">13. 找出数组中重复的数字</h4>
@@ -2940,7 +2940,7 @@ public:
 </code></pre>
 <p>思路：树的后继：当前节点在中序遍历中的下一个节点，即整颗二叉搜索树中比我大的最小的元素。<br>
 要分情况讨论<br>
-<img src="https://tudouvvv.github.io//post-images/1572309512253.png" alt=""></p>
+<img src="https://tudouvvv.github.io//post-images/1572309512253.png" alt="" loading="lazy"></p>
 <ol>
 <li>如图，如果当前节点有右儿子，那么右子树最左侧的节点就是当前节点的后继，比如F的后继就是H；</li>
 <li>如果没有的话，就要去寻找它的父节点的，如果当前节点是它父节点的左子树，那么它的父节点就是后继,比如H的后继就是E，否则，就一直向上寻找，比如D，它是它父节点的右子树，那么就继续向上找，直到找到是左子树的父节点，它的父节点是C，C是父节点F的左子树，所以F就是D的后继。</li>
@@ -3206,8 +3206,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常①]]></title>
-        <id>https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang</id>
-        <link href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang">
+        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang</id>
+        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang">
         </link>
         <updated>2019-10-07T12:45:12.000Z</updated>
         <content type="html"><![CDATA[<p>十一就要结束了呀！！！<br>

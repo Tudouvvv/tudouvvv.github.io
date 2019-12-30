@@ -712,7 +712,7 @@ Python</p>
 </code></pre>
 <p>然后超时了，因为每次都要对列表进行排序，耗费的时间太多。<br>
 正确的解法：构建一个对顶堆：<br>
-<img src="https://tudouvvv.github.io//post-images/1569500324525.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1569500324525.png" alt="" loading="lazy"><br>
 如图，上面是一个小根堆，保存数值较大的一部分，下面是一个大根堆，保存数值较小的一部分，每部分的元素个数都是n / 2，这样中间的元素就是我们要找的数。<br>
 如果 x&gt;= 下面的根节点，插入上面的堆，反之插入下面的堆，然后维护两个堆的个数即可。<br>
 C++</p>
@@ -799,7 +799,7 @@ class MedianFinder:
 <li>[1, 3], [6, 7]<br>
 分析：根据题意，在第四步的时候，应该加一个区间[2, 2]，但是由于[1, 2, 3]是连续的，所以合并区间，变为了[1, 3]。<br>
 用平衡树来维护所有区间，构建两个字典，L和R，分别对左右端点进行映射，L中的value是左端点，R中的value是右端点，然后当有新的x插入的时候，一共有四种情况：<br>
-<img src="https://tudouvvv.github.io//post-images/1569506788992.png" alt=""><br>
+<img src="https://tudouvvv.github.io//post-images/1569506788992.png" alt="" loading="lazy"><br>
 比如说一个区间是[x, y]，那么L[y] = x, R[x] = y。<br>
 C++</li>
 </ol>
@@ -864,17 +864,17 @@ public:
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://tudouvvv.github.io//tag/leetcode" rel="tag">Leetcode</a>	
+				<a href="https://tudouvvv.github.io/tag/leetcode" rel="tag">Leetcode</a>	
 				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第八周(动态规划专题)" rel="prev"> LeetCode暑期打卡第八周(动态规划专题)</a></div>
+		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io/post/LeetCode暑期打卡第八周(动态规划专题)" rel="prev"> LeetCode暑期打卡第八周(动态规划专题)</a></div>
 		 
 		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第六周" rel="next"> LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io/post/LeetCode暑期打卡第六周" rel="next"> LeetCode暑期打卡第六周( 滑动窗口、双指针、单调队列和单调栈专题)</a></div>
 		
 		</div>
 	</nav>
