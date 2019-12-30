@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>[每日一题]-942. DI String Match | Tudouvvv</title>	
+<title>杂记① | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
@@ -64,7 +64,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/leetcode.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/za-ji.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -158,10 +158,10 @@ window.onload=getCSS();
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">[每日一题]-942. DI String Match</h1>
+			<h1 class="wow swing entry-title">杂记①</h1>
 <div class="entry-meta">
 <div class="wow bounce">
-	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-04-04 16:19:05" itemprop="datePublished" pubdate="">2019-04-04</time></i>
+	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-12-24 09:45:22" itemprop="datePublished" pubdate="">2019-12-24</time></i>
 	          </div>
 			
 </span>
@@ -169,61 +169,27 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<center>升 级 打 怪 ing ~ ~</center>
-<!--more-->
-<p>题目地址：<a href="https://leetcode.com/problems/di-string-match/">942. DI String Match</a></p>
-<p>题目要求：</p>
-<p>输入一个字符串S，只包含I(increase)和D(decrease)，然后A是一个从0到len(S)的数组，现在要求如果S[i] == &quot;I&quot;，那么A[i] &lt; A[i+1]；如果S[i] == &quot;D&quot;，那么A[i] &gt; A[i+1]。</p>
-<p>思路：</p>
-<p>必须要为后面的操作留有余地，所以遇见I的时候，拿出最小的数保证剩余的数都比它大；遇见D的时候，拿出最大的数保证剩下的数都比它小。</p>
-<center>----------------------</center>
-<p>所以我的做法是：</p>
-<pre><code class="language-python">class Solution:
-    def diStringMatch(self, S: str) -&gt; List[int]:
-        p = []
-        N = []
-        for i in range(len(S)+ 1):
-            p.append(i)
-        for char in S:
-            if char == &quot;D&quot;:
-                N.append(max(p))
-                p.remove(max(p))
-            else:
-                N.append(min(p))
-                p.remove(min(p))
-        N.append(p[0])
-        return N
-</code></pre>
-<p>先构建一个从0到len(S)的序列(现在看来很蠢)然后遍历S，遇见D取大的，遇见I取小的，最后再把剩下的数加进去</p>
-<p>提交后果然，Time Limit Exceeded</p>
-<p>去讨论区看一看，我为什么要新建一个数组？？？每次取的数都是最左边或者最右边的数，直接设置两个指针指向两边即可。</p>
-<pre><code class="language-python">
-class Solution:
-    def diStringMatch(self, S: str) -&gt; List[int]:
-        l, r, N = 0, len(S), []
-        for char in S:
-            N.append(l if char =='I' else r)
-            l, r = l +(char == 'I'), r - (char == 'D')
-        return N + [l]
-</code></pre>
-<p>基本上大家的思路都是这样，可能写法不太一样，像我这种写法就非常的臃肿-----</p>
+				<h2 id="树专题">树专题</h2>
+<ol>
+<li>树的的深度</li>
+<li>带有权值的树的深度</li>
+<li>树的层次遍历、前序遍历、中序遍历、后序遍历</li>
+</ol>
+<h2 id="位运算">位运算</h2>
+<ol>
+<li>异或</li>
+</ol>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
  
-				<a href="https://tudouvvv.github.io//tag/leetcode" rel="tag">Leetcode</a>	
-				 
-				<a href="https://tudouvvv.github.io//tag/python" rel="tag">Python</a>	
-				 
 					</div>						
 <nav class="navigation3 post-navigation3" role="navigation">
 		
 		<div class="nav-links3">
       
-		<div class="wow bounceInLeft nav-previous3"><a href="https://tudouvvv.github.io//post/LeetCode暑期打卡第一周(二分法)" rel="prev"> LeetCode暑期打卡第一周(二分专题)</a></div>
 		 
-		 
-		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/883. Projection Area of 3D Shapes" rel="next"> [每日一题]-883. Projection Area of 3D Shapes</a></div>
+		<div class="wow bounceInRight nav-next3"><a href="https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2" rel="next"> 做作的日常②</a></div>
 		
 		</div>
 	</nav>

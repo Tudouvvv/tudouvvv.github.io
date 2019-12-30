@@ -40,7 +40,7 @@ var css = '<';
         document.write(css);
 }
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
 <link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -421,6 +421,31 @@ public:
     }
 };
 </code></pre>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.hash = {}
+        self.q = []
+        
+    def firstAppearingOnce(self):
+        &quot;&quot;&quot;
+        :rtype: str
+        &quot;&quot;&quot;
+        if not self.q: return '#'
+        return self.q[0]
+        
+    def insert(self, char):
+        &quot;&quot;&quot;
+        :type char: str
+        :rtype: void
+        &quot;&quot;&quot;
+        self.hash[char] = self.hash.get(char, 0) + 1
+        if (self.hash[char] &gt; 1):
+            while len(self.q) &gt; 0 and self.hash[self.q[0]] &gt; 1: 
+                self.q.pop(0)
+        else:
+            self.q.append(char)
+        
+</code></pre>
 <h4 id="66-两个链表的第一个公共结点">66. 两个链表的第一个公共结点</h4>
 <p>之前做过这道题，Leetcode链表那节。</p>
 <pre><code class="language-c++">/**
@@ -624,7 +649,7 @@ public:
 			<div class="container">
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
-Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/shanbufun/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>.  by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >Shanbufun</a></div>		
 			</div>
 		
 		</footer>

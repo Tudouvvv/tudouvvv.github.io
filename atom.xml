@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-12-18T01:46:32.470Z</updated>
+    <updated>2019-12-30T03:18:08.885Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io//atom.xml"/>
@@ -10,6 +10,24 @@
     <logo>https://tudouvvv.github.io//images/avatar.png</logo>
     <icon>https://tudouvvv.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Tudouvvv</rights>
+    <entry>
+        <title type="html"><![CDATA[杂记①]]></title>
+        <id>https://tudouvvv.github.io//post/za-ji</id>
+        <link href="https://tudouvvv.github.io//post/za-ji">
+        </link>
+        <updated>2019-12-24T01:45:22.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="树专题">树专题</h2>
+<ol>
+<li>树的的深度</li>
+<li>带有权值的树的深度</li>
+<li>树的层次遍历、前序遍历、中序遍历、后序遍历</li>
+</ol>
+<h2 id="位运算">位运算</h2>
+<ol>
+<li>异或</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常②]]></title>
         <id>https://tudouvvv.github.io//post/zuo-zuo-de-ri-chang2</id>
@@ -134,6 +152,24 @@ public:
         return res;
     }
 };
+</code></pre>
+<pre><code class="language-python">class Solution(object):
+    def maxInWindows(self, nums, k):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        &quot;&quot;&quot;
+        res = []
+        if not nums: return res
+        q = []
+        for i in range(len(nums)):
+            while (len(q) and nums[i] &gt; nums[q[-1]]): q.pop(-1)
+            if (len(q) and i - q[0] + 1 &gt; k): q.pop(0)
+            q.append(i)
+            
+            if (i - k + 1 &gt;= 0): res.append(nums[q[0]])
+        return res
 </code></pre>
 <h4 id="81-扑克牌的顺子">81. 扑克牌的顺子</h4>
 <p>题目描述：从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。<br>
@@ -584,10 +620,10 @@ public:
 <ol start="2">
 <li>因为异或运算中，两个相同的数异或结果肯定为0，所以整个数组的异或结果就是两个不同的数的异或结果，寻找这个结果中为1的那位，根据这位为1，将数组分为两部分，这样两个不同的数就属于不同的集合，然后在每个集合中进行异或运算得到结果。</li>
 </ol>
-<pre><code>c++
-class Solution {
+<pre><code class="language-c++">class Solution {
 public:
     vector&lt;int&gt; findNumsAppearOnce(vector&lt;int&gt;&amp; nums) {
+        if (nums.empty()) return vector&lt;int&gt; {};
         int sum = 0;
         for (auto x : nums) sum ^= x;
         int k = 0;
@@ -596,8 +632,9 @@ public:
         for (auto x : nums){
             if (x &gt;&gt; k &amp; 1) first ^= x;
         }
-        return vector&lt;int&gt; {first, sum^first};
-   
+        return vector&lt;int&gt; {first, sum ^ first};
+    }
+};
 </code></pre>
 <h4 id="74-数组中唯一只出现一次的数字">74. 数组中唯一只出现一次的数字</h4>
 <p>题目描述：在一个数组中除了一个数字只出现一次之外，其他数字都出现了三次。<br>
@@ -629,6 +666,20 @@ public:
     }
 };
 </code></pre>
+<p>update:<br>
+用位运算来做， 构造一个遇见三个一样的数就返回原状态的状态机。（这都是咋想出来的）</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int findNumberAppearingOnce(vector&lt;int&gt;&amp; nums) {
+        int ones = 0, twos = 0;
+        for (auto x : nums){
+            ones = (ones ^ x) &amp; ~twos;
+            twos = (twos ^ x) &amp; ~ones;
+        }
+        return ones;
+    }
+};
+</code></pre>
 <h4 id="75-和为s的两个数字">75. 和为S的两个数字</h4>
 <p>题目描述：输入一个数组和一个数字s，在数组中查找两个数，使得它们的和正好是s。<br>
 如果有多对数字的和等于s，输出任意一对即可。<br>
@@ -657,6 +708,81 @@ public:
             if (hash.count(target - nums[i])) return {target - nums[i], nums[i]};
             hash.insert(nums[i]);
         }
+    }
+};
+</code></pre>
+<h4 id="76-和为s的连续正数序列">76. 和为S的连续正数序列</h4>
+<p>题目描述: 输入一个正数s，打印出所有和为s的连续正数序列（至少含有两个数）。<br>
+例如输入15，由于1+2+3+4+5=4+5+6=7+8=15，所以结果打印出3个连续序列1～5、4～6和7～8。</p>
+<pre><code>样例
+输入：15
+输出：[[1,2,3,4,5],[4,5,6],[7,8]]
+</code></pre>
+<p>分析：双指针算法，设两个指针i, j，然后i先不动，然后加上j并让j往后移动直到大于或等于sum，然后进行判断，等于sum的话，就把i到j的值输入到答案里面去，然后i向后移动一位，i到j的总和中减去i。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;vector&lt;int&gt; &gt; findContinuousSequence(int sum) {
+        vector&lt;vector&lt;int&gt;&gt; res;
+        for (int i = 1, j = 1, s = 1; i &lt;= sum / 2; i ++){
+            while (s &lt; sum) s += (++ j);
+            if (s == sum){
+                vector&lt;int&gt; line;
+                for (int k = i; k &lt;= j; k ++) line.push_back(k);
+                res.push_back(line);
+            }
+            s -= i;
+        }
+        return res;
+    }
+};
+</code></pre>
+<h4 id="77-翻转单词顺序">77. 翻转单词顺序</h4>
+<p>题目描述：输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。<br>
+为简单起见，标点符号和普通字母一样处理。<br>
+例如输入字符串&quot;I am a student.&quot;，则输出&quot;student. a am I&quot;。</p>
+<pre><code>样例
+输入：&quot;I am a student.&quot;
+输出：&quot;student. a am I&quot;
+</code></pre>
+<p>分析：之前做leetcode的时候遇见过，不过这个比那个简单，那个前面还有空格，这个只需要把每个单词先翻转，然后翻转整个字符串即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string reverseWords(string s) {
+        if (s.empty()) return s;
+        for (int i = 0; i &lt; s.size();i ++){
+            int j = i;
+            while (j &lt; s.size() &amp;&amp; s[j] != ' ') j ++;
+            reverse(s.begin() + i, s.begin() + j);
+            i = j;
+        }
+        reverse(s.begin(), s.end());
+        return s;
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution(object):
+    def reverseWords(self, s):
+        &quot;&quot;&quot;
+        :type s: str
+        :rtype: str
+        &quot;&quot;&quot;
+        s = s.split(' ')[::-1]
+        return ' '.join(s)
+</code></pre>
+<h4 id="78-左旋转字符串">78. 左旋转字符串</h4>
+<p>题目描述: 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。<br>
+请定义一个函数实现字符串左旋转操作的功能。<br>
+比如输入字符串&quot;abcdefg&quot;和数字2，该函数将返回左旋转2位得到的结果&quot;cdefgab&quot;。<br>
+注意：<br>
+数据保证n小于等于输入字符串的长度。</p>
+<pre><code>样例
+输入：&quot;abcdefg&quot; , n=2
+输出：&quot;cdefgab&quot;
+</code></pre>
+<pre><code class="language-c++">class Solution {
+public:
+    string leftRotateString(string str, int n) {
+        return str.substr(n) + str.substr(0, n);
     }
 };
 </code></pre>
@@ -919,6 +1045,31 @@ public:
         else return q.front();
     }
 };
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def __init__(self):
+        self.hash = {}
+        self.q = []
+        
+    def firstAppearingOnce(self):
+        &quot;&quot;&quot;
+        :rtype: str
+        &quot;&quot;&quot;
+        if not self.q: return '#'
+        return self.q[0]
+        
+    def insert(self, char):
+        &quot;&quot;&quot;
+        :type char: str
+        :rtype: void
+        &quot;&quot;&quot;
+        self.hash[char] = self.hash.get(char, 0) + 1
+        if (self.hash[char] &gt; 1):
+            while len(self.q) &gt; 0 and self.hash[self.q[0]] &gt; 1: 
+                self.q.pop(0)
+        else:
+            self.q.append(char)
+        
 </code></pre>
 <h4 id="66-两个链表的第一个公共结点">66. 两个链表的第一个公共结点</h4>
 <p>之前做过这道题，Leetcode链表那节。</p>
@@ -3109,569 +3260,6 @@ Python</li>
                 return False
         return True
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LeetCode暑期打卡第八周(动态规划专题)]]></title>
-        <id>https://tudouvvv.github.io//post/LeetCode暑期打卡第八周(动态规划专题)</id>
-        <link href="https://tudouvvv.github.io//post/LeetCode暑期打卡第八周(动态规划专题)">
-        </link>
-        <updated>2019-09-27T09:32:44.000Z</updated>
-        <content type="html"><![CDATA[<h4 id="53-maximum-subarray"><a href="https://leetcode.com/problems/maximum-subarray/">53. Maximum Subarray</a></h4>
-<p>题目描述：给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
-<pre><code>示例:
-输入: [-2,1,-3,4,-1,2,1,-5,4],
-输出: 6
-解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-</code></pre>
-<p>分析：</p>
-<ol>
-<li>要计算连续的最大和，其实就是要看加了某个数之后的和与该数的大小，如果变小了那就没必要了，所以每次进行判断，如果前面的数&gt;0，那么就加上它，这样遍历一遍，整个数组中最大的值就是我们要找的答案。<br>
-C++</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int maxSubArray(vector&lt;int&gt;&amp; nums) {
-        int ans = INT_MIN;
-        for(int i = 1; i &lt; nums.size(); i ++)
-        {
-            if (nums[i - 1] &gt; 0) nums[i] += nums[i - 1];
-        }
-        for (auto num : nums)  ans = max(ans, num);
-        return ans;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def maxSubArray(self, nums: List[int]) -&gt; int:
-        for i in range(1, len(nums)):
-            if nums[i - 1] &gt; 0:
-                nums[i] += nums[i - 1]
-        return max(nums)
-</code></pre>
-<ol start="2">
-<li>动态规划<br>
-从集合的角度来考虑DP问题，最重要的就是要求出状态转移方程是什么样子的，对每个nums[i]来说，它的连续子数组的和共有以下情况:</li>
-</ol>
-<ul>
-<li>nums[1] + nums[2] + ... + nums[i]</li>
-<li>nums[2] + nums[3] + ... + nums[i]</li>
-<li>...</li>
-<li>0 + nums[i]<br>
-我们去掉nums[i]来找这些情况中的最大和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> ，这些情况中的最大和就等于nums[i - 1]情况下的最大和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>−</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x-1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>，所以状态转移方程就是：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mn>0</mn><mo separator="true">,</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>−</mo><mn>1</mn><mo>)</mo><mo>)</mo><mo>+</mo><mi>n</mi><mi>u</mi><mi>m</mi><mi>s</mi><mo>[</mo><mi>i</mi><mo>]</mo></mrow><annotation encoding="application/x-tex">f(x) = max(0,  f(x-1)) + nums[i]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mord mathdefault">s</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span></span></span></span>。<br>
-C++</li>
-</ul>
-<pre><code class="language-c++">class Solution {
-public:
-    int maxSubArray(vector&lt;int&gt;&amp; nums) {
-        int res= INT_MIN, last = 0;
-        for (int i = 0; i &lt; nums.size(); i ++)
-        {
-            int now = max(0, last) + nums[i];
-            res = max(res, now);
-            last = now;
-        }
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def maxSubArray(self, nums: List[int]) -&gt; int:
-        res = -float('inf')
-        last = 0
-        for i in range(len(nums)):
-            now = max(0, last) + nums[i]
-            res = max(res, now)
-            last = now
-        return res
-</code></pre>
-<h4 id="120-triangle"><a href="https://leetcode.com/problems/triangle/">120. Triangle</a></h4>
-<p>题目描述：给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。</p>
-<pre><code>例如，给定三角形：
-[
-     [2],
-    [3,4],
-   [6,5,7],
-  [4,1,8,3]
-]
-自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。
-</code></pre>
-<p>分析：首先记录第一行的数字res = triangle[0][0]，初始时i = 0，然后从第二行开始，res += min(char[i], char[i + 1])，这是它相邻的两个位置，记录min_char的index，然后替换i，继续枚举。<br>
-Python❌</p>
-<pre><code class="language-python">class Solution:
-    def minimumTotal(self, triangle: List[List[int]]) -&gt; int:
-        if not list: return 0
-        res = triangle[0][0]
-        i = 0
-        for char in triangle[1:]:
-            min_char = min(char[i], char[i + 1])
-            res += min_char
-            i = char.index(min_char)
-        return res
-</code></pre>
-<p>但是不知道为什么有个案例过不了<code>[[-1],[2,3],[1,-1,-3]]</code>，讲道理不是应该-1 + 2 + -1 = 0 嘛，不知道为什么答案是-1。<br>
-✅ps.我明白了，这并不是一个贪心算法的过程，而是要看全局，所以正确的路径应该是-1 + 3 + -3 = -1。<br>
-所以这也是一道用dp解决的问题：<br>
-<img src="https://tudouvvv.github.io//post-images/1569826922552.png" alt=""><br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; nums) {
-        int n = nums.size();
-        vector&lt;vector&lt;long long&gt;&gt; f(n, vector&lt;long long&gt;(n));
-        f[0][0] = nums[0][0];
-        for(int i = 1; i &lt; n; i ++)
-            for(int j = 0; j &lt;= i; j ++)
-            {
-                f[i][j] = INT_MAX;
-                if (j &gt; 0) f[i][j] = min(f[i][j], f[i - 1][j - 1] + nums[i][j]);
-                if (j &lt; i) f[i][j] = min(f[i][j], f[i - 1][j] + nums[i][j]);
-            }
-        long long res = INT_MAX;
-        for (int i = 0; i &lt; n; i ++) res = min(res, f[n - 1][i]);
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def minimumTotal(self, nums: List[List[int]]) -&gt; int:
-        n = len(nums)
-        f = [[0 for _ in range(n)] for _ in range(n)]
-        f[0][0] = nums[0][0]
-        for i in range(1, n):
-            for j in range(i + 1):
-                f[i][j] = float('inf')
-                if j &gt; 0: f[i][j] = min(f[i][j], f[i - 1][j - 1] + nums[i][j])
-                if j &lt; i: f[i][j] = min(f[i][j], f[i - 1][j] + nums[i][j])
-        res = float('inf')
-        for i in range(n):
-            res = min(res, f[n - 1][i])
-        return res
-</code></pre>
-<p>因为我们最后只需要最后一行的数据进行判断，并且每行的结果只依赖于上一行的结果，所以完全不需要开n行数组，只需要开两行，然后滚动就行，这就是滚动数组：</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; nums) {
-        int n = nums.size();
-        vector&lt;vector&lt;long long&gt;&gt; f(2, vector&lt;long long&gt;(n));
-        f[0][0] = nums[0][0];
-        for(int i = 1; i &lt; n; i ++)
-            for(int j = 0; j &lt;= i; j ++)
-            {
-                f[i &amp; 1][j] = INT_MAX;
-                if (j &gt; 0) f[i &amp; 1][j] = min(f[i &amp; 1][j], f[i - 1 &amp; 1][j - 1] + nums[i][j]);
-                if (j &lt; i) f[i &amp; 1][j] = min(f[i &amp; 1][j], f[i - 1 &amp; 1][j] + nums[i][j]);
-            }
-        long long res = INT_MAX;
-        for (int i = 0; i &lt; n; i ++) res = min(res, f[n - 1 &amp; 1][i]);
-        return res;
-    }
-};
-</code></pre>
-<h4 id="63-unique-paths-ii"><a href="https://leetcode.com/problems/unique-paths-ii/">63. Unique Paths II</a></h4>
-<p>题目描述：一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。<br>
-机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。<br>
-现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？<br>
-<img src="https://tudouvvv.github.io//post-images/1569829741021.png" alt=""><br>
-网格中的障碍物和空位置分别用 1 和 0 来表示。<br>
-说明：m 和 n 的值均不超过 100。</p>
-<pre><code>示例:
-输入:
-[
-  [0,0,0],
-  [0,1,0],
-  [0,0,0]
-]
-输出: 2
-解释:
-3x3 网格的正中间有一个障碍物。
-从左上角到右下角一共有 2 条不同的路径：
-1. 向右 -&gt; 向右 -&gt; 向下 -&gt; 向下
-2. 向下 -&gt; 向下 -&gt; 向右 -&gt; 向右
-</code></pre>
-<p>分析：<img src="https://tudouvvv.github.io//post-images/1569830381210.png" alt=""><br>
-对于状态计算来说，分为两种情况：</p>
-<ol>
-<li>最后一步从上往下走: f[i][j] += f[i - 1][j]</li>
-<li>最后一步从左往右走: f[i][j] += f[i][j - 1]<br>
-C++</li>
-</ol>
-<pre><code class="language-c++">class Solution {
-public:
-    int uniquePathsWithObstacles(vector&lt;vector&lt;int&gt;&gt;&amp; g) {
-        int n = g.size(), m = g[0].size();
-        vector&lt;vector&lt;long long&gt;&gt; f(n, vector&lt;long long&gt;(m));
-        for (int i = 0; i &lt; n; i ++)
-            for (int j = 0; j &lt; m; j ++)
-            {
-                if (g[i][j]) continue;
-                if (!i &amp;&amp; !j) f[i][j] = 1;
-                if (i &gt; 0) f[i][j] += f[i - 1][j];
-                if (j &gt; 0) f[i][j] += f[i][j - 1];
-            }
-        return f[n - 1][m - 1];
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def uniquePathsWithObstacles(self, g: List[List[int]]) -&gt; int:
-        n = len(g)
-        m = len(g[0])
-        f = [[0 for _ in range(m)] for _ in range(n)]
-        for i in range(n):
-            for j in range(m):
-                if g[i][j]: continue;
-                if i == 0 and j == 0: f[i][j] = 1
-                if (i &gt; 0): f[i][j] += f[i - 1][j]
-                if (j &gt; 0): f[i][j] += f[i][j - 1]
-        return f[n - 1][m - 1]
-</code></pre>
-<h4 id="91-decode-ways"><a href="https://leetcode.com/problems/decode-ways/">91. Decode Ways</a></h4>
-<p>题目描述：一条包含字母 A-Z 的消息通过以下方式进行了编码：<br>
-'A' -&gt; 1<br>
-'B' -&gt; 2<br>
-...<br>
-'Z' -&gt; 26<br>
-给定一个只包含数字的非空字符串，请计算解码方法的总数。</p>
-<pre><code>示例:
-输入: &quot;226&quot;
-输出: 3
-解释: 它可以解码为 &quot;BZ&quot; (2 26), &quot;VF&quot; (22 6), 或者 &quot;BBF&quot; (2 2 6) 。
-</code></pre>
-<p>分析：还是用DP的思路来解决：<br>
-<img src="https://tudouvvv.github.io//post-images/1569833953551.png" alt=""><br>
-首先状态表示，f[i]表示所有由前i个数字解码得到的字符串的个数，然后是状态计算，共有两种情况:最后一个字母是一个数字f[i - 1]，最后一个字母是两个数字f[i - 2]，特别还是要考虑边界条件。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int numDecodings(string s) {
-        int n = s.size();
-        vector&lt;int&gt; f(n + 1);
-        f[0] = 1;
-        for (int i = 1; i &lt;= n; i ++)
-        {
-            if (s[i - 1] != '0') f[i] += f[i - 1];
-            if (i &gt;= 2)
-            {
-                int t = (s[i - 2] - '0') * 10 + s[i - 1] - '0';
-                if (t &gt;= 10 and t &lt;= 26) f[i] += f[i - 2];
-            }
-        }
-        return f[n];    
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def numDecodings(self, s: str) -&gt; int:
-        n = len(s)
-        f = [0 for _ in range(n + 1)]
-        f[0] = 1
-        
-        for i in range(1, n + 1):
-            if s[i - 1] != '0': f[i] += f[i - 1]
-            if i &gt; 1:
-                t = int(s[i - 2]) * 10 + int(s[i - 1])
-                if 10 &lt;= t &lt;=26:
-                    f[i] += f[i - 2]
-        return f[n]
-</code></pre>
-<h4 id="198-house-robber"><a href="https://leetcode.com/problems/house-robber/">198. House Robber</a></h4>
-<p>题目描述：你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。<br>
-给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。</p>
-<pre><code>示例:
-输入: [2,7,9,3,1]
-输出: 12
-解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
-     偷窃到的最高金额 = 2 + 9 + 1 = 12 。
-</code></pre>
-<p>分析：我把奇数的加一起，偶数的加一起，max一下不就可以了嘛</p>
-<pre><code class="language-python">class Solution:
-    def rob(self, nums: List[int]) -&gt; int:
-        res1 = 0
-        res2 = 0
-        for i in range(len(nums)):
-            if i % 2 == 0:
-                res1 += nums[i]
-            else:
-                res2 += nums[i]
-        return max(res1, res2)
-</code></pre>
-<p>好吧，少考虑了情况，如果是[2, 1, 1, 2]的话就不需要隔一个偷一个了。<br>
-考虑用DP来做，用两个数组分别表示状态：<br>
-<img src="https://tudouvvv.github.io//post-images/1570085349472.png" alt=""><br>
-那么在进行状态计算的时候，f[i]因为表示不取nums[i]的最大值，所以就等于nums[i-1]的最大值，所以f[i] = max(f[i - 1], g[i - 1])<br>
-g[i]表示选了nums[i]的最大值，既然选了nums[i]，那么肯定没有选nums[i - 1]，于是g[i] = f[i - 1] + nums[i]。</p>
-<p>C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int rob(vector&lt;int&gt;&amp; nums) {
-        int n = nums.size();
-        vector&lt;int&gt; f(n + 1), g(n + 1);
-        
-        for (int i = 1; i &lt;=n; i ++ )
-        {
-            f[i] = max(f[i - 1], g[i - 1]);
-            g[i] = f[i - 1] + nums[i - 1];
-        }
-        
-        return max(f[n], g[n]);
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def rob(self, nums: List[int]) -&gt; int:
-        n = len(nums)
-        f = [0 for _ in range(n + 1)]
-        g = [0 for _ in range(n + 1)]
-        
-        for i in range(1, n + 1):
-            f[i] = max(f[i - 1], g[i - 1])
-            g[i] = f[i - 1] + nums[i - 1]
-            
-        return max(f[n], g[n])
-</code></pre>
-<h4 id="300-longest-increasing-subsequence"><a href="https://leetcode.com/problems/longest-increasing-subsequence/">300. Longest Increasing Subsequence</a></h4>
-<p>题目描述：给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
-<pre><code>示例:
-输入: [10,9,2,5,3,7,101,18]
-输出: 4 
-解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
-</code></pre>
-<p>Note:</p>
-<ul>
-<li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
-<li>你算法的时间复杂度应该为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 。<br>
-分析：用DP来解决，首先状态表示f[i]：表示以第i个数结尾的上升子序列的最大值；然后是状态更新，我们要遍历从0到i的所有数，如果nums[j] &lt; nums[i]， 就说明它可i以被放进去，那么f[i] = max(f[i], f[j] + 1)，最后再遍历f，找出最大值即可。</li>
-</ul>
-<p>C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int lengthOfLIS(vector&lt;int&gt;&amp; nums) {
-        int n = nums.size();
-        vector&lt;int&gt; f(n, 1);
-        
-        for (int i = 0; i &lt; n; i ++)
-            for (int j = 0; j &lt; i; j ++)
-                if (nums[j] &lt; nums[i])
-                {
-                    f[i] = max(f[i], f[j] + 1);
-                }
-        
-        int res = 0;
-        for (int i = 0; i &lt; n; i ++) res = max(res, f[i]);
-        return res;
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def lengthOfLIS(self, nums: List[int]) -&gt; int:
-        n = len(nums)
-        f = [1 for _ in range(n)]
-        
-        for i in range(n):
-            for j in range(i):
-                if nums[j] &lt; nums[i]:
-                    f[i] = max(f[i], f[j] + 1)
-        
-        res = 0
-        for i in range(n): res = max(res, f[i])
-        return res
-</code></pre>
-<h4 id="72-edit-distance"><a href="https://leetcode.com/problems/edit-distance/">72. Edit Distance</a></h4>
-<p>题目描述：给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。<br>
-你可以对一个单词进行如下三种操作：</p>
-<ul>
-<li>插入一个字符</li>
-<li>删除一个字符</li>
-<li>替换一个字符</li>
-</ul>
-<pre><code>示例:
-输入: word1 = &quot;horse&quot;, word2 = &quot;ros&quot;
-输出: 3
-解释: 
-horse -&gt; rorse (将 'h' 替换为 'r')
-rorse -&gt; rose (删除 'r')
-rose -&gt; ros (删除 'e')
-</code></pre>
-<p>分析：首先集合表示：f[i, j]表示将第一个字符串的前i个字母，变成第二个字符串的前j个字母的方案的最小值，那么在进行状态计算时，我们考虑最后一步的情况，由于它共有三种操作方式，所以最后一步的情况如下：</p>
-<ol>
-<li>插入：我在第一个字符串中插入一个字符使得它和第二个字符串的前j个字符串相同，所以说，现在第一个字符串的前i个字符和第二个字符串的前j - 1个字符相同，所以f[i, j] = f[i, j - 1] + 1</li>
-<li>删除：我在第一个字符串中删除一个字符使得它和第二个字符串的前j个字符串相同，所以说，现在第一个字符串的前i - 1个字符和第二个字符串的前j的字符相同，所以f[i, j] = f[i - 1, j] + 1</li>
-<li>替换：替换又分为两种情况：1）第一个字符串的第i个字符和第二个字符串的第j个字符是相同的，不需要替换了，所以f[i, j] = f[i - 1, j - 1]; 2）第一个字符串的第i个字符和第二个字符串的第j个字符是不同的，需要替换一下，所以f[i, j] = f[i - 1, j - 1] + 1;<br>
-最后只需要在上面四种方案中求一个最小值代表状态即可。</li>
-</ol>
-<p>C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int minDistance(string word1, string word2) {
-        int n = word1.size(), m = word2.size();
-        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(m + 1));
-        for (int i = 0; i &lt;= n; i ++) f[i][0] = i;
-        for (int i = 0; i &lt;= m; i ++) f[0][i] = i;
-        for (int i = 1; i &lt;= n; i ++)
-            for (int j = 1; j &lt;= m; j ++)
-            {
-                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + 1;
-                f[i][j] = min(f[i][j], f[i - 1][j - 1] + (word1[i -1] != word2[j - 1]));
-            }
-        
-        return f[n][m];
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def minDistance(self, word1: str, word2: str) -&gt; int:
-        n, m = len(word1), len(word2)
-        f = [[0 for _ in range(m + 1)] for _ in range(n + 1)]
-        for i in range(n + 1): f[i][0] = i
-        for i in range(m + 1): f[0][i] = i
-        for i in range(1, n + 1):
-            for j in range(1, m + 1):
-                f[i][j] = min(f[i - 1][j], f[i][j - 1]) + 1
-                f[i][j] = min(f[i][j], f[i - 1][j - 1] + (word1[i - 1] != word2[j - 1]));
-        return f[n][m]
-</code></pre>
-<h4 id="518-coin-change-2"><a href="https://leetcode.com/problems/coin-change-2/">518. Coin Change 2</a></h4>
-<p>题目描述：给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。<br>
-Note:<br>
-你可以假设：</p>
-<ul>
-<li>0 &lt;= amount (总金额) &lt;= 5000</li>
-<li>1 &lt;= coin (硬币面额) &lt;= 5000</li>
-<li>硬币种类不超过 500 种</li>
-<li>结果符合 32 位符号整数</li>
-</ul>
-<pre><code>示例:
-输入: amount = 5, coins = [1, 2, 5]
-输出: 4
-解释: 有四种方式可以凑成总金额:
-5=5
-5=2+2+1
-5=2+1+1+1
-5=1+1+1+1+1
-</code></pre>
-<p>分析：首先状态表示f[i,j]表示为用前i个硬币凑出总钱数为j的凑法的数量，那么在状态表示时，有很多种情况：</p>
-<ol>
-<li>用了0个第i个硬币，所以f[i, j] = f[i - 1, j];</li>
-<li>用了t个第i个硬币，所以f[i, j] = f[i - 1, j - t * coins[i]];<br>
-所以，f[i ,j] = f[i - 1, j] + f[i - 1, j - c] + f[i - 1, j - 2c] + ... + f[i - 1, j - kc]<br>
-但是，f[i, j - c] = f[i - 1, j - c] + f[i - 1, j - 2c]  + ... + f[i - 1, j - kc]<br>
-所以，我们可以用f[i, j - c]的状态替换掉后面一堆东西，于是f[i, j] = f[i - 1, j] + f[i, j - c]<br>
-由于这里i只与上一层有关系，所以可以用滚动数组来求解，同时f[i - 1, j] 与 f[i , j]表示的j都是一样的，所以可以用一个一维的滚动数组来简化f[j] = f[j] + f[j - c]。</li>
-</ol>
-<p>C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int change(int amount, vector&lt;int&gt;&amp; coins) {
-        int m = amount;
-        vector&lt;int&gt; f(m + 1);
-        f[0] = 1;
-        for (auto c : coins)
-            for (int j = c; j &lt;= m; j ++)
-                f[j] += f[j - c];
-        return f[m];
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def change(self, amount: int, coins: List[int]) -&gt; int:
-        m = amount
-        f = [0 for _ in range(m + 1)]
-        f[0] = 1
-        for coin in coins:
-            for j in range(coin, m + 1):
-                f[j] += f[j - coin]
-        return f[m]
-</code></pre>
-<h4 id="664-strange-printer"><a href="https://leetcode.com/problems/strange-printer/">664. Strange Printer</a></h4>
-<p>题目描述：有台奇怪的打印机有以下两个特殊要求：<br>
-打印机每次只能打印同一个字符序列。<br>
-每次可以在任意起始和结束位置打印新字符，并且会覆盖掉原来已有的字符。<br>
-给定一个只包含小写英文字母的字符串，你的任务是计算这个打印机打印它需要的最少次数。</p>
-<pre><code>示例:
-输入: &quot;aba&quot;
-输出: 2
-解释: 首先打印 &quot;aaa&quot; 然后在第二个位置打印 &quot;b&quot; 覆盖掉原来的字符 'a'。
-</code></pre>
-<p>分析：f[l][r]表示将[L, R]染成最终模样的方式的最小值：<br>
-<img src="https://tudouvvv.github.io//post-images/1570433988785.png" alt=""><br>
-首先是把端点染成想要的颜色，f[l][r] = f[l + 1][r] + 1<br>
-然后另一种情况是染[l, k]，l和k处的颜色相同的话，f[l][r]= f[l][k - 1] + f[k + 1][r]<br>
-最后求两者的最小值即可。<br>
-C++</p>
-<pre><code class="language-c++">class Solution {
-public:
-    int strangePrinter(string s) {
-        int n = s.size();
-        vector&lt;vector&lt;int&gt;&gt; f(n + 1, vector&lt;int&gt;(n + 1));
-        if (s.empty()) return 0;
-        for (int len = 1; len &lt;= n; len ++)
-            for (int l = 0; l + len - 1 &lt; n; l ++)
-            {
-                int r = l + len - 1;
-                f[l][r] = f[l + 1][r] + 1;
-                for (int k = l + 1; k &lt;= r; k ++)
-                    if (s[l] == s[k])
-                        f[l][r] = min(f[l][r], f[l][k - 1] + f[k + 1][r]);
-            }
-        return f[0][n - 1];
-    }
-};
-</code></pre>
-<p>Python</p>
-<pre><code class="language-python">class Solution:
-    def strangePrinter(self, s: str) -&gt; int:
-        n = len(s)
-        if n == 0: return 0
-        f = [[0 for _ in range(n + 1)]for _ in range(n + 1)]
-        for lens in range(1, n + 1):
-            for l in range(0, n - lens + 1):
-                r = l + lens - 1
-                f[l][r] = f[l + 1][r] + 1
-                for k in range(l + 1, r + 1):
-                    if s[l] == s[k]:
-                        f[l][r] = min(f[l][r], f[l][k - 1] + f[k + 1][r])
-                        print(f)
-        return f[0][n - 1]
-</code></pre>
-<h4 id="10-regular-expression-matching存疑">❌<a href="https://leetcode.com/problems/regular-expression-matching/">10. Regular Expression Matching</a>(存疑)</h4>
-<p>题目描述：给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。</p>
-<pre><code>'.' 匹配任意单个字符
-'*' 匹配零个或多个前面的那一个元素
-</code></pre>
-<p>所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。<br>
-Note:</p>
-<ul>
-<li>s 可能为空，且只包含从 a-z 的小写字母。</li>
-<li>p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</li>
-</ul>
-<pre><code>示例:
-输入:
-s = &quot;aa&quot;
-p = &quot;a*&quot;
-输出: true
-解释: 因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 &quot;aa&quot; 可被视为 'a' 重复了一次。
-</code></pre>
-<p>分析：考虑用DP来做，f[i][j]表示s的第i个字符与p的第j个字符是否匹配，我们现在已经得知了之前的状态，也就是f[i - 1][j - 1]，现在要考虑的就是s[i]与p[j]的关系：</p>
-<ol>
-<li>如果s[i] = p[j], 那么f[i][j] = f[i - 1][j - 1]</li>
-<li>如果p[j] = '.', 那么f[i][j] = f[i - 1][j - 1]</li>
-<li>如果p[j] = '*', 那么我们要考虑s[i] 与 p[j - 1]的关系：
-<ol>
-<li>如果s[i] != p[j - 1], 那么f[i][j] = f[i - 1][j - 2]，此时*表示匹配0个前面的字母</li>
-<li>如果p[j - 1] = '.' || p[j - 1] = s[i]：</li>
-</ol>
-</li>
-</ol>
 ]]></content>
     </entry>
 </feed>

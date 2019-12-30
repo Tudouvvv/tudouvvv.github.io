@@ -40,7 +40,7 @@ var css = '<';
         document.write(css);
 }
 </script>
-<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Liu+Jian+Mao+Cao&display=swap" rel="stylesheet">
 <link href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css" rel="stylesheet" />
 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -245,6 +245,24 @@ public:
         return res;
     }
 };
+</code></pre>
+<pre><code class="language-python">class Solution(object):
+    def maxInWindows(self, nums, k):
+        &quot;&quot;&quot;
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        &quot;&quot;&quot;
+        res = []
+        if not nums: return res
+        q = []
+        for i in range(len(nums)):
+            while (len(q) and nums[i] &gt; nums[q[-1]]): q.pop(-1)
+            if (len(q) and i - q[0] + 1 &gt; k): q.pop(0)
+            q.append(i)
+            
+            if (i - k + 1 &gt;= 0): res.append(nums[q[0]])
+        return res
 </code></pre>
 <h4 id="81-扑克牌的顺子">81. 扑克牌的顺子</h4>
 <p>题目描述：从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。<br>
@@ -565,7 +583,7 @@ public:
 			<div class="container">
 	
 				<div class="copyright">COPYRIGHT © 2019 <a href="https://miracol.cn/" target="_blank">MIRACOL</a>
-Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/alterfang/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>. Powered by <a href="https://gridea.dev/" target="_blank" title="Gridea"><span>Gridea</span></a></div>		
+Produced by <a href="https://github.com/tudouvvv" target="_blank">Tudouvvv</a><br>Theme:   <a href="https://github.com/shanbufun/gridea-theme-pan" target="_blank" title="Pan"><span>Pan</span></a>.  by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >Shanbufun</a></div>		
 			</div>
 		
 		</footer>
