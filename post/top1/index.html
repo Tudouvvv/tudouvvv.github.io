@@ -6,7 +6,7 @@
 <meta HTTP-EQUIV="pragma" CONTENT="no-cache"> 
 <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate"> 
 <meta HTTP-EQUIV="expires" CONTENT="0"> 
-<title>杂记① | Tudouvvv</title>	
+<title>Top-100-liked-questions① | Tudouvvv</title>	
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <script type="text/javascript">
@@ -64,7 +64,7 @@ window.onload=getCSS();
 			
 		<header id="header" class="site-header" 
 		
-		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/za-ji.jpg)"
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),url(https://tudouvvv.github.io//post-images/top1.jpg)"
 		
 		>
 			<div class="site-branding">
@@ -158,7 +158,7 @@ window.onload=getCSS();
 	
 	                      
 		<div class="entry-content">
-			<h1 class="wow swing entry-title">杂记①</h1>
+			<h1 class="wow swing entry-title">Top-100-liked-questions①</h1>
 <div class="entry-meta">
 <div class="wow bounce">
 	<i class="iconfont icon-rili"> <time class="lately-a" datetime="2019-12-24 09:45:22" itemprop="datePublished" pubdate="">2019-12-24</time></i>
@@ -169,16 +169,213 @@ window.onload=getCSS();
 		</div>
                   
 			<div class="wow slideInLeft entry-summary song">
-				<h2 id="树专题">树专题</h2>
-<ol>
-<li>树的的深度</li>
-<li>带有权值的树的深度</li>
-<li>树的层次遍历、前序遍历、中序遍历、后序遍历</li>
-</ol>
-<h2 id="位运算">位运算</h2>
-<ol>
-<li>异或</li>
-</ol>
+				<h4 id="1-two-sum"><a href="https://leetcode.com/problems/two-sum/">1. Two Sum</a></h4>
+<p>思路：构建一个字典存储每个数的索引，然后从前往后判断即可。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+        if (nums.empty()) return vector&lt;int&gt; {-1, -1};
+        unordered_map&lt;int, int&gt; hash;
+        for (int i = 0; i &lt; nums.size(); i ++){
+            if (hash.count(target - nums[i])) return vector&lt;int&gt; {hash[target - nums[i]], i};
+            hash[nums[i]] = i;
+        }
+        return vector&lt;int&gt; {-1, -1};
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def twoSum(self, nums: List[int], target: int) -&gt; List[int]:
+        if not nums: return [-1, -1]
+        count = {}
+        for i in range(len(nums)):
+            if target - nums[i] in count: 
+                return [count[target - nums[i]], i]
+            count[nums[i]] = i
+        return [-1, -1]
+</code></pre>
+<h4 id="2-add-two-numbers"><a href="https://leetcode.com/problems/add-two-numbers/">2. Add Two Numbers</a></h4>
+<p>思路：模仿加法步骤，每次将进位存起来，然后创建虚拟头结点来避免边界情况判断，每次将两个数和进位加起来，创建val等于该值的节点，最后加完以后需要判断是否还有进位，如果有的话还要接在后面。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        auto dummy = new ListNode(-1);
+        auto cur = dummy;
+        int carry = 0;
+        while (l1 || l2){
+            int n1 = l1 ? l1-&gt;val : 0;
+            int n2 = l2 ? l2-&gt;val : 0;
+            int sum = n1 + n2 + carry;
+            carry = sum / 10;
+            cur-&gt;next = new ListNode(sum % 10);
+            cur = cur-&gt;next;
+            if (l1) l1 = l1-&gt;next;
+            if (l2) l2 = l2-&gt;next;
+        }
+        if (carry) cur-&gt;next = new ListNode(carry);
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        auto dummy = new ListNode(-1);
+        auto cur = dummy;
+        int carry = 0;
+        while (l1 || l2 || carry){
+            if (l1)
+            {
+                carry += l1-&gt;val;
+                l1 = l1-&gt;next;
+            }
+            if (l2)
+            {
+                carry += l2-&gt;val;
+                l2 = l2-&gt;next;
+            }
+            cur -&gt; next = new ListNode(carry % 10);
+            cur = cur-&gt;next;
+            carry /= 10;
+        }
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def addTwoNumbers(self, l1, l2):
+        dummy = cur = ListNode(0)
+        carry = 0
+        while l1 or l2 or carry:
+            if l1:
+                carry += l1.val
+                l1 = l1.next
+            if l2:
+                carry += l2.val
+                l2 = l2.next
+            cur.next = ListNode(carry%10)
+            cur = cur.next
+            carry //= 10
+        return dummy.next    
+</code></pre>
+<h4 id="3-longest-substring-without-repeating-characters"><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">3. Longest Substring Without Repeating Characters</a></h4>
+<p>思路：求不重复的字母的最长长度，可以用双指针来做，用一个hash来存储第一个指针路过每个单词出现的次数，如果次数超过一，第二个指针就往前走，直到次数重新变为1为止。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map&lt;char, int&gt; hash;
+        int res = 0;
+        for (int i = 0, j = 0; i &lt; s.size(); i++ ){
+            hash[s[i]] ++;
+            while (hash[s[i]] &gt; 1) hash[s[j ++]] --;
+            res = max(res, i - j + 1);
+        }
+        return res;
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def lengthOfLongestSubstring(self, s: str) -&gt; int:
+        count = {}
+        j = 0
+        res = 0
+        for i in range(len(s)):
+            if s[i] in count: count[s[i]] += 1
+            else: count[s[i]] = 1
+            while (count[s[i]] &gt; 1): 
+                count[s[j]] -= 1
+                j += 1
+            res = max(res, i - j + 1)
+        return res
+</code></pre>
+<h4 id="4-median-of-two-sorted-arrays">❌<a href="https://leetcode.com/problems/median-of-two-sorted-arrays/">4. Median of Two Sorted Arrays</a></h4>
+<p>思路：第一下想到的解法就是合并两个数组，按照数据流的中位数那样做，即创建两个堆，一个大根堆一个小根堆，然后求解中位数，但是太慢了。题目要求log(m + n)的时间复杂度，估计要用二分等方法来做，先放放着。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    double findMedianSortedArrays(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) {
+        priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; up;
+        priority_queue&lt;int&gt; down;
+        vector&lt;int&gt; nums;
+        for (auto x : nums1) nums.push_back(x);
+        for (auto x : nums2) nums.push_back(x);
+        for (auto x : nums){
+            if(down.empty() || x &gt; down.top()) up.push(x);
+            else{
+                down.push(x);
+                up.push(down.top());
+                down.pop();
+            }
+            if (up.size() &gt; down.size() + 1){
+                down.push(up.top());
+                up.pop();
+            }
+        }
+        if ((down.size() + up.size()) % 2 == 1) return up.top();
+        else return (down.top() + up.top()) * 0.5;
+    }
+};
+</code></pre>
+<h4 id="5-longest-palindromic-substring"><a href="https://leetcode.com/problems/longest-palindromic-substring/">5. Longest Palindromic Substring</a></h4>
+<p>思路：暴力做法，去枚举每个数为中心的时候，左右扩展找到最长的回文串。<br>
+✅substr的第一个参数是起点， 第二个参数是长度</p>
+<pre><code class="language-c++">class Solution {
+public:
+    string longestPalindrome(string s) {
+        string res;
+        for (int i = 0; i &lt; s.size(); i ++){
+            for (int j = i, k = i; j &gt;= 0 &amp;&amp; k &lt; s.size() &amp;&amp; s[j] == s[k]; j --, k ++){
+                if (res.size() &lt; (k - j + 1)) res = s.substr(j, k - j + 1);
+            }
+            for (int j = i, k = i + 1; j &gt;= 0 &amp;&amp; k &lt;= s.size() &amp;&amp; s[j] == s[k]; j --, k ++){
+                if (res.size() &lt; (k - j + 1)) res = s.substr(j, k - j + 1);
+            }
+        }
+        return res;
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def longestPalindrome(self, s: str) -&gt; str:
+        i = 0
+        res = &quot;&quot;
+        while i &lt; len(s):
+            j, k = i, i
+            while (j &gt;=0 and k &lt; len(s) and s[j] == s[k]):
+                if len(res) &lt; k - j + 1:
+                    res = s[j : k + 1]
+                j -= 1
+                k += 1
+            p, q = i, i+1
+            while (p &gt;= 0 and q &lt; len(s) and s[p] == s[q]):
+                if len(res) &lt; q - p + 1:
+                    res = s[p : q + 1]
+                p -= 1
+                q += 1
+            i += 1
+        return res
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
