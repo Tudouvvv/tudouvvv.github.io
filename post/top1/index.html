@@ -376,6 +376,57 @@ public:
             i += 1
         return res
 </code></pre>
+<h4 id="11-container-with-most-water"><a href="https://leetcode.com/problems/container-with-most-water/">11. Container With Most Water</a></h4>
+<p>思路：首先肯定是要用双指针来做的，但是没有想出来怎么更新指针，不可能算出所有指针指向的结果吧。后来看了题解，假设左右指针分别是i和j，那么如果height[i] &gt; height[j]，就j往左移动，否则就移动i，证明过程<a href="https://www.acwing.com/solution/LeetCode/content/100/">这里</a></p>
+<pre><code class="language-c++">class Solution {
+public:
+    int maxArea(vector&lt;int&gt;&amp; height) {
+        int res = 0;
+        for (int i = 0, j = height.size() - 1; i &lt; j;){
+            res = max(res, min(height[i], height[j]) * (j - i));
+            if (height[i] &gt; height[j]) j --;
+            else i ++;
+        }
+        return res;
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def maxArea(self, height: List[int]) -&gt; int:
+        res = 0
+        i, j = 0, len(height) - 1
+        while i &lt; j:
+            res = max(res, min(height[i], height[j]) * (j - i))
+            if height[i] &gt; height[j]: j -= 1
+            else: i += 1
+        return res
+</code></pre>
+<h4 id="15-3sum"><a href="https://leetcode.com/problems/3sum/">15. 3Sum</a></h4>
+<p>思路：首先排序整个数组，然后在确定第一个数字的前提下，用双指针算法i和j，分别指向该数字不同的下一个数字与末尾数字和，计算它们的和，如果&gt;0，则j往前走，如果&lt;0，则i往后走，直到找到为0的情况，并且找到一组答案后，下一次开始的i和j不能指向相同的元素。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) {
+        vector&lt;vector&lt;int&gt;&gt; res;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i &lt; nums.size(); i ++){
+            if (i &gt; 0 &amp;&amp; i &lt; nums.size() &amp;&amp; nums[i] == nums[i - 1]) continue;
+            int l = i + 1, r = nums.size() - 1;
+            while (l &lt; r){
+                int s = nums[i] + nums[l] + nums[r];
+                if (s &gt; 0) r --;
+                else if (s &lt; 0) l ++;
+                else{
+                    res.push_back(vector&lt;int&gt;{nums[i], nums[l], nums[r]});
+                    while(l &lt; r &amp;&amp; nums[l] == nums[l + 1]) l ++;
+                    while(l &lt; r &amp;&amp; nums[r] == nums[r - 1]) r --;
+                    l ++, r --;
+                }
+            }
+        }
+        return res;
+    }
+};
+</code></pre>
 
 							</div>
 	<div class="wow bounceInDown vt-post-tags">
