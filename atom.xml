@@ -2,18 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2019-12-31T08:14:47.533Z</updated>
+    <updated>2020-03-19T03:21:23.381Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io/atom.xml"/>
     <subtitle>人生还长，慢慢来</subtitle>
     <logo>https://tudouvvv.github.io/images/avatar.png</logo>
     <icon>https://tudouvvv.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Tudouvvv</rights>
+    <rights>All rights reserved 2020, Tudouvvv</rights>
     <entry>
         <title type="html"><![CDATA[Top-100-liked-questions①]]></title>
-        <id>https://tudouvvv.github.io/post/top1</id>
-        <link href="https://tudouvvv.github.io/post/top1">
+        <id>https://tudouvvv.github.io/post/top1/</id>
+        <link href="https://tudouvvv.github.io/post/top1/">
         </link>
         <updated>2019-12-24T01:45:22.000Z</updated>
         <content type="html"><![CDATA[<h4 id="1-two-sum"><a href="https://leetcode.com/problems/two-sum/">1. Two Sum</a></h4>
@@ -249,7 +249,7 @@ public:
         return res
 </code></pre>
 <h4 id="15-3sum"><a href="https://leetcode.com/problems/3sum/">15. 3Sum</a></h4>
-<p>思路：首先排序整个数组，然后在确定第一个数字的前提下，用双指针算法i和j，分别指向该数字不同的下一个数字与末尾数字和，计算它们的和，如果&gt;0，则j往前走，如果&lt;0，则i往后走，直到找到为0的情况，并且找到一组答案后，下一次开始的i和j不能指向相同的元素。</p>
+<p>思路：首先排序整个数组，然后在确定第一个数字的前提下，用双指针算法i和j，分别指向该数字不同的下一个数字与末尾数字和，计算它们的和，如果&gt;0，则j往前走，如果&lt; 0，则i往后走，直到找到为0的情况，并且找到一组答案后，下一次开始的i和j不能指向相同的元素。</p>
 <pre><code class="language-c++">class Solution {
 public:
     vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) {
@@ -274,12 +274,97 @@ public:
     }
 };
 </code></pre>
+<h4 id="17-letter-combinations-of-a-phone-number"><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number/">17. Letter Combinations of a Phone Number</a></h4>
+<p>思路：首先确定查找的字典chars，然后去遍历给的数字所代表的那串字母，每次都加在我们的答案后面。</p>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;string&gt; letterCombinations(string digits) {
+        if (digits.empty()) return vector&lt;string&gt; {};
+        vector&lt;string&gt; states (1, &quot;&quot;);
+        string chars[8] = {&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;, &quot;jkl&quot;, &quot;mno&quot;, &quot;pqrs&quot;, &quot;tuv&quot;, &quot;wxyz&quot;};
+        
+        for (auto u : digits)
+        {
+            vector&lt;string&gt; res;
+            for (auto c : chars[u - '2'])
+                for (auto s : states)
+                    res.push_back(s + c);
+            states = res;
+        }
+        return states;
+    }
+};
+</code></pre>
+<pre><code class="language-python">class Solution:
+    def letterCombinations(self, digits: str) -&gt; List[str]:
+        if not digits: return None;
+        chars = ['abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs',
+                'tuv', 'wxyz']
+        states = [&quot;&quot;]
+        for u in digits:
+            res = []
+            for c in chars[int(u) - 2]:
+                for s in states:
+                    res.append(s + c)
+            states = res
+        return states
+</code></pre>
+<h4 id="19-remove-nth-node-from-end-of-list"><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/">19. Remove Nth Node From End of List</a></h4>
+<p>思路：<br>
+要删除某一个节点就是要找到该结点前面的那个节点，然后让他指向next的next即可，找的方法就是双指针。</p>
+<pre><code class="language-c++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        auto dummy = new ListNode(-1);
+        dummy-&gt;next = head;
+        auto first = dummy, second = dummy;
+        while (n --) first = first-&gt;next;
+        while(first-&gt;next){
+            first = first -&gt; next;
+            second = second-&gt;next;
+        }
+        second-&gt;next = second-&gt;next-&gt;next;
+        return dummy-&gt;next;
+    }
+};
+</code></pre>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -&gt; ListNode:
+        dummy = ListNode(-1)
+        dummy.next = head
+        first, second = dummy, dummy
+        while (n &gt; 0):
+            first = first.next
+            n -= 1
+        while (first.next):
+            first = first.next
+            second = second.next
+        second.next = second.next.next
+        return dummy.next
+</code></pre>
+<h4 id="20-valid-parentheses"><a href="https://leetcode.com/problems/valid-parentheses/">20. Valid Parentheses</a></h4>
+<p>思路：</p>
+<h4 id=""></h4>
 ]]></content>
     </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常②]]></title>
-        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2</id>
-        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2">
+        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2/</id>
+        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang2/">
         </link>
         <updated>2019-12-17T03:46:53.000Z</updated>
         <content type="html"><![CDATA[<h4 id="179-largest-number"><a href="https://leetcode.com/problems/largest-number/">179. Largest Number</a></h4>
@@ -320,8 +405,8 @@ class Solution:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week7]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week7/">
         </link>
         <updated>2019-11-12T01:23:56.000Z</updated>
         <content type="html"><![CDATA[<h4 id="80-骰子的点数">80. 骰子的点数</h4>
@@ -603,8 +688,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week6]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week6/">
         </link>
         <updated>2019-11-08T08:46:58.000Z</updated>
         <content type="html"><![CDATA[<h4 id="68-0到n-1中缺失的数字">68. 0到n-1中缺失的数字</h4>
@@ -1038,8 +1123,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week5(1道没有做)]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week5/">
         </link>
         <updated>2019-11-06T12:13:03.000Z</updated>
         <content type="html"><![CDATA[<h4 id="57-数字序列中某一位的数字">57. <a href="https://www.acwing.com/problem/content/52/">数字序列中某一位的数字</a></h4>
@@ -1387,8 +1472,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week4（1道不会做）]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week4/">
         </link>
         <updated>2019-11-04T02:27:34.000Z</updated>
         <content type="html"><![CDATA[<h4 id="46-二叉搜索树的后序遍历序列">46. 二叉搜索树的后序遍历序列</h4>
@@ -1942,8 +2027,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week3]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-week3/">
         </link>
         <updated>2019-10-31T08:34:44.000Z</updated>
         <content type="html"><![CDATA[<h4 id="35-反转链表">35. 反转链表</h4>
@@ -2405,8 +2490,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week2(2道题不会做)]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day2/">
         </link>
         <updated>2019-10-29T03:04:52.000Z</updated>
         <content type="html"><![CDATA[<h4 id="24-机器人的运动范围">24. 机器人的运动范围</h4>
@@ -2842,8 +2927,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[剑指offer刷题-Week1]]></title>
-        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1</id>
-        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1">
+        <id>https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1/</id>
+        <link href="https://tudouvvv.github.io/post/jian-zhi-offer-shua-ti-day1/">
         </link>
         <updated>2019-10-25T00:54:07.000Z</updated>
         <content type="html"><![CDATA[<h4 id="13-找出数组中重复的数字">13. 找出数组中重复的数字</h4>
@@ -3454,8 +3539,8 @@ public:
     </entry>
     <entry>
         <title type="html"><![CDATA[做作的日常①]]></title>
-        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang</id>
-        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang">
+        <id>https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang/</id>
+        <link href="https://tudouvvv.github.io/post/zuo-zuo-de-ri-chang/">
         </link>
         <updated>2019-10-07T12:45:12.000Z</updated>
         <content type="html"><![CDATA[<p>十一就要结束了呀！！！<br>
