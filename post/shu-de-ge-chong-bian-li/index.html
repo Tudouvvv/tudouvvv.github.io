@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-<title>关于 | Tudouvvv</title>
+<title>树的各种遍历 | Tudouvvv</title>
 
 <link rel="stylesheet" href="https://tudouvvv.github.io//styles/main.css">
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Noto+Sans+SC:300|Montserrat&display=swap"
@@ -48,7 +48,7 @@
 			<div class="site-branding">
 				<h1 class="site-title">
 					<div class="post-title-name">
-						<a href="https://tudouvvv.github.io/" rel="home">关于</a>
+						<a href="https://tudouvvv.github.io/" rel="home">树的各种遍历</a>
 					</div>
 				</h1>
 				<h2 class="site-description">人生还长，慢慢来</h2>
@@ -148,13 +148,13 @@
 							<div class="entry-meta">
 								<div class="entry-info">
 									<time>
-										2018-03-09
+										2020-10-27
 									</time>
 									<span>
-										1 min read
+										3 min read
 									</span>
 									<!-- id 将作为查询条件 -->
-									<span id="/about/" class="leancloud_visitors"  data-flag-title="关于">
+									<span id="/shu-de-ge-chong-bian-li/" class="leancloud_visitors"  data-flag-title="树的各种遍历">
 										<span class="leancloud-visitors-count"></span>次阅读
 									</span>
 									<span class="isTop">
@@ -170,21 +170,168 @@
 								</div>
 							</div>
 							<div class="wow zoomIn entry-summary song">
-								<p>姓名: Tudou</p>
-<p>年龄: 24</p>
-<p>研一快结束了，emmm还是菜的一👎<br>
-<img src="https://raw.githubusercontent.com/Tudouvvv/Pic_path/master/bs1.jpg" alt="" loading="lazy"></p>
+								<figure data-type="image" tabindex="1"><img src="https://tudouvvv.github.io//post-images/1603762971649.jpg" alt="" loading="lazy"></figure>
+<!-- more -->
+<h2 id="二叉树的前序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">二叉树的前序遍历</a></h2>
+<p>递归：</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        def dfs(root):
+            if not root:
+                return
+            res.append(root.val)
+            dfs(root.left)
+            dfs(root.right)
+        res = []
+        dfs(root)
+        return res
+</code></pre>
+<p>迭代:</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        res = []
+        q = []
+        while q or root:
+            while root:
+                res.append(root.val)
+                q.append(root)
+                root = root.left
+            root = q.pop()
+            root = root.right
+        return res
+</code></pre>
+<h2 id="二叉树的中序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/">二叉树的中序遍历</a></h2>
+<p>递归</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        def dfs(root):
+            if not root: return
+            dfs(root.left)
+            res.append(root.val)
+            dfs(root.right)
+        res = []
+        dfs(root)
+        return res
+        
+</code></pre>
+<p>迭代</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        res = []
+        stack = []
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            res.append(root.val)
+            root = root.right
+        return res
+</code></pre>
+<h2 id="二叉树的后序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-postorder-traversal/">二叉树的后序遍历</a></h2>
+<p>递归：</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        def dfs(root):
+            if not root: return
+            dfs(root.left)
+            dfs(root.right)
+            res.append(root.val)
+        res = []
+        dfs(root)
+        return res
+</code></pre>
+<p>迭代：</p>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -&gt; List[int]:
+        res, stack = [], []
+        prev = None
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            if not root.right or root.right == prev:
+                res.append(root.val)
+                prev = root
+                root = None
+            else:
+                stack.append(root)
+                root = root.right
+        return res
+</code></pre>
+<h2 id="二叉树的层序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-level-order-traversal/">二叉树的层序遍历</a></h2>
+<pre><code># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -&gt; List[List[int]]:
+        if not root: return []
+        res = []
+        q = [root]
+        while q:
+            n = len(q)
+            level = []
+            for i in range(n):
+                k = q.pop(0)
+                level.append(k.val)
+                if k.left: q.append(k.left)
+                if k.right: q.append(k.right)
+            res.append(level)
+        return res
+</code></pre>
 
 							</div>
 							<div class="wow zoomIn vt-post-tags">
-								
-								<a href="https://tudouvvv.github.io/tag/Ejc-I2BJt/" rel="tag">Life</a>
 								
 							</div>
 							<nav class="navigation3 post-navigation3" role="navigation">
 
 								<div class="nav-links3">
 									
+									
+									<div class="wow zoomIn nav-next3"><a href="https://tudouvvv.github.io/post/top1/"
+											rel="next"> Top-100-liked-questions①</a></div>
 									
 								</div>
 							</nav>
