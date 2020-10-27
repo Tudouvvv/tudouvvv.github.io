@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2020-10-27T02:47:17.260Z</updated>
+    <updated>2020-10-27T02:49:45.793Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io/atom.xml"/>
@@ -16,11 +16,7 @@
         <link href="https://tudouvvv.github.io/post/shu-de-ge-chong-bian-li/">
         </link>
         <updated>2020-10-27T01:24:44.000Z</updated>
-        <summary type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://tudouvvv.github.io//post-images/1603762971649.jpg" alt="" loading="lazy"></figure>
-]]></summary>
-        <content type="html"><![CDATA[<figure data-type="image" tabindex="1"><img src="https://tudouvvv.github.io//post-images/1603762971649.jpg" alt="" loading="lazy"></figure>
-<!-- more -->
-<h2 id="二叉树的前序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">二叉树的前序遍历</a></h2>
+        <content type="html"><![CDATA[<h2 id="二叉树的前序遍历"><a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">二叉树的前序遍历</a></h2>
 <p>递归：</p>
 <pre><code># Definition for a binary tree node.
 # class TreeNode:
