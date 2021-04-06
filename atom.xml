@@ -2,14 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tudouvvv.github.io/</id>
     <title>Tudouvvv</title>
-    <updated>2020-10-27T02:49:45.793Z</updated>
+    <updated>2021-04-06T03:52:53.690Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tudouvvv.github.io/"/>
     <link rel="self" href="https://tudouvvv.github.io/atom.xml"/>
     <subtitle>人生还长，慢慢来</subtitle>
     <logo>https://tudouvvv.github.io/images/avatar.png</logo>
     <icon>https://tudouvvv.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Tudouvvv</rights>
+    <rights>All rights reserved 2021, Tudouvvv</rights>
     <entry>
         <title type="html"><![CDATA[树的各种遍历]]></title>
         <id>https://tudouvvv.github.io/post/shu-de-ge-chong-bian-li/</id>
